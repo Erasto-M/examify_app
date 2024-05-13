@@ -1,11 +1,22 @@
 import 'package:examify/ui/common/app_colors.dart';
 import 'package:examify/ui/common/ui_helpers.dart';
+import 'package:examify/ui/views/register/register_view.form.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
+import 'package:stacked/stacked_annotations.dart';
 
 import 'register_viewmodel.dart';
 
-class RegisterView extends StackedView<RegisterViewModel> {
+@FormView(fields: [
+  FormTextField(name: "Name"),
+  FormTextField(name: "Email"),
+  FormTextField(name: "Phone Number"),
+  FormTextField(name: "Gender"),
+  FormTextField(name: "Role"),
+  FormTextField(name: "Password"),
+  FormTextField(name: "Confirm Password"),
+])
+class RegisterView extends StackedView<RegisterViewModel> with $RegisterView {
   const RegisterView({Key? key}) : super(key: key);
 
   @override
@@ -68,6 +79,7 @@ class RegisterView extends StackedView<RegisterViewModel> {
                         child: Column(
                       children: [
                         TextFormField(
+                          controller: nameController,
                           decoration: InputDecoration(
                               hintText: " Name",
                               prefixIcon: const Icon(Icons.person),
@@ -76,6 +88,7 @@ class RegisterView extends StackedView<RegisterViewModel> {
                         ),
                         verticalSpaceTiny,
                         TextFormField(
+                          controller: emailController,
                           decoration: InputDecoration(
                               hintText: " Email",
                               prefixIcon: const Icon(Icons.email),
@@ -84,6 +97,7 @@ class RegisterView extends StackedView<RegisterViewModel> {
                         ),
                         verticalSpaceTiny,
                         TextFormField(
+                          controller: phoneNumberController,
                           decoration: InputDecoration(
                               hintText: "Phone Number",
                               prefixIcon: const Icon(Icons.phone),
@@ -92,6 +106,7 @@ class RegisterView extends StackedView<RegisterViewModel> {
                         ),
                         verticalSpaceTiny,
                         TextFormField(
+                          controller: genderController,
                           decoration: InputDecoration(
                               hintText: "Gender",
                               prefixIcon: const Icon(Icons.person),
@@ -100,6 +115,7 @@ class RegisterView extends StackedView<RegisterViewModel> {
                         ),
                         verticalSpaceTiny,
                         TextFormField(
+                          controller: roleController,
                           readOnly: true,
                           decoration: InputDecoration(
                               hintText: "Role",
@@ -110,6 +126,7 @@ class RegisterView extends StackedView<RegisterViewModel> {
                         ),
                         verticalSpaceTiny,
                         TextFormField(
+                          controller: passwordController,
                           decoration: InputDecoration(
                               hintText: "Password",
                               suffixIcon: const Icon(Icons.visibility_off),
@@ -119,6 +136,7 @@ class RegisterView extends StackedView<RegisterViewModel> {
                         ),
                         verticalSpaceTiny,
                         TextFormField(
+                          controller: confirmPasswordController,
                           decoration: InputDecoration(
                               hintText: "Confirm Password",
                               suffixIcon: const Icon(Icons.visibility_off),
@@ -134,13 +152,34 @@ class RegisterView extends StackedView<RegisterViewModel> {
                               color: primaryColor,
                               borderRadius: BorderRadius.circular(10)),
                           child: const Center(
-                            child: Text("REGISTER",
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 20)),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text("REGISTER",
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 20)),
+                                horizontalSpaceSmall,
+                                Icon(Icons.arrow_forward_ios,
+                                    color: Colors.white)
+                              ],
+                            ),
                           ),
                         ),
+                        verticalSpaceSmall,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Text(
+                              "Already have an account?",
+                              style:
+                                  TextStyle(color: Colors.black, fontSize: 16),
+                            ),
+                            TextButton(
+                                onPressed: () {}, child: const Text("Login"))
+                          ],
+                        )
                       ],
                     ))
                   ],
@@ -158,4 +197,8 @@ class RegisterView extends StackedView<RegisterViewModel> {
     BuildContext context,
   ) =>
       RegisterViewModel();
+  @override
+  void onViewModelReady(RegisterViewModel viewModel) {
+    syncFormWithViewModel(viewModel);
+  }
 }
