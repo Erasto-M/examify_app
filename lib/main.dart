@@ -1,4 +1,5 @@
 import 'package:examify/firebase_options.dart';
+import 'package:examify/ui/theme/theme.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:examify/app/app.bottomsheets.dart';
@@ -26,6 +27,8 @@ class MainApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       initialRoute: Routes.startupView,
+      theme: ThemeData.from(colorScheme: MaterialTheme.lightScheme().toColorScheme()),
+      darkTheme: ThemeData.from(colorScheme: MaterialTheme.darkScheme().toColorScheme()),
       onGenerateRoute: StackedRouter().onGenerateRoute,
       navigatorKey: StackedService.navigatorKey,
       navigatorObservers: [
