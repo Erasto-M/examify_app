@@ -6,6 +6,8 @@ import 'package:stacked/stacked_annotations.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:examify/ui/views/login/login_view.dart';
 import 'package:examify/ui/views/register/register_view.dart';
+import 'package:examify/ui/views/forgot_password/forgot_password_view.dart';
+import 'package:examify/services/authentication_service.dart';
 // @stacked-import
 
 @StackedApp(
@@ -14,13 +16,15 @@ import 'package:examify/ui/views/register/register_view.dart';
     MaterialRoute(page: StartupView),
     MaterialRoute(page: LoginView),
     MaterialRoute(page: RegisterView),
+    MaterialRoute(page: ForgotPasswordView),
 // @stacked-route
   ],
   dependencies: [
     LazySingleton(classType: BottomSheetService),
     LazySingleton(classType: DialogService),
     LazySingleton(classType: NavigationService),
-    // @stacked-service
+    LazySingleton(classType: AuthenticationService),
+// @stacked-service
   ],
   bottomsheets: [
     StackedBottomsheet(classType: NoticeSheet),

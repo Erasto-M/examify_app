@@ -2,6 +2,7 @@ import 'package:examify/ui/common/app_colors.dart';
 import 'package:examify/ui/common/ui_helpers.dart';
 import 'package:examify/ui/views/register/register_view.form.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked/stacked_annotations.dart';
 
@@ -56,7 +57,7 @@ class RegisterView extends StackedView<RegisterViewModel> with $RegisterView {
               Container(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                height: MediaQuery.of(context).size.height,
+                height: MediaQuery.of(context).size.height * 0.8,
                 width: MediaQuery.of(context).size.width,
                 decoration: const BoxDecoration(
                     color: Colors.white,
@@ -106,10 +107,20 @@ class RegisterView extends StackedView<RegisterViewModel> with $RegisterView {
                         ),
                         verticalSpaceTiny,
                         TextFormField(
+                          readOnly: true,
+                          onTap: () {
+                            viewModel.selectGender(context, genderController);
+                          },
                           controller: genderController,
                           decoration: InputDecoration(
                               hintText: "Gender",
                               prefixIcon: const Icon(Icons.person),
+                              suffixIcon: IconButton(
+                                icon: const Icon(
+                                  Icons.arrow_drop_down,
+                                ),
+                                onPressed: () {},
+                              ),
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10))),
                         ),
@@ -117,6 +128,9 @@ class RegisterView extends StackedView<RegisterViewModel> with $RegisterView {
                         TextFormField(
                           controller: roleController,
                           readOnly: true,
+                          onTap: () {
+                            viewModel.selectRole(context, roleController);
+                          },
                           decoration: InputDecoration(
                               hintText: "Role",
                               suffixIcon: const Icon(Icons.arrow_drop_down),
@@ -145,28 +159,47 @@ class RegisterView extends StackedView<RegisterViewModel> with $RegisterView {
                                   borderRadius: BorderRadius.circular(10))),
                         ),
                         verticalSpaceSmall,
-                        Container(
-                          width: MediaQuery.of(context).size.width,
-                          height: 50,
-                          decoration: BoxDecoration(
-                              color: primaryColor,
-                              borderRadius: BorderRadius.circular(10)),
-                          child: const Center(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text("REGISTER",
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 20)),
-                                horizontalSpaceSmall,
-                                Icon(Icons.arrow_forward_ios,
-                                    color: Colors.white)
-                              ],
-                            ),
-                          ),
-                        ),
+                        viewModel.isBusy
+                            ? const SpinKitSpinningLines(
+                                color: primaryColor,
+                                size: 80,
+                              )
+                            : InkWell(
+                                onTap: () {
+                                  viewModel.createUser(
+                                      email: emailController.text,
+                                      userName: nameController.text,
+                                      role: roleController.text,
+                                      phoneNumber: phoneNumberController.text,
+                                      gender: genderController.text,
+                                      password: passwordController.text,
+                                      confirmPassword:
+                                          confirmPasswordController.text);
+                                },
+                                child: Container(
+                                  width: MediaQuery.of(context).size.width,
+                                  height: 50,
+                                  decoration: BoxDecoration(
+                                      color: primaryColor,
+                                      borderRadius: BorderRadius.circular(10)),
+                                  child: const Center(
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Text("REGISTER",
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 20)),
+                                        horizontalSpaceSmall,
+                                        Icon(Icons.arrow_forward_ios,
+                                            color: Colors.white)
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
                         verticalSpaceSmall,
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -177,7 +210,10 @@ class RegisterView extends StackedView<RegisterViewModel> with $RegisterView {
                                   TextStyle(color: Colors.black, fontSize: 16),
                             ),
                             TextButton(
-                                onPressed: () {}, child: const Text("Login"))
+                                onPressed: () {
+                                  viewModel.navigateToLogin();
+                                },
+                                child: const Text("Login"))
                           ],
                         )
                       ],
