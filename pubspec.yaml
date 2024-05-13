@@ -7,6 +7,9 @@ environment:
   sdk: '>=3.0.3 <4.0.0'
 
 dependencies:
+  cloud_firestore: ^4.17.3
+  firebase_auth: ^4.19.5
+  firebase_core: ^2.31.0
   flutter:
     sdk: flutter
   stacked: ^3.4.0
@@ -22,4 +25,9 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+
+  assets:
+    - Assets/Images/
+   
+ 
 
