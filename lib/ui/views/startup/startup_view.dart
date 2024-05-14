@@ -1,5 +1,7 @@
+import 'package:examify/ui/common/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:stacked/stacked.dart';
 import 'package:examify/ui/common/ui_helpers.dart';
 
@@ -23,11 +25,10 @@ class StartupView extends StackedView<StartupViewModel> {
               'EXAMIFY',
               style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
             ),
-            verticalSpaceTiny,
             Center(
               child: Container(
-                height: 100,
-                width: 100,
+                height: 150,
+                width: 150,
                 decoration: BoxDecoration(
                     border: Border.all(color: Colors.white),
                     color: Colors.white,
@@ -46,9 +47,9 @@ class StartupView extends StackedView<StartupViewModel> {
                 SizedBox(
                   width: 16,
                   height: 16,
-                  child: CircularProgressIndicator(
-                    color: Colors.black,
-                    strokeWidth: 6,
+                  child: SpinKitSpinningLines(
+                    color: primaryColor,
+                    size: 80,
                   ),
                 )
               ],

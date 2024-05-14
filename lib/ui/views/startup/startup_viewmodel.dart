@@ -1,4 +1,5 @@
 import 'package:examify/services/authentication_service.dart';
+import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 import 'package:examify/app/app.locator.dart';
 import 'package:examify/app/app.router.dart';
@@ -11,9 +12,9 @@ class StartupViewModel extends BaseViewModel {
   // Place anything here that needs to happen before we get into the application
   Future runStartupLogic() async {
     await Future.delayed(const Duration(seconds: 3));
-
+    final context = StackedService.navigatorKey!.currentContext!;
     // This is where you can make decisions on where your app should navigate when
     // you have custom startup logic
-    await _authenticationService.getCurrentUser();
+    await _authenticationService.getCurrentUser(context);
   }
 }

@@ -1,8 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:examify/app/app.locator.dart';
 import 'package:examify/app/app.router.dart';
+import 'package:examify/ui/views/admin_panel/admin_panel_view.dart';
+import 'package:examify/ui/views/lecturer_home/lecturer_home_view.dart';
+import 'package:examify/ui/views/login/login_view.dart';
+import 'package:examify/ui/views/students_home/students_home_view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:stacked_services/stacked_services.dart';
 
@@ -28,7 +35,7 @@ class AuthenticationService {
       )
           .then((value) {
         //add user to firestore
-        firestore.collection('users').doc().set({
+        firestore.collection('users').doc(value.user!.uid).set({
           'email': email,
           'userName': userName,
           'role': role,
@@ -59,6 +66,7 @@ class AuthenticationService {
   Future<void> loginUser({
     required String email,
     required String password,
+    required BuildContext context,
   }) async {
     try {
       await firebaseAuth
@@ -68,7 +76,32 @@ class AuthenticationService {
       )
           .then((value) {
         if (value.user!.emailVerified) {
-          _navigationService.replaceWithHomeView();
+          //check users role and navigate to the appropriate home page
+          firestore
+              .collection('users')
+              .doc(value.user!.uid)
+              .get()
+              .then((value) {
+            if (value.data()!['role'] == 'student') {
+              Navigator.of(context).pushReplacement(
+                MaterialPageRoute(
+                  builder: (context) => const StudentsHomeView(),
+                ),
+              );
+            } else if (value.data()!['role'] == 'lecturer') {
+              Navigator.of(context).pushReplacement(
+                MaterialPageRoute(
+                  builder: (context) => const LecturerHomeView(),
+                ),
+              );
+            } else {
+              Navigator.of(context).pushReplacement(
+                MaterialPageRoute(
+                  builder: (context) => const AdminPanelView(),
+                ),
+              );
+            }
+          });
         } else {
           Fluttertoast.showToast(
               msg: 'Please verify your email before logging in');
@@ -87,18 +120,25 @@ class AuthenticationService {
   }
 
   //sign out user
-  Future<void> signOutUser() async {
+  Future<void> signOutUser({required BuildContext context}) async {
     await firebaseAuth.signOut().then((value) {
-      _navigationService.navigateToLoginView();
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+          builder: (context) => const LoginView(),
+        ),
+      );
     });
   }
 
   //forgot password
-  Future<void> forgotPassword({required String email}) async {
+  Future<void> forgotPassword(
+      {required String email, required BuildContext context}) async {
     try {
       await firebaseAuth.sendPasswordResetEmail(email: email).then((value) {
         Fluttertoast.showToast(msg: 'Check your email to reset your password');
-      }).then((value) => _navigationService.navigateToLoginView());
+      }).then((value) {
+        Navigator.of(context).pop();
+      });
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         Fluttertoast.showToast(
@@ -109,14 +149,32 @@ class AuthenticationService {
     }
   }
 
-  //get current user auth state
-  get getCurrentUser {
-    return firebaseAuth.authStateChanges().listen((event) {
-      if (event == null) {
-        _navigationService.replaceWithLoginView();
-      } else {
-        _navigationService.replaceWithHomeView();
-      }
-    });
+  //get current user auth state and navigate base on role . if role is student navigate to student home else navigate to admin home
+  Future<void> getCurrentUser(BuildContext context) async {
+    try {
+      await firebaseAuth.authStateChanges().listen((User? user) {
+        if (user == null) {
+          _navigationService.navigateToLoginView();
+        } else {
+          firestore.collection('users').doc(user.uid).get().then((value) {
+            if (value.data()!['role'] == 'student') {
+              Navigator.of(context).pushReplacement(
+                MaterialPageRoute(
+                  builder: (context) => const StudentsHomeView(),
+                ),
+              );
+            } else {
+              Navigator.of(context).pushReplacement(
+                MaterialPageRoute(
+                  builder: (context) => const LecturerHomeView(),
+                ),
+              );
+            }
+          });
+        }
+      });
+    } catch (e) {
+      Fluttertoast.showToast(msg: e.toString());
+    }
   }
 }

@@ -1,11 +1,18 @@
 import 'package:examify/ui/common/app_colors.dart';
 import 'package:examify/ui/common/ui_helpers.dart';
+import 'package:examify/ui/views/forgot_password/forgot_password_view.form.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:stacked/stacked.dart';
+import 'package:stacked/stacked_annotations.dart';
 
 import 'forgot_password_viewmodel.dart';
 
-class ForgotPasswordView extends StackedView<ForgotPasswordViewModel> {
+@FormView(fields: [
+  FormTextField(name: 'forgotPasswordEmail'),
+])
+class ForgotPasswordView extends StackedView<ForgotPasswordViewModel>
+    with $ForgotPasswordView {
   const ForgotPasswordView({Key? key}) : super(key: key);
 
   @override
@@ -69,6 +76,7 @@ class ForgotPasswordView extends StackedView<ForgotPasswordViewModel> {
                       children: [
                         verticalSpaceTiny,
                         TextFormField(
+                          controller: forgotPasswordEmailController,
                           decoration: InputDecoration(
                               hintText: " Email",
                               prefixIcon: const Icon(Icons.email),
@@ -76,28 +84,42 @@ class ForgotPasswordView extends StackedView<ForgotPasswordViewModel> {
                                   borderRadius: BorderRadius.circular(10))),
                         ),
                         verticalSpaceMedium,
-                        Container(
-                          width: MediaQuery.of(context).size.width,
-                          height: 50,
-                          decoration: BoxDecoration(
-                              color: primaryColor,
-                              borderRadius: BorderRadius.circular(10)),
-                          child: const Center(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text("Send Reset Link",
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 20)),
-                                horizontalSpaceSmall,
-                                Icon(Icons.arrow_forward_ios,
-                                    color: Colors.white)
-                              ],
-                            ),
-                          ),
-                        ),
+                        viewModel.isBusy
+                            ? const SpinKitSpinningLines(
+                                color: primaryColor,
+                                size: 80,
+                              )
+                            : InkWell(
+                                onTap: () {
+                                  viewModel.resendPasswordResetLink(
+                                    email: forgotPasswordEmailController.text,
+                                    context: context,
+                                  );
+                                },
+                                child: Container(
+                                  width: MediaQuery.of(context).size.width,
+                                  height: 50,
+                                  decoration: BoxDecoration(
+                                      color: primaryColor,
+                                      borderRadius: BorderRadius.circular(10)),
+                                  child: const Center(
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Text("Send Reset Link",
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 20)),
+                                        horizontalSpaceSmall,
+                                        Icon(Icons.arrow_forward_ios,
+                                            color: Colors.white)
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
                         verticalSpaceSmall,
                       ],
                     ))
@@ -116,4 +138,8 @@ class ForgotPasswordView extends StackedView<ForgotPasswordViewModel> {
     BuildContext context,
   ) =>
       ForgotPasswordViewModel();
+  @override
+  void onViewModelReady(ForgotPasswordViewModel viewModel) {
+    syncFormWithViewModel(viewModel);
+  }
 }

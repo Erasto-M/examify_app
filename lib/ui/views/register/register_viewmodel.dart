@@ -128,6 +128,7 @@ class RegisterViewModel extends FormViewModel {
         gender: gender,
         password: password,
       );
+      notifyListeners();
       setBusy(false);
     }
   }

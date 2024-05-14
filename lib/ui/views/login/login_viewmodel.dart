@@ -2,6 +2,7 @@ import 'package:examify/app/app.locator.dart';
 import 'package:examify/app/app.router.dart';
 import 'package:examify/services/authentication_service.dart';
 import 'package:examify/ui/views/login/login_view.form.dart';
+import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
@@ -23,6 +24,7 @@ class LoginViewModel extends FormViewModel {
   Future<void> loginUser({
     required String email,
     required String password,
+    required BuildContext context,
   }) async {
     setBusy(true);
     if (loginemailValue!.isEmpty ||
@@ -35,6 +37,7 @@ class LoginViewModel extends FormViewModel {
       await _authenticationService.loginUser(
         email: email,
         password: password,
+        context: context,
       );
       setBusy(false);
     }

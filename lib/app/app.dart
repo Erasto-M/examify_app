@@ -8,6 +8,9 @@ import 'package:examify/ui/views/login/login_view.dart';
 import 'package:examify/ui/views/register/register_view.dart';
 import 'package:examify/ui/views/forgot_password/forgot_password_view.dart';
 import 'package:examify/services/authentication_service.dart';
+import 'package:examify/ui/views/admin_panel/admin_panel_view.dart';
+import 'package:examify/ui/views/students_home/students_home_view.dart';
+import 'package:examify/ui/views/lecturer_home/lecturer_home_view.dart';
 // @stacked-import
 
 @StackedApp(
@@ -17,6 +20,9 @@ import 'package:examify/services/authentication_service.dart';
     MaterialRoute(page: LoginView),
     MaterialRoute(page: RegisterView),
     MaterialRoute(page: ForgotPasswordView),
+    MaterialRoute(page: AdminPanelView),
+    MaterialRoute(page: StudentsHomeView),
+    MaterialRoute(page: LecturerHomeView),
 // @stacked-route
   ],
   dependencies: [

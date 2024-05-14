@@ -112,6 +112,7 @@ class LoginView extends StackedView<LoginViewModel> with $LoginView {
                                   viewModel.loginUser(
                                     email: loginemailController.text,
                                     password: loginpasswordController.text,
+                                    context: context,
                                   );
                                 },
                                 child: Container(
