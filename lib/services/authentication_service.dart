@@ -82,13 +82,13 @@ class AuthenticationService {
               .doc(value.user!.uid)
               .get()
               .then((value) {
-            if (value.data()!['role'] == 'student') {
+            if (value.data()!['role'] == 'Student') {
               Navigator.of(context).pushReplacement(
                 MaterialPageRoute(
                   builder: (context) => const StudentsHomeView(),
                 ),
               );
-            } else if (value.data()!['role'] == 'lecturer') {
+            } else if (value.data()!['role'] == 'Lecturer') {
               Navigator.of(context).pushReplacement(
                 MaterialPageRoute(
                   builder: (context) => const LecturerHomeView(),
@@ -157,16 +157,22 @@ class AuthenticationService {
           _navigationService.navigateToLoginView();
         } else {
           firestore.collection('users').doc(user.uid).get().then((value) {
-            if (value.data()!['role'] == 'student') {
+            if (value.data()!['role'] == 'Student') {
               Navigator.of(context).pushReplacement(
                 MaterialPageRoute(
                   builder: (context) => const StudentsHomeView(),
                 ),
               );
-            } else {
+            } else if (value.data()!['role'] == "Lecturer") {
               Navigator.of(context).pushReplacement(
                 MaterialPageRoute(
                   builder: (context) => const LecturerHomeView(),
+                ),
+              );
+            } else {
+              Navigator.of(context).pushReplacement(
+                MaterialPageRoute(
+                  builder: (context) => const AdminPanelView(),
                 ),
               );
             }
