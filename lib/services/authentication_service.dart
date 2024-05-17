@@ -6,10 +6,7 @@ import 'package:examify/ui/views/lecturer_home/lecturer_home_view.dart';
 import 'package:examify/ui/views/login/login_view.dart';
 import 'package:examify/ui/views/students_home/students_home_view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:stacked_services/stacked_services.dart';
 
@@ -94,12 +91,15 @@ class AuthenticationService {
                   builder: (context) => const LecturerHomeView(),
                 ),
               );
-            } else {
+            }else if (value.data()!['role'] == 'Admin') {
+              debugPrint("Logging to the admin");
               Navigator.of(context).pushReplacement(
                 MaterialPageRoute(
                   builder: (context) => const AdminPanelView(),
                 ),
-              );
+              );}
+            else {
+              Fluttertoast.showToast(msg: "Role not found");
             }
           });
         } else {

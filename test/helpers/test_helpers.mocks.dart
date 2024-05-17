@@ -774,6 +774,7 @@ class MockAuthenticationService extends _i1.Mock
   _i7.Future<void> loginUser({
     required String? email,
     required String? password,
+    required _i6.BuildContext? context,
   }) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -782,6 +783,7 @@ class MockAuthenticationService extends _i1.Mock
           {
             #email: email,
             #password: password,
+            #context: context,
           },
         ),
         returnValue: _i7.Future<void>.value(),
@@ -789,22 +791,41 @@ class MockAuthenticationService extends _i1.Mock
       ) as _i7.Future<void>);
 
   @override
-  _i7.Future<void> signOutUser() => (super.noSuchMethod(
+  _i7.Future<void> signOutUser({required _i6.BuildContext? context}) =>
+      (super.noSuchMethod(
         Invocation.method(
           #signOutUser,
           [],
+          {#context: context},
         ),
         returnValue: _i7.Future<void>.value(),
         returnValueForMissingStub: _i7.Future<void>.value(),
       ) as _i7.Future<void>);
 
   @override
-  _i7.Future<void> forgotPassword({required String? email}) =>
+  _i7.Future<void> forgotPassword({
+    required String? email,
+    required _i6.BuildContext? context,
+  }) =>
       (super.noSuchMethod(
         Invocation.method(
           #forgotPassword,
           [],
-          {#email: email},
+          {
+            #email: email,
+            #context: context,
+          },
+        ),
+        returnValue: _i7.Future<void>.value(),
+        returnValueForMissingStub: _i7.Future<void>.value(),
+      ) as _i7.Future<void>);
+
+  @override
+  _i7.Future<void> getCurrentUser(_i6.BuildContext? context) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getCurrentUser,
+          [context],
         ),
         returnValue: _i7.Future<void>.value(),
         returnValueForMissingStub: _i7.Future<void>.value(),
