@@ -14,11 +14,29 @@ class HomeView extends StackedView<HomeViewModel> {
     HomeViewModel viewModel,
     Widget? child,
   ) {
-    return Scaffold(
+    return const Scaffold(
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 25.0),
-        ),
+            padding: EdgeInsets.symmetric(horizontal: 25.0),
+            child: Column(
+              children: [
+                verticalSpaceMedium,
+                Text(
+                  'Welcome to Examify',
+                  style: TextStyle(
+                    fontSize: 30,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                verticalSpaceMedium,
+                Text(
+                  'This is the home screen of the app. You can add your widgets here.',
+                  style: TextStyle(
+                    fontSize: 20,
+                  ),
+                ),
+              ],
+            )),
       ),
     );
   }

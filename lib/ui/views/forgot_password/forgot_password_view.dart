@@ -1,24 +1,24 @@
 import 'package:examify/ui/common/app_colors.dart';
 import 'package:examify/ui/common/ui_helpers.dart';
-import 'package:examify/ui/views/login/login_view.form.dart';
+import 'package:examify/ui/views/forgot_password/forgot_password_view.form.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked/stacked_annotations.dart';
 
-import 'login_viewmodel.dart';
+import 'forgot_password_viewmodel.dart';
 
 @FormView(fields: [
-  FormTextField(name: 'loginemail'),
-  FormTextField(name: 'loginpassword'),
+  FormTextField(name: 'forgotPasswordEmail'),
 ])
-class LoginView extends StackedView<LoginViewModel> with $LoginView {
-  const LoginView({Key? key}) : super(key: key);
+class ForgotPasswordView extends StackedView<ForgotPasswordViewModel>
+    with $ForgotPasswordView {
+  const ForgotPasswordView({Key? key}) : super(key: key);
 
   @override
   Widget builder(
     BuildContext context,
-    LoginViewModel viewModel,
+    ForgotPasswordViewModel viewModel,
     Widget? child,
   ) {
     return Scaffold(
@@ -42,13 +42,13 @@ class LoginView extends StackedView<LoginViewModel> with $LoginView {
               ),
               verticalSpaceSmall,
               const Text(
-                ' Login to continue',
+                ' Forgot Your Password?',
                 style: TextStyle(
                     color: Colors.white,
                     fontSize: 20,
                     fontWeight: FontWeight.bold),
               ),
-              verticalSpaceSmall,
+              verticalSpaceMedium,
               Container(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
@@ -63,11 +63,11 @@ class LoginView extends StackedView<LoginViewModel> with $LoginView {
                 child: Column(
                   children: [
                     const Text(
-                      "SIGN IN",
+                      "Please enter your email to reset your password",
                       style: TextStyle(
                         color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20,
+                        fontWeight: FontWeight.normal,
+                        fontSize: 16,
                       ),
                     ),
                     verticalSpaceSmall,
@@ -76,42 +76,23 @@ class LoginView extends StackedView<LoginViewModel> with $LoginView {
                       children: [
                         verticalSpaceTiny,
                         TextFormField(
-                          controller: loginemailController,
+                          controller: forgotPasswordEmailController,
                           decoration: InputDecoration(
                               hintText: " Email",
                               prefixIcon: const Icon(Icons.email),
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10))),
                         ),
-                        verticalSpaceTiny,
-                        TextFormField(
-                          controller: loginpasswordController,
-                          decoration: InputDecoration(
-                              hintText: "Password",
-                              suffixIcon: const Icon(Icons.visibility_off),
-                              prefixIcon: const Icon(Icons.lock),
-                              border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10))),
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            TextButton(
-                                onPressed: () {
-                                  viewModel.navigateToForgotPassword();
-                                },
-                                child: const Text("Forgot Password?"))
-                          ],
-                        ),
-                        verticalSpaceTiny,
+                        verticalSpaceMedium,
                         viewModel.isBusy
                             ? const SpinKitSpinningLines(
-                                color: primaryColor, size: 80)
+                                color: primaryColor,
+                                size: 80,
+                              )
                             : InkWell(
                                 onTap: () {
-                                  viewModel.loginUser(
-                                    email: loginemailController.text,
-                                    password: loginpasswordController.text,
+                                  viewModel.resendPasswordResetLink(
+                                    email: forgotPasswordEmailController.text,
                                     context: context,
                                   );
                                 },
@@ -126,7 +107,7 @@ class LoginView extends StackedView<LoginViewModel> with $LoginView {
                                       mainAxisAlignment:
                                           MainAxisAlignment.center,
                                       children: [
-                                        Text("LOGIN",
+                                        Text("Send Reset Link",
                                             style: TextStyle(
                                                 color: Colors.white,
                                                 fontWeight: FontWeight.bold,
@@ -140,21 +121,6 @@ class LoginView extends StackedView<LoginViewModel> with $LoginView {
                                 ),
                               ),
                         verticalSpaceSmall,
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const Text(
-                              "Don't have an account?",
-                              style:
-                                  TextStyle(color: Colors.black, fontSize: 16),
-                            ),
-                            TextButton(
-                                onPressed: () {
-                                  viewModel.navigateToRegister();
-                                },
-                                child: const Text("Register"))
-                          ],
-                        )
                       ],
                     ))
                   ],
@@ -168,12 +134,12 @@ class LoginView extends StackedView<LoginViewModel> with $LoginView {
   }
 
   @override
-  LoginViewModel viewModelBuilder(
+  ForgotPasswordViewModel viewModelBuilder(
     BuildContext context,
   ) =>
-      LoginViewModel();
+      ForgotPasswordViewModel();
   @override
-  void onViewModelReady(LoginViewModel viewModel) {
+  void onViewModelReady(ForgotPasswordViewModel viewModel) {
     syncFormWithViewModel(viewModel);
   }
 }
