@@ -11,9 +11,7 @@ import 'package:examify/services/authentication_service.dart';
 import 'package:examify/ui/views/admin_panel/admin_panel_view.dart';
 import 'package:examify/ui/views/students_home/students_home_view.dart';
 import 'package:examify/ui/views/lecturer_home/lecturer_home_view.dart';
-import 'package:examify/ui/views/student_dashboard/student_dashboard_view.dart';
-import 'package:examify/ui/views/profile/profile_view.dart';
-import 'package:examify/ui/views/academics/academics_view.dart';
+import 'package:examify/ui/views/admin_home/admin_home_view.dart';
 // @stacked-import
 
 @StackedApp(
@@ -26,9 +24,7 @@ import 'package:examify/ui/views/academics/academics_view.dart';
     MaterialRoute(page: AdminPanelView),
     MaterialRoute(page: StudentsHomeView),
     MaterialRoute(page: LecturerHomeView),
-    MaterialRoute(page: StudentDashboardView),
-    MaterialRoute(page: ProfileView),
-    MaterialRoute(page: AcademicsView),
+    MaterialRoute(page: AdminHomeView),
 // @stacked-route
   ],
   dependencies: [

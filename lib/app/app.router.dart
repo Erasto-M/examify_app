@@ -5,23 +5,20 @@
 // **************************************************************************
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'package:examify/ui/views/academics/academics_view.dart' as _i12;
+import 'package:examify/ui/views/admin_home/admin_home_view.dart' as _i10;
 import 'package:examify/ui/views/admin_panel/admin_panel_view.dart' as _i7;
 import 'package:examify/ui/views/forgot_password/forgot_password_view.dart'
     as _i6;
 import 'package:examify/ui/views/home/home_view.dart' as _i2;
 import 'package:examify/ui/views/lecturer_home/lecturer_home_view.dart' as _i9;
 import 'package:examify/ui/views/login/login_view.dart' as _i4;
-import 'package:examify/ui/views/profile/profile_view.dart' as _i11;
 import 'package:examify/ui/views/register/register_view.dart' as _i5;
 import 'package:examify/ui/views/startup/startup_view.dart' as _i3;
-import 'package:examify/ui/views/student_dashboard/student_dashboard_view.dart'
-    as _i10;
 import 'package:examify/ui/views/students_home/students_home_view.dart' as _i8;
-import 'package:flutter/material.dart' as _i13;
+import 'package:flutter/material.dart' as _i11;
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart' as _i1;
-import 'package:stacked_services/stacked_services.dart' as _i14;
+import 'package:stacked_services/stacked_services.dart' as _i12;
 
 class Routes {
   static const homeView = '/home-view';
@@ -40,11 +37,7 @@ class Routes {
 
   static const lecturerHomeView = '/lecturer-home-view';
 
-  static const studentDashboardView = '/student-dashboard-view';
-
-  static const profileView = '/profile-view';
-
-  static const academicsView = '/academics-view';
+  static const adminHomeView = '/admin-home-view';
 
   static const all = <String>{
     homeView,
@@ -55,9 +48,7 @@ class Routes {
     adminPanelView,
     studentsHomeView,
     lecturerHomeView,
-    studentDashboardView,
-    profileView,
-    academicsView,
+    adminHomeView,
   };
 }
 
@@ -96,83 +87,63 @@ class StackedRouter extends _i1.RouterBase {
       page: _i9.LecturerHomeView,
     ),
     _i1.RouteDef(
-      Routes.studentDashboardView,
-      page: _i10.StudentDashboardView,
-    ),
-    _i1.RouteDef(
-      Routes.profileView,
-      page: _i11.ProfileView,
-    ),
-    _i1.RouteDef(
-      Routes.academicsView,
-      page: _i12.AcademicsView,
+      Routes.adminHomeView,
+      page: _i10.AdminHomeView,
     ),
   ];
 
   final _pagesMap = <Type, _i1.StackedRouteFactory>{
     _i2.HomeView: (data) {
-      return _i13.MaterialPageRoute<dynamic>(
+      return _i11.MaterialPageRoute<dynamic>(
         builder: (context) => const _i2.HomeView(),
         settings: data,
       );
     },
     _i3.StartupView: (data) {
-      return _i13.MaterialPageRoute<dynamic>(
+      return _i11.MaterialPageRoute<dynamic>(
         builder: (context) => const _i3.StartupView(),
         settings: data,
       );
     },
     _i4.LoginView: (data) {
-      return _i13.MaterialPageRoute<dynamic>(
+      return _i11.MaterialPageRoute<dynamic>(
         builder: (context) => const _i4.LoginView(),
         settings: data,
       );
     },
     _i5.RegisterView: (data) {
-      return _i13.MaterialPageRoute<dynamic>(
+      return _i11.MaterialPageRoute<dynamic>(
         builder: (context) => const _i5.RegisterView(),
         settings: data,
       );
     },
     _i6.ForgotPasswordView: (data) {
-      return _i13.MaterialPageRoute<dynamic>(
+      return _i11.MaterialPageRoute<dynamic>(
         builder: (context) => const _i6.ForgotPasswordView(),
         settings: data,
       );
     },
     _i7.AdminPanelView: (data) {
-      return _i13.MaterialPageRoute<dynamic>(
+      return _i11.MaterialPageRoute<dynamic>(
         builder: (context) => const _i7.AdminPanelView(),
         settings: data,
       );
     },
     _i8.StudentsHomeView: (data) {
-      return _i13.MaterialPageRoute<dynamic>(
+      return _i11.MaterialPageRoute<dynamic>(
         builder: (context) => const _i8.StudentsHomeView(),
         settings: data,
       );
     },
     _i9.LecturerHomeView: (data) {
-      return _i13.MaterialPageRoute<dynamic>(
+      return _i11.MaterialPageRoute<dynamic>(
         builder: (context) => const _i9.LecturerHomeView(),
         settings: data,
       );
     },
-    _i10.StudentDashboardView: (data) {
-      return _i13.MaterialPageRoute<dynamic>(
-        builder: (context) => const _i10.StudentDashboardView(),
-        settings: data,
-      );
-    },
-    _i11.ProfileView: (data) {
-      return _i13.MaterialPageRoute<dynamic>(
-        builder: (context) => const _i11.ProfileView(),
-        settings: data,
-      );
-    },
-    _i12.AcademicsView: (data) {
-      return _i13.MaterialPageRoute<dynamic>(
-        builder: (context) => const _i12.AcademicsView(),
+    _i10.AdminHomeView: (data) {
+      return _i11.MaterialPageRoute<dynamic>(
+        builder: (context) => const _i10.AdminHomeView(),
         settings: data,
       );
     },
@@ -185,7 +156,7 @@ class StackedRouter extends _i1.RouterBase {
   Map<Type, _i1.StackedRouteFactory> get pagesMap => _pagesMap;
 }
 
-extension NavigatorStateExtension on _i14.NavigationService {
+extension NavigatorStateExtension on _i12.NavigationService {
   Future<dynamic> navigateToHomeView([
     int? routerId,
     bool preventDuplicates = true,
@@ -298,42 +269,14 @@ extension NavigatorStateExtension on _i14.NavigationService {
         transition: transition);
   }
 
-  Future<dynamic> navigateToStudentDashboardView([
+  Future<dynamic> navigateToAdminHomeView([
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
     Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
         transition,
   ]) async {
-    return navigateTo<dynamic>(Routes.studentDashboardView,
-        id: routerId,
-        preventDuplicates: preventDuplicates,
-        parameters: parameters,
-        transition: transition);
-  }
-
-  Future<dynamic> navigateToProfileView([
-    int? routerId,
-    bool preventDuplicates = true,
-    Map<String, String>? parameters,
-    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
-        transition,
-  ]) async {
-    return navigateTo<dynamic>(Routes.profileView,
-        id: routerId,
-        preventDuplicates: preventDuplicates,
-        parameters: parameters,
-        transition: transition);
-  }
-
-  Future<dynamic> navigateToAcademicsView([
-    int? routerId,
-    bool preventDuplicates = true,
-    Map<String, String>? parameters,
-    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
-        transition,
-  ]) async {
-    return navigateTo<dynamic>(Routes.academicsView,
+    return navigateTo<dynamic>(Routes.adminHomeView,
         id: routerId,
         preventDuplicates: preventDuplicates,
         parameters: parameters,
@@ -452,42 +395,14 @@ extension NavigatorStateExtension on _i14.NavigationService {
         transition: transition);
   }
 
-  Future<dynamic> replaceWithStudentDashboardView([
+  Future<dynamic> replaceWithAdminHomeView([
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
     Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
         transition,
   ]) async {
-    return replaceWith<dynamic>(Routes.studentDashboardView,
-        id: routerId,
-        preventDuplicates: preventDuplicates,
-        parameters: parameters,
-        transition: transition);
-  }
-
-  Future<dynamic> replaceWithProfileView([
-    int? routerId,
-    bool preventDuplicates = true,
-    Map<String, String>? parameters,
-    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
-        transition,
-  ]) async {
-    return replaceWith<dynamic>(Routes.profileView,
-        id: routerId,
-        preventDuplicates: preventDuplicates,
-        parameters: parameters,
-        transition: transition);
-  }
-
-  Future<dynamic> replaceWithAcademicsView([
-    int? routerId,
-    bool preventDuplicates = true,
-    Map<String, String>? parameters,
-    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
-        transition,
-  ]) async {
-    return replaceWith<dynamic>(Routes.academicsView,
+    return replaceWith<dynamic>(Routes.adminHomeView,
         id: routerId,
         preventDuplicates: preventDuplicates,
         parameters: parameters,
