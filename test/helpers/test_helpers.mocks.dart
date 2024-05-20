@@ -7,6 +7,8 @@ import 'dart:async' as _i7;
 import 'dart:ui' as _i8;
 
 import 'package:cloud_firestore/cloud_firestore.dart' as _i3;
+import 'package:examify/models/addUnit.dart' as _i11;
+import 'package:examify/services/admin_dashboard_service.dart' as _i10;
 import 'package:examify/services/authentication_service.dart' as _i9;
 import 'package:firebase_auth/firebase_auth.dart' as _i2;
 import 'package:flutter/material.dart' as _i6;
@@ -830,4 +832,45 @@ class MockAuthenticationService extends _i1.Mock
         returnValue: _i7.Future<void>.value(),
         returnValueForMissingStub: _i7.Future<void>.value(),
       ) as _i7.Future<void>);
+}
+
+/// A class which mocks [AdminDashboardService].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockAdminDashboardService extends _i1.Mock
+    implements _i10.AdminDashboardService {
+  @override
+  _i3.FirebaseFirestore get db => (super.noSuchMethod(
+        Invocation.getter(#db),
+        returnValue: _FakeFirebaseFirestore_1(
+          this,
+          Invocation.getter(#db),
+        ),
+        returnValueForMissingStub: _FakeFirebaseFirestore_1(
+          this,
+          Invocation.getter(#db),
+        ),
+      ) as _i3.FirebaseFirestore);
+
+  @override
+  set db(_i3.FirebaseFirestore? _db) => super.noSuchMethod(
+        Invocation.setter(
+          #db,
+          _db,
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  _i7.Future<_i11.AddUnitModel?> addUnit(
+          {required _i11.AddUnitModel? addUnitModel}) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #addUnit,
+          [],
+          {#addUnitModel: addUnitModel},
+        ),
+        returnValue: _i7.Future<_i11.AddUnitModel?>.value(),
+        returnValueForMissingStub: _i7.Future<_i11.AddUnitModel?>.value(),
+      ) as _i7.Future<_i11.AddUnitModel?>);
 }

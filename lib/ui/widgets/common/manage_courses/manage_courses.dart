@@ -14,7 +14,9 @@ class ManageCourses extends StackedView<ManageCoursesModel> {
     Widget? child,
   ) {
     return GestureDetector(
-      onTap: () {},
+      onTap: () {
+        viewModel.navigateToCourses(yearName: yearName);
+      },
       child: Container(
         height: 80,
         width: 80,
