@@ -35,7 +35,6 @@ class ProfileView extends StackedView<ProfileViewModel> {
                 const ProfileContainer(),
                 verticalSpaceTiny,
                 Container(
-                  height: MediaQuery.of(context).size.height / 1.4,
                   padding: const EdgeInsets.all(10.0),
                   width: MediaQuery.of(context).size.width,
                   decoration: const BoxDecoration(
