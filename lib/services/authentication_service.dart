@@ -10,6 +10,8 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:stacked_services/stacked_services.dart';
 
+import '../ui/views/admin_home/admin_home_view.dart';
+
 class AuthenticationService {
   final _navigationService = locator<NavigationService>();
   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
@@ -91,14 +93,14 @@ class AuthenticationService {
                   builder: (context) => const LecturerHomeView(),
                 ),
               );
-            }else if (value.data()!['role'] == 'Admin') {
+            } else if (value.data()!['role'] == 'Admin') {
               debugPrint("Logging to the admin");
               Navigator.of(context).pushReplacement(
                 MaterialPageRoute(
-                  builder: (context) => const AdminPanelView(),
+                  builder: (context) => const AdminHomeView(),
                 ),
-              );}
-            else {
+              );
+            } else {
               Fluttertoast.showToast(msg: "Role not found");
             }
           });
@@ -172,7 +174,7 @@ class AuthenticationService {
             } else {
               Navigator.of(context).pushReplacement(
                 MaterialPageRoute(
-                  builder: (context) => const AdminPanelView(),
+                  builder: (context) => const AdminHomeView(),
                 ),
               );
             }
