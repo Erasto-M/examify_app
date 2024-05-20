@@ -12,6 +12,9 @@ import 'package:examify/ui/views/admin_panel/admin_panel_view.dart';
 import 'package:examify/ui/views/students_home/students_home_view.dart';
 import 'package:examify/ui/views/lecturer_home/lecturer_home_view.dart';
 import 'package:examify/ui/views/admin_home/admin_home_view.dart';
+import 'package:examify/ui/views/admin_manage_course/admin_manage_course_view.dart';
+import 'package:examify/ui/bottom_sheets/add_unit/add_unit_sheet.dart';
+import 'package:examify/services/admin_dashboard_service.dart';
 // @stacked-import
 
 @StackedApp(
@@ -25,6 +28,7 @@ import 'package:examify/ui/views/admin_home/admin_home_view.dart';
     MaterialRoute(page: StudentsHomeView),
     MaterialRoute(page: LecturerHomeView),
     MaterialRoute(page: AdminHomeView),
+    MaterialRoute(page: AdminManageCourseView),
 // @stacked-route
   ],
   dependencies: [
@@ -32,11 +36,13 @@ import 'package:examify/ui/views/admin_home/admin_home_view.dart';
     LazySingleton(classType: DialogService),
     LazySingleton(classType: NavigationService),
     LazySingleton(classType: AuthenticationService),
+    LazySingleton(classType: AdminDashboardService),
 // @stacked-service
   ],
   bottomsheets: [
     StackedBottomsheet(classType: NoticeSheet),
-    // @stacked-bottom-sheet
+    StackedBottomsheet(classType: AddUnitSheet),
+// @stacked-bottom-sheet
   ],
   dialogs: [
     StackedDialog(classType: InfoAlertDialog),

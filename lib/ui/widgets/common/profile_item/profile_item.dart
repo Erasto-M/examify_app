@@ -15,7 +15,7 @@ class ProfileItem extends StackedView<ProfileItemModel> {
   ) {
     return Column(
       children: [
-         Row(
+        Row(
           children: [
             Icon(
               icon,

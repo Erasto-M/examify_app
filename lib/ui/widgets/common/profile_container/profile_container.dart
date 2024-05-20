@@ -17,7 +17,7 @@ class ProfileContainer extends StackedView<ProfileContainerModel> {
   ) {
     return Container(
         margin: const EdgeInsets.all(10),
-        height: MediaQuery.of(context).size.height / 7,
+        height: 100,
         padding: const EdgeInsets.all(10.0),
         width: MediaQuery.of(context).size.width,
         decoration: BoxDecoration(
