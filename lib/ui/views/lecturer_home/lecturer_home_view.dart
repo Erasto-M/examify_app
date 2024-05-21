@@ -1,3 +1,8 @@
+import 'package:examify/ui/common/app_colors.dart';
+import 'package:examify/ui/views/academics/academics_view.dart';
+import 'package:examify/ui/views/lecturer_dashboard/lecturer_dashboard_view.dart';
+import 'package:examify/ui/views/profile/profile_view.dart';
+import 'package:examify/ui/views/student_dashboard/student_dashboard_view.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 
@@ -14,32 +19,31 @@ class LecturerHomeView extends StackedView<LecturerHomeViewModel> {
   ) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Theme.of(context).colorScheme.background,
-        body: Container(
-            padding: const EdgeInsets.only(left: 20.0, right: 20.0, top: 30),
-            child: Column(
-              children: [
-                Container(
-                  height: MediaQuery.of(context).size.height / 8,
-                  width: MediaQuery.of(context).size.width,
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.primary,
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: const Center(
-                    child: Text(
-                      'Lecturer Home',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            )),
-      ),
+          backgroundColor: Colors.grey[200],
+          body: [
+            const LecturerDashboardView(),
+            const AcademicsView(),
+            const ProfileView(),
+          ][viewModel.currentIndexValue],
+          bottomNavigationBar: BottomNavigationBar(
+            onTap: viewModel.selectedIndex,
+            currentIndex: viewModel.currentIndexValue,
+            items: const [
+              BottomNavigationBarItem(
+                icon: Icon(Icons.home),
+                label: 'Home',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.school),
+                label: 'Academics',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.person),
+                label: 'Profile',
+              ),
+            ],
+            selectedItemColor: primaryColor,
+          )),
     );
   }
 

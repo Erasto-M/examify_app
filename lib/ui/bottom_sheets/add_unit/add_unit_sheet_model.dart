@@ -12,10 +12,7 @@ class AddUnitSheetModel extends FormViewModel {
 
   get lecturesList => lecturers;
 
-  List<String> semesterStages = [
-    "S1",
-    "S2"
-  ];
+  List<String> semesterStages = ["S1", "S2"];
   String? selectedSemester;
 
   get getSelectedSemester => selectedSemester;
@@ -48,7 +45,7 @@ class AddUnitSheetModel extends FormViewModel {
         selectedSemester == null) {
       Fluttertoast.showToast(msg: "All fields are required");
       setBusy(false);
-    }else{
+    } else {
       await _adminDashBoardService.addUnit(addUnitModel: addUnitModel);
       setBusy(false);
     }

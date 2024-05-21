@@ -55,7 +55,10 @@ class AddUnitSheet extends StackedView<AddUnitSheetModel> with $AddUnitSheet {
                   verticalSpaceTiny,
                   Text(
                     request.description!,
-                    style: const TextStyle(fontSize: 25 , color: primaryColor, fontWeight: FontWeight.w900),
+                    style: const TextStyle(
+                        fontSize: 25,
+                        color: primaryColor,
+                        fontWeight: FontWeight.w900),
                     softWrap: true,
                   ),
                 ],
@@ -140,7 +143,8 @@ class AddUnitSheet extends StackedView<AddUnitSheetModel> with $AddUnitSheet {
                         unitName: unitNameController.text,
                         unitCode: unitCodeController.text,
                         unitLecturerName: viewModel.getSelectedLec,
-                        semesterStage: "${request.description}${viewModel.getSelectedSemester}");
+                        semesterStage:
+                            "${request.description}${viewModel.getSelectedSemester}");
                     viewModel.addUnit(addUnitModel: units);
                   },
                   child: Container(

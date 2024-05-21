@@ -4,6 +4,7 @@ import 'package:examify/app/app.locator.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:examify/services/authentication_service.dart';
 import 'package:examify/services/admin_dashboard_service.dart';
+import 'package:examify/services/lecturer_dashboard_service.dart';
 // @stacked-import
 
 import 'test_helpers.mocks.dart';
@@ -14,6 +15,8 @@ import 'test_helpers.mocks.dart';
   MockSpec<DialogService>(onMissingStub: OnMissingStub.returnDefault),
   MockSpec<AuthenticationService>(onMissingStub: OnMissingStub.returnDefault),
   MockSpec<AdminDashboardService>(onMissingStub: OnMissingStub.returnDefault),
+  MockSpec<LecturerDashboardService>(
+      onMissingStub: OnMissingStub.returnDefault),
 // @stacked-mock-spec
 ])
 void registerServices() {
@@ -22,6 +25,7 @@ void registerServices() {
   getAndRegisterDialogService();
   getAndRegisterAuthenticationService();
   getAndRegisterAdminDashboardService();
+  getAndRegisterLecturerDashboardService();
 // @stacked-mock-register
 }
 
@@ -86,6 +90,13 @@ MockAdminDashboardService getAndRegisterAdminDashboardService() {
   _removeRegistrationIfExists<AdminDashboardService>();
   final service = MockAdminDashboardService();
   locator.registerSingleton<AdminDashboardService>(service);
+  return service;
+}
+
+MockLecturerDashboardService getAndRegisterLecturerDashboardService() {
+  _removeRegistrationIfExists<LecturerDashboardService>();
+  final service = MockLecturerDashboardService();
+  locator.registerSingleton<LecturerDashboardService>(service);
   return service;
 }
 // @stacked-mock-create
