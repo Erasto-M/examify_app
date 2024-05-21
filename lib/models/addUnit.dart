@@ -7,7 +7,7 @@ class AddUnitModel {
 
 //<editor-fold desc="Data Methods">
   AddUnitModel({
-     this.unitId = "",
+    this.unitId = "",
     required this.unitName,
     required this.unitCode,
     required this.unitLecturerName,
