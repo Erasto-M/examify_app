@@ -13,7 +13,11 @@ import 'package:stacked_shared/stacked_shared.dart';
 
 import '../services/admin_dashboard_service.dart';
 import '../services/authentication_service.dart';
+
 import '../services/lecturer_dashboard_service.dart';
+
+import '../services/student_dashboard_service.dart';
+
 
 final locator = StackedLocator.instance;
 
@@ -31,5 +35,9 @@ Future<void> setupLocator({
   locator.registerLazySingleton(() => NavigationService());
   locator.registerLazySingleton(() => AuthenticationService());
   locator.registerLazySingleton(() => AdminDashboardService());
+
   locator.registerLazySingleton(() => LecturerDashboardService());
+
+  locator.registerLazySingleton(() => StudentDashboardService());
+
 }
