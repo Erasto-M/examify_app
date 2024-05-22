@@ -4,14 +4,16 @@ class AddUnitModel {
   String unitCode;
   String unitLecturerName;
   String semesterStage;
+   String year;
 
 //<editor-fold desc="Data Methods">
   AddUnitModel({
-     this.unitId = "",
+    this.unitId = "",
     required this.unitName,
     required this.unitCode,
     required this.unitLecturerName,
     required this.semesterStage,
+    required this.year,
   });
 
   AddUnitModel copyWith({
@@ -20,6 +22,7 @@ class AddUnitModel {
     String? unitCode,
     String? unitLecturerName,
     String? semesterStage,
+    String? year,
   }) {
     return AddUnitModel(
       unitId: unitId ?? this.unitId,
@@ -27,6 +30,7 @@ class AddUnitModel {
       unitCode: unitCode ?? this.unitCode,
       unitLecturerName: unitLecturerName ?? this.unitLecturerName,
       semesterStage: semesterStage ?? this.semesterStage,
+        year: year ?? this.year,
     );
   }
 
@@ -37,6 +41,7 @@ class AddUnitModel {
       'unitCode': this.unitCode,
       'unitLecturerName': this.unitLecturerName,
       'semesterStage': this.semesterStage,
+      'year': this.year,
     };
   }
 
@@ -47,6 +52,7 @@ class AddUnitModel {
       unitCode: map['unitCode'] as String,
       unitLecturerName: map['unitLecturerName'] as String,
       semesterStage: map['semesterStage'] as String,
+      year: map['year'] as String,
     );
   }
   @override
@@ -57,6 +63,7 @@ class AddUnitModel {
         ' unitCode: $unitCode,' +
         ' unitLecturerName: $unitLecturerName,' +
         ' semesterStage: $semesterStage,' +
+        ' year: $year,' +
         '}';
   }
 

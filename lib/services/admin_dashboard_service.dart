@@ -24,7 +24,7 @@ class AdminDashboardService {
     List<AddUnitModel> units = [];
     try{
       CollectionReference collectionReference = db.collection("units");
-      await collectionReference.where("semesterStage", isGreaterThanOrEqualTo: currentYear).get().then((value) {
+      await collectionReference.where("year",isEqualTo:  currentYear).get().then((value) {
         value.docs.forEach((element) {
           units.add(AddUnitModel.fromMap(element.data() as Map<String, dynamic>).copyWith(unitId: element.id));
         });
