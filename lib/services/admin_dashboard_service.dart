@@ -19,6 +19,7 @@ class AdminDashboardService {
         Fluttertoast.showToast(msg: "Added Unit Successfully");
       });
     } catch (error) {
+
       Fluttertoast.showToast(msg: error.toString());
     }
   }
@@ -34,6 +35,7 @@ class AdminDashboardService {
         });
       });
     }catch(error){
+
       Fluttertoast.showToast(msg: error.toString());
     }
     return units;

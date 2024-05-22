@@ -10,7 +10,11 @@ import 'package:cloud_firestore/cloud_firestore.dart' as _i3;
 import 'package:examify/models/addUnit.dart' as _i11;
 import 'package:examify/services/admin_dashboard_service.dart' as _i10;
 import 'package:examify/services/authentication_service.dart' as _i9;
+
+import 'package:examify/services/lecturer_dashboard_service.dart' as _i12;
+
 import 'package:examify/services/student_dashboard_service.dart' as _i12;
+
 import 'package:firebase_auth/firebase_auth.dart' as _i2;
 import 'package:flutter/material.dart' as _i6;
 import 'package:mockito/mockito.dart' as _i1;
@@ -876,8 +880,72 @@ class MockAdminDashboardService extends _i1.Mock
       ) as _i7.Future<_i11.AddUnitModel?>);
 }
 
+/// A class which mocks [LecturerDashboardService].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockLecturerDashboardService extends _i1.Mock
+    implements _i12.LecturerDashboardService {
+  @override
+  _i3.FirebaseFirestore get firestore => (super.noSuchMethod(
+        Invocation.getter(#firestore),
+        returnValue: _FakeFirebaseFirestore_1(
+          this,
+          Invocation.getter(#firestore),
+        ),
+        returnValueForMissingStub: _FakeFirebaseFirestore_1(
+          this,
+          Invocation.getter(#firestore),
+        ),
+      ) as _i3.FirebaseFirestore);
+
+  @override
+  set firestore(_i3.FirebaseFirestore? _firestore) => super.noSuchMethod(
+        Invocation.setter(
+          #firestore,
+          _firestore,
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  _i2.FirebaseAuth get auth => (super.noSuchMethod(
+        Invocation.getter(#auth),
+        returnValue: _FakeFirebaseAuth_0(
+          this,
+          Invocation.getter(#auth),
+        ),
+        returnValueForMissingStub: _FakeFirebaseAuth_0(
+          this,
+          Invocation.getter(#auth),
+        ),
+      ) as _i2.FirebaseAuth);
+
+  @override
+  set auth(_i2.FirebaseAuth? _auth) => super.noSuchMethod(
+        Invocation.setter(
+          #auth,
+          _auth,
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  _i7.Future<List<_i11.AddUnitModel>> fetchLecturerUnits() =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #fetchLecturerUnits,
+          [],
+        ),
+        returnValue:
+            _i7.Future<List<_i11.AddUnitModel>>.value(<_i11.AddUnitModel>[]),
+        returnValueForMissingStub:
+            _i7.Future<List<_i11.AddUnitModel>>.value(<_i11.AddUnitModel>[]),
+      ) as _i7.Future<List<_i11.AddUnitModel>>);
+}
+
 /// A class which mocks [StudentDashboardService].
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockStudentDashboardService extends _i1.Mock
     implements _i12.StudentDashboardService {}
+
