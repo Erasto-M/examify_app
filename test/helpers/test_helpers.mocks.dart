@@ -10,6 +10,7 @@ import 'package:cloud_firestore/cloud_firestore.dart' as _i3;
 import 'package:examify/models/addUnit.dart' as _i11;
 import 'package:examify/services/admin_dashboard_service.dart' as _i10;
 import 'package:examify/services/authentication_service.dart' as _i9;
+import 'package:examify/services/student_dashboard_service.dart' as _i12;
 import 'package:firebase_auth/firebase_auth.dart' as _i2;
 import 'package:flutter/material.dart' as _i6;
 import 'package:mockito/mockito.dart' as _i1;
@@ -874,3 +875,9 @@ class MockAdminDashboardService extends _i1.Mock
         returnValueForMissingStub: _i7.Future<_i11.AddUnitModel?>.value(),
       ) as _i7.Future<_i11.AddUnitModel?>);
 }
+
+/// A class which mocks [StudentDashboardService].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockStudentDashboardService extends _i1.Mock
+    implements _i12.StudentDashboardService {}

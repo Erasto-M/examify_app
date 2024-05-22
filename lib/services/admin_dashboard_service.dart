@@ -6,15 +6,19 @@ import '../models/addUnit.dart';
 class AdminDashboardService {
   FirebaseFirestore db = FirebaseFirestore.instance;
   Future<AddUnitModel?> addUnit({
-  required AddUnitModel addUnitModel,
+    required AddUnitModel addUnitModel,
   }) async {
-    try{
+    try {
       CollectionReference collectionReference = db.collection("units");
-      final unitWithId = addUnitModel.copyWith(unitId: collectionReference.doc().id);
-      collectionReference.doc(addUnitModel.unitCode).set(unitWithId.toMap()).then((value) {
+      final unitWithId =
+          addUnitModel.copyWith(unitId: collectionReference.doc().id);
+      collectionReference
+          .doc(addUnitModel.unitCode)
+          .set(unitWithId.toMap())
+          .then((value) {
         Fluttertoast.showToast(msg: "Added Unit Successfully");
       });
-    }catch(error){
+    } catch (error) {
       Fluttertoast.showToast(msg: error.toString());
     }
   }

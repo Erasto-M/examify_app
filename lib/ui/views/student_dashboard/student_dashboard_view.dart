@@ -419,6 +419,16 @@ class StudentDashboardView extends StackedView<StudentDashboardViewModel> {
             ),
           ),
         ),
+        floatingActionButton: FloatingActionButton.extended(
+            backgroundColor: primaryColor,
+            foregroundColor: primaryColor,
+            onPressed: () {
+              viewModel.showRegisterUnitBottomSheet();
+            },
+            label: const Text(
+              'Register Unit',
+              style: TextStyle(color: Colors.white),
+            )),
       ),
     );
   }
