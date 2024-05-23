@@ -39,4 +39,38 @@ class StudentDashboardService {
       Fluttertoast.showToast(msg: e.toString());
     }
   }
+
+  // fetch all my units
+
+  Stream<List<AddUnitModel>> fetchAllMyUnits() async* {
+    try {
+      // Fetch the document snapshot from Firestore
+      final DocumentSnapshot documentSnapshot = await FirebaseFirestore.instance
+          .collection("my_units")
+          .doc(auth.currentUser!.uid)
+          .get();
+
+      if (documentSnapshot.exists) {
+        // Retrieve the 'units' array from the document snapshot
+        final List<dynamic> unitsMap =
+            (documentSnapshot.data() as Map<String, dynamic>)['units'];
+
+        // Convert each map in the 'units' array to an AddUnitModel object
+        final List<AddUnitModel> units = unitsMap
+            .map((unit) => AddUnitModel.fromMap(unit as Map<String, dynamic>))
+            .toList();
+
+        // Yield the units list to the stream
+        yield units;
+      } else {
+        // If the document doesn't exist, yield an empty list to the stream
+        yield [];
+      }
+    } catch (e) {
+      print('Error fetching all units: $e');
+      // Handle errors more gracefully, perhaps by showing an error message
+      // Yield an empty list to the stream
+      yield [];
+    }
+  }
 }
