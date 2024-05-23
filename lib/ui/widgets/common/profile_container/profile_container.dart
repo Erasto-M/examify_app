@@ -43,7 +43,7 @@ class ProfileContainer extends StackedView<ProfileContainerModel> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        userName ,
+                        userName,
                         style: const TextStyle(
                           color: Colors.white,
                           fontSize: 20,

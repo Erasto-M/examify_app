@@ -65,7 +65,9 @@ class ProfileView extends StackedView<ProfileViewModel> {
                           ),
                           const Spacer(),
                           IconButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              viewModel.updateProfile();
+                            },
                             icon: const Icon(
                               Icons.edit,
                               color: primaryColor,

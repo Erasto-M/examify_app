@@ -210,4 +210,28 @@ class AuthenticationService {
     } catch (e) {}
     return {};
   }
+
+// update user profile
+  Future<void> updateUserProfile({
+    required String userName,
+    required String email,
+    required String phoneNumber,
+    required String role,
+  }) async {
+    try {
+      User? user = firebaseAuth.currentUser;
+      if (user != null) {
+        await firestore.collection('users').doc(user.uid).update({
+          'userName': userName,
+          'email': email,
+          "phoneNumber": phoneNumber,
+          "role": role,
+        }).then((value) {
+          Fluttertoast.showToast(msg: 'Profile updated successfully');
+        });
+      }
+    } catch (e) {
+      Fluttertoast.showToast(msg: e.toString());
+    }
+  }
 }

@@ -849,6 +849,28 @@ class MockAuthenticationService extends _i1.Mock
         returnValueForMissingStub:
             _i7.Future<Map<String, dynamic>>.value(<String, dynamic>{}),
       ) as _i7.Future<Map<String, dynamic>>);
+
+  @override
+  _i7.Future<void> updateUserProfile({
+    required String? userName,
+    required String? email,
+    required String? phoneNumber,
+    required String? role,
+  }) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #updateUserProfile,
+          [],
+          {
+            #userName: userName,
+            #email: email,
+            #phoneNumber: phoneNumber,
+            #role: role,
+          },
+        ),
+        returnValue: _i7.Future<void>.value(),
+        returnValueForMissingStub: _i7.Future<void>.value(),
+      ) as _i7.Future<void>);
 }
 
 /// A class which mocks [AdminDashboardService].

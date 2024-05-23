@@ -4,7 +4,7 @@ class AddUnitModel {
   String unitCode;
   String unitLecturerName;
   String semesterStage;
-   String year;
+  String year;
 
 //<editor-fold desc="Data Methods">
   AddUnitModel({
@@ -30,7 +30,7 @@ class AddUnitModel {
       unitCode: unitCode ?? this.unitCode,
       unitLecturerName: unitLecturerName ?? this.unitLecturerName,
       semesterStage: semesterStage ?? this.semesterStage,
-        year: year ?? this.year,
+      year: year ?? this.year,
     );
   }
 
