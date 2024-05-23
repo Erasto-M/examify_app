@@ -18,7 +18,8 @@ import 'register_viewmodel.dart';
   FormTextField(name: "Confirm Password"),
 ])
 class RegisterView extends StackedView<RegisterViewModel> with $RegisterView {
-  const RegisterView({Key? key}) : super(key: key);
+  RegisterView({Key? key}) : super(key: key);
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   @override
   Widget builder(
@@ -57,7 +58,7 @@ class RegisterView extends StackedView<RegisterViewModel> with $RegisterView {
               Container(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                height: MediaQuery.of(context).size.height * 0.8,
+                height: MediaQuery.of(context).size.height / 0.99,
                 width: MediaQuery.of(context).size.width,
                 decoration: const BoxDecoration(
                     color: Colors.white,
@@ -77,147 +78,204 @@ class RegisterView extends StackedView<RegisterViewModel> with $RegisterView {
                     ),
                     verticalSpaceSmall,
                     Form(
+                        key: formKey,
                         child: Column(
-                      children: [
-                        TextFormField(
-                          controller: nameController,
-                          decoration: InputDecoration(
-                              hintText: " Name",
-                              prefixIcon: const Icon(Icons.person),
-                              border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10))),
-                        ),
-                        verticalSpaceTiny,
-                        TextFormField(
-                          controller: emailController,
-                          decoration: InputDecoration(
-                              hintText: " Email",
-                              prefixIcon: const Icon(Icons.email),
-                              border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10))),
-                        ),
-                        verticalSpaceTiny,
-                        TextFormField(
-                          controller: phoneNumberController,
-                          decoration: InputDecoration(
-                              hintText: "Phone Number",
-                              prefixIcon: const Icon(Icons.phone),
-                              border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10))),
-                        ),
-                        verticalSpaceTiny,
-                        TextFormField(
-                          readOnly: true,
-                          onTap: () {
-                            viewModel.selectGender(context, genderController);
-                          },
-                          controller: genderController,
-                          decoration: InputDecoration(
-                              hintText: "Gender",
-                              prefixIcon: const Icon(Icons.person),
-                              suffixIcon: IconButton(
-                                icon: const Icon(
-                                  Icons.arrow_drop_down,
-                                ),
-                                onPressed: () {},
-                              ),
-                              border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10))),
-                        ),
-                        verticalSpaceTiny,
-                        TextFormField(
-                          controller: roleController,
-                          readOnly: true,
-                          onTap: () {
-                            viewModel.selectRole(context, roleController);
-                          },
-                          decoration: InputDecoration(
-                              hintText: "Role",
-                              suffixIcon: const Icon(Icons.arrow_drop_down),
-                              prefixIcon: const Icon(Icons.calendar_today),
-                              border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10))),
-                        ),
-                        verticalSpaceTiny,
-                        TextFormField(
-                          controller: passwordController,
-                          decoration: InputDecoration(
-                              hintText: "Password",
-                              suffixIcon: const Icon(Icons.visibility_off),
-                              prefixIcon: const Icon(Icons.lock),
-                              border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10))),
-                        ),
-                        verticalSpaceTiny,
-                        TextFormField(
-                          controller: confirmPasswordController,
-                          decoration: InputDecoration(
-                              hintText: "Confirm Password",
-                              suffixIcon: const Icon(Icons.visibility_off),
-                              prefixIcon: const Icon(Icons.lock),
-                              border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10))),
-                        ),
-                        verticalSpaceSmall,
-                        viewModel.isBusy
-                            ? const SpinKitSpinningLines(
-                                color: primaryColor,
-                                size: 80,
-                              )
-                            : InkWell(
-                                onTap: () {
-                                  viewModel.createUser(
-                                      email: emailController.text,
-                                      userName: nameController.text,
-                                      role: roleController.text,
-                                      phoneNumber: phoneNumberController.text,
-                                      gender: genderController.text,
-                                      password: passwordController.text,
-                                      confirmPassword:
-                                          confirmPasswordController.text);
-                                },
-                                child: Container(
-                                  width: MediaQuery.of(context).size.width,
-                                  height: 50,
-                                  decoration: BoxDecoration(
-                                      color: primaryColor,
-                                      borderRadius: BorderRadius.circular(10)),
-                                  child: const Center(
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Text("REGISTER",
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 20)),
-                                        horizontalSpaceSmall,
-                                        Icon(Icons.arrow_forward_ios,
-                                            color: Colors.white)
-                                      ],
+                          children: [
+                            TextFormField(
+                              validator: (value) {
+                                if (value!.isEmpty || value == '') {
+                                  return "Name is required";
+                                }
+                                return '';
+                              },
+                              controller: nameController,
+                              decoration: InputDecoration(
+                                  hintText: " Name",
+                                  prefixIcon: const Icon(Icons.person),
+                                  border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10))),
+                            ),
+                            verticalSpaceTiny,
+                            TextFormField(
+                              validator: (value) {
+                                if (value!.isEmpty || value == '') {
+                                  return "Email is required";
+                                } else if (!value.contains("@")) {
+                                  return "please enter a valid email address";
+                                }
+                                return '';
+                              },
+                              controller: emailController,
+                              decoration: InputDecoration(
+                                  hintText: " Email",
+                                  prefixIcon: const Icon(Icons.email),
+                                  border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10))),
+                            ),
+                            verticalSpaceTiny,
+                            TextFormField(
+                              validator: (value) {
+                                if (value!.isEmpty || value == '') {
+                                  return "Phone Number is required";
+                                } else if (value.length < 10) {
+                                  return "Phone Number must be 10 digits";
+                                } else if (value
+                                    .contains(RegExp(r'[a-zA-Z]'))) {
+                                  return "Phone Number must be a number";
+                                }
+                                return '';
+                              },
+                              controller: phoneNumberController,
+                              decoration: InputDecoration(
+                                  hintText: "Phone Number",
+                                  prefixIcon: const Icon(Icons.phone),
+                                  border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10))),
+                            ),
+                            verticalSpaceTiny,
+                            TextFormField(
+                              validator: (value) {
+                                if (value!.isEmpty || value == '') {
+                                  return "please select gender";
+                                }
+                                return '';
+                              },
+                              readOnly: true,
+                              onTap: () {
+                                viewModel.selectGender(
+                                    context, genderController);
+                              },
+                              controller: genderController,
+                              decoration: InputDecoration(
+                                  hintText: "Gender",
+                                  prefixIcon: const Icon(Icons.person),
+                                  suffixIcon: const Icon(Icons.arrow_drop_down),
+                                  border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10))),
+                            ),
+                            verticalSpaceTiny,
+                            TextFormField(
+                              validator: (value) {
+                                if (value!.isEmpty || value == '') {
+                                  return "Role is required";
+                                }
+                                return '';
+                              },
+                              controller: roleController,
+                              readOnly: true,
+                              onTap: () {
+                                viewModel.selectRole(context, roleController);
+                              },
+                              decoration: InputDecoration(
+                                  hintText: "Role",
+                                  suffixIcon: const Icon(Icons.arrow_drop_down),
+                                  prefixIcon: const Icon(Icons.calendar_today),
+                                  border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10))),
+                            ),
+                            verticalSpaceTiny,
+                            TextFormField(
+                              validator: (value) {
+                                if (value!.isEmpty || value == '') {
+                                  return "Password is required";
+                                } else if (value.length < 6) {
+                                  return "Password must be at least 6 characters";
+                                }
+                                return '';
+                              },
+                              controller: passwordController,
+                              decoration: InputDecoration(
+                                  hintText: "Password",
+                                  suffixIcon: const Icon(Icons.visibility_off),
+                                  prefixIcon: const Icon(Icons.lock),
+                                  border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10))),
+                            ),
+                            verticalSpaceTiny,
+                            TextFormField(
+                              validator: (value) {
+                                if (value!.isEmpty || value == '') {
+                                  return "Password is required";
+                                } else if (value.length < 6) {
+                                  return "Password must be at least 6 characters";
+                                } else if (value != passwordController.text) {
+                                  return "Passwords do not match";
+                                }
+                                return '';
+                              },
+                              controller: confirmPasswordController,
+                              decoration: InputDecoration(
+                                  hintText: "Confirm Password",
+                                  suffixIcon: const Icon(Icons.visibility_off),
+                                  prefixIcon: const Icon(Icons.lock),
+                                  border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10))),
+                            ),
+                            verticalSpaceSmall,
+                            viewModel.isBusy
+                                ? const SpinKitSpinningLines(
+                                    color: primaryColor,
+                                    size: 80,
+                                  )
+                                : InkWell(
+                                    onTap: () {
+                                      if (formKey.currentState!.validate()) {
+                                        return;
+                                      }
+                                      viewModel.createUser(
+                                          email: emailController.text,
+                                          userName: nameController.text,
+                                          role: roleController.text,
+                                          phoneNumber:
+                                              phoneNumberController.text,
+                                          gender: genderController.text,
+                                          password: passwordController.text,
+                                          confirmPassword:
+                                              confirmPasswordController.text);
+                                    },
+                                    child: Container(
+                                      width: MediaQuery.of(context).size.width,
+                                      height: 50,
+                                      decoration: BoxDecoration(
+                                          color: primaryColor,
+                                          borderRadius:
+                                              BorderRadius.circular(10)),
+                                      child: const Center(
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Text("REGISTER",
+                                                style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 20)),
+                                            horizontalSpaceSmall,
+                                            Icon(Icons.arrow_forward_ios,
+                                                color: Colors.white)
+                                          ],
+                                        ),
+                                      ),
                                     ),
                                   ),
+                            verticalSpaceSmall,
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                const Text(
+                                  "Already have an account?",
+                                  style: TextStyle(
+                                      color: Colors.black, fontSize: 16),
                                 ),
-                              ),
-                        verticalSpaceSmall,
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const Text(
-                              "Already have an account?",
-                              style:
-                                  TextStyle(color: Colors.black, fontSize: 16),
-                            ),
-                            TextButton(
-                                onPressed: () {
-                                  viewModel.navigateToLogin();
-                                },
-                                child: const Text("Login"))
+                                TextButton(
+                                    onPressed: () {
+                                      viewModel.navigateToLogin();
+                                    },
+                                    child: const Text("Login"))
+                              ],
+                            )
                           ],
-                        )
-                      ],
-                    ))
+                        ))
                   ],
                 ),
               ),

@@ -825,15 +825,30 @@ class MockAuthenticationService extends _i1.Mock
       ) as _i7.Future<void>);
 
   @override
-  _i7.Future<void> getCurrentUser(_i6.BuildContext? context) =>
+  _i7.Future<Map<String, dynamic>> getCurrentUser(_i6.BuildContext? context) =>
       (super.noSuchMethod(
         Invocation.method(
           #getCurrentUser,
           [context],
         ),
-        returnValue: _i7.Future<void>.value(),
-        returnValueForMissingStub: _i7.Future<void>.value(),
-      ) as _i7.Future<void>);
+        returnValue:
+            _i7.Future<Map<String, dynamic>>.value(<String, dynamic>{}),
+        returnValueForMissingStub:
+            _i7.Future<Map<String, dynamic>>.value(<String, dynamic>{}),
+      ) as _i7.Future<Map<String, dynamic>>);
+
+  @override
+  _i7.Future<Map<String, dynamic>> getCurrentUserDetails() =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getCurrentUserDetails,
+          [],
+        ),
+        returnValue:
+            _i7.Future<Map<String, dynamic>>.value(<String, dynamic>{}),
+        returnValueForMissingStub:
+            _i7.Future<Map<String, dynamic>>.value(<String, dynamic>{}),
+      ) as _i7.Future<Map<String, dynamic>>);
 }
 
 /// A class which mocks [AdminDashboardService].

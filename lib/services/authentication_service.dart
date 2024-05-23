@@ -47,7 +47,7 @@ class AuthenticationService {
         Fluttertoast.showToast(
             msg: 'Account created successfully, check your email to verify');
       }).then((value) {
-        _navigationService.replaceWithLoginView();
+        _navigationService.navigateToLoginView();
       });
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
@@ -68,47 +68,43 @@ class AuthenticationService {
     required BuildContext context,
   }) async {
     try {
-      await firebaseAuth
-          .signInWithEmailAndPassword(
+      final UserCredential userCredential =
+          await firebaseAuth.signInWithEmailAndPassword(
         email: email,
         password: password,
-      )
-          .then((value) {
-        if (value.user!.emailVerified) {
-          //check users role and navigate to the appropriate home page
-          firestore
-              .collection('users')
-              .doc(value.user!.uid)
-              .get()
-              .then((value) {
-            if (value.data()!['role'] == 'Student') {
-              Navigator.of(context).pushReplacement(
-                MaterialPageRoute(
-                  builder: (context) => const StudentsHomeView(),
-                ),
-              );
-            } else if (value.data()!['role'] == 'Lecturer') {
-              Navigator.of(context).pushReplacement(
-                MaterialPageRoute(
-                  builder: (context) => const LecturerHomeView(),
-                ),
-              );
-            } else if (value.data()!['role'] == 'Admin') {
-              debugPrint("Logging to the admin");
-              Navigator.of(context).pushReplacement(
-                MaterialPageRoute(
-                  builder: (context) => const AdminHomeView(),
-                ),
-              );
-            } else {
-              Fluttertoast.showToast(msg: "Role not found");
-            }
-          });
-        } else {
-          Fluttertoast.showToast(
-              msg: 'Please verify your email before logging in');
-        }
-      });
+      );
+      final User? user = userCredential.user;
+
+      if (user != null && user.emailVerified) {
+        //check users role and navigate to the appropriate home page
+        firestore.collection('users').doc(user.uid).get().then((value) {
+          if (value.data()!['role'] == 'Student') {
+            Navigator.of(context).pushReplacement(
+              MaterialPageRoute(
+                builder: (context) => const StudentsHomeView(),
+              ),
+            );
+          } else if (value.data()!['role'] == 'Lecturer') {
+            Navigator.of(context).pushReplacement(
+              MaterialPageRoute(
+                builder: (context) => const LecturerHomeView(),
+              ),
+            );
+          } else if (value.data()!['role'] == 'Admin') {
+            debugPrint("Logging to the admin");
+            Navigator.of(context).pushReplacement(
+              MaterialPageRoute(
+                builder: (context) => const AdminHomeView(),
+              ),
+            );
+          } else {
+            Fluttertoast.showToast(msg: "Role not found");
+          }
+        });
+      } else {
+        Fluttertoast.showToast(
+            msg: 'Please verify your email before logging in');
+      }
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         Fluttertoast.showToast(
@@ -127,7 +123,7 @@ class AuthenticationService {
       await firebaseAuth.signOut().then((value) {
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(
-            builder: (context) => const LoginView(),
+            builder: (context) => LoginView(),
           ),
         );
       }).then((value) {
@@ -164,29 +160,33 @@ class AuthenticationService {
         if (user == null) {
           _navigationService.navigateToLoginView();
         } else {
-          firestore.collection('users').doc(user.uid).get().then((value) {
-            if (value.data()!['role'] == 'Student') {
-              Navigator.of(context).pushReplacement(
-                MaterialPageRoute(
-                  builder: (context) => const StudentsHomeView(),
-                ),
-              );
+          if (user.emailVerified) {
+            firestore.collection('users').doc(user.uid).get().then((value) {
+              if (value.data()!['role'] == 'Student') {
+                Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(
+                    builder: (context) => const StudentsHomeView(),
+                  ),
+                );
 
-              return value.data() as Map<String, dynamic>;
-            } else if (value.data()!['role'] == "Lecturer") {
-              Navigator.of(context).pushReplacement(
-                MaterialPageRoute(
-                  builder: (context) => const LecturerHomeView(),
-                ),
-              );
-            } else {
-              Navigator.of(context).pushReplacement(
-                MaterialPageRoute(
-                  builder: (context) => const AdminHomeView(),
-                ),
-              );
-            }
-          });
+                return value.data() as Map<String, dynamic>;
+              } else if (value.data()!['role'] == "Lecturer") {
+                Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(
+                    builder: (context) => const LecturerHomeView(),
+                  ),
+                );
+              } else {
+                Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(
+                    builder: (context) => const AdminHomeView(),
+                  ),
+                );
+              }
+            });
+          } else {
+            Fluttertoast.showToast(msg: 'Please verify your email');
+          }
         }
       });
     } catch (e) {
