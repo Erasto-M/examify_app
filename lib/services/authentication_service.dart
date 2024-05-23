@@ -123,13 +123,19 @@ class AuthenticationService {
 
   //sign out user
   Future<void> signOutUser({required BuildContext context}) async {
-    await firebaseAuth.signOut().then((value) {
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(
-          builder: (context) => const LoginView(),
-        ),
-      );
-    });
+    try {
+      await firebaseAuth.signOut().then((value) {
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(
+            builder: (context) => const LoginView(),
+          ),
+        );
+      }).then((value) {
+        Fluttertoast.showToast(msg: 'Logged out successfully');
+      });
+    } catch (e) {
+      Fluttertoast.showToast(msg: e.toString());
+    }
   }
 
   //forgot password
@@ -152,7 +158,7 @@ class AuthenticationService {
   }
 
   //get current user auth state and navigate base on role . if role is student navigate to student home else navigate to admin home
-  Future<void> getCurrentUser(BuildContext context) async {
+  Future<Map<String, dynamic>> getCurrentUser(BuildContext context) async {
     try {
       await firebaseAuth.authStateChanges().listen((User? user) {
         if (user == null) {
@@ -165,6 +171,8 @@ class AuthenticationService {
                   builder: (context) => const StudentsHomeView(),
                 ),
               );
+
+              return value.data() as Map<String, dynamic>;
             } else if (value.data()!['role'] == "Lecturer") {
               Navigator.of(context).pushReplacement(
                 MaterialPageRoute(
@@ -184,5 +192,22 @@ class AuthenticationService {
     } catch (e) {
       Fluttertoast.showToast(msg: e.toString());
     }
+    return {};
+  }
+
+  // get current user details
+  Future<Map<String, dynamic>> getCurrentUserDetails() async {
+    try {
+      User? user = firebaseAuth.currentUser;
+      if (user != null) {
+        DocumentSnapshot documentSnapshot =
+            await firestore.collection('users').doc(user.uid).get();
+        print(documentSnapshot.data());
+        return documentSnapshot.data() as Map<String, dynamic>;
+      }
+    } catch (e) {
+      Fluttertoast.showToast(msg: e.toString());
+    } catch (e) {}
+    return {};
   }
 }

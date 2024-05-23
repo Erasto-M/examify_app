@@ -17,6 +17,8 @@ class StudentDashboardView extends StackedView<StudentDashboardViewModel> {
     StudentDashboardViewModel viewModel,
     Widget? child,
   ) {
+    DateTime now = DateTime.now();
+    String greeting = viewModel.getGreeting(now);
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.grey[200],
@@ -32,31 +34,39 @@ class StudentDashboardView extends StackedView<StudentDashboardViewModel> {
                   color: primaryColor,
                   borderRadius: BorderRadius.circular(20),
                 ),
-                child: const Center(
+                child: Center(
                     child: Row(
                   children: [
                     Column(
                       children: [
                         Text(
-                          'Hello , Erastus ',
-                          style: TextStyle(
+                          '${greeting} , ',
+                          style: const TextStyle(
                             color: Colors.white,
-                            fontSize: 25,
+                            fontSize: 20,
                             fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        verticalSpaceTiny,
+                        Text(
+                          viewModel.userDetails["userName"] ?? "UserName",
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 18,
                           ),
                         ),
                         verticalSpaceSmall,
                         Text(
-                          "10-04-2024  10:00 AM",
-                          style: TextStyle(
+                          "${now.day}-${now.month}-${now.year}  ${now.hour}: ${now.minute} ${now.hour > 12 ? "PM" : "AM"}",
+                          style: const TextStyle(
                             color: Colors.white,
                             fontSize: 18,
                           ),
                         ),
                       ],
                     ),
-                    Spacer(),
-                    CircleAvatar(
+                    const Spacer(),
+                    const CircleAvatar(
                       backgroundColor: Colors.white,
                       radius: 40,
                       backgroundImage: AssetImage('Assets/Images/man1.jpeg'),
@@ -295,4 +305,8 @@ class StudentDashboardView extends StackedView<StudentDashboardViewModel> {
     BuildContext context,
   ) =>
       StudentDashboardViewModel();
+  @override
+  void onViewModelReady(StudentDashboardViewModel viewModel) {
+    viewModel.getCurrentUserDetails();
+  }
 }

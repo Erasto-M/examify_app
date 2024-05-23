@@ -7,8 +7,9 @@ import '../../../common/app_colors.dart';
 import 'profile_container_model.dart';
 
 class ProfileContainer extends StackedView<ProfileContainerModel> {
-  const ProfileContainer({super.key});
-
+  const ProfileContainer(
+      {super.key, required this.userName, required this.email});
+  final String userName, email;
   @override
   Widget builder(
     BuildContext context,
@@ -24,26 +25,26 @@ class ProfileContainer extends StackedView<ProfileContainerModel> {
           color: primaryColor,
           borderRadius: BorderRadius.circular(20),
         ),
-        child: const Center(
+        child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Row(
                 children: [
-                  CircleAvatar(
+                  const CircleAvatar(
                     radius: 30,
                     backgroundColor: Colors.white,
                     backgroundImage: AssetImage('Assets/Images/man1.jpeg'),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 20,
                   ),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Emmanuel Mutua',
-                        style: TextStyle(
+                        userName ,
+                        style: const TextStyle(
                           color: Colors.white,
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
@@ -51,8 +52,8 @@ class ProfileContainer extends StackedView<ProfileContainerModel> {
                       ),
                       verticalSpaceTiny,
                       Text(
-                        'itsdevem@gmail.com',
-                        style: TextStyle(
+                        email,
+                        style: const TextStyle(
                           color: Colors.white,
                           fontSize: 15,
                         ),

@@ -105,23 +105,23 @@ MockAdminDashboardService getAndRegisterAdminDashboardService() {
   return service;
 }
 
-
 MockLecturerDashboardService getAndRegisterLecturerDashboardService() {
   _removeRegistrationIfExists<LecturerDashboardService>();
   final service = MockLecturerDashboardService();
   locator.registerSingleton<LecturerDashboardService>(service);
 
-MockStudentDashboardService getAndRegisterStudentDashboardService() {
-  _removeRegistrationIfExists<StudentDashboardService>();
-  final service = MockStudentDashboardService();
-  locator.registerSingleton<StudentDashboardService>(service);
+  MockStudentDashboardService getAndRegisterStudentDashboardService() {
+    _removeRegistrationIfExists<StudentDashboardService>();
+    final service = MockStudentDashboardService();
+    locator.registerSingleton<StudentDashboardService>(service);
 
-  return service;
-}
+    return service;
+  }
 // @stacked-mock-create
 
-void _removeRegistrationIfExists<T extends Object>() {
-  if (locator.isRegistered<T>()) {
-    locator.unregister<T>();
+  void _removeRegistrationIfExists<T extends Object>() {
+    if (locator.isRegistered<T>()) {
+      locator.unregister<T>();
+    }
   }
 }
