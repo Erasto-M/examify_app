@@ -926,6 +926,24 @@ class MockAdminDashboardService extends _i1.Mock
         returnValueForMissingStub:
             _i7.Future<List<_i11.AddUnitModel>>.value(<_i11.AddUnitModel>[]),
       ) as _i7.Future<List<_i11.AddUnitModel>>);
+
+  @override
+  _i7.Future<void> editUnit({
+    required String? unitId,
+    required String? unitName,
+  }) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #editUnit,
+          [],
+          {
+            #unitId: unitId,
+            #unitName: unitName,
+          },
+        ),
+        returnValue: _i7.Future<void>.value(),
+        returnValueForMissingStub: _i7.Future<void>.value(),
+      ) as _i7.Future<void>);
 }
 
 /// A class which mocks [LecturerDashboardService].
