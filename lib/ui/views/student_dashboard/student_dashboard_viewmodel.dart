@@ -1,6 +1,7 @@
 import 'package:examify/app/app.bottomsheets.dart';
 import 'package:examify/app/app.locator.dart';
 import 'package:examify/models/addUnit.dart';
+import 'package:examify/services/authentication_service.dart';
 import 'package:examify/services/student_dashboard_service.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
@@ -8,6 +9,7 @@ import 'package:stacked_services/stacked_services.dart';
 class StudentDashboardViewModel extends BaseViewModel {
   final _studentDashboardService = locator<StudentDashboardService>();
   final _bottomSheetService = locator<BottomSheetService>();
+  final _authenticationService = locator<AuthenticationService>();
   void showRegisterUnitBottomSheet() {
     _bottomSheetService.showCustomSheet(
       variant: BottomSheetType.studentRegisterUnit,
@@ -16,5 +18,37 @@ class StudentDashboardViewModel extends BaseViewModel {
 
   Stream<List<AddUnitModel>> fetchMyUnits() {
     return _studentDashboardService.fetchAllMyUnits();
+  }
+
+  String _greeting = '';
+
+  String get greeting => _greeting;
+
+  StudentDashboardViewModel() {
+    _updateGreeting();
+    getCurrentUserDetails();
+  }
+
+  void _updateGreeting() {
+    DateTime now = DateTime.now();
+    _greeting = getGreeting(now);
+    notifyListeners(); // Notify the UI that the greeting has changed
+  }
+
+  String getGreeting(DateTime now) {
+    if (now.hour < 12) {
+      return 'Good Morning';
+    } else if (now.hour < 17) {
+      return 'Good Afternoon';
+    } else {
+      return 'Good Evening';
+    }
+  }
+
+  Map<String, dynamic> userDetails = {};
+  Map<String, dynamic> get user => userDetails;
+  Future getCurrentUserDetails() async {
+    userDetails = await _authenticationService.getCurrentUserDetails();
+    notifyListeners();
   }
 }

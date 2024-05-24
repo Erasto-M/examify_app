@@ -27,158 +27,158 @@ class AdminManageCourseView extends StackedView<AdminManageCourseViewModel> {
         .where((course) => course.semesterStage.contains('S2'))
         .toList();
     return SafeArea(
-        child: Scaffold(
-          backgroundColor: Theme.of(context).colorScheme.background,
-          body: Container(
-            padding: const EdgeInsets.all(10),
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      IconButton(
-                        icon: const Icon(
-                          Icons.arrow_back,
-                          color: primaryColor,
-                        ),
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
+      child: Scaffold(
+        backgroundColor: Theme.of(context).colorScheme.background,
+        body: Container(
+          padding: const EdgeInsets.all(10),
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    IconButton(
+                      icon: const Icon(
+                        Icons.arrow_back,
+                        color: primaryColor,
                       ),
-                      Text(
-                        year,
-                        style: Theme.of(context).textTheme.bodyLarge,
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                    ),
+                    Text(
+                      year,
+                      style: Theme.of(context).textTheme.bodyLarge,
+                    ),
+                    const SizedBox(width: 50),
+                  ],
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text("Semester One",
+                      style: Theme.of(context).textTheme.titleLarge),
+                ),
+                ListView(
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  children: semesterOneCourses.map((course) {
+                    return Container(
+                      padding: const EdgeInsets.all(10.0),
+                      decoration: BoxDecoration(
+                        border: Border.all(color: Colors.black12),
+                        color: Colors.white70,
+                        borderRadius: BorderRadius.circular(10),
                       ),
-                      const SizedBox(width: 50),
-                    ],
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text("Semester One",
-                        style: Theme.of(context).textTheme.titleLarge),
-                  ),
-                  ListView(
-                    shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
-                    children: semesterOneCourses.map((course) {
-                      return Container(
-                        padding: const EdgeInsets.all(10.0),
-                        decoration: BoxDecoration(
-                          border: Border.all(color: Colors.black12),
-                          color: Colors.white70,
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "Name: ${course.unitName}",
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                            verticalSpaceSmall,
-                            Text("Code: ${course.unitCode}"),
-                            Text("L.Name: ${course.unitLecturerName}"),
-                            Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    ElevatedButton(
-                                      onPressed: () {
-                                        // viewModel.showEditCourseBottomSheet(
-                                        //   course: course,
-                                        //   year: year,
-                                        // );
-                                      },
-                                      child: const Text('Edit'),
-                                    ),
-                                    horizontalSpaceMedium,
-                                    ElevatedButton(
-                                      onPressed: () {
-                                        // viewModel.deleteCourse(course: course);
-                                      },
-                                      child: const Text('Delete'),
-                                    ),
-                                  ],
-                                )
-                              ],
-                            ),
-                          ],
-                        ),
-                      );
-                    }).toList(),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text("Semester Two",
-                        style: Theme.of(context).textTheme.titleLarge),
-                  ),
-                  ListView(
-                    shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
-                    children: semesterTwoCourses.map((course) {
-                      return Container(
-                        padding: const EdgeInsets.all(10.0),
-                        decoration: BoxDecoration(
-                          border: Border.all(color: Colors.black12),
-                          color: Colors.white70,
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "Name: ${course.unitName}",
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                            verticalSpaceSmall,
-                            Text("Code: ${course.unitCode}"),
-                            Text("L.Name: ${course.unitLecturerName}"),
-                            Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Row(
-                                  //Elevated button
-                                  children: [
-                                    ElevatedButton(
-                                      onPressed: () {
-                                        // viewModel.showEditCourseBottomSheet(
-                                        //   course: course,
-                                        //   year: year,
-                                        // );
-                                      },
-                                      child: const Text('Edit'),
-                                    ),
-                                    horizontalSpaceMedium,
-                                    ElevatedButton(
-                                      onPressed: () {
-                                        // viewModel.deleteCourse(course: course);
-                                      },
-                                      child: const Text('Delete'),
-                                    ),
-                                  ],
-                                )
-                              ],
-                            ),
-                          ],
-                        ),
-                      );
-                    }).toList(),
-                  ),
-                ],
-              ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Name: ${course.unitName}",
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          verticalSpaceSmall,
+                          Text("Code: ${course.unitCode}"),
+                          Text("L.Name: ${course.unitLecturerName}"),
+                          Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  ElevatedButton(
+                                    onPressed: () {
+                                      // viewModel.showEditCourseBottomSheet(
+                                      //   course: course,
+                                      //   year: year,
+                                      // );
+                                    },
+                                    child: const Text('Edit'),
+                                  ),
+                                  horizontalSpaceMedium,
+                                  ElevatedButton(
+                                    onPressed: () {
+                                      // viewModel.deleteCourse(course: course);
+                                    },
+                                    child: const Text('Delete'),
+                                  ),
+                                ],
+                              )
+                            ],
+                          ),
+                        ],
+                      ),
+                    );
+                  }).toList(),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text("Semester Two",
+                      style: Theme.of(context).textTheme.titleLarge),
+                ),
+                ListView(
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  children: semesterTwoCourses.map((course) {
+                    return Container(
+                      padding: const EdgeInsets.all(10.0),
+                      decoration: BoxDecoration(
+                        border: Border.all(color: Colors.black12),
+                        color: Colors.white70,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Name: ${course.unitName}",
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          verticalSpaceSmall,
+                          Text("Code: ${course.unitCode}"),
+                          Text("L.Name: ${course.unitLecturerName}"),
+                          Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Row(
+                                //Elevated button
+                                children: [
+                                  ElevatedButton(
+                                    onPressed: () {
+                                      // viewModel.showEditCourseBottomSheet(
+                                      //   course: course,
+                                      //   year: year,
+                                      // );
+                                    },
+                                    child: const Text('Edit'),
+                                  ),
+                                  horizontalSpaceMedium,
+                                  ElevatedButton(
+                                    onPressed: () {
+                                      // viewModel.deleteCourse(course: course);
+                                    },
+                                    child: const Text('Delete'),
+                                  ),
+                                ],
+                              )
+                            ],
+                          ),
+                        ],
+                      ),
+                    );
+                  }).toList(),
+                ),
+              ],
             ),
           ),
-          floatingActionButton: FloatingActionButton(
-            onPressed: () {
-              viewModel.showAddUnitBottomSheet(year: year);
-            },
-            child: const Icon(Icons.add),
-          ),
         ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            viewModel.showAddUnitBottomSheet(year: year);
+          },
+          child: const Icon(Icons.add),
+        ),
+      ),
     );
   }
 

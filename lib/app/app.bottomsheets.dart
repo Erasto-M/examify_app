@@ -10,11 +10,13 @@ import 'app.locator.dart';
 import '../ui/bottom_sheets/add_unit/add_unit_sheet.dart';
 import '../ui/bottom_sheets/notice/notice_sheet.dart';
 import '../ui/bottom_sheets/student_register_unit/student_register_unit_sheet.dart';
+import '../ui/bottom_sheets/update_profile/update_profile_sheet.dart';
 
 enum BottomSheetType {
   notice,
   addUnit,
   studentRegisterUnit,
+  updateProfile,
 }
 
 void setupBottomSheetUi() {
@@ -27,6 +29,8 @@ void setupBottomSheetUi() {
         AddUnitSheet(request: request, completer: completer),
     BottomSheetType.studentRegisterUnit: (context, request, completer) =>
         StudentRegisterUnitSheet(request: request, completer: completer),
+    BottomSheetType.updateProfile: (context, request, completer) =>
+        UpdateProfileSheet(request: request, completer: completer),
   };
 
   bottomsheetService.setCustomSheetBuilders(builders);

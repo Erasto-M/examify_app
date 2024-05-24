@@ -22,6 +22,7 @@ import 'package:examify/services/lecturer_dashboard_service.dart';
 import 'package:examify/ui/bottom_sheets/student_register_unit/student_register_unit_sheet.dart';
 import 'package:examify/services/student_dashboard_service.dart';
 
+import 'package:examify/ui/bottom_sheets/update_profile/update_profile_sheet.dart';
 // @stacked-import
 
 @StackedApp(
@@ -56,6 +57,7 @@ import 'package:examify/services/student_dashboard_service.dart';
     StackedBottomsheet(classType: NoticeSheet),
     StackedBottomsheet(classType: AddUnitSheet),
     StackedBottomsheet(classType: StudentRegisterUnitSheet),
+    StackedBottomsheet(classType: UpdateProfileSheet),
 // @stacked-bottom-sheet
   ],
   dialogs: [

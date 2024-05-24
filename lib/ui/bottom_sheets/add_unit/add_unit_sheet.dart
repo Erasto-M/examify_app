@@ -143,13 +143,9 @@ class AddUnitSheet extends StackedView<AddUnitSheetModel> with $AddUnitSheet {
                         unitName: unitNameController.text,
                         unitCode: unitCodeController.text,
                         unitLecturerName: viewModel.getSelectedLec,
-
-
-                        semesterStage: "${request.description}${viewModel.getSelectedSemester}",
-                        year: "${request.description}"
-                        );
-                      
-
+                        semesterStage:
+                            "${request.description}${viewModel.getSelectedSemester}",
+                        year: "${request.description}");
 
                     viewModel.addUnit(addUnitModel: units);
                   },
