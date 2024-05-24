@@ -88,10 +88,10 @@ class AdminManageCourseView extends StackedView<AdminManageCourseViewModel> {
                                 children: [
                                   ElevatedButton(
                                     onPressed: () {
-                                      // viewModel.showEditCourseBottomSheet(
-                                      //   course: course,
-                                      //   year: year,
-                                      // );
+                                      viewModel.showEditCourseBottomSheet(
+                                        course: course,
+                                        year: year,
+                                      );
                                     },
                                     child: const Text('Edit'),
                                   ),
