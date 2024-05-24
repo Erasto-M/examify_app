@@ -42,12 +42,24 @@ class StudentRegisterUnitSheet
           Center(
             child: Column(
               children: [
-                Text(
-                  request.title ?? 'Register Units!!',
-                  style: const TextStyle(
-                      fontSize: 25,
-                      color: primaryColor,
-                      fontWeight: FontWeight.w900),
+                Row(
+                  children: [
+                    Text(
+                      request.title ?? 'Register Units!!',
+                      style: const TextStyle(
+                          fontSize: 25,
+                          color: primaryColor,
+                          fontWeight: FontWeight.w900),
+                    ),
+                    DropdownButton(
+                        items: viewModel.semesterStages
+                            .map((String semester) => DropdownMenuItem(
+                                  value: semester,
+                                  child: Text(semester),
+                                ))
+                            .toList(),
+                        onChanged: (newValue) {})
+                  ],
                 ),
                 verticalSpaceSmall,
                 const Center(
