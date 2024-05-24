@@ -106,7 +106,7 @@ class StudentDashboardView extends StackedView<StudentDashboardViewModel> {
                             ),
                           ]),
                       child: DropdownButton(
-                        value: viewModel.getSelectedSemesterStage,
+                        value: viewModel.getSelectedSemesterStageForCourses,
                         items: viewModel.semesterStages
                             .map((String semester) => DropdownMenuItem(
                                   value: semester,
@@ -114,8 +114,8 @@ class StudentDashboardView extends StackedView<StudentDashboardViewModel> {
                                 ))
                             .toList(),
                         onChanged: (newValue) {
-                          viewModel
-                              .setSelectedSemesterStage(newValue.toString());
+                          viewModel.setSelectedSemesterStageForCourses(
+                              newValue.toString());
                         },
                       ))
                 ],
@@ -123,7 +123,6 @@ class StudentDashboardView extends StackedView<StudentDashboardViewModel> {
               verticalSpaceSmall,
               // Courses List
               Expanded(
-                flex: 3,
                 child: viewModel.isBusy
                     ? const SpinKitSpinningLines(color: primaryColor)
                     : StreamBuilder(
@@ -250,7 +249,6 @@ class StudentDashboardView extends StackedView<StudentDashboardViewModel> {
               ),
               verticalSpaceSmall,
               Flexible(
-                flex: 1,
                 child: Row(
                   children: [
                     const Text(
@@ -262,34 +260,35 @@ class StudentDashboardView extends StackedView<StudentDashboardViewModel> {
                     ),
                     const Spacer(),
                     Container(
-                      margin: const EdgeInsets.only(right: 10),
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 10, vertical: 5),
-                      height: 30,
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(10),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey.withOpacity(0.5),
-                              spreadRadius: 1,
-                              blurRadius: 5,
-                              offset: const Offset(0, 3),
-                            ),
-                          ]),
-                      child: const Row(
-                        children: [
-                          Text(
-                            "Y1S1",
-                            style: TextStyle(color: Colors.black, fontSize: 15),
-                          ),
-                          Icon(
-                            Icons.arrow_drop_down,
-                            color: Colors.black,
-                          )
-                        ],
-                      ),
-                    )
+                        margin: const EdgeInsets.only(right: 10),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 15, vertical: 5),
+                        height: 40,
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(10),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.5),
+                                spreadRadius: 1,
+                                blurRadius: 5,
+                                offset: const Offset(0, 3),
+                              ),
+                            ]),
+                        child: DropdownButton(
+                          value:
+                              viewModel.getSelectedSemesterStageForTranscripts,
+                          items: viewModel.semesterStages
+                              .map((String semester) => DropdownMenuItem(
+                                    value: semester,
+                                    child: Text(semester),
+                                  ))
+                              .toList(),
+                          onChanged: (newValue) {
+                            viewModel.setSelectedSemesterStageForTranscripts(
+                                newValue.toString());
+                          },
+                        ))
                   ],
                 ),
               ),

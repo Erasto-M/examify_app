@@ -19,7 +19,7 @@ class StudentDashboardViewModel extends BaseViewModel {
 
   Stream<List<StudentsRegisteredUnitsModel>> fetchMyUnits() {
     return _studentDashboardService.fetchAllMyUnits(
-        semesterStage: getSelectedSemesterStage);
+        semesterStage: getSelectedSemesterStageForCourses);
   }
 
   String _greeting = '';
@@ -54,10 +54,21 @@ class StudentDashboardViewModel extends BaseViewModel {
     notifyListeners();
   }
 
-  String _selectedSemesterStage = 'Y1S1';
-  String get getSelectedSemesterStage => _selectedSemesterStage;
-  void setSelectedSemesterStage(String value) {
-    _selectedSemesterStage = value;
+  // semester stages For Courses
+  String _selectedSemesterStageForCourses = 'Y1S1';
+  String get getSelectedSemesterStageForCourses =>
+      _selectedSemesterStageForCourses;
+  void setSelectedSemesterStageForCourses(String value) {
+    _selectedSemesterStageForCourses = value;
+    notifyListeners();
+  }
+
+  //Semester stages for Transcripts
+  String _selectedSemesterStageForTranscripts = 'Y1S1';
+  String get getSelectedSemesterStageForTranscripts =>
+      _selectedSemesterStageForTranscripts;
+  void setSelectedSemesterStageForTranscripts(String value) {
+    _selectedSemesterStageForTranscripts = value;
     notifyListeners();
   }
 

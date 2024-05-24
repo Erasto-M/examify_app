@@ -126,14 +126,28 @@ class StudentRegisterUnitSheet
                     unitLecturer = unit.unitLecturerName;
                     semesterStage = unit.semesterStage;
                     return Card(
-                      child: ListTile(
-                        title: Text(unitName!),
-                        subtitle: Text(unitCode!),
-                        trailing: Checkbox(
-                          value: viewModel.isUnitSelected(unit.unitId!),
-                          onChanged: (value) {
-                            viewModel.updateUnitSelection(value!, unit);
-                          },
+                      elevation: 4,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        side: const BorderSide(color: Colors.white),
+                      ),
+                      color: Colors.white,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          border:
+                              Border.all(width: 1, color: Colors.grey[200]!),
+                          borderRadius: BorderRadius.circular(10),
+                          color: Colors.white,
+                        ),
+                        child: ListTile(
+                          title: Text(unitName!),
+                          subtitle: Text(unitCode!),
+                          trailing: Checkbox(
+                            value: viewModel.isUnitSelected(unit.unitId!),
+                            onChanged: (value) {
+                              viewModel.updateUnitSelection(value!, unit);
+                            },
+                          ),
                         ),
                       ),
                     );

@@ -8,6 +8,7 @@ import 'dart:ui' as _i8;
 
 import 'package:cloud_firestore/cloud_firestore.dart' as _i3;
 import 'package:examify/models/addUnit.dart' as _i11;
+import 'package:examify/models/student_registered_units.dart' as _i14;
 import 'package:examify/services/admin_dashboard_service.dart' as _i10;
 import 'package:examify/services/authentication_service.dart' as _i9;
 import 'package:examify/services/lecturer_dashboard_service.dart' as _i12;
@@ -1040,33 +1041,42 @@ class MockStudentDashboardService extends _i1.Mock
       );
 
   @override
-  _i7.Stream<List<_i11.AddUnitModel>> fetchUnits() => (super.noSuchMethod(
+  _i7.Stream<List<_i11.AddUnitModel>> fetchUnits(
+          {required String? semesterStage}) =>
+      (super.noSuchMethod(
         Invocation.method(
           #fetchUnits,
           [],
+          {#semesterStage: semesterStage},
         ),
         returnValue: _i7.Stream<List<_i11.AddUnitModel>>.empty(),
         returnValueForMissingStub: _i7.Stream<List<_i11.AddUnitModel>>.empty(),
       ) as _i7.Stream<List<_i11.AddUnitModel>>);
 
   @override
-  _i7.Future<void> myRegisteredUnits(List<_i11.AddUnitModel>? selectedUnits) =>
+  _i7.Future<_i11.AddUnitModel?> myRegisteredUnits(
+          _i14.StudentsRegisteredUnitsModel? selectedUnits) =>
       (super.noSuchMethod(
         Invocation.method(
           #myRegisteredUnits,
           [selectedUnits],
         ),
-        returnValue: _i7.Future<void>.value(),
-        returnValueForMissingStub: _i7.Future<void>.value(),
-      ) as _i7.Future<void>);
+        returnValue: _i7.Future<_i11.AddUnitModel?>.value(),
+        returnValueForMissingStub: _i7.Future<_i11.AddUnitModel?>.value(),
+      ) as _i7.Future<_i11.AddUnitModel?>);
 
   @override
-  _i7.Stream<List<_i11.AddUnitModel>> fetchAllMyUnits() => (super.noSuchMethod(
+  _i7.Stream<List<_i14.StudentsRegisteredUnitsModel>> fetchAllMyUnits(
+          {required String? semesterStage}) =>
+      (super.noSuchMethod(
         Invocation.method(
           #fetchAllMyUnits,
           [],
+          {#semesterStage: semesterStage},
         ),
-        returnValue: _i7.Stream<List<_i11.AddUnitModel>>.empty(),
-        returnValueForMissingStub: _i7.Stream<List<_i11.AddUnitModel>>.empty(),
-      ) as _i7.Stream<List<_i11.AddUnitModel>>);
+        returnValue:
+            _i7.Stream<List<_i14.StudentsRegisteredUnitsModel>>.empty(),
+        returnValueForMissingStub:
+            _i7.Stream<List<_i14.StudentsRegisteredUnitsModel>>.empty(),
+      ) as _i7.Stream<List<_i14.StudentsRegisteredUnitsModel>>);
 }

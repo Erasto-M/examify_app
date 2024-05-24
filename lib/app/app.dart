@@ -23,6 +23,7 @@ import 'package:examify/ui/bottom_sheets/student_register_unit/student_register_
 import 'package:examify/services/student_dashboard_service.dart';
 
 import 'package:examify/ui/bottom_sheets/update_profile/update_profile_sheet.dart';
+import 'package:examify/ui/dialogs/confirm_logout/confirm_logout_dialog.dart';
 // @stacked-import
 
 @StackedApp(
@@ -62,7 +63,8 @@ import 'package:examify/ui/bottom_sheets/update_profile/update_profile_sheet.dar
   ],
   dialogs: [
     StackedDialog(classType: InfoAlertDialog),
-    // @stacked-dialog
+    StackedDialog(classType: ConfirmLogoutDialog),
+// @stacked-dialog
   ],
 )
 class App {}
