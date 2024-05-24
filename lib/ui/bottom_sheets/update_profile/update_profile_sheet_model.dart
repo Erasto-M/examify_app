@@ -39,8 +39,7 @@ class UpdateProfileSheetModel extends FormViewModel {
     "Lecturer",
   ];
   // gender drop down menu
-  void selectRole(
-      BuildContext context, TextEditingController roleController) {
+  void selectRole(BuildContext context, TextEditingController roleController) {
     showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
