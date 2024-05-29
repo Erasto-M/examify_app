@@ -185,6 +185,11 @@ class AuthenticationService {
               }
             });
           } else {
+            Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(
+                    builder: (context) => LoginView(),
+                  ),
+                );
             Fluttertoast.showToast(msg: 'Please verify your email');
           }
         }
@@ -233,5 +238,21 @@ class AuthenticationService {
     } catch (e) {
       Fluttertoast.showToast(msg: e.toString());
     }
+  }
+
+  //fetch lectures from users
+  Future<List<Map<String, dynamic>>> fetchLecturers() async {
+    List<Map<String, dynamic>> lecturers = [];
+    try {
+      QuerySnapshot querySnapshot =
+          await firestore.collection('users').where('role', isEqualTo: 'Lecturer').get();
+      querySnapshot.docs.forEach((element) {
+        lecturers.add(element.data() as Map<String, dynamic>);
+      });
+    } catch (e) {
+      Fluttertoast.showToast(msg: e.toString());
+    }
+    print("Service: $lecturers");
+    return lecturers;
   }
 }

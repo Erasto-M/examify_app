@@ -43,9 +43,9 @@ class AdminDashboardService {
     return units;
   }
 
-  Future<void> editUnit({required String unitId, required String unitName}) async {
+  Future<void> editUnit({required String unitCode, required String unitName}) async {
     try {
-      await db.collection('units').doc(unitId).update({
+      await db.collection('units').doc(unitCode).update({
         'unitName': unitName,
       });
     } catch (e) {

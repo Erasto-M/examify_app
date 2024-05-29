@@ -71,7 +71,7 @@ class EditUnitSheet extends StackedView<EditUnitSheetModel> {
             children: [
               ElevatedButton(
                 onPressed: viewModel.isBusy ? null : () async {
-                  await viewModel.save();
+                  await viewModel.save(course.unitCode);
                   completer!(SheetResponse(confirmed: true));
                 },
                 child: viewModel.isBusy ? CircularProgressIndicator() : Text('Save'),
