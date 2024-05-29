@@ -136,7 +136,7 @@ class AdminManageCourseView extends StackedView<AdminManageCourseViewModel> {
                           ),
                           verticalSpaceSmall,
                           Text("Code: ${course.unitCode}"),
-                          Text("L.Name: ${course.unitLecturerName}"),
+                          Text("L.ID: ${course.unitLecturerName}"),
                           Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
@@ -145,10 +145,10 @@ class AdminManageCourseView extends StackedView<AdminManageCourseViewModel> {
                                 children: [
                                   ElevatedButton(
                                     onPressed: () {
-                                      // viewModel.showEditCourseBottomSheet(
-                                      //   course: course,
-                                      //   year: year,
-                                      // );
+                                      viewModel.showEditCourseBottomSheet(
+                                        course: course,
+                                        year: year,
+                                      );
                                     },
                                     child: const Text('Edit'),
                                   ),

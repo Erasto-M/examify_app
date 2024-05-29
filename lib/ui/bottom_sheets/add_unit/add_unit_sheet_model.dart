@@ -1,5 +1,6 @@
 import 'package:examify/app/app.locator.dart';
 import 'package:examify/services/admin_dashboard_service.dart';
+import 'package:examify/services/authentication_service.dart';
 import 'package:examify/ui/bottom_sheets/add_unit/add_unit_sheet.form.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:stacked/stacked.dart';
@@ -8,7 +9,8 @@ import '../../../models/addUnit.dart';
 
 class AddUnitSheetModel extends FormViewModel {
   final _adminDashBoardService = locator<AdminDashboardService>();
-  List<String> lecturers = ["Lecturer 1", "Lecturer 2", "Lecturer 3"];
+  final _authService = locator<AuthenticationService>();
+  List<Map<String, dynamic>> lecturers = [];
 
   get lecturesList => lecturers;
 
@@ -49,5 +51,11 @@ class AddUnitSheetModel extends FormViewModel {
       await _adminDashBoardService.addUnit(addUnitModel: addUnitModel);
       setBusy(false);
     }
+  }
+
+  //get lectures from auth service
+  Future<void> getLectures() async {
+    lecturers =  await _authService.fetchLecturers();
+    notifyListeners();
   }
 }
