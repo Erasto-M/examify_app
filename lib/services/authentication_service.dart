@@ -260,11 +260,15 @@ class AuthenticationService {
     return lecturers;
   }
 
-  //fetch users
+  //fetch users based on user type 
   Future<List<AppUser>> fetchUsers(String user) async {
+    String role = (user == 'Lecturers') ? 'Lecturer' : 'Student';
     List<AppUser> users = [];
     try {
-      QuerySnapshot querySnapshot = await firestore.collection('users').get();
+      QuerySnapshot querySnapshot = await firestore
+          .collection('users')
+          .where('role', isEqualTo: role)
+          .get();
       querySnapshot.docs.forEach((element) {
         users.add(AppUser.fromMap(element.data() as Map<String, dynamic>));
       });
@@ -273,4 +277,5 @@ class AuthenticationService {
     }
     return users;
   }
+  
 }

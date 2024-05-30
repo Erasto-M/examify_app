@@ -1,3 +1,4 @@
+import 'package:examify/models/usersModel.dart';
 import 'package:examify/ui/common/app_colors.dart';
 import 'package:examify/ui/common/ui_helpers.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +17,7 @@ class UsersView extends StackedView<UsersViewModel> {
     UsersViewModel viewModel,
     Widget? child,
   ) {
-    final users = viewModel.users.toList();
+    List<AppUser> users = viewModel.users;
 
     return SafeArea(
       child: Scaffold(
@@ -73,22 +74,22 @@ class UsersView extends StackedView<UsersViewModel> {
                           // all other fields
                           Text(
                             "Email: ${user.email}",
-                            style: Theme.of(context).textTheme.titleLarge,
+                            style: Theme.of(context).textTheme.bodySmall,
                           ),
                           verticalSpaceSmall,
                           Text(
                             "Phone Number: ${user.phoneNumber}",
-                            style: Theme.of(context).textTheme.titleLarge,
+                            style: Theme.of(context).textTheme.bodySmall,
                           ),
                           verticalSpaceSmall,
                           Text(
                             "Role: ${user.role}",
-                            style: Theme.of(context).textTheme.titleLarge,
+                            style: Theme.of(context).textTheme.bodySmall,
                           ),
                           verticalSpaceSmall,
                           Text(
                             "User ID: ${user.userId}",
-                            style: Theme.of(context).textTheme.titleLarge,
+                            style: Theme.of(context).textTheme.bodySmall,
                           ),
                           //row to have buttons to either email and call user
                           Row(
@@ -115,12 +116,7 @@ class UsersView extends StackedView<UsersViewModel> {
                         ],
                       ),
                     );
-                  }).toList(),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text("Semester Two",
-                      style: Theme.of(context).textTheme.titleLarge),
+                  }).toList()
                 ),
               ],
             ),
