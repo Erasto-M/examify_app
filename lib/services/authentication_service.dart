@@ -1,10 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:examify/app/app.locator.dart';
 import 'package:examify/app/app.router.dart';
+import 'package:examify/models/usersModel.dart';
 import 'package:examify/ui/views/admin_panel/admin_panel_view.dart';
 import 'package:examify/ui/views/lecturer_home/lecturer_home_view.dart';
 import 'package:examify/ui/views/login/login_view.dart';
 import 'package:examify/ui/views/students_home/students_home_view.dart';
+import 'package:examify/ui/widgets/common/users/users.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -186,10 +188,10 @@ class AuthenticationService {
             });
           } else {
             Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(
-                    builder: (context) => LoginView(),
-                  ),
-                );
+              MaterialPageRoute(
+                builder: (context) => LoginView(),
+              ),
+            );
             Fluttertoast.showToast(msg: 'Please verify your email');
           }
         }
@@ -244,8 +246,10 @@ class AuthenticationService {
   Future<List<Map<String, dynamic>>> fetchLecturers() async {
     List<Map<String, dynamic>> lecturers = [];
     try {
-      QuerySnapshot querySnapshot =
-          await firestore.collection('users').where('role', isEqualTo: 'Lecturer').get();
+      QuerySnapshot querySnapshot = await firestore
+          .collection('users')
+          .where('role', isEqualTo: 'Lecturer')
+          .get();
       querySnapshot.docs.forEach((element) {
         lecturers.add(element.data() as Map<String, dynamic>);
       });
@@ -254,5 +258,19 @@ class AuthenticationService {
     }
     print("Service: $lecturers");
     return lecturers;
+  }
+
+  //fetch users
+  Future<List<AppUser>> fetchUsers(String user) async {
+    List<AppUser> users = [];
+    try {
+      QuerySnapshot querySnapshot = await firestore.collection('users').get();
+      querySnapshot.docs.forEach((element) {
+        users.add(AppUser.fromMap(element.data() as Map<String, dynamic>));
+      });
+    } catch (e) {
+      Fluttertoast.showToast(msg: e.toString());
+    }
+    return users;
   }
 }

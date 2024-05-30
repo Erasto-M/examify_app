@@ -27,14 +27,13 @@ class AdminManageCourseViewModel extends BaseViewModel {
     );
   }
 
-
-  void showEditCourseBottomSheet({required AddUnitModel course, required String year}) {
-_bottomSheetService.showCustomSheet(
-      variant: BottomSheetType.editUnit,
-      description: year,
-      isScrollControlled: true,
-      barrierDismissible: true,
-      data: course
-    );
+  void showEditCourseBottomSheet(
+      {required AddUnitModel course, required String year}) {
+    _bottomSheetService.showCustomSheet(
+        variant: BottomSheetType.editUnit,
+        description: year,
+        isScrollControlled: true,
+        barrierDismissible: true,
+        data: course);
   }
 }

@@ -872,6 +872,19 @@ class MockAuthenticationService extends _i1.Mock
         returnValue: _i7.Future<void>.value(),
         returnValueForMissingStub: _i7.Future<void>.value(),
       ) as _i7.Future<void>);
+
+  @override
+  _i7.Future<List<Map<String, dynamic>>> fetchLecturers() =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #fetchLecturers,
+          [],
+        ),
+        returnValue: _i7.Future<List<Map<String, dynamic>>>.value(
+            <Map<String, dynamic>>[]),
+        returnValueForMissingStub: _i7.Future<List<Map<String, dynamic>>>.value(
+            <Map<String, dynamic>>[]),
+      ) as _i7.Future<List<Map<String, dynamic>>>);
 }
 
 /// A class which mocks [AdminDashboardService].
@@ -929,7 +942,7 @@ class MockAdminDashboardService extends _i1.Mock
 
   @override
   _i7.Future<void> editUnit({
-    required String? unitId,
+    required String? unitCode,
     required String? unitName,
   }) =>
       (super.noSuchMethod(
@@ -937,7 +950,7 @@ class MockAdminDashboardService extends _i1.Mock
           #editUnit,
           [],
           {
-            #unitId: unitId,
+            #unitCode: unitCode,
             #unitName: unitName,
           },
         ),

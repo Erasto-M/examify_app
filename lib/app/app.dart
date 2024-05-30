@@ -16,7 +16,6 @@ import 'package:examify/ui/views/admin_manage_course/admin_manage_course_view.da
 import 'package:examify/ui/bottom_sheets/add_unit/add_unit_sheet.dart';
 import 'package:examify/services/admin_dashboard_service.dart';
 
-
 import 'package:examify/ui/views/lecturer_dashboard/lecturer_dashboard_view.dart';
 import 'package:examify/services/lecturer_dashboard_service.dart';
 
@@ -28,6 +27,7 @@ import 'package:examify/ui/dialogs/confirm_logout/confirm_logout_dialog.dart';
 
 import 'package:examify/ui/bottom_sheets/edit_unit/edit_unit_sheet.dart';
 
+import 'package:examify/ui/views/users/users_view.dart';
 // @stacked-import
 
 @StackedApp(
@@ -42,6 +42,7 @@ import 'package:examify/ui/bottom_sheets/edit_unit/edit_unit_sheet.dart';
     MaterialRoute(page: LecturerHomeView),
     MaterialRoute(page: AdminHomeView),
     MaterialRoute(page: AdminManageCourseView),
+    MaterialRoute(page: UsersView),
 // @stacked-route
   ],
   dependencies: [

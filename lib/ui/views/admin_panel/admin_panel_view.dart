@@ -97,11 +97,11 @@ class AdminPanelView extends StackedView<AdminPanelViewModel> {
                 verticalSpaceTiny,
                 const Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [Users(user: 'Students'), Users(user: 'Lectures')],
+                  children: [Users(user: 'Students'), Users(user: 'Lecturers')],
                 ),
                 verticalSpaceSmall,
                 const Text(
-                  'Transcripts',
+                  'Student Performance',
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,

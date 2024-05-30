@@ -58,11 +58,14 @@ class EditUnitSheet extends StackedView<EditUnitSheetModel> {
             onChanged: viewModel.setUnitName,
           ),
           verticalSpaceSmall,
-          Text('Unit Code: ${course.unitCode}', style: const TextStyle(fontSize: 16)),
+          Text('Unit Code: ${course.unitCode}',
+              style: const TextStyle(fontSize: 16)),
           verticalSpaceSmall,
-          Text('Lecturer: ${course.unitLecturerName}', style: const TextStyle(fontSize: 16)),
+          Text('Lecturer: ${course.unitLecturerName}',
+              style: const TextStyle(fontSize: 16)),
           verticalSpaceSmall,
-          Text('Semester: ${course.semesterStage}', style: const TextStyle(fontSize: 16)),
+          Text('Semester: ${course.semesterStage}',
+              style: const TextStyle(fontSize: 16)),
           verticalSpaceSmall,
           Text('Year: ${course.year}', style: const TextStyle(fontSize: 16)),
           verticalSpaceLarge,
@@ -70,11 +73,15 @@ class EditUnitSheet extends StackedView<EditUnitSheetModel> {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               ElevatedButton(
-                onPressed: viewModel.isBusy ? null : () async {
-                  await viewModel.save(course.unitCode);
-                  completer!(SheetResponse(confirmed: true));
-                },
-                child: viewModel.isBusy ? CircularProgressIndicator() : Text('Save'),
+                onPressed: viewModel.isBusy
+                    ? null
+                    : () async {
+                        await viewModel.save(course.unitCode);
+                        completer!(SheetResponse(confirmed: true));
+                      },
+                child: viewModel.isBusy
+                    ? CircularProgressIndicator()
+                    : Text('Save'),
               ),
               horizontalSpaceSmall,
               TextButton(
@@ -89,5 +96,6 @@ class EditUnitSheet extends StackedView<EditUnitSheetModel> {
   }
 
   @override
-  EditUnitSheetModel viewModelBuilder(BuildContext context) => EditUnitSheetModel();
+  EditUnitSheetModel viewModelBuilder(BuildContext context) =>
+      EditUnitSheetModel();
 }
