@@ -14,7 +14,9 @@ class Users extends StackedView<UsersModel> {
     Widget? child,
   ) {
     return GestureDetector(
-      onTap: () {},
+      onTap: () {
+        viewModel.navigateToUserDetails(user: user);
+      },
       child: Container(
         height: 70,
         width: MediaQuery.of(context).size.height / 5,

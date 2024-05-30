@@ -55,7 +55,7 @@ class AddUnitSheetModel extends FormViewModel {
 
   //get lectures from auth service
   Future<void> getLectures() async {
-    lecturers =  await _authService.fetchLecturers();
+    lecturers = await _authService.fetchLecturers();
     notifyListeners();
   }
 }

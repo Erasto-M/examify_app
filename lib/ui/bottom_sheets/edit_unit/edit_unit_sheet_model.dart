@@ -3,7 +3,7 @@ import 'package:examify/services/admin_dashboard_service.dart';
 import 'package:stacked/stacked.dart';
 
 class EditUnitSheetModel extends BaseViewModel {
-  final _adminDashBoardServive = locator<AdminDashboardService>(); 
+  final _adminDashBoardServive = locator<AdminDashboardService>();
   late String _unitId;
   late String _unitName;
 
@@ -31,4 +31,3 @@ class EditUnitSheetModel extends BaseViewModel {
     }
   }
 }
-
