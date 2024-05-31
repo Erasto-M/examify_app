@@ -53,71 +53,70 @@ class UsersView extends StackedView<UsersViewModel> {
                       style: Theme.of(context).textTheme.titleLarge),
                 ),
                 ListView(
-                  shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
-                  children: users.map((user) {
-                    return Container(
-                      padding: const EdgeInsets.all(10.0),
-                      decoration: BoxDecoration(
-                        border: Border.all(color: Colors.black12),
-                        color: Colors.white70,
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "Username: ${user.userName}",
-                            style: Theme.of(context).textTheme.titleLarge,
-                          ),
-                          verticalSpaceSmall,
-                          // all other fields
-                          Text(
-                            "Email: ${user.email}",
-                            style: Theme.of(context).textTheme.bodySmall,
-                          ),
-                          verticalSpaceSmall,
-                          Text(
-                            "Phone Number: ${user.phoneNumber}",
-                            style: Theme.of(context).textTheme.bodySmall,
-                          ),
-                          verticalSpaceSmall,
-                          Text(
-                            "Role: ${user.role}",
-                            style: Theme.of(context).textTheme.bodySmall,
-                          ),
-                          verticalSpaceSmall,
-                          Text(
-                            "User ID: ${user.userId}",
-                            style: Theme.of(context).textTheme.bodySmall,
-                          ),
-                          //row to have buttons to either email and call user
-                          Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              ElevatedButton(
-                                onPressed: () {
-                                  viewModel.email(
-                                    email: user.email,
-                                  );
-                                },
-                                child: const Text('Email'),
-                              ),
-                              horizontalSpaceMedium,
-                              ElevatedButton(
-                                onPressed: () {
-                                  viewModel.call(phoneNumber: user.phoneNumber);
-                                },
-                                child: const Text('Call'),
-                              ),
-                            ],
-                          ),
-
-                        ],
-                      ),
-                    );
-                  }).toList()
-                ),
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    children: users.map((user) {
+                      return Container(
+                        padding: const EdgeInsets.all(10.0),
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.black12),
+                          color: Colors.white70,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Username: ${user.userName}",
+                              style: Theme.of(context).textTheme.titleLarge,
+                            ),
+                            verticalSpaceSmall,
+                            // all other fields
+                            Text(
+                              "Email: ${user.email}",
+                              style: Theme.of(context).textTheme.bodySmall,
+                            ),
+                            verticalSpaceSmall,
+                            Text(
+                              "Phone Number: ${user.phoneNumber}",
+                              style: Theme.of(context).textTheme.bodySmall,
+                            ),
+                            verticalSpaceSmall,
+                            Text(
+                              "Role: ${user.role}",
+                              style: Theme.of(context).textTheme.bodySmall,
+                            ),
+                            verticalSpaceSmall,
+                            Text(
+                              "User ID: ${user.userId}",
+                              style: Theme.of(context).textTheme.bodySmall,
+                            ),
+                            //row to have buttons to either email and call user
+                            Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                ElevatedButton(
+                                  onPressed: () {
+                                    viewModel.email(
+                                      email: user.email,
+                                    );
+                                  },
+                                  child: const Text('Email'),
+                                ),
+                                horizontalSpaceMedium,
+                                ElevatedButton(
+                                  onPressed: () {
+                                    viewModel.call(
+                                        phoneNumber: user.phoneNumber);
+                                  },
+                                  child: const Text('Call'),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      );
+                    }).toList()),
               ],
             ),
           ),
