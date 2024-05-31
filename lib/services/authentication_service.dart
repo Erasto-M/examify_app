@@ -178,7 +178,7 @@ class AuthenticationService {
                     builder: (context) => const LecturerHomeView(),
                   ),
                 );
-              } else {
+              } else if (value.data()!['role'] == "Admin") {
                 Navigator.of(context).pushReplacement(
                   MaterialPageRoute(
                     builder: (context) => const AdminHomeView(),
