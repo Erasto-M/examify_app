@@ -4,6 +4,8 @@
 // StackedBottomsheetGenerator
 // **************************************************************************
 
+import 'package:examify/ui/bottom_sheets/student_register_unit/student_register_unit_sheet.dart';
+import 'package:examify/ui/bottom_sheets/update_profile/update_profile_sheet.dart';
 import 'package:stacked_services/stacked_services.dart';
 
 import 'app.locator.dart';
@@ -15,6 +17,8 @@ enum BottomSheetType {
   notice,
   addUnit,
   editUnit,
+  studentRegisterUnit,
+  updateProfile,
 }
 
 void setupBottomSheetUi() {
@@ -27,6 +31,10 @@ void setupBottomSheetUi() {
         AddUnitSheet(request: request, completer: completer),
     BottomSheetType.editUnit: (context, request, completer) =>
         EditUnitSheet(request: request, completer: completer),
+    BottomSheetType.studentRegisterUnit: (context, request, completer) =>
+        StudentRegisterUnitSheet(request: request, completer: completer),
+    BottomSheetType.updateProfile: (context, request, completer) =>
+        UpdateProfileSheet(request: request, completer: completer),
   };
 
   bottomsheetService.setCustomSheetBuilders(builders);
