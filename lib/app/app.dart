@@ -22,6 +22,12 @@ import 'package:examify/services/lecturer_dashboard_service.dart';
 import 'package:examify/ui/bottom_sheets/student_register_unit/student_register_unit_sheet.dart';
 import 'package:examify/services/student_dashboard_service.dart';
 
+import 'package:examify/ui/bottom_sheets/update_profile/update_profile_sheet.dart';
+import 'package:examify/ui/dialogs/confirm_logout/confirm_logout_dialog.dart';
+
+import 'package:examify/ui/bottom_sheets/edit_unit/edit_unit_sheet.dart';
+
+import 'package:examify/ui/views/users/users_view.dart';
 // @stacked-import
 
 @StackedApp(
@@ -36,7 +42,7 @@ import 'package:examify/services/student_dashboard_service.dart';
     MaterialRoute(page: LecturerHomeView),
     MaterialRoute(page: AdminHomeView),
     MaterialRoute(page: AdminManageCourseView),
-    MaterialRoute(page: LecturerDashboardView),
+    MaterialRoute(page: UsersView),
 // @stacked-route
   ],
   dependencies: [
@@ -45,22 +51,18 @@ import 'package:examify/services/student_dashboard_service.dart';
     LazySingleton(classType: NavigationService),
     LazySingleton(classType: AuthenticationService),
     LazySingleton(classType: AdminDashboardService),
-
-    LazySingleton(classType: LecturerDashboardService),
-
-    LazySingleton(classType: StudentDashboardService),
-
 // @stacked-service
   ],
   bottomsheets: [
     StackedBottomsheet(classType: NoticeSheet),
     StackedBottomsheet(classType: AddUnitSheet),
-    StackedBottomsheet(classType: StudentRegisterUnitSheet),
+    StackedBottomsheet(classType: EditUnitSheet),
 // @stacked-bottom-sheet
   ],
   dialogs: [
     StackedDialog(classType: InfoAlertDialog),
-    // @stacked-dialog
+    StackedDialog(classType: ConfirmLogoutDialog),
+// @stacked-dialog
   ],
 )
 class App {}

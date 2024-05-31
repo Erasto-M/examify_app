@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:examify/ui/common/app_colors.dart';
 import 'package:examify/ui/common/ui_helpers.dart';
 import 'package:examify/ui/views/login/login_view.form.dart';
@@ -13,8 +15,8 @@ import 'login_viewmodel.dart';
   FormTextField(name: 'loginpassword'),
 ])
 class LoginView extends StackedView<LoginViewModel> with $LoginView {
-  const LoginView({Key? key}) : super(key: key);
-
+  LoginView({super.key});
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   @override
   Widget builder(
     BuildContext context,
@@ -72,91 +74,113 @@ class LoginView extends StackedView<LoginViewModel> with $LoginView {
                     ),
                     verticalSpaceSmall,
                     Form(
+                        key: formKey,
                         child: Column(
-                      children: [
-                        verticalSpaceTiny,
-                        TextFormField(
-                          controller: loginemailController,
-                          decoration: InputDecoration(
-                              hintText: " Email",
-                              prefixIcon: const Icon(Icons.email),
-                              border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10))),
-                        ),
-                        verticalSpaceTiny,
-                        TextFormField(
-                          controller: loginpasswordController,
-                          decoration: InputDecoration(
-                              hintText: "Password",
-                              suffixIcon: const Icon(Icons.visibility_off),
-                              prefixIcon: const Icon(Icons.lock),
-                              border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10))),
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
                           children: [
-                            TextButton(
-                                onPressed: () {
-                                  viewModel.navigateToForgotPassword();
-                                },
-                                child: const Text("Forgot Password?"))
-                          ],
-                        ),
-                        verticalSpaceTiny,
-                        viewModel.isBusy
-                            ? const SpinKitSpinningLines(
-                                color: primaryColor, size: 80)
-                            : InkWell(
-                                onTap: () {
-                                  viewModel.loginUser(
-                                    email: loginemailController.text,
-                                    password: loginpasswordController.text,
-                                    context: context,
-                                  );
-                                },
-                                child: Container(
-                                  width: MediaQuery.of(context).size.width,
-                                  height: 50,
-                                  decoration: BoxDecoration(
-                                      color: primaryColor,
-                                      borderRadius: BorderRadius.circular(10)),
-                                  child: const Center(
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Text("LOGIN",
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 20)),
-                                        horizontalSpaceSmall,
-                                        Icon(Icons.arrow_forward_ios,
-                                            color: Colors.white)
-                                      ],
+                            verticalSpaceTiny,
+                            TextFormField(
+                              validator: (value) {
+                                if (value!.isEmpty || value == '') {
+                                  return "Email cannot be empty";
+                                } else if (!value.contains("@")) {
+                                  return "please enter a valid email address";
+                                }
+                                return '';
+                              },
+                              controller: loginemailController,
+                              decoration: InputDecoration(
+                                  hintText: " Email",
+                                  prefixIcon: const Icon(Icons.email),
+                                  border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10))),
+                            ),
+                            verticalSpaceTiny,
+                            TextFormField(
+                              controller: loginpasswordController,
+                              obscureText: true,
+                              validator: (value) {
+                                if (value!.isEmpty || value == '') {
+                                  return "Password cannot be empty";
+                                } else if (value.length < 6) {
+                                  return "Password must be at least 6 characters";
+                                }
+                                return '';
+                              },
+                              decoration: InputDecoration(
+                                  hintText: "Password",
+                                  suffixIcon: const Icon(Icons.visibility_off),
+                                  prefixIcon: const Icon(Icons.lock),
+                                  border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10))),
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                TextButton(
+                                    onPressed: () {
+                                      viewModel.navigateToForgotPassword();
+                                    },
+                                    child: const Text("Forgot Password?"))
+                              ],
+                            ),
+                            verticalSpaceTiny,
+                            viewModel.isBusy
+                                ? const SpinKitSpinningLines(
+                                    color: primaryColor, size: 80)
+                                : InkWell(
+                                    onTap: () {
+                                      if (formKey.currentState!.validate()) {
+                                        return;
+                                      }
+                                      viewModel.loginUser(
+                                        email: loginemailController.text,
+                                        password: loginpasswordController.text,
+                                        context: context,
+                                      );
+                                    },
+                                    child: Container(
+                                      width: MediaQuery.of(context).size.width,
+                                      height: 50,
+                                      decoration: BoxDecoration(
+                                          color: primaryColor,
+                                          borderRadius:
+                                              BorderRadius.circular(10)),
+                                      child: const Center(
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Text("LOGIN",
+                                                style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 20)),
+                                            horizontalSpaceSmall,
+                                            Icon(Icons.arrow_forward_ios,
+                                                color: Colors.white)
+                                          ],
+                                        ),
+                                      ),
                                     ),
                                   ),
+                            verticalSpaceSmall,
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                const Text(
+                                  "Don't have an account?",
+                                  style: TextStyle(
+                                      color: Colors.black, fontSize: 16),
                                 ),
-                              ),
-                        verticalSpaceSmall,
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const Text(
-                              "Don't have an account?",
-                              style:
-                                  TextStyle(color: Colors.black, fontSize: 16),
-                            ),
-                            TextButton(
-                                onPressed: () {
-                                  viewModel.navigateToRegister();
-                                },
-                                child: const Text("Register"))
+                                TextButton(
+                                    onPressed: () {
+                                      viewModel.navigateToRegister();
+                                    },
+                                    child: const Text("Register"))
+                              ],
+                            )
                           ],
-                        )
-                      ],
-                    ))
+                        ))
                   ],
                 ),
               ),

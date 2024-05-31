@@ -15,7 +15,10 @@ class ProfileView extends StackedView<ProfileViewModel> {
     BuildContext context,
     ProfileViewModel viewModel,
     Widget? child,
+    // get current user details
   ) {
+    Map<String, dynamic> userDetails = viewModel.userDetails;
+    print("userdetails: $userDetails ");
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.grey[200],
@@ -24,15 +27,20 @@ class ProfileView extends StackedView<ProfileViewModel> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
-                  'Profile',
-                  style: TextStyle(
-                    fontSize: 25,
-                    fontWeight: FontWeight.bold,
+                const Padding(
+                  padding: EdgeInsets.only(left: 20),
+                  child: Text(
+                    'Profile',
+                    style: TextStyle(
+                      fontSize: 25,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
                 verticalSpaceSmall,
-                const ProfileContainer(),
+                ProfileContainer(
+                    userName: userDetails["userName"] ?? "UserName",
+                    email: userDetails["email"] ?? "Email"),
                 verticalSpaceTiny,
                 Container(
                   padding: const EdgeInsets.all(10.0),
@@ -57,7 +65,9 @@ class ProfileView extends StackedView<ProfileViewModel> {
                           ),
                           const Spacer(),
                           IconButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              viewModel.updateProfile();
+                            },
                             icon: const Icon(
                               Icons.edit,
                               color: primaryColor,
@@ -65,41 +75,82 @@ class ProfileView extends StackedView<ProfileViewModel> {
                           ),
                         ],
                       ),
-                      const ProfileItem(
-                        itemName: 'Name: Emmanuel Mutua',
-                        icon: Icons.person,
-                      ),
-                      const ProfileItem(
-                        itemName: 'Phone: 0712345678',
-                        icon: Icons.phone,
-                      ),
-                      const ProfileItem(
-                        itemName: 'Email: emmutua@gmail.com',
-                        icon: Icons.email,
-                      ),
-                      const ProfileItem(
-                        itemName: 'Role: Admin',
-                        icon: Icons.work,
-                      ),
-                      const Text(
-                        'Help',
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
+                      InkWell(
+                        onTap: () {},
+                        child: ProfileItem(
+                          itemName: 'Name: ${userDetails['userName'] ?? ""}',
+                          icon: Icons.person,
                         ),
                       ),
-                      const ProfileItem(
-                        itemName: 'Send Feedback',
-                        icon: Icons.feedback,
+                      verticalSpaceSmall,
+                      InkWell(
+                        onTap: () {},
+                        child: ProfileItem(
+                          itemName:
+                              'Phone: ${userDetails['phoneNumber'] ?? ""}',
+                          icon: Icons.phone,
+                        ),
                       ),
-                      const ProfileItem(
-                        itemName: 'Report Problem',
-                        icon: Icons.report,
+                      verticalSpaceSmall,
+                      InkWell(
+                        onTap: () {},
+                        child: ProfileItem(
+                          itemName: 'Email: ${userDetails['email'] ?? ""}',
+                          icon: Icons.email,
+                        ),
                       ),
-                      const ProfileItem(
-                        itemName: 'Bug Report',
-                        icon: Icons.bug_report,
+                      verticalSpaceSmall,
+                      InkWell(
+                        onTap: () {},
+                        child: ProfileItem(
+                          itemName: 'Role: ${userDetails['role'] ?? ""}',
+                          icon: Icons.work,
+                        ),
                       ),
+                      verticalSpaceSmall,
+                      const Divider(
+                        thickness: 1,
+                      ),
+                      verticalSpaceSmall,
+                      InkWell(
+                        onTap: () {},
+                        child: const Text(
+                          'Help',
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      verticalSpaceSmall,
+                      InkWell(
+                        onTap: () {},
+                        child: const ProfileItem(
+                          itemName: 'Send Feedback',
+                          icon: Icons.feedback,
+                        ),
+                      ),
+                      verticalSpaceSmall,
+                      InkWell(
+                        onTap: () {},
+                        child: const ProfileItem(
+                          itemName: 'Report Problem',
+                          icon: Icons.report,
+                        ),
+                      ),
+                      verticalSpaceSmall,
+                      InkWell(
+                        onTap: () {},
+                        child: const ProfileItem(
+                          itemName: 'Bug Report',
+                          icon: Icons.bug_report,
+                        ),
+                      ),
+                      verticalSpaceSmall,
+                      const Divider(
+                        thickness: 1,
+                      ),
+                      verticalSpaceSmall,
                       const Text(
                         'About',
                         style: TextStyle(
@@ -107,29 +158,46 @@ class ProfileView extends StackedView<ProfileViewModel> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      const ProfileItem(
-                        itemName: 'About app',
-                        icon: Icons.info,
-                      ),
-                      const ProfileItem(
-                        itemName: 'Version: 1.0.0',
-                        icon: Icons.info,
+                      verticalSpaceSmall,
+                      InkWell(
+                        onTap: () {},
+                        child: const ProfileItem(
+                          itemName: 'About app',
+                          icon: Icons.info,
+                        ),
                       ),
                       verticalSpaceSmall,
-                      Container(
-                        height: 50,
-                        width: MediaQuery.of(context).size.width,
-                        decoration: BoxDecoration(
-                          color: primaryColor,
-                          borderRadius: BorderRadius.circular(10),
+                      InkWell(
+                        onTap: () {},
+                        child: const ProfileItem(
+                          itemName: 'Version: 1.0.0',
+                          icon: Icons.info,
                         ),
-                        child: const Center(
-                          child: Text(
-                            'Logout',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
+                      ),
+                      verticalSpaceSmall,
+                      const Divider(
+                        thickness: 1,
+                      ),
+                      verticalSpaceTiny,
+                      InkWell(
+                        onTap: () {
+                          viewModel.logout(context);
+                        },
+                        child: Container(
+                          height: 50,
+                          width: MediaQuery.of(context).size.width,
+                          decoration: BoxDecoration(
+                            color: primaryColor,
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: const Center(
+                            child: Text(
+                              'Logout',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
                         ),
@@ -150,4 +218,10 @@ class ProfileView extends StackedView<ProfileViewModel> {
     BuildContext context,
   ) =>
       ProfileViewModel();
+
+  @override
+  void onViewModelReady(ProfileViewModel viewModel) {
+    viewModel.getCurrentUserDetails();
+    super.onViewModelReady(viewModel);
+  }
 }

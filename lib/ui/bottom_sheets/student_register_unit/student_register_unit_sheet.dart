@@ -25,6 +25,11 @@ class StudentRegisterUnitSheet
     StudentRegisterUnitSheetModel viewModel,
     Widget? child,
   ) {
+    String? unitName;
+    String? unitCode;
+    String? unitLecturer;
+    String? semesterStage;
+    bool? appliedSpecial = false;
     return Container(
       width: MediaQuery.of(context).size.width,
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
@@ -42,12 +47,38 @@ class StudentRegisterUnitSheet
           Center(
             child: Column(
               children: [
-                Text(
-                  request.title ?? 'Register Units!!',
-                  style: const TextStyle(
-                      fontSize: 25,
-                      color: primaryColor,
-                      fontWeight: FontWeight.w900),
+                Row(
+                  children: [
+                    Text(
+                      request.title ?? 'Register Units!!',
+                      style: const TextStyle(
+                          fontSize: 25,
+                          color: primaryColor,
+                          fontWeight: FontWeight.w900),
+                    ),
+                    const Spacer(),
+                    Container(
+                      height: 40,
+                      decoration: BoxDecoration(
+                        border: Border.all(color: Colors.grey[200]!),
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 20, vertical: 5),
+                      child: DropdownButton(
+                          value: viewModel.getSelectedSemesterStage,
+                          items: viewModel.semesterStages
+                              .map((String semester) => DropdownMenuItem(
+                                    value: semester,
+                                    child: Text(semester),
+                                  ))
+                              .toList(),
+                          onChanged: (newValue) {
+                            viewModel
+                                .setSelectedSemesterStage(newValue.toString());
+                          }),
+                    )
+                  ],
                 ),
                 verticalSpaceSmall,
                 const Center(
@@ -72,7 +103,9 @@ class StudentRegisterUnitSheet
           verticalSpaceMedium,
           Expanded(
               child: StreamBuilder<List<AddUnitModel>>(
-            stream: viewModel.registerUnits(),
+            stream: viewModel.registerUnits(
+              semesterStage: viewModel.getSelectedSemesterStage,
+            ),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const SpinKitSpinningLines(
@@ -88,15 +121,33 @@ class StudentRegisterUnitSheet
                   itemCount: snapshot.data!.length,
                   itemBuilder: (context, index) {
                     final AddUnitModel unit = snapshot.data![index];
+                    unitName = unit.unitName;
+                    unitCode = unit.unitCode;
+                    unitLecturer = unit.unitLecturerName;
+                    semesterStage = unit.semesterStage;
                     return Card(
-                      child: ListTile(
-                        title: Text(unit.unitName),
-                        subtitle: Text(unit.unitCode),
-                        trailing: Checkbox(
-                          value: viewModel.isUnitSelected(unit.unitId!),
-                          onChanged: (value) {
-                            viewModel.updateUnitSelection(value!, unit);
-                          },
+                      elevation: 4,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        side: const BorderSide(color: Colors.white),
+                      ),
+                      color: Colors.white,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          border:
+                              Border.all(width: 1, color: Colors.grey[200]!),
+                          borderRadius: BorderRadius.circular(10),
+                          color: Colors.white,
+                        ),
+                        child: ListTile(
+                          title: Text(unitName!),
+                          subtitle: Text(unitCode!),
+                          trailing: Checkbox(
+                            value: viewModel.isUnitSelected(unit.unitId!),
+                            onChanged: (value) {
+                              viewModel.updateUnitSelection(value!, unit);
+                            },
+                          ),
                         ),
                       ),
                     );
@@ -109,7 +160,12 @@ class StudentRegisterUnitSheet
           Center(
             child: InkWell(
               onTap: () {
-                viewModel.sendUnitsToFirebase();
+                viewModel.sendUnitsToFirebase(
+                    unitName: unitName!,
+                    unitCode: unitCode!,
+                    unitLecturer: unitLecturer!,
+                    semesterStage: semesterStage!,
+                    appliedSpecial: appliedSpecial);
                 completer!(SheetResponse(confirmed: true));
               },
               child: Container(
@@ -156,4 +212,9 @@ class StudentRegisterUnitSheet
   @override
   StudentRegisterUnitSheetModel viewModelBuilder(BuildContext context) =>
       StudentRegisterUnitSheetModel();
+  @override
+  void onViewModelReady(StudentRegisterUnitSheetModel viewModel) {
+    viewModel.getCurrentUserDetails();
+    super.onViewModelReady(viewModel);
+  }
 }

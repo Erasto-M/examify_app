@@ -17,6 +17,8 @@ class LecturerDashboardView extends StackedView<LecturerDashboardViewModel> {
     LecturerDashboardViewModel viewModel,
     Widget? child,
   ) {
+    DateTime now = DateTime.now();
+    String greeting = viewModel.getGreeting(now);
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.grey[200],
@@ -26,47 +28,52 @@ class LecturerDashboardView extends StackedView<LecturerDashboardViewModel> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                  height: MediaQuery.of(context).size.height / 7,
-                  padding: const EdgeInsets.all(10.0),
-                  width: MediaQuery.of(context).size.width,
-                  decoration: BoxDecoration(
-                    color: primaryColor,
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: const Center(
+                padding: const EdgeInsets.all(10),
+                height: MediaQuery.of(context).size.height / 7,
+                width: MediaQuery.of(context).size.width,
+                decoration: BoxDecoration(
+                  color: primaryColor,
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Center(
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Column(
                       children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Hello, Lecturer',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 30,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            Text(
-                              '10-04-2023 - 11:20AM',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 15,
-                              ),
-                            ),
-                          ],
+                        Text(
+                          '${greeting} , ',
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
-                        Spacer(),
-                        CircleAvatar(
-                          radius: 30,
-                          backgroundColor: Colors.white,
-                          backgroundImage:
-                              AssetImage('Assets/Images/man1.jpeg'),
+                        verticalSpaceTiny,
+                        Text(
+                          viewModel.userDetails["userName"] ?? "UserName",
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 18,
+                          ),
+                        ),
+                        Text(
+                          "${now.day}-${now.month}-${now.year}  ${now.hour}: ${now.minute} ${now.hour > 12 ? "PM" : "AM"}",
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 18,
+                          ),
                         ),
                       ],
                     ),
-                  )),
+                    const Spacer(),
+                    const CircleAvatar(
+                      backgroundColor: Colors.white,
+                      radius: 40,
+                      backgroundImage: AssetImage('Assets/Images/man1.jpeg'),
+                    ),
+                  ],
+                )),
+              ),
               verticalSpaceSmall,
               const Text(
                 "Courses Lectured",
@@ -93,6 +100,7 @@ class LecturerDashboardView extends StackedView<LecturerDashboardViewModel> {
                         itemCount: snapshot.data!.length,
                         itemBuilder: (context, index) {
                           AddUnitModel unit = snapshot.data![index];
+
                           return Card(
                             child: ListTile(
                               title: Row(
@@ -104,6 +112,22 @@ class LecturerDashboardView extends StackedView<LecturerDashboardViewModel> {
                                       Text(unit.unitName),
                                     ],
                                   ),
+                                  Spacer(),
+                                  IconButton(
+                                    onPressed: () {
+                                      viewModel.toggleContainer(unit.unitId!);
+                                    },
+                                    icon: viewModel.isContainerHidden(
+                                                unit.unitId!) ==
+                                            true
+                                        ? const Icon(
+                                            Icons.arrow_drop_down_outlined)
+                                        : const Icon(
+                                            Icons.arrow_drop_up_outlined),
+                                  ),
+                                  Text(unit.unitCode),
+                                  const Spacer(),
+                                  Text(unit.unitName),
                                   Spacer(),
                                   IconButton(
                                     onPressed: () {

@@ -96,8 +96,8 @@ class AddUnitSheet extends StackedView<AddUnitSheetModel> with $AddUnitSheet {
             items: viewModel.lecturers
                 .map(
                   (e) => DropdownMenuItem(
-                    value: e,
-                    child: Text(e),
+                    value: e['userId'],
+                    child: Text(e['userName']),
                   ),
                 )
                 .toList(),
@@ -143,13 +143,9 @@ class AddUnitSheet extends StackedView<AddUnitSheetModel> with $AddUnitSheet {
                         unitName: unitNameController.text,
                         unitCode: unitCodeController.text,
                         unitLecturerName: viewModel.getSelectedLec,
-
-
-                        semesterStage: "${request.description}${viewModel.getSelectedSemester}",
-                        year: "${request.description}"
-                        );
-                      
-
+                        semesterStage:
+                            "${request.description}${viewModel.getSelectedSemester}",
+                        year: "${request.description}");
 
                     viewModel.addUnit(addUnitModel: units);
                   },
@@ -182,6 +178,7 @@ class AddUnitSheet extends StackedView<AddUnitSheetModel> with $AddUnitSheet {
 
   @override
   void onViewModelReady(AddUnitSheetModel viewModel) {
+    viewModel.getLectures();
     syncFormWithViewModel(viewModel);
   }
 }

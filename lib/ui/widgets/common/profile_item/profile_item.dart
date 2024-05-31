@@ -13,28 +13,21 @@ class ProfileItem extends StackedView<ProfileItemModel> {
     ProfileItemModel viewModel,
     Widget? child,
   ) {
-    return Column(
+    return Row(
       children: [
-        Row(
-          children: [
-            Icon(
-              icon,
-              color: Colors.black54,
-            ),
-            const SizedBox(
-              width: 10,
-            ),
-            Text(
-              itemName,
-              style: const TextStyle(
-                fontSize: 15,
-                fontWeight: FontWeight.normal,
-              ),
-            ),
-          ],
+        Icon(
+          icon,
+          color: Colors.black54,
         ),
-        const Divider(
-          thickness: 1,
+        const SizedBox(
+          width: 10,
+        ),
+        Text(
+          itemName,
+          style: const TextStyle(
+            fontSize: 15,
+            fontWeight: FontWeight.normal,
+          ),
         ),
       ],
     );
