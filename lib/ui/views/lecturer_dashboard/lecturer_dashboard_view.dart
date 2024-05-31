@@ -1,6 +1,7 @@
 import 'package:examify/models/addUnit.dart';
 import 'package:examify/ui/common/app_colors.dart';
 import 'package:examify/ui/common/ui_helpers.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -84,7 +85,7 @@ class LecturerDashboardView extends StackedView<LecturerDashboardViewModel> {
               ),
               verticalSpaceMedium,
               Expanded(
-                flex: 2,
+                flex: 1,
                 child: FutureBuilder(
                   future: viewModel.fetchLecturerUnits(),
                   builder: (context, snapshot) {
@@ -100,35 +101,31 @@ class LecturerDashboardView extends StackedView<LecturerDashboardViewModel> {
                         itemCount: snapshot.data!.length,
                         itemBuilder: (context, index) {
                           AddUnitModel unit = snapshot.data![index];
-
                           return Card(
                             child: ListTile(
                               title: Row(
                                 children: [
                                   Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Text(unit.unitCode),
                                       verticalSpaceTiny,
-                                      Text(unit.unitName),
+                                      // put text in a wrap widegt
+                                      Column(
+                                        children: [
+                                          Text(
+                                            unit.unitName,
+                                            style: const TextStyle(
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.normal,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
                                     ],
                                   ),
-                                  Spacer(),
-                                  IconButton(
-                                    onPressed: () {
-                                      viewModel.toggleContainer(unit.unitId!);
-                                    },
-                                    icon: viewModel.isContainerHidden(
-                                                unit.unitId!) ==
-                                            true
-                                        ? const Icon(
-                                            Icons.arrow_drop_down_outlined)
-                                        : const Icon(
-                                            Icons.arrow_drop_up_outlined),
-                                  ),
-                                  Text(unit.unitCode),
                                   const Spacer(),
-                                  Text(unit.unitName),
-                                  Spacer(),
                                   IconButton(
                                     onPressed: () {
                                       viewModel.toggleContainer(unit.unitId!);
@@ -190,4 +187,9 @@ class LecturerDashboardView extends StackedView<LecturerDashboardViewModel> {
     BuildContext context,
   ) =>
       LecturerDashboardViewModel();
+  @override
+  void onViewModelReady(LecturerDashboardViewModel viewModel) {
+    viewModel.getCurrentUserDetails();
+    super.onViewModelReady(viewModel);
+  }
 }
