@@ -195,8 +195,10 @@ class StackedRouter extends _i1.RouterBase {
       );
     },
     _i13.LecturerMyStudentsView: (data) {
+      final args = data.getArgs<LecturerMyStudentsViewArguments>(nullOk: false);
       return _i14.MaterialPageRoute<dynamic>(
-        builder: (context) => const _i13.LecturerMyStudentsView(),
+        builder: (context) =>
+            _i13.LecturerMyStudentsView(key: args.key, unitCode: args.unitCode),
         settings: data,
       );
     },
@@ -304,6 +306,33 @@ class UsersViewArguments {
   @override
   int get hashCode {
     return key.hashCode ^ user.hashCode;
+  }
+}
+
+class LecturerMyStudentsViewArguments {
+  const LecturerMyStudentsViewArguments({
+    this.key,
+    required this.unitCode,
+  });
+
+  final _i14.Key? key;
+
+  final String unitCode;
+
+  @override
+  String toString() {
+    return '{"key": "$key", "unitCode": "$unitCode"}';
+  }
+
+  @override
+  bool operator ==(covariant LecturerMyStudentsViewArguments other) {
+    if (identical(this, other)) return true;
+    return other.key == key && other.unitCode == unitCode;
+  }
+
+  @override
+  int get hashCode {
+    return key.hashCode ^ unitCode.hashCode;
   }
 }
 
@@ -472,14 +501,18 @@ extension NavigatorStateExtension on _i15.NavigationService {
         transition: transition);
   }
 
-  Future<dynamic> navigateToLecturerMyStudentsView([
+  Future<dynamic> navigateToLecturerMyStudentsView({
+    _i14.Key? key,
+    required String unitCode,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
     Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
         transition,
-  ]) async {
+  }) async {
     return navigateTo<dynamic>(Routes.lecturerMyStudentsView,
+        arguments:
+            LecturerMyStudentsViewArguments(key: key, unitCode: unitCode),
         id: routerId,
         preventDuplicates: preventDuplicates,
         parameters: parameters,
@@ -650,14 +683,18 @@ extension NavigatorStateExtension on _i15.NavigationService {
         transition: transition);
   }
 
-  Future<dynamic> replaceWithLecturerMyStudentsView([
+  Future<dynamic> replaceWithLecturerMyStudentsView({
+    _i14.Key? key,
+    required String unitCode,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
     Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
         transition,
-  ]) async {
+  }) async {
     return replaceWith<dynamic>(Routes.lecturerMyStudentsView,
+        arguments:
+            LecturerMyStudentsViewArguments(key: key, unitCode: unitCode),
         id: routerId,
         preventDuplicates: preventDuplicates,
         parameters: parameters,

@@ -43,32 +43,31 @@ class StudentRegisterUnitSheetModel extends BaseViewModel {
   }
 
   // send my registered units to firebase
-  Future<AddUnitModel?> sendUnitsToFirebase({
-    required String unitName,
-    required String unitCode,
-    required String unitLecturer,
-    required bool appliedSpecial,
-    required String semesterStage,
-  }) async {
-    setBusy(true);
-    if (selectedUnits.isEmpty) {
-      Fluttertoast.showToast(
-          msg: "Choose Atleast 2 Units  for the current semester");
-      setBusy(false);
-    }
-    await _studentDashboardService
-        .myRegisteredUnits(StudentsRegisteredUnitsModel(
+ Future<void> sendUnitsToFirebase() async {
+  setBusy(true);
+  if (selectedUnits.length <5) {
+    Fluttertoast.showToast(
+        msg: "Choose Atleast 5 Units for the current semester");
+    setBusy(false);
+    return; // Add return to exit the function early if no units are selected
+  }
+
+  List<StudentsRegisteredUnitsModel> unitsToRegister = selectedUnits.map((unit) {
+    return StudentsRegisteredUnitsModel(
       studentName: userDetails['userName'],
       studentEmail: userDetails['email'],
       studentPhoneNumber: userDetails['phoneNumber'],
-      unitCode: unitCode,
-      unitName: unitName,
-      unitLecturer: unitLecturer,
-      appliedSpecialExam: appliedSpecial,
-      semesterStage: semesterStage,
-    ));
-    setBusy(false);
-  }
+      unitCode: unit.unitCode,
+      unitName: unit.unitName,
+      unitLecturer: unit.unitLecturerName,
+      appliedSpecialExam: false,
+      semesterStage: unit.semesterStage,
+    );
+  }).toList();
+
+  await _studentDashboardService.myRegisteredUnits(unitsToRegister);
+  setBusy(false);
+}
 
   String _selectedSemesterStage = 'Y1S1';
   String get getSelectedSemesterStage => _selectedSemesterStage;

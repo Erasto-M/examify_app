@@ -1,12 +1,16 @@
 import 'package:examify/app/app.locator.dart';
+import 'package:examify/app/app.router.dart';
 import 'package:examify/models/addUnit.dart';
 import 'package:examify/services/authentication_service.dart';
 import 'package:examify/services/lecturer_dashboard_service.dart';
+import 'package:examify/ui/views/lecturer_my_students/lecturer_my_students_viewmodel.dart';
 import 'package:stacked/stacked.dart';
+import 'package:stacked_services/stacked_services.dart';
 
 class LecturerDashboardViewModel extends BaseViewModel {
   final _lecturerDashboardService = locator<LecturerDashboardService>();
   final _authenticationService = locator<AuthenticationService>();
+  final _navigationService = locator<NavigationService>();
 
   List<AddUnitModel> _units = [];
   Map<String, bool> _containerVisibility = {};
@@ -53,5 +57,10 @@ class LecturerDashboardViewModel extends BaseViewModel {
   Future getCurrentUserDetails() async {
     userDetails = await _authenticationService.getCurrentUserDetails();
     notifyListeners();
+  }
+
+  //navigate to view my students
+  Future navigateToViewStudents({required String unitCode}) async {
+   return await _navigationService.navigateToLecturerMyStudentsView(unitCode:unitCode );
   }
 }

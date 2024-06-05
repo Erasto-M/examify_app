@@ -32,18 +32,22 @@ class StudentDashboardService {
   }
 
   // my registered units
-  Future<AddUnitModel?> myRegisteredUnits(
-    StudentsRegisteredUnitsModel selectedUnits,
-  ) async {
+  Future<void> myRegisteredUnits(
+      List<StudentsRegisteredUnitsModel> selectedUnits) async {
     try {
       User? user = auth.currentUser;
       if (user != null) {
         final String studentUid = user.uid;
-        final unitsCollection = db.collection('student_registered_units').doc();
-        final newUnitWithId = selectedUnits.copyWith(studentUid: studentUid);
-        unitsCollection.set(newUnitWithId.toMap()).then((value) {
-          Fluttertoast.showToast(msg: "Units registered successfully");
-        });
+
+        for (var unit in selectedUnits) {
+          final unitsCollection =
+              db.collection('student_registered_units').doc();
+          final newUnitWithId = unit.copyWith(studentUid: studentUid);
+          print(newUnitWithId.toMap());
+          await unitsCollection.set(newUnitWithId.toMap());
+        }
+
+        Fluttertoast.showToast(msg: "Units registered successfully");
       }
     } catch (e) {
       Fluttertoast.showToast(msg: e.toString());

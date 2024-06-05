@@ -8,12 +8,12 @@ import 'dart:ui' as _i8;
 
 import 'package:cloud_firestore/cloud_firestore.dart' as _i3;
 import 'package:examify/models/addUnit.dart' as _i12;
-import 'package:examify/models/student_registered_units.dart' as _i15;
+import 'package:examify/models/student_registered_units.dart' as _i14;
 import 'package:examify/models/usersModel.dart' as _i10;
 import 'package:examify/services/admin_dashboard_service.dart' as _i11;
 import 'package:examify/services/authentication_service.dart' as _i9;
 import 'package:examify/services/lecturer_dashboard_service.dart' as _i13;
-import 'package:examify/services/student_dashboard_service.dart' as _i14;
+import 'package:examify/services/student_dashboard_service.dart' as _i15;
 import 'package:firebase_auth/firebase_auth.dart' as _i2;
 import 'package:flutter/material.dart' as _i6;
 import 'package:mockito/mockito.dart' as _i1;
@@ -1022,6 +1022,47 @@ class MockLecturerDashboardService extends _i1.Mock
       );
 
   @override
+  List<_i12.AddUnitModel> get unitCodes => (super.noSuchMethod(
+        Invocation.getter(#unitCodes),
+        returnValue: <_i12.AddUnitModel>[],
+        returnValueForMissingStub: <_i12.AddUnitModel>[],
+      ) as List<_i12.AddUnitModel>);
+
+  @override
+  set unitCodes(List<_i12.AddUnitModel>? _unitCodes) => super.noSuchMethod(
+        Invocation.setter(
+          #unitCodes,
+          _unitCodes,
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  List<_i12.AddUnitModel> get unitNames => (super.noSuchMethod(
+        Invocation.getter(#unitNames),
+        returnValue: <_i12.AddUnitModel>[],
+        returnValueForMissingStub: <_i12.AddUnitModel>[],
+      ) as List<_i12.AddUnitModel>);
+
+  @override
+  set unitNames(List<_i12.AddUnitModel>? _unitNames) => super.noSuchMethod(
+        Invocation.setter(
+          #unitNames,
+          _unitNames,
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  set lecturerName(String? _lecturerName) => super.noSuchMethod(
+        Invocation.setter(
+          #lecturerName,
+          _lecturerName,
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
   _i7.Future<List<_i12.AddUnitModel>> fetchLecturerUnits() =>
       (super.noSuchMethod(
         Invocation.method(
@@ -1033,13 +1074,29 @@ class MockLecturerDashboardService extends _i1.Mock
         returnValueForMissingStub:
             _i7.Future<List<_i12.AddUnitModel>>.value(<_i12.AddUnitModel>[]),
       ) as _i7.Future<List<_i12.AddUnitModel>>);
+
+  @override
+  _i7.Future<List<_i14.StudentsRegisteredUnitsModel>> getAllMyStudents(
+          {required String? unitCode}) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getAllMyStudents,
+          [],
+          {#unitCode: unitCode},
+        ),
+        returnValue: _i7.Future<List<_i14.StudentsRegisteredUnitsModel>>.value(
+            <_i14.StudentsRegisteredUnitsModel>[]),
+        returnValueForMissingStub:
+            _i7.Future<List<_i14.StudentsRegisteredUnitsModel>>.value(
+                <_i14.StudentsRegisteredUnitsModel>[]),
+      ) as _i7.Future<List<_i14.StudentsRegisteredUnitsModel>>);
 }
 
 /// A class which mocks [StudentDashboardService].
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockStudentDashboardService extends _i1.Mock
-    implements _i14.StudentDashboardService {
+    implements _i15.StudentDashboardService {
   @override
   _i3.FirebaseFirestore get db => (super.noSuchMethod(
         Invocation.getter(#db),
@@ -1098,19 +1155,19 @@ class MockStudentDashboardService extends _i1.Mock
       ) as _i7.Stream<List<_i12.AddUnitModel>>);
 
   @override
-  _i7.Future<_i12.AddUnitModel?> myRegisteredUnits(
-          _i15.StudentsRegisteredUnitsModel? selectedUnits) =>
+  _i7.Future<void> myRegisteredUnits(
+          List<_i14.StudentsRegisteredUnitsModel>? selectedUnits) =>
       (super.noSuchMethod(
         Invocation.method(
           #myRegisteredUnits,
           [selectedUnits],
         ),
-        returnValue: _i7.Future<_i12.AddUnitModel?>.value(),
-        returnValueForMissingStub: _i7.Future<_i12.AddUnitModel?>.value(),
-      ) as _i7.Future<_i12.AddUnitModel?>);
+        returnValue: _i7.Future<void>.value(),
+        returnValueForMissingStub: _i7.Future<void>.value(),
+      ) as _i7.Future<void>);
 
   @override
-  _i7.Stream<List<_i15.StudentsRegisteredUnitsModel>> fetchAllMyUnits(
+  _i7.Stream<List<_i14.StudentsRegisteredUnitsModel>> fetchAllMyUnits(
           {required String? semesterStage}) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -1119,8 +1176,8 @@ class MockStudentDashboardService extends _i1.Mock
           {#semesterStage: semesterStage},
         ),
         returnValue:
-            _i7.Stream<List<_i15.StudentsRegisteredUnitsModel>>.empty(),
+            _i7.Stream<List<_i14.StudentsRegisteredUnitsModel>>.empty(),
         returnValueForMissingStub:
-            _i7.Stream<List<_i15.StudentsRegisteredUnitsModel>>.empty(),
-      ) as _i7.Stream<List<_i15.StudentsRegisteredUnitsModel>>);
+            _i7.Stream<List<_i14.StudentsRegisteredUnitsModel>>.empty(),
+      ) as _i7.Stream<List<_i14.StudentsRegisteredUnitsModel>>);
 }

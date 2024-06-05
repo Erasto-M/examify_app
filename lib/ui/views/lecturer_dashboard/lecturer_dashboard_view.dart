@@ -140,33 +140,45 @@ class LecturerDashboardView extends StackedView<LecturerDashboardViewModel> {
                                   ),
                                 ],
                               ),
-                              subtitle:
-                                  viewModel.isContainerHidden(unit.unitId!) ==
-                                          true
-                                      ? const SizedBox()
-                                      : Center(
-                                          child: Container(
-                                              height: 50,
-                                              width: MediaQuery.of(context)
-                                                      .size
-                                                      .width /
-                                                  2,
-                                              decoration: BoxDecoration(
-                                                color: primaryColor,
-                                                borderRadius:
-                                                    BorderRadius.circular(20),
-                                              ),
-                                              child: const Center(
-                                                child: Text(
-                                                  'View Students',
-                                                  style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontSize: 20,
-                                                    fontWeight: FontWeight.bold,
-                                                  ),
+                              subtitle: viewModel
+                                          .isContainerHidden(unit.unitId!) ==
+                                      true
+                                  ? const SizedBox()
+                                  : Center(
+                                      child: InkWell(
+                                        onTap: () {
+                                          viewModel.isContainerHidden(
+                                                      unit.unitId!) ==
+                                                  true
+                                              ? const SizedBox()
+                                              : viewModel
+                                                  .navigateToViewStudents(
+                                                  unitCode: unit.unitCode,
+                                                );
+                                        },
+                                        child: Container(
+                                            height: 50,
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width /
+                                                2,
+                                            decoration: BoxDecoration(
+                                              color: primaryColor,
+                                              borderRadius:
+                                                  BorderRadius.circular(20),
+                                            ),
+                                            child: const Center(
+                                              child: Text(
+                                                'View Students',
+                                                style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 20,
+                                                  fontWeight: FontWeight.bold,
                                                 ),
-                                              )),
-                                        ),
+                                              ),
+                                            )),
+                                      ),
+                                    ),
                             ),
                           );
                         },
