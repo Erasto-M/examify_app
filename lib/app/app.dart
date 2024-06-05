@@ -29,6 +29,7 @@ import 'package:examify/ui/bottom_sheets/edit_unit/edit_unit_sheet.dart';
 
 import 'package:examify/ui/views/users/users_view.dart';
 import 'package:examify/ui/views/lecturer_my_students/lecturer_my_students_view.dart';
+import 'package:examify/ui/bottom_sheets/edit_student_marks/edit_student_marks_sheet.dart';
 // @stacked-import
 
 @StackedApp(
@@ -59,6 +60,7 @@ import 'package:examify/ui/views/lecturer_my_students/lecturer_my_students_view.
     StackedBottomsheet(classType: NoticeSheet),
     StackedBottomsheet(classType: AddUnitSheet),
     StackedBottomsheet(classType: EditUnitSheet),
+    StackedBottomsheet(classType: EditStudentMarksSheet),
 // @stacked-bottom-sheet
   ],
   dialogs: [

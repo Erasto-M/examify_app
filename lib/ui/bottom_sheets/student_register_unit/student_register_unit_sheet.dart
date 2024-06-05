@@ -160,8 +160,7 @@ class StudentRegisterUnitSheet
           Center(
             child: InkWell(
               onTap: () {
-                viewModel.sendUnitsToFirebase(
-                  );
+                viewModel.sendUnitsToFirebase();
                 completer!(SheetResponse(confirmed: true));
               },
               child: Container(
