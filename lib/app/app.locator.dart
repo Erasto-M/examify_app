@@ -6,8 +6,6 @@
 
 // ignore_for_file: public_member_api_docs, implementation_imports, depend_on_referenced_packages
 
-import 'package:examify/services/lecturer_dashboard_service.dart';
-import 'package:examify/services/student_dashboard_service.dart';
 import 'package:stacked_services/src/bottom_sheet/bottom_sheet_service.dart';
 import 'package:stacked_services/src/dialog/dialog_service.dart';
 import 'package:stacked_services/src/navigation/navigation_service.dart';
@@ -32,6 +30,4 @@ Future<void> setupLocator({
   locator.registerLazySingleton(() => NavigationService());
   locator.registerLazySingleton(() => AuthenticationService());
   locator.registerLazySingleton(() => AdminDashboardService());
-  locator.registerLazySingleton(() => StudentDashboardService());
-  locator.registerLazySingleton(() => LecturerDashboardService());
 }

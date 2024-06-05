@@ -1,3 +1,3 @@
 import 'package:stacked/stacked.dart';
 
-class EditStudentMarksSheetModel extends BaseViewModel {}
+class EditStudentMarksSheetModel extends FormViewModel {}

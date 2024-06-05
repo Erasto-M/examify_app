@@ -106,7 +106,10 @@ class LecturerMyStudentsView extends StackedView<LecturerMyStudentsViewModel> {
                                           style: ElevatedButton.styleFrom(
                                             backgroundColor: primaryColor,
                                           ),
-                                          onPressed: () {},
+                                          onPressed: () {
+                                            viewModel
+                                                .openEditStudentMarksSheet();
+                                          },
                                           icon: const Icon(
                                             Icons.edit,
                                             color: Colors.white,

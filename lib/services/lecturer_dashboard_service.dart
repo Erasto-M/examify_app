@@ -54,4 +54,18 @@ class LecturerDashboardService {
     print(students.length);
     return students;
   }
+
+  //update student marks
+  Future updateStudentMarks({
+    required String studentId,
+    required String unitCode,
+    required String marks,
+  }) async {
+    try {
+      await firestore.collection('student_registered_units').doc();
+
+    } catch (e) {
+      Fluttertoast.showToast(msg: e.toString());
+    } catch (e) {}
+  }
 }

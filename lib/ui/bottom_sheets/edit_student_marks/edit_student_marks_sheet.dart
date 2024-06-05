@@ -1,12 +1,24 @@
+import 'package:examify/ui/bottom_sheets/edit_student_marks/edit_student_marks_sheet.form.dart';
 import 'package:flutter/material.dart';
 import 'package:examify/ui/common/app_colors.dart';
 import 'package:examify/ui/common/ui_helpers.dart';
 import 'package:stacked/stacked.dart';
+import 'package:stacked/stacked_annotations.dart';
 import 'package:stacked_services/stacked_services.dart';
 
 import 'edit_student_marks_sheet_model.dart';
 
-class EditStudentMarksSheet extends StackedView<EditStudentMarksSheetModel> {
+@FormView(
+  fields: [
+    FormTextField(name: 'assignment1'),
+    FormTextField(name: 'assignment2'),
+    FormTextField(name: 'cat1'),
+    FormTextField(name: 'cat2'),
+    FormTextField(name: 'examMarks'),
+  ],
+)
+class EditStudentMarksSheet extends StackedView<EditStudentMarksSheetModel>
+    with $EditStudentMarksSheet {
   final Function(SheetResponse response)? completer;
   final SheetRequest request;
   const EditStudentMarksSheet({
@@ -22,6 +34,7 @@ class EditStudentMarksSheet extends StackedView<EditStudentMarksSheetModel> {
     Widget? child,
   ) {
     return Container(
+      width: MediaQuery.of(context).size.width,
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
       decoration: const BoxDecoration(
         color: Colors.white,
@@ -35,8 +48,9 @@ class EditStudentMarksSheet extends StackedView<EditStudentMarksSheetModel> {
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(
-            request.title ?? 'Hello Stacked Sheet!!',
-            style: const TextStyle(fontSize: 25, fontWeight: FontWeight.w900),
+            request.title ?? 'Edit Student Marks',
+            style: const TextStyle(
+                color: primaryColor, fontSize: 25, fontWeight: FontWeight.w900),
           ),
           if (request.description != null) ...[
             verticalSpaceTiny,
@@ -47,7 +61,52 @@ class EditStudentMarksSheet extends StackedView<EditStudentMarksSheetModel> {
               softWrap: true,
             ),
           ],
-          verticalSpaceLarge,
+          verticalSpaceMedium,
+          Form(
+              child: Column(
+            children: [
+              TextFormField(
+                controller: assignment1Controller,
+                decoration: const InputDecoration(labelText: 'Assignment 1'),
+              ),
+              verticalSpaceTiny,
+              TextFormField(
+                controller: assignment2Controller,
+                decoration: const InputDecoration(labelText: 'Assignment 2'),
+              ),
+              verticalSpaceTiny,
+              TextFormField(
+                controller: cat1Controller,
+                decoration: const InputDecoration(labelText: 'Cat 1'),
+              ),
+              verticalSpaceTiny,
+              TextFormField(
+                controller: cat2Controller,
+                decoration: const InputDecoration(labelText: 'Cat 2'),
+              ),
+              verticalSpaceTiny,
+              TextFormField(
+                controller: examMarksController,
+                decoration: const InputDecoration(labelText: 'Exam Marks '),
+              ),
+              verticalSpaceMedium,
+              Container(
+                padding: const EdgeInsets.symmetric(vertical: 10),
+                decoration: BoxDecoration(
+                    color: primaryColor,
+                    borderRadius: BorderRadius.circular(10)),
+                width: MediaQuery.of(context).size.width,
+                child: const Center(
+                    child: Text(
+                  "Submit Marks",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
+                )),
+              )
+            ],
+          )),
         ],
       ),
     );
@@ -56,4 +115,9 @@ class EditStudentMarksSheet extends StackedView<EditStudentMarksSheetModel> {
   @override
   EditStudentMarksSheetModel viewModelBuilder(BuildContext context) =>
       EditStudentMarksSheetModel();
+  @override
+  void onViewModelReady(EditStudentMarksSheetModel viewModel) {
+    syncFormWithViewModel(viewModel);
+    super.onViewModelReady(viewModel);
+  }
 }
