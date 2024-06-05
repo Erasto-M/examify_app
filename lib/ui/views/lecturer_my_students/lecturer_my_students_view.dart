@@ -78,13 +78,74 @@ class LecturerMyStudentsView extends StackedView<LecturerMyStudentsViewModel> {
                         itemBuilder: (context, index) {
                           StudentsRegisteredUnitsModel student =
                               snapshot.data![index];
-                          return Card(
+                          return Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 10, vertical: 5),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(10),
+                              boxShadow: const [
+                                BoxShadow(
+                                  color: Colors.grey,
+                                  blurRadius: 5,
+                                  offset: Offset(0, 3),
+                                )
+                              ],
+                            ),
+                            margin: const EdgeInsets.only(
+                                left: 10, right: 10, bottom: 10),
                             child: ListTile(
-                              title: Text(student.studentName!),
-                              subtitle: Text(student.studentEmail!),
-                              trailing: IconButton(
-                                icon: const Icon(Icons.edit),
-                                onPressed: () {},
+                              title: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    children: [
+                                      Text(student.studentName!),
+                                      const Spacer(),
+                                      IconButton(
+                                          style: ElevatedButton.styleFrom(
+                                            backgroundColor: primaryColor,
+                                          ),
+                                          onPressed: () {},
+                                          icon: const Icon(
+                                            Icons.edit,
+                                            color: Colors.white,
+                                          ))
+                                    ],
+                                  ),
+                                  verticalSpaceTiny,
+                                  Text(student.studentEmail!)
+                                ],
+                              ),
+                              subtitle: Column(
+                                children: [
+                                  Row(
+                                    children: [
+                                      Text(
+                                          "Assign1 : ${student.assignMent1Marks}"),
+                                      const Spacer(),
+                                      Text(
+                                          "Assign2 : ${student.assignMent2Marks}"),
+                                    ],
+                                  ),
+                                  verticalSpaceSmall,
+                                  Row(
+                                    children: [
+                                      Text("cat1 marks: ${student.cat1Marks}"),
+                                      const Spacer(),
+                                      Text("cat2 marks: ${student.cat2Marks}"),
+                                    ],
+                                  ),
+                                  verticalSpaceSmall,
+                                  Row(
+                                    children: [
+                                      Text("Exam marks: ${student.examMarks}"),
+                                      const Spacer(),
+                                      Text(
+                                          "Total marks: ${student.totalMarks}"),
+                                    ],
+                                  ),
+                                ],
                               ),
                             ),
                           );

@@ -23,10 +23,8 @@ class LecturerDashboardService {
           .then((value) {
         value.docs.forEach((element) {
           units.add(AddUnitModel.fromMap(element.data()));
-          unitNames.add(element.data()["unitName"]);
-          unitCodes.add(element.data()["unitCode"]);
-          lecturerName = element.data()["unitLecturerName"];
         });
+        print(units);
       });
     } catch (e) {
       print(e);
