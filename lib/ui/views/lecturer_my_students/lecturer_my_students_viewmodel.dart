@@ -31,19 +31,26 @@ class LecturerMyStudentsViewModel extends BaseViewModel {
     if (_lecturerUnits != null && _lecturerUnits!.isNotEmpty) {
       unitCodes = _lecturerUnits!.map((unit) => unit.unitCode).toList();
       unitNames = _lecturerUnits!.map((unit) => unit.unitName).toList();
+      print("unitcodes: ${unitCodes}");
+      print("unitnames: ${unitNames}");
     }
   }
 
-  Future<List<StudentsRegisteredUnitsModel>> getAllMyStudents(
-      {required String unitCode}) async {
-    return await _lectureDashboardService.getAllMyStudents(unitCode: unitCode);
+  Future<List<StudentsRegisteredUnitsModel>> getAllMyStudents({
+    required String unitCode,
+  }) async {
+    return await _lectureDashboardService.getAllMyStudents(
+        unitCode: unitCode, studentUid: "j9IL4acatPcNKcOv9n0lKtstPlZ2");
   }
 
   // open the bottom sheet to edit the student marks
-  void openEditStudentMarksSheet() {
+  void openEditStudentMarksSheet(
+      {required String unitCode, required String studentId}) {
     _bottomSheetService.showCustomSheet(
       variant: BottomSheetType.editStudentMarks,
       isScrollControlled: true,
+      description: studentId,
+      data: unitCode,
     );
   }
 }

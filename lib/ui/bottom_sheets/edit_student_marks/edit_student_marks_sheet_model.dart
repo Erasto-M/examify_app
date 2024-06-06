@@ -7,11 +7,10 @@ import 'package:stacked/stacked.dart';
 
 class EditStudentMarksSheetModel extends FormViewModel {
   final _lectureDashboardService = locator<LecturerDashboardService>();
-  Future<List<StudentsRegisteredUnitsModel>>? getAllMyStudents() {
-    _lectureDashboardService.getAllMyStudents();
-  }
 
   Future<void> updateStudentMarks({
+    required String unitcode,
+    required String studentUid,
     required String? assignment1,
     required String? assignment2,
     required String? cat1,
@@ -34,6 +33,8 @@ class EditStudentMarksSheetModel extends FormViewModel {
       return;
     } else {
       await _lectureDashboardService.updateStudentMarks(
+          unitCode: unitcode,
+          studentId: studentUid,
           student: StudentsRegisteredUnitsModel(
               assignMent1Marks: int.parse(assignment1!),
               assignMent2Marks: int.parse(assignment2!),

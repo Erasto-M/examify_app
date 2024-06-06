@@ -1,4 +1,6 @@
+import 'package:examify/models/student_registered_units.dart';
 import 'package:examify/ui/bottom_sheets/edit_student_marks/edit_student_marks_sheet.form.dart';
+import 'package:examify/ui/bottom_sheets/student_register_unit/student_register_unit_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:examify/ui/common/app_colors.dart';
 import 'package:examify/ui/common/ui_helpers.dart';
@@ -34,6 +36,7 @@ class EditStudentMarksSheet extends StackedView<EditStudentMarksSheetModel>
     EditStudentMarksSheetModel viewModel,
     Widget? child,
   ) {
+   
     return Container(
       width: MediaQuery.of(context).size.width,
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
@@ -95,7 +98,11 @@ class EditStudentMarksSheet extends StackedView<EditStudentMarksSheetModel>
                   ? const SpinKitSpinningLines(color: primaryColor, size: 70)
                   : InkWell(
                       onTap: () {
+                        print(request.data);
+                        print(request.description!);
                         viewModel.updateStudentMarks(
+                            unitcode: request.data,
+                            studentUid: request.description!,
                             assignment1: assignment1Controller.text,
                             assignment2: assignment2Controller.text,
                             cat1: cat1Controller.text,

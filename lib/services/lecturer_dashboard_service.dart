@@ -34,7 +34,8 @@ class LecturerDashboardService {
 
   //Fetch all Lecturers students
   Future<List<StudentsRegisteredUnitsModel>> getAllMyStudents({
-    String? unitCode,
+    required String unitCode,
+    required String studentUid,
   }) async {
     List<StudentsRegisteredUnitsModel> students = [];
     try {
@@ -42,6 +43,7 @@ class LecturerDashboardService {
           .collection('student_registered_units')
           .where("unitLecturer", isEqualTo: auth.currentUser!.uid)
           .where("unitCode", isEqualTo: unitCode)
+          .where('studentUid', isEqualTo: studentUid)
           .get()
           .then((value) {
         value.docs.forEach((student) {
@@ -57,12 +59,20 @@ class LecturerDashboardService {
 
   //update student marks
   Future updateStudentMarks({
+    required String studentId,
+    required String unitCode,
     required StudentsRegisteredUnitsModel student,
   }) async {
     try {
+      print('studentId FROM VIEWMODEL: $studentId');
+      print('unitCode: $unitCode');
+      print("student Marks: ${student.assignMent1Marks}");
+
       final collection = await firestore
           .collection('student_registered_units')
+          .where("studentUid", isEqualTo: studentId)
           .where("unitLecturer", isEqualTo: auth.currentUser!.uid)
+          .where("unitCode", isEqualTo: unitCode)
           .get();
       for (var doc in collection.docs) {
         await doc.reference.update({

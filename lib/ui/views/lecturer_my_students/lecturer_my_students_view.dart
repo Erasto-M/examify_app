@@ -107,8 +107,9 @@ class LecturerMyStudentsView extends StackedView<LecturerMyStudentsViewModel> {
                                             backgroundColor: primaryColor,
                                           ),
                                           onPressed: () {
-                                            viewModel
-                                                .openEditStudentMarksSheet();
+                                            viewModel.openEditStudentMarksSheet(
+                                                unitCode: student.unitCode!,
+                                                studentId: student.studentUid!);
                                           },
                                           icon: const Icon(
                                             Icons.edit,
