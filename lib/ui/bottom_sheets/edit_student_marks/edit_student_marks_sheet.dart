@@ -2,6 +2,7 @@ import 'package:examify/ui/bottom_sheets/edit_student_marks/edit_student_marks_s
 import 'package:flutter/material.dart';
 import 'package:examify/ui/common/app_colors.dart';
 import 'package:examify/ui/common/ui_helpers.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked/stacked_annotations.dart';
 import 'package:stacked_services/stacked_services.dart';
@@ -90,21 +91,33 @@ class EditStudentMarksSheet extends StackedView<EditStudentMarksSheetModel>
                 decoration: const InputDecoration(labelText: 'Exam Marks '),
               ),
               verticalSpaceMedium,
-              Container(
-                padding: const EdgeInsets.symmetric(vertical: 10),
-                decoration: BoxDecoration(
-                    color: primaryColor,
-                    borderRadius: BorderRadius.circular(10)),
-                width: MediaQuery.of(context).size.width,
-                child: const Center(
-                    child: Text(
-                  "Submit Marks",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                  ),
-                )),
-              )
+              viewModel.isBusy
+                  ? const SpinKitSpinningLines(color: primaryColor, size: 70)
+                  : InkWell(
+                      onTap: () {
+                        viewModel.updateStudentMarks(
+                            assignment1: assignment1Controller.text,
+                            assignment2: assignment2Controller.text,
+                            cat1: cat1Controller.text,
+                            cat2: cat2Controller.text,
+                            examMarks: examMarksController.text);
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(vertical: 10),
+                        decoration: BoxDecoration(
+                            color: primaryColor,
+                            borderRadius: BorderRadius.circular(10)),
+                        width: MediaQuery.of(context).size.width,
+                        child: const Center(
+                            child: Text(
+                          "Submit Marks",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        )),
+                      ),
+                    )
             ],
           )),
         ],

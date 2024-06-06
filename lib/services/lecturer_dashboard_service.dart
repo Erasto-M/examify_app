@@ -34,7 +34,7 @@ class LecturerDashboardService {
 
   //Fetch all Lecturers students
   Future<List<StudentsRegisteredUnitsModel>> getAllMyStudents({
-    required String unitCode,
+    String? unitCode,
   }) async {
     List<StudentsRegisteredUnitsModel> students = [];
     try {
@@ -57,13 +57,25 @@ class LecturerDashboardService {
 
   //update student marks
   Future updateStudentMarks({
-    required String studentId,
-    required String unitCode,
-    required String marks,
+    required StudentsRegisteredUnitsModel student,
   }) async {
     try {
-      await firestore.collection('student_registered_units').doc();
-
+      final collection = await firestore
+          .collection('student_registered_units')
+          .where("unitLecturer", isEqualTo: auth.currentUser!.uid)
+          .get();
+      for (var doc in collection.docs) {
+        await doc.reference.update({
+          "assignMent1Marks": student.assignMent1Marks,
+          "assignMent2Marks": student.assignMent2Marks,
+          "cat1Marks": student.cat1Marks,
+          "cat2Marks": student.cat2Marks,
+          "examMarks": student.examMarks,
+          "totalMarks": student.totalMarks,
+          "grade": student.grade,
+        });
+      }
+      Fluttertoast.showToast(msg: "Marks Updated Successfully");
     } catch (e) {
       Fluttertoast.showToast(msg: e.toString());
     } catch (e) {}
