@@ -9,12 +9,12 @@ import 'package:examify/ui/views/admin_home/admin_home_view.dart' as _i10;
 import 'package:examify/ui/views/admin_manage_course/admin_manage_course_view.dart'
     as _i11;
 import 'package:examify/ui/views/admin_panel/admin_panel_view.dart' as _i7;
+import 'package:examify/ui/views/admin_student_performance/admin_student_performance_view.dart'
+    as _i13;
 import 'package:examify/ui/views/forgot_password/forgot_password_view.dart'
     as _i6;
 import 'package:examify/ui/views/home/home_view.dart' as _i2;
 import 'package:examify/ui/views/lecturer_home/lecturer_home_view.dart' as _i9;
-import 'package:examify/ui/views/lecturer_my_students/lecturer_my_students_view.dart'
-    as _i13;
 import 'package:examify/ui/views/login/login_view.dart' as _i4;
 import 'package:examify/ui/views/register/register_view.dart' as _i5;
 import 'package:examify/ui/views/startup/startup_view.dart' as _i3;
@@ -48,7 +48,7 @@ class Routes {
 
   static const usersView = '/users-view';
 
-  static const lecturerMyStudentsView = '/lecturer-my-students-view';
+  static const adminStudentPerformanceView = '/admin-student-performance-view';
 
   static const all = <String>{
     homeView,
@@ -62,7 +62,7 @@ class Routes {
     adminHomeView,
     adminManageCourseView,
     usersView,
-    lecturerMyStudentsView,
+    adminStudentPerformanceView,
   };
 }
 
@@ -113,8 +113,8 @@ class StackedRouter extends _i1.RouterBase {
       page: _i12.UsersView,
     ),
     _i1.RouteDef(
-      Routes.lecturerMyStudentsView,
-      page: _i13.LecturerMyStudentsView,
+      Routes.adminStudentPerformanceView,
+      page: _i13.AdminStudentPerformanceView,
     ),
   ];
 
@@ -194,11 +194,9 @@ class StackedRouter extends _i1.RouterBase {
         settings: data,
       );
     },
-    _i13.LecturerMyStudentsView: (data) {
-      final args = data.getArgs<LecturerMyStudentsViewArguments>(nullOk: false);
+    _i13.AdminStudentPerformanceView: (data) {
       return _i14.MaterialPageRoute<dynamic>(
-        builder: (context) =>
-            _i13.LecturerMyStudentsView(key: args.key, unitCode: args.unitCode),
+        builder: (context) => const _i13.AdminStudentPerformanceView(),
         settings: data,
       );
     },
@@ -306,33 +304,6 @@ class UsersViewArguments {
   @override
   int get hashCode {
     return key.hashCode ^ user.hashCode;
-  }
-}
-
-class LecturerMyStudentsViewArguments {
-  const LecturerMyStudentsViewArguments({
-    this.key,
-    required this.unitCode,
-  });
-
-  final _i14.Key? key;
-
-  final String unitCode;
-
-  @override
-  String toString() {
-    return '{"key": "$key", "unitCode": "$unitCode"}';
-  }
-
-  @override
-  bool operator ==(covariant LecturerMyStudentsViewArguments other) {
-    if (identical(this, other)) return true;
-    return other.key == key && other.unitCode == unitCode;
-  }
-
-  @override
-  int get hashCode {
-    return key.hashCode ^ unitCode.hashCode;
   }
 }
 
@@ -501,18 +472,14 @@ extension NavigatorStateExtension on _i15.NavigationService {
         transition: transition);
   }
 
-  Future<dynamic> navigateToLecturerMyStudentsView({
-    _i14.Key? key,
-    required String unitCode,
+  Future<dynamic> navigateToAdminStudentPerformanceView([
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
     Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
         transition,
-  }) async {
-    return navigateTo<dynamic>(Routes.lecturerMyStudentsView,
-        arguments:
-            LecturerMyStudentsViewArguments(key: key, unitCode: unitCode),
+  ]) async {
+    return navigateTo<dynamic>(Routes.adminStudentPerformanceView,
         id: routerId,
         preventDuplicates: preventDuplicates,
         parameters: parameters,
@@ -683,18 +650,14 @@ extension NavigatorStateExtension on _i15.NavigationService {
         transition: transition);
   }
 
-  Future<dynamic> replaceWithLecturerMyStudentsView({
-    _i14.Key? key,
-    required String unitCode,
+  Future<dynamic> replaceWithAdminStudentPerformanceView([
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
     Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
         transition,
-  }) async {
-    return replaceWith<dynamic>(Routes.lecturerMyStudentsView,
-        arguments:
-            LecturerMyStudentsViewArguments(key: key, unitCode: unitCode),
+  ]) async {
+    return replaceWith<dynamic>(Routes.adminStudentPerformanceView,
         id: routerId,
         preventDuplicates: preventDuplicates,
         parameters: parameters,
