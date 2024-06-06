@@ -105,7 +105,4 @@ class AppUser {
   static List<Map<String, dynamic>> toJsonList(List<AppUser> users) {
     return users.map((item) => item.toJson()).toList();
   }
-
-  
-
 }

@@ -260,7 +260,7 @@ class AuthenticationService {
     return lecturers;
   }
 
-  //fetch users based on user type 
+  //fetch users based on user type
   Future<List<AppUser>> fetchUsers(String user) async {
     String role = (user == 'Lecturers') ? 'Lecturer' : 'Student';
     List<AppUser> users = [];
@@ -277,5 +277,4 @@ class AuthenticationService {
     }
     return users;
   }
-  
 }

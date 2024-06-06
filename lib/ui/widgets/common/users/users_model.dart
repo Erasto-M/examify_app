@@ -7,6 +7,6 @@ final _navigationService = locator<NavigationService>();
 
 class UsersModel extends BaseViewModel {
   void navigateToUserDetails({required String user}) {
-    _navigationService.navigateToUsersView(user : user);
+    _navigationService.navigateToUsersView(user: user);
   }
 }
