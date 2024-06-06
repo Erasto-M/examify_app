@@ -10,6 +10,7 @@ import 'lecturer_my_students_viewmodel.dart';
 class LecturerMyStudentsView extends StackedView<LecturerMyStudentsViewModel> {
   const LecturerMyStudentsView({Key? key, required this.unitCode});
   final String unitCode;
+  final String studentUid = "j9IL4acatPcNKcOv9n0lKtstPlZ2";
 
   @override
   Widget builder(

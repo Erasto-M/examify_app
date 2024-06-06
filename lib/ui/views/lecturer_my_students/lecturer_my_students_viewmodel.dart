@@ -37,6 +37,7 @@ class LecturerMyStudentsViewModel extends BaseViewModel {
   }
 
   Future<List<StudentsRegisteredUnitsModel>> getAllMyStudents({
+    required String studentUid,
     required String unitCode,
   }) async {
     return await _lectureDashboardService.getAllMyStudents(
