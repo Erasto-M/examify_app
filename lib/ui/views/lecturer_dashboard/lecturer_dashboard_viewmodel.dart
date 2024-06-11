@@ -62,6 +62,8 @@ class LecturerDashboardViewModel extends BaseViewModel {
   //navigate to view my students
   Future navigateToViewStudents({required String unitCode}) async {
     return await _navigationService.navigateToLecturerMyStudentsView(
-        unitCode: unitCode);
+        unitCode: unitCode,
+      
+        );
   }
 }

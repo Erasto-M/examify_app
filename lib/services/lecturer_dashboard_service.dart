@@ -35,7 +35,6 @@ class LecturerDashboardService {
   //Fetch all Lecturers students
   Future<List<StudentsRegisteredUnitsModel>> getAllMyStudents({
     required String unitCode,
-    required String studentUid,
   }) async {
     List<StudentsRegisteredUnitsModel> students = [];
     try {
@@ -43,18 +42,18 @@ class LecturerDashboardService {
           .collection('student_registered_units')
           .where("unitLecturer", isEqualTo: auth.currentUser!.uid)
           .where("unitCode", isEqualTo: unitCode)
-          .where('studentUid', isEqualTo: studentUid)
           .get()
           .then((value) {
         value.docs.forEach((student) {
           students.add(StudentsRegisteredUnitsModel.fromMap(student.data()));
         });
       });
+      return students;
     } catch (e) {
       Fluttertoast.showToast(msg: e.toString());
     }
     print(students.length);
-    return students;
+    return [];
   }
 
   //update student marks
@@ -67,6 +66,12 @@ class LecturerDashboardService {
       print('studentId FROM VIEWMODEL: $studentId');
       print('unitCode: $unitCode');
       print("student Marks: ${student.assignMent1Marks}");
+      print("student Marks: ${student.assignMent2Marks}");
+      print("student Marks: ${student.cat1Marks}");
+      print("student Marks: ${student.cat2Marks}");
+      print("student Marks: ${student.examMarks}");
+      print("student Marks: ${student.totalMarks}");
+      print("student Marks: ${student.grade}");
 
       final collection = await firestore
           .collection('student_registered_units')

@@ -1076,13 +1076,18 @@ class MockLecturerDashboardService extends _i1.Mock
       ) as _i7.Future<List<_i12.AddUnitModel>>);
 
   @override
-  _i7.Future<List<_i14.StudentsRegisteredUnitsModel>> getAllMyStudents(
-          {required String? unitCode}) =>
+  _i7.Future<List<_i14.StudentsRegisteredUnitsModel>> getAllMyStudents({
+    required String? unitCode,
+    required String? studentUid,
+  }) =>
       (super.noSuchMethod(
         Invocation.method(
           #getAllMyStudents,
           [],
-          {#unitCode: unitCode},
+          {
+            #unitCode: unitCode,
+            #studentUid: studentUid,
+          },
         ),
         returnValue: _i7.Future<List<_i14.StudentsRegisteredUnitsModel>>.value(
             <_i14.StudentsRegisteredUnitsModel>[]),
@@ -1090,6 +1095,26 @@ class MockLecturerDashboardService extends _i1.Mock
             _i7.Future<List<_i14.StudentsRegisteredUnitsModel>>.value(
                 <_i14.StudentsRegisteredUnitsModel>[]),
       ) as _i7.Future<List<_i14.StudentsRegisteredUnitsModel>>);
+
+  @override
+  _i7.Future<dynamic> updateStudentMarks({
+    required String? studentId,
+    required String? unitCode,
+    required _i14.StudentsRegisteredUnitsModel? student,
+  }) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #updateStudentMarks,
+          [],
+          {
+            #studentId: studentId,
+            #unitCode: unitCode,
+            #student: student,
+          },
+        ),
+        returnValue: _i7.Future<dynamic>.value(),
+        returnValueForMissingStub: _i7.Future<dynamic>.value(),
+      ) as _i7.Future<dynamic>);
 }
 
 /// A class which mocks [StudentDashboardService].

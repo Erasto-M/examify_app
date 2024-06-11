@@ -154,6 +154,7 @@ class LecturerDashboardView extends StackedView<LecturerDashboardViewModel> {
                                               : viewModel
                                                   .navigateToViewStudents(
                                                   unitCode: unit.unitCode,
+                                                
                                                 );
                                         },
                                         child: Container(

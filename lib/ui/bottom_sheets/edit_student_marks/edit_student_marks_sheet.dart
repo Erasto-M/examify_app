@@ -36,7 +36,6 @@ class EditStudentMarksSheet extends StackedView<EditStudentMarksSheetModel>
     EditStudentMarksSheetModel viewModel,
     Widget? child,
   ) {
-   
     return Container(
       width: MediaQuery.of(context).size.width,
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
@@ -98,16 +97,16 @@ class EditStudentMarksSheet extends StackedView<EditStudentMarksSheetModel>
                   ? const SpinKitSpinningLines(color: primaryColor, size: 70)
                   : InkWell(
                       onTap: () {
-                        print(request.data);
-                        print(request.description!);
                         viewModel.updateStudentMarks(
-                            unitcode: request.data,
-                            studentUid: request.description!,
-                            assignment1: assignment1Controller.text,
-                            assignment2: assignment2Controller.text,
-                            cat1: cat1Controller.text,
-                            cat2: cat2Controller.text,
-                            examMarks: examMarksController.text);
+                          unitcode: request.data,
+                          studentUid: request.description!,
+                          assignment1: assignment1Controller.text,
+                          assignment2: assignment2Controller.text,
+                          cat1: cat1Controller.text,
+                          cat2: cat2Controller.text,
+                          examMarks: examMarksController.text,
+                          context: context,
+                        );
                       },
                       child: Container(
                         padding: const EdgeInsets.symmetric(vertical: 10),

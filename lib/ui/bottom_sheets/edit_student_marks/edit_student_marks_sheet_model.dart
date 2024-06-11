@@ -2,6 +2,7 @@ import 'package:examify/app/app.locator.dart';
 import 'package:examify/models/student_registered_units.dart';
 import 'package:examify/services/lecturer_dashboard_service.dart';
 import 'package:examify/ui/bottom_sheets/edit_student_marks/edit_student_marks_sheet.form.dart';
+import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:stacked/stacked.dart';
 
@@ -16,6 +17,7 @@ class EditStudentMarksSheetModel extends FormViewModel {
     required String? cat1,
     required String? cat2,
     required String? examMarks,
+    required BuildContext context,
   }) async {
     setBusy(true);
     if (assignment1Value!.isEmpty ||
@@ -32,18 +34,69 @@ class EditStudentMarksSheetModel extends FormViewModel {
       setBusy(false);
       return;
     } else {
+      int totalMarks = calculateTotalMarks(
+          assignment1: int.parse(assignment1!),
+          assignment2: int.parse(assignment2!),
+          cat1: int.parse(cat1!),
+          cat2: int.parse(cat2!),
+          examMarks: int.parse(examMarks!));
+      int assign1 = (double.parse(assignment1) / 10 * 5).toInt();
+      int assign2 = (double.parse(assignment2) / 10 * 5).toInt();
+      int combinedCat1 = (double.parse(cat1) / 20 * 15).toInt();
+      int combinedCat2 = (double.parse(cat2) / 20 * 15).toInt();
+      int combinedExamMarks = (double.parse(examMarks) / 100 * 70).toInt();
       await _lectureDashboardService.updateStudentMarks(
           unitCode: unitcode,
           studentId: studentUid,
           student: StudentsRegisteredUnitsModel(
-              assignMent1Marks: int.parse(assignment1!),
-              assignMent2Marks: int.parse(assignment2!),
-              cat1Marks: int.parse(cat1!),
-              cat2Marks: int.parse(cat2!),
-              examMarks: int.parse(examMarks!),
-              totalMarks: 0,
-              grade: "B"));
+              assignMent1Marks: assign1,
+              assignMent2Marks: assign2,
+              cat1Marks: combinedCat1,
+              cat2Marks: combinedCat2,
+              examMarks: combinedExamMarks,
+              totalMarks: totalMarks,
+              grade: calculateGrade(totalMarks: totalMarks)));
+      notifyListeners();
+      Navigator.of(context).pop();
       setBusy(false);
+    }
+  }
+
+  int calculateTotalMarks({
+    required int assignment1,
+    required int assignment2,
+    required int cat1,
+    required int cat2,
+    required int examMarks,
+  }) {
+    //calculate the total marks  such that assignment 1 and 2 should be compiled out of 5 each and cat 1 and 2 should be compiled out of 15 each and exam marks should be compiled out of 70
+    double assignment1Value = assignment1 / 10 * 5;
+    double assignment2Value = assignment2 / 10 * 5;
+    double cat1Value = cat1 / 20 * 15;
+    double cat2Value = cat2 / 20 * 15;
+    double examMarksValue = examMarks / 100 * 70;
+    double totalMarks = assignment1Value +
+        assignment2Value +
+        cat1Value +
+        cat2Value +
+        examMarksValue;
+
+    return totalMarks.round();
+  }
+
+  calculateGrade({required int totalMarks}) {
+    if (totalMarks >= 70 && totalMarks <= 100) {
+      return "A";
+    } else if (totalMarks >= 60 && totalMarks <= 69) {
+      return "B";
+    } else if (totalMarks >= 50 && totalMarks <= 59) {
+      return "C";
+    } else if (totalMarks >= 40 && totalMarks <= 49) {
+      return "D";
+    } else if (totalMarks >= 0 && totalMarks <= 39) {
+      return "E";
+    } else {
+      return;
     }
   }
 }
