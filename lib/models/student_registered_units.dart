@@ -1,6 +1,8 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class StudentsRegisteredUnitsModel {
   final String? unitName;
   final String? unitCode;
@@ -166,6 +168,30 @@ class StudentsRegisteredUnitsModel {
       appliedSpecialExam: map['appliedSpecialExam'] != null
           ? map["appliedSpecialExam"] ?? false as bool
           : null,
+    );
+  }
+  factory StudentsRegisteredUnitsModel.fromDocument(DocumentSnapshot doc) {
+    return StudentsRegisteredUnitsModel(
+      unitName: doc['unitName'],
+      unitCode: doc['unitCode'],
+      unitLecturer: doc['unitLecturer'],
+      unitDepartment: doc['unitDepartment'],
+      semesterStage: doc['semesterStage'],
+      yearOfStudent: doc['yearOfStudent'],
+      studentName: doc['studentName'],
+      studentRegNo: doc['studentRegNo'],
+      studentUid: doc['studentUid'],
+      studentEmail: doc['studentEmail'],
+      studentPhoneNumber: doc['studentPhoneNumber'],
+      studentGender: doc['studentGender'],
+      assignMent1Marks: doc['assignMent1Marks'],
+      assignMent2Marks: doc['assignMent2Marks'],
+      cat1Marks: doc['cat1Marks'],
+      cat2Marks: doc['cat2Marks'],
+      examMarks: doc['examMarks'],
+      totalMarks: doc['totalMarks'],
+      grade: doc['grade'],
+      appliedSpecialExam: doc['appliedSpecialExam'],
     );
   }
 

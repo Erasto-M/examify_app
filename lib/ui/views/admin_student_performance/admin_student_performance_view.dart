@@ -1,23 +1,31 @@
-import 'package:examify/models/usersModel.dart';
-import 'package:examify/ui/common/app_colors.dart';
-import 'package:examify/ui/common/ui_helpers.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 
-import 'users_viewmodel.dart';
+import '../../../models/usersModel.dart';
+import '../../common/app_colors.dart';
+import '../../common/ui_helpers.dart';
+import 'admin_student_performance_viewmodel.dart';
 
-class UsersView extends StackedView<UsersViewModel> {
-  const UsersView({Key? key, required this.user}) : super(key: key);
-
-  final String user;
+class AdminStudentPerformanceView
+    extends StackedView<AdminStudentPerformanceViewModel> {
+  const AdminStudentPerformanceView({Key? key, required this.yearName})
+      : super(key: key);
+  final String yearName;
 
   @override
   Widget builder(
     BuildContext context,
-    UsersViewModel viewModel,
+    AdminStudentPerformanceViewModel viewModel,
     Widget? child,
   ) {
     List<AppUser> users = viewModel.users;
+    String currentYearName = yearName.endsWith("one")
+        ? "Y1"
+        : yearName.endsWith("two")
+            ? "Y2"
+            : yearName.endsWith("three")
+                ? "Y3"
+                : "Y4";
 
     return SafeArea(
       child: Scaffold(
@@ -41,7 +49,7 @@ class UsersView extends StackedView<UsersViewModel> {
                       },
                     ),
                     Text(
-                      user,
+                      "Student Performance",
                       style: Theme.of(context).textTheme.bodyLarge,
                     ),
                     const SizedBox(width: 50),
@@ -49,12 +57,12 @@ class UsersView extends StackedView<UsersViewModel> {
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Text("Users",
+                  child: Text("$yearName Students",
                       style: Theme.of(context).textTheme.titleLarge),
                 ),
                 ListView(
                     shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
+                    physics: const NeverScrollableScrollPhysics(),
                     children: users.map((user) {
                       return Container(
                         padding: const EdgeInsets.all(10.0),
@@ -76,40 +84,31 @@ class UsersView extends StackedView<UsersViewModel> {
                               "Email: ${user.email}",
                               style: Theme.of(context).textTheme.bodySmall,
                             ),
-                            verticalSpaceSmall,
-                            Text(
-                              "Phone Number: ${user.phoneNumber}",
-                              style: Theme.of(context).textTheme.bodySmall,
-                            ),
-                            verticalSpaceSmall,
-                            Text(
-                              "Role: ${user.role}",
-                              style: Theme.of(context).textTheme.bodySmall,
-                            ),
-                            verticalSpaceSmall,
-                            Text(
-                              "User ID: ${user.userId}",
-                              style: Theme.of(context).textTheme.bodySmall,
-                            ),
-                            //row to have buttons to either email and call user
+                            verticalSpaceMedium,
+                            const Text("View Performance"),
                             Row(
                               mainAxisSize: MainAxisSize.min,
                               children: [
                                 ElevatedButton(
                                   onPressed: () {
-                                    viewModel.email(
-                                      email: user.email,
+                                    viewModel
+                                        .checkPerformanceBasedOnCurrentYear(
+                                      semesterStage: "${currentYearName}S1",
+                                      studentUid: user.userId,
                                     );
                                   },
-                                  child: const Text('Email'),
+                                  child: Text("${currentYearName}S1"),
                                 ),
                                 horizontalSpaceMedium,
                                 ElevatedButton(
                                   onPressed: () {
-                                    viewModel.call(
-                                        phoneNumber: user.phoneNumber);
+                                    viewModel
+                                        .checkPerformanceBasedOnCurrentYear(
+                                      semesterStage: "${currentYearName}S2",
+                                      studentUid: user.userId,
+                                    );
                                   },
-                                  child: const Text('Call'),
+                                  child: Text("${currentYearName}S2"),
                                 ),
                               ],
                             ),
@@ -126,13 +125,14 @@ class UsersView extends StackedView<UsersViewModel> {
   }
 
   @override
-  UsersViewModel viewModelBuilder(
+  AdminStudentPerformanceViewModel viewModelBuilder(
     BuildContext context,
   ) =>
-      UsersViewModel();
+      AdminStudentPerformanceViewModel();
+
   @override
-  void onViewModelReady(UsersViewModel viewModel) {
-    viewModel.fetchUsers(user);
+  void onViewModelReady(AdminStudentPerformanceViewModel viewModel) {
+    viewModel.fetchUsers();
     super.onViewModelReady(viewModel);
   }
 }
