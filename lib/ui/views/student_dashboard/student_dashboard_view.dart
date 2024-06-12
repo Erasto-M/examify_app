@@ -123,6 +123,7 @@ class StudentDashboardView extends StackedView<StudentDashboardViewModel> {
               verticalSpaceSmall,
               // Courses List
               Expanded(
+                flex: 3,
                 child: viewModel.isBusy
                     ? const SpinKitSpinningLines(color: primaryColor)
                     : StreamBuilder(

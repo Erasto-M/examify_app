@@ -26,6 +26,7 @@ class AuthenticationService {
     required String phoneNumber,
     required String gender,
     required String password,
+    required String yearOfStudy,
   }) async {
     try {
       //register user
@@ -42,6 +43,7 @@ class AuthenticationService {
           'role': role,
           'phoneNumber': phoneNumber,
           'userId': value.user!.uid,
+          "yearOfStudy": yearOfStudy,
         });
       }).then((value) {
         //send verification email

@@ -129,9 +129,6 @@ class LoginView extends StackedView<LoginViewModel> with $LoginView {
                                     color: primaryColor, size: 80)
                                 : InkWell(
                                     onTap: () {
-                                      if (formKey.currentState!.validate()) {
-                                        return;
-                                      }
                                       viewModel.loginUser(
                                         email: loginemailController.text,
                                         password: loginpasswordController.text,

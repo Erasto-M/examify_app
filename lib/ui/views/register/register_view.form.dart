@@ -17,6 +17,7 @@ const String PhoneNumberValueKey = 'Phone Number';
 const String GenderValueKey = 'Gender';
 const String RoleValueKey = 'Role';
 const String PasswordValueKey = 'Password';
+const String YearOfStudyValueKey = 'Year of study';
 const String ConfirmPasswordValueKey = 'Confirm Password';
 
 final Map<String, TextEditingController> _RegisterViewTextEditingControllers =
@@ -31,6 +32,7 @@ final Map<String, String? Function(String?)?> _RegisterViewTextValidations = {
   GenderValueKey: null,
   RoleValueKey: null,
   PasswordValueKey: null,
+  YearOfStudyValueKey: null,
   ConfirmPasswordValueKey: null,
 };
 
@@ -47,6 +49,8 @@ mixin $RegisterView {
       _getFormTextEditingController(RoleValueKey);
   TextEditingController get passwordController =>
       _getFormTextEditingController(PasswordValueKey);
+  TextEditingController get yearOfStudyController =>
+      _getFormTextEditingController(YearOfStudyValueKey);
   TextEditingController get confirmPasswordController =>
       _getFormTextEditingController(ConfirmPasswordValueKey);
 
@@ -56,6 +60,7 @@ mixin $RegisterView {
   FocusNode get genderFocusNode => _getFormFocusNode(GenderValueKey);
   FocusNode get roleFocusNode => _getFormFocusNode(RoleValueKey);
   FocusNode get passwordFocusNode => _getFormFocusNode(PasswordValueKey);
+  FocusNode get yearOfStudyFocusNode => _getFormFocusNode(YearOfStudyValueKey);
   FocusNode get confirmPasswordFocusNode =>
       _getFormFocusNode(ConfirmPasswordValueKey);
 
@@ -89,6 +94,7 @@ mixin $RegisterView {
     genderController.addListener(() => _updateFormData(model));
     roleController.addListener(() => _updateFormData(model));
     passwordController.addListener(() => _updateFormData(model));
+    yearOfStudyController.addListener(() => _updateFormData(model));
     confirmPasswordController.addListener(() => _updateFormData(model));
 
     _updateFormData(model, forceValidate: _autoTextFieldValidation);
@@ -107,6 +113,7 @@ mixin $RegisterView {
     genderController.addListener(() => _updateFormData(model));
     roleController.addListener(() => _updateFormData(model));
     passwordController.addListener(() => _updateFormData(model));
+    yearOfStudyController.addListener(() => _updateFormData(model));
     confirmPasswordController.addListener(() => _updateFormData(model));
 
     _updateFormData(model, forceValidate: _autoTextFieldValidation);
@@ -123,6 +130,7 @@ mixin $RegisterView {
           GenderValueKey: genderController.text,
           RoleValueKey: roleController.text,
           PasswordValueKey: passwordController.text,
+          YearOfStudyValueKey: yearOfStudyController.text,
           ConfirmPasswordValueKey: confirmPasswordController.text,
         }),
     );
@@ -172,6 +180,8 @@ extension ValueProperties on FormStateHelper {
   String? get genderValue => this.formValueMap[GenderValueKey] as String?;
   String? get roleValue => this.formValueMap[RoleValueKey] as String?;
   String? get passwordValue => this.formValueMap[PasswordValueKey] as String?;
+  String? get yearOfStudyValue =>
+      this.formValueMap[YearOfStudyValueKey] as String?;
   String? get confirmPasswordValue =>
       this.formValueMap[ConfirmPasswordValueKey] as String?;
 
@@ -236,6 +246,17 @@ extension ValueProperties on FormStateHelper {
     }
   }
 
+  set yearOfStudyValue(String? value) {
+    this.setData(
+      this.formValueMap..addAll({YearOfStudyValueKey: value}),
+    );
+
+    if (_RegisterViewTextEditingControllers.containsKey(YearOfStudyValueKey)) {
+      _RegisterViewTextEditingControllers[YearOfStudyValueKey]?.text =
+          value ?? '';
+    }
+  }
+
   set confirmPasswordValue(String? value) {
     this.setData(
       this.formValueMap..addAll({ConfirmPasswordValueKey: value}),
@@ -266,6 +287,9 @@ extension ValueProperties on FormStateHelper {
   bool get hasPassword =>
       this.formValueMap.containsKey(PasswordValueKey) &&
       (passwordValue?.isNotEmpty ?? false);
+  bool get hasYearOfStudy =>
+      this.formValueMap.containsKey(YearOfStudyValueKey) &&
+      (yearOfStudyValue?.isNotEmpty ?? false);
   bool get hasConfirmPassword =>
       this.formValueMap.containsKey(ConfirmPasswordValueKey) &&
       (confirmPasswordValue?.isNotEmpty ?? false);
@@ -282,6 +306,8 @@ extension ValueProperties on FormStateHelper {
       this.fieldsValidationMessages[RoleValueKey]?.isNotEmpty ?? false;
   bool get hasPasswordValidationMessage =>
       this.fieldsValidationMessages[PasswordValueKey]?.isNotEmpty ?? false;
+  bool get hasYearOfStudyValidationMessage =>
+      this.fieldsValidationMessages[YearOfStudyValueKey]?.isNotEmpty ?? false;
   bool get hasConfirmPasswordValidationMessage =>
       this.fieldsValidationMessages[ConfirmPasswordValueKey]?.isNotEmpty ??
       false;
@@ -298,6 +324,8 @@ extension ValueProperties on FormStateHelper {
       this.fieldsValidationMessages[RoleValueKey];
   String? get passwordValidationMessage =>
       this.fieldsValidationMessages[PasswordValueKey];
+  String? get yearOfStudyValidationMessage =>
+      this.fieldsValidationMessages[YearOfStudyValueKey];
   String? get confirmPasswordValidationMessage =>
       this.fieldsValidationMessages[ConfirmPasswordValueKey];
 }
@@ -315,6 +343,8 @@ extension Methods on FormStateHelper {
       this.fieldsValidationMessages[RoleValueKey] = validationMessage;
   setPasswordValidationMessage(String? validationMessage) =>
       this.fieldsValidationMessages[PasswordValueKey] = validationMessage;
+  setYearOfStudyValidationMessage(String? validationMessage) =>
+      this.fieldsValidationMessages[YearOfStudyValueKey] = validationMessage;
   setConfirmPasswordValidationMessage(String? validationMessage) =>
       this.fieldsValidationMessages[ConfirmPasswordValueKey] =
           validationMessage;
@@ -327,6 +357,7 @@ extension Methods on FormStateHelper {
     genderValue = '';
     roleValue = '';
     passwordValue = '';
+    yearOfStudyValue = '';
     confirmPasswordValue = '';
   }
 
@@ -339,6 +370,7 @@ extension Methods on FormStateHelper {
       GenderValueKey: getValidationMessage(GenderValueKey),
       RoleValueKey: getValidationMessage(RoleValueKey),
       PasswordValueKey: getValidationMessage(PasswordValueKey),
+      YearOfStudyValueKey: getValidationMessage(YearOfStudyValueKey),
       ConfirmPasswordValueKey: getValidationMessage(ConfirmPasswordValueKey),
     });
   }
@@ -365,5 +397,6 @@ void updateValidationData(FormStateHelper model) =>
       GenderValueKey: getValidationMessage(GenderValueKey),
       RoleValueKey: getValidationMessage(RoleValueKey),
       PasswordValueKey: getValidationMessage(PasswordValueKey),
+      YearOfStudyValueKey: getValidationMessage(YearOfStudyValueKey),
       ConfirmPasswordValueKey: getValidationMessage(ConfirmPasswordValueKey),
     });

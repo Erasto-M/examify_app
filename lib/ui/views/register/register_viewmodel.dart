@@ -83,6 +83,36 @@ class RegisterViewModel extends FormViewModel {
     );
   }
 
+  //select year of study
+  int? _selectedYear;
+  int? get selectedYear => _selectedYear;
+  List<int> years = [1, 2, 3, 4, 5];
+  void selectyear(BuildContext context, TextEditingController yearController) {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return Container(
+          child: ListView.builder(
+            shrinkWrap: true,
+            itemCount: years.length,
+            itemBuilder: (BuildContext context, int index) {
+              int valueItem = years[index];
+              return ListTile(
+                title: Text(valueItem.toString()),
+                onTap: () {
+                  _selectedYear = valueItem;
+                  yearController.text = valueItem.toString();
+                  notifyListeners();
+                  Navigator.pop(context);
+                },
+              );
+            },
+          ),
+        );
+      },
+    );
+  }
+
   //navigate to login
   Future<void> navigateToLogin() async {
     await _navigationService.navigateToLoginView();
@@ -97,6 +127,7 @@ class RegisterViewModel extends FormViewModel {
     required String gender,
     required String password,
     required String confirmPassword,
+    required String yearOfStudy,
   }) async {
     setBusy(true);
     if (passwordValue != confirmPasswordValue) {
@@ -119,6 +150,10 @@ class RegisterViewModel extends FormViewModel {
         confirmPasswordValue! == '') {
       Fluttertoast.showToast(msg: 'All fields are required');
       setBusy(false);
+    } else if (roleValue == 'Student' &&
+        (yearOfStudyValue == null || yearOfStudyValue == '')) {
+      Fluttertoast.showToast(msg: 'Year of study is required');
+      setBusy(false);
     } else {
       await _authenticationService.createUser(
         email: email,
@@ -127,6 +162,7 @@ class RegisterViewModel extends FormViewModel {
         phoneNumber: phoneNumber,
         gender: gender,
         password: password,
+        yearOfStudy: yearOfStudy,
       );
       notifyListeners();
       setBusy(false);
