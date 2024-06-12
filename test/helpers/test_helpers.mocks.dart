@@ -1076,18 +1076,13 @@ class MockLecturerDashboardService extends _i1.Mock
       ) as _i7.Future<List<_i12.AddUnitModel>>);
 
   @override
-  _i7.Future<List<_i14.StudentsRegisteredUnitsModel>> getAllMyStudents({
-    required String? unitCode,
-    required String? studentUid,
-  }) =>
+  _i7.Future<List<_i14.StudentsRegisteredUnitsModel>> getAllMyStudents(
+          {required String? unitCode}) =>
       (super.noSuchMethod(
         Invocation.method(
           #getAllMyStudents,
           [],
-          {
-            #unitCode: unitCode,
-            #studentUid: studentUid,
-          },
+          {#unitCode: unitCode},
         ),
         returnValue: _i7.Future<List<_i14.StudentsRegisteredUnitsModel>>.value(
             <_i14.StudentsRegisteredUnitsModel>[]),

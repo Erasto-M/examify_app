@@ -15,6 +15,7 @@ import 'register_viewmodel.dart';
   FormTextField(name: "Gender"),
   FormTextField(name: "Role"),
   FormTextField(name: "Password"),
+  FormTextField(name: "Year of study"),
   FormTextField(name: "Confirm Password"),
 ])
 class RegisterView extends StackedView<RegisterViewModel> with $RegisterView {
@@ -174,6 +175,31 @@ class RegisterView extends StackedView<RegisterViewModel> with $RegisterView {
                                       borderRadius: BorderRadius.circular(10))),
                             ),
                             verticalSpaceTiny,
+                            if (roleController.text == 'Student')
+                              TextFormField(
+                                validator: (value) {
+                                  if (value!.isEmpty || value == '') {
+                                    return "Year of study is required";
+                                  }
+                                  return '';
+                                },
+                                controller: yearOfStudyController,
+                                readOnly: true,
+                                onTap: () {
+                                  viewModel.selectyear(
+                                      context, yearOfStudyController);
+                                },
+                                decoration: InputDecoration(
+                                    hintText: "Year of study",
+                                    suffixIcon:
+                                        const Icon(Icons.arrow_drop_down),
+                                    prefixIcon:
+                                        const Icon(Icons.calendar_today),
+                                    border: OutlineInputBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(10))),
+                              ),
+                            verticalSpaceTiny,
                             TextFormField(
                               validator: (value) {
                                 if (value!.isEmpty || value == '') {
@@ -219,9 +245,6 @@ class RegisterView extends StackedView<RegisterViewModel> with $RegisterView {
                                   )
                                 : InkWell(
                                     onTap: () {
-                                      if (formKey.currentState!.validate()) {
-                                        return;
-                                      }
                                       viewModel.createUser(
                                           email: emailController.text,
                                           userName: nameController.text,
@@ -229,6 +252,8 @@ class RegisterView extends StackedView<RegisterViewModel> with $RegisterView {
                                           phoneNumber:
                                               phoneNumberController.text,
                                           gender: genderController.text,
+                                          yearOfStudy:
+                                              yearOfStudyController.text,
                                           password: passwordController.text,
                                           confirmPassword:
                                               confirmPasswordController.text);
