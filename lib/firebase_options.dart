@@ -65,4 +65,5 @@ class DefaultFirebaseOptions {
     projectId: 'examify-app-75f38',
     storageBucket: 'examify-app-75f38.appspot.com',
   );
+
 }

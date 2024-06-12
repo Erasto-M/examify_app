@@ -178,7 +178,7 @@ class AuthenticationService {
                     builder: (context) => const LecturerHomeView(),
                   ),
                 );
-              } else {
+              } else if (value.data()!['role'] == "Admin") {
                 Navigator.of(context).pushReplacement(
                   MaterialPageRoute(
                     builder: (context) => const AdminHomeView(),
@@ -260,7 +260,7 @@ class AuthenticationService {
     return lecturers;
   }
 
-  //fetch users based on user type 
+  //fetch users based on user type
   Future<List<AppUser>> fetchUsers(String user) async {
     String role = (user == 'Lecturers') ? 'Lecturer' : 'Student';
     List<AppUser> users = [];
@@ -277,5 +277,4 @@ class AuthenticationService {
     }
     return users;
   }
-  
 }

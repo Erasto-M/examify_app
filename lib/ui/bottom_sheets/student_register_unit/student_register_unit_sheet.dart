@@ -160,12 +160,7 @@ class StudentRegisterUnitSheet
           Center(
             child: InkWell(
               onTap: () {
-                viewModel.sendUnitsToFirebase(
-                    unitName: unitName!,
-                    unitCode: unitCode!,
-                    unitLecturer: unitLecturer!,
-                    semesterStage: semesterStage!,
-                    appliedSpecial: appliedSpecial);
+                viewModel.sendUnitsToFirebase();
                 completer!(SheetResponse(confirmed: true));
               },
               child: Container(

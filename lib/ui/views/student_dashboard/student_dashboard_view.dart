@@ -154,8 +154,8 @@ class StudentDashboardView extends StackedView<StudentDashboardViewModel> {
                                   return Container(
                                     margin: const EdgeInsets.only(bottom: 10),
                                     padding: const EdgeInsets.all(10),
-                                    height: MediaQuery.of(context).size.height /
-                                        6.8,
+                                    height:
+                                        MediaQuery.of(context).size.height / 6,
                                     width: MediaQuery.of(context).size.width,
                                     decoration: BoxDecoration(
                                       color: Colors.white,
@@ -170,11 +170,12 @@ class StudentDashboardView extends StackedView<StudentDashboardViewModel> {
                                       ],
                                     ),
                                     child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
                                         Row(
                                           children: [
-                                            Text(
-                                                "${unit.unitCode} - ${unit.unitName}"),
+                                            Text("${unit.unitCode}"),
                                             const Spacer(),
                                             IconButton(
                                                 onPressed: () {},
@@ -182,7 +183,8 @@ class StudentDashboardView extends StackedView<StudentDashboardViewModel> {
                                                     .arrow_circle_up_outlined)),
                                           ],
                                         ),
-                                        verticalSpaceTiny,
+                                        Text("${unit.unitName}"),
+                                        verticalSpaceSmall,
                                         Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.center,
@@ -199,11 +201,6 @@ class StudentDashboardView extends StackedView<StudentDashboardViewModel> {
                                               ),
                                               child: const Column(
                                                 children: [
-                                                  Icon(
-                                                    Icons.remove,
-                                                    size: 10,
-                                                    color: Colors.white,
-                                                  ),
                                                   Text(
                                                     "Drop Course",
                                                     style: TextStyle(
