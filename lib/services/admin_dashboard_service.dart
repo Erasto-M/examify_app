@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 import '../models/addUnit.dart';
+import '../models/student_registered_units.dart';
 
 class AdminDashboardService {
   FirebaseFirestore db = FirebaseFirestore.instance;
@@ -52,5 +53,19 @@ class AdminDashboardService {
     } catch (e) {
       // Handle error
     } finally {}
+  }
+  Stream<List<StudentsRegisteredUnitsModel>> getStudentUnits(String semesterStage, String studentUid) {
+    return db
+        .collection('student_registered_units')
+        .where('semesterStage', isEqualTo: semesterStage)
+        .where('studentUid', isEqualTo: studentUid)
+        .snapshots()
+        .map((QuerySnapshot query) {
+      List<StudentsRegisteredUnitsModel> units = [];
+      for (var doc in query.docs) {
+        units.add(StudentsRegisteredUnitsModel.fromDocument(doc));
+      }
+      return units;
+    });
   }
 }

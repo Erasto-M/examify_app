@@ -6,6 +6,7 @@ import 'package:stacked_services/stacked_services.dart';
 class TranscriptsModel extends BaseViewModel {
   final _navigationService = locator<NavigationService>();
   void navigateToTranscriptDetails({required String yearName}) {
-    _navigationService.navigateToAdminStudentPerformanceView();
+    _navigationService.navigateToAdminStudentPerformanceView(
+        yearName: yearName);
   }
 }

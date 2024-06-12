@@ -29,6 +29,7 @@ import 'package:examify/ui/bottom_sheets/edit_unit/edit_unit_sheet.dart';
 
 import 'package:examify/ui/views/users/users_view.dart';
 import 'package:examify/ui/views/admin_student_performance/admin_student_performance_view.dart';
+import 'package:examify/ui/views/admin_student_performance_details/admin_student_performance_details_view.dart';
 import 'package:examify/ui/views/lecturer_my_students/lecturer_my_students_view.dart';
 import 'package:examify/ui/bottom_sheets/edit_student_marks/edit_student_marks_sheet.dart';
 // @stacked-import
@@ -47,6 +48,7 @@ import 'package:examify/ui/bottom_sheets/edit_student_marks/edit_student_marks_s
     MaterialRoute(page: AdminManageCourseView),
     MaterialRoute(page: UsersView),
     MaterialRoute(page: AdminStudentPerformanceView),
+    MaterialRoute(page: AdminStudentPerformanceDetailsView),
     MaterialRoute(page: LecturerMyStudentsView),
 // @stacked-route
   ],
