@@ -67,7 +67,7 @@ class UsersView extends StackedView<UsersViewModel> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              "Username: ${user.userName}",
+                              "Name: ${user.userName}",
                               style: Theme.of(context).textTheme.titleLarge,
                             ),
                             verticalSpaceSmall,
