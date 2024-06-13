@@ -279,4 +279,21 @@ class AuthenticationService {
     }
     return users;
   }
+  //fetch users based on user type
+  Future<List<AppUser>> fetchStudentsAccordingToYear({required String yearName}) async {
+    List<AppUser> users = [];
+    try {
+      QuerySnapshot querySnapshot = await firestore
+          .collection('users')
+          .where('role', isEqualTo: 'Student')
+          .where('yearOfStudy', isEqualTo: yearName)
+          .get();
+      querySnapshot.docs.forEach((element) {
+        users.add(AppUser.fromMap(element.data() as Map<String, dynamic>));
+      });
+    } catch (e) {
+      Fluttertoast.showToast(msg: e.toString());
+    }
+    return users;
+  }
 }

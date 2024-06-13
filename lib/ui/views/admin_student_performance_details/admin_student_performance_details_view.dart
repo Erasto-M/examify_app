@@ -159,6 +159,13 @@ class _AdminStudentPerformanceDetailsViewState
                                             fontWeight: FontWeight.normal,
                                           ),
                                         ),
+                                        Text(
+                                          'Exam: ${unit.examMarks}',
+                                          style: const TextStyle(
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.normal,
+                                          ),
+                                        ),
                                       ],
                                     ),
                                     const SizedBox(height: 10),

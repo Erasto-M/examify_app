@@ -132,7 +132,7 @@ class AdminStudentPerformanceView
 
   @override
   void onViewModelReady(AdminStudentPerformanceViewModel viewModel) {
-    viewModel.fetchUsers();
+    viewModel.fetchUsers(yearName: yearName);
     super.onViewModelReady(viewModel);
   }
 }

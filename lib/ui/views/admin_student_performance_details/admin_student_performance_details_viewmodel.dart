@@ -43,7 +43,7 @@ class AdminStudentPerformanceDetailsViewModel extends BaseViewModel {
     final totalMarksList = units.map((unit) => unit.totalMarks).toList();
     // Feed the totalMarksList to your recommendation model or service
     final model = GenerativeModel(model: 'gemini-1.5-flash', apiKey: "AIzaSyAPyNw4jkSHZWCN7Kgln5jMHV5aMqkDYDE");
-    final prompt = 'Recommended performance in 2 lines based on the following marks: ${totalMarksList.join(", ")}.';
+    final prompt = 'Recommended performance in 2 lines based on the following marks: ${totalMarksList.join(", ")}and if all marks are zero just so NO MARKS FOR THIS STUDENT.';
     final content = [Content.text(prompt)];
     final response = await model.generateContent(content);
     _recommendationText = response.text;
