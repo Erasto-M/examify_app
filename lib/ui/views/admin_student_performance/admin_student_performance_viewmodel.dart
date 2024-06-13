@@ -14,8 +14,15 @@ class AdminStudentPerformanceViewModel extends BaseViewModel {
 
   get users => usersList;
 
-  Future<void> fetchUsers() async {
-    usersList = await _authService.fetchUsers("Students");
+  Future<void> fetchUsers({required String yearName}) async {
+    String currentYearName = yearName.endsWith("one")
+        ? "Y1"
+        : yearName.endsWith("two")
+        ? "Y2"
+        : yearName.endsWith("three")
+        ? "Y3"
+        : "Y4";
+    usersList = await _authService.fetchStudentsAccordingToYear(yearName: currentYearName);
     notifyListeners();
   }
 
