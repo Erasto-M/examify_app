@@ -49,7 +49,4 @@ class AdminStudentPerformanceDetailsViewModel extends BaseViewModel {
     _recommendationText = response.text;
     notifyListeners();
   }
-
-
-
 }
