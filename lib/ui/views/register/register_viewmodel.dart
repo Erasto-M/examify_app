@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:examify/app/app.locator.dart';
 import 'package:examify/app/app.router.dart';
 import 'package:examify/services/authentication_service.dart';
@@ -84,9 +86,9 @@ class RegisterViewModel extends FormViewModel {
   }
 
   //select year of study
-  int? _selectedYear;
-  int? get selectedYear => _selectedYear;
-  List<int> years = [1, 2, 3, 4, 5];
+  String? _selectedYear;
+  String? get selectedYear => _selectedYear;
+  List<String> years = ["Y1", "Y2", "Y3", "Y4", "Y5"];
   void selectyear(BuildContext context, TextEditingController yearController) {
     showModalBottomSheet(
       context: context,
@@ -96,7 +98,7 @@ class RegisterViewModel extends FormViewModel {
             shrinkWrap: true,
             itemCount: years.length,
             itemBuilder: (BuildContext context, int index) {
-              int valueItem = years[index];
+              String valueItem = years[index];
               return ListTile(
                 title: Text(valueItem.toString()),
                 onTap: () {
