@@ -48,7 +48,7 @@ class AdminStudentPerformanceView
                   ),
                   Text(
                     "Student Performance",
-                    style: Theme.of(context).textTheme.headline6,
+                    style: Theme.of(context).textTheme.titleMedium,
                   ),
                   const SizedBox(width: 50),
                 ],
@@ -57,7 +57,7 @@ class AdminStudentPerformanceView
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
                   "$yearName Students",
-                  style: Theme.of(context).textTheme.headline5,
+                  style: Theme.of(context).textTheme.titleMedium,
                 ),
               ),
               Padding(
@@ -112,12 +112,12 @@ class AdminStudentPerformanceView
                         children: [
                           Text(
                             "Name: ${user.userName}",
-                            style: Theme.of(context).textTheme.subtitle1,
+                            style: Theme.of(context).textTheme.bodyMedium,
                           ),
                           verticalSpaceSmall,
                           Text(
                             "Email: ${user.email}",
-                            style: Theme.of(context).textTheme.bodyText2,
+                            style: Theme.of(context).textTheme.bodyMedium,
                           ),
                           verticalSpaceMedium,
                           const Text("View Performance"),
