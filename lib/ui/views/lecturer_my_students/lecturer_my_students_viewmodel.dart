@@ -59,13 +59,7 @@ class LecturerMyStudentsViewModel extends BaseViewModel {
       variant: BottomSheetType.editStudentMarks,
       isScrollControlled: true,
       description: studentId,
-      data: {
-        'assignment1': assignment1,
-        'assignment2': assignment2,
-        'cat1': cat1,
-        'cat2': cat2,
-        'examMarks': examMarks
-      },
+      data: unitCode,
     );
   }
 }

@@ -27,15 +27,13 @@ class EditStudentMarksSheet extends StackedView<EditStudentMarksSheetModel>
     required this.completer,
     required this.request,
   }) : super(key: key);
-   
-  
+
   @override
   Widget builder(
     BuildContext context,
     EditStudentMarksSheetModel viewModel,
     Widget? child,
   ) {
-  
     return Container(
       width: MediaQuery.of(context).size.width,
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
@@ -100,10 +98,9 @@ class EditStudentMarksSheet extends StackedView<EditStudentMarksSheetModel>
               viewModel.isBusy
                   ? const SpinKitSpinningLines(color: primaryColor, size: 70)
                   : InkWell(
-
                       onTap: () {
-                        viewModel.adminUpdateStudentMarks(
-
+                        viewModel
+                            .adminUpdateStudentMarks(
                           unitcode: request.data,
                           studentUid: request.description!,
                           assignment1: assignment1Controller.text,
@@ -152,5 +149,4 @@ class EditStudentMarksSheet extends StackedView<EditStudentMarksSheetModel>
     syncFormWithViewModel(viewModel);
     super.onViewModelReady(viewModel);
   }
-  
 }

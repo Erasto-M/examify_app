@@ -55,7 +55,7 @@ class ProfileContainer extends StackedView<ProfileContainerModel> {
                         email,
                         style: const TextStyle(
                           color: Colors.white,
-                          fontSize: 15,
+                          fontSize: 10,
                         ),
                       ),
                     ],

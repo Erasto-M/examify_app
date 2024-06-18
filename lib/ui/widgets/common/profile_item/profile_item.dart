@@ -25,7 +25,7 @@ class ProfileItem extends StackedView<ProfileItemModel> {
         Text(
           itemName,
           style: const TextStyle(
-            fontSize: 15,
+            fontSize: 10,
             fontWeight: FontWeight.normal,
           ),
         ),
