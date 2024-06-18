@@ -63,7 +63,7 @@ class StudentDashboardView extends StackedView<StudentDashboardViewModel> {
                           "${now.day}-${now.month}-${now.year}  ${now.hour}: ${now.minute} ${now.hour > 12 ? "PM" : "AM"}",
                           style: const TextStyle(
                             color: Colors.white,
-                            fontSize: 18,
+                            fontSize: 14,
                           ),
                         ),
                       ],
