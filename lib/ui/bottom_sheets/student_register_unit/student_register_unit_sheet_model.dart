@@ -4,7 +4,10 @@ import 'package:examify/models/addUnit.dart';
 import 'package:examify/models/student_registered_units.dart';
 import 'package:examify/services/authentication_service.dart';
 import 'package:examify/services/student_dashboard_service.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:provider/provider.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
@@ -19,20 +22,10 @@ class StudentRegisterUnitSheetModel extends BaseViewModel {
     return _studentDashboardService.fetchUnits(semesterStage: semesterStage);
   }
 
-  List<AddUnitModel> selectedUnits = [];
-  bool isUnitSelected(String unitId) {
-    return selectedUnits.any((unit) => unit.unitId == unitId);
-  }
-
-  void updateUnitSelection(bool isSelected, AddUnitModel unit) {
-    if (isSelected) {
-      selectedUnits.add(unit);
-    } else {
-      selectedUnits
-          .removeWhere((selectedUnit) => selectedUnit.unitId == unit.unitId);
-    }
-    notifyListeners(); // Notify listeners to update the UI
-  }
+  // List<AddUnitModel> selectedUnits = [];
+  // bool isUnitSelected(String unitId) {
+  //   return selectedUnits.any((unit) => unit.unitId == unitId);
+  // }
 
   // get current user details
   Map<String, dynamic> userDetails = {};
@@ -43,9 +36,11 @@ class StudentRegisterUnitSheetModel extends BaseViewModel {
   }
 
   // send my registered units to firebase
-  Future<void> sendUnitsToFirebase() async {
+  Future<void> sendUnitsToFirebase(BuildContext context) async {
+    final SelectedUnitsNotifier selectedUnitsNotifier =
+        Provider.of<SelectedUnitsNotifier>(context, listen: false);
     setBusy(true);
-    if (selectedUnits.length < 5) {
+    if (selectedUnitsNotifier.selectedUnitsList.length < 5) {
       Fluttertoast.showToast(
           msg: "Choose Atleast 5 Units for the current semester");
       setBusy(false);
@@ -53,7 +48,7 @@ class StudentRegisterUnitSheetModel extends BaseViewModel {
     }
 
     List<StudentsRegisteredUnitsModel> unitsToRegister =
-        selectedUnits.map((unit) {
+        selectedUnitsNotifier.selectedUnitsList.map((unit) {
       return StudentsRegisteredUnitsModel(
         studentName: userDetails['userName'],
         studentEmail: userDetails['email'],
@@ -88,4 +83,34 @@ class StudentRegisterUnitSheetModel extends BaseViewModel {
     'Y4S1',
     'Y4S2',
   ];
+}
+
+class SelectedUnitsNotifier extends ChangeNotifier {
+  SelectedUnitsNotifier();
+  List<AddUnitModel> selectedUnitsList = [];
+  void addUnits(AddUnitModel unit) {
+    selectedUnitsList.add(unit);
+    notifyListeners();
+  }
+
+  void removeUnits(AddUnitModel unit) {
+    selectedUnitsList.remove(unit);
+    notifyListeners();
+  }
+
+  bool isUnitsSelected(String unitId) {
+    return selectedUnitsList.any((unit) => unit.unitId == unitId);
+  }
+
+  void updateUnitSelection(bool isSelected, AddUnitModel unit) {
+    if (isSelected) {
+      selectedUnitsList.add(unit);
+    } else {
+      selectedUnitsList
+          .removeWhere((selectedUnit) => selectedUnit.unitId == unit.unitId);
+    }
+  }
+  void notifyListenersBatch(){
+    notifyListeners();
+  }
 }
