@@ -13,18 +13,18 @@ class AdminStudentPerformanceView
 
   @override
   Widget builder(
-      BuildContext context,
-      AdminStudentPerformanceViewModel viewModel,
-      Widget? child,
-      ) {
+    BuildContext context,
+    AdminStudentPerformanceViewModel viewModel,
+    Widget? child,
+  ) {
     List<AppUser> users = viewModel.users;
     String currentYearName = yearName.endsWith("one")
         ? "Y1"
         : yearName.endsWith("two")
-        ? "Y2"
-        : yearName.endsWith("three")
-        ? "Y3"
-        : "Y4";
+            ? "Y2"
+            : yearName.endsWith("three")
+                ? "Y3"
+                : "Y4";
 
     return SafeArea(
       child: Scaffold(
@@ -48,7 +48,7 @@ class AdminStudentPerformanceView
                   ),
                   Text(
                     "Student Performance",
-                    style: Theme.of(context).textTheme.headline6,
+                    style: Theme.of(context).textTheme.titleMedium,
                   ),
                   const SizedBox(width: 50),
                 ],
@@ -57,7 +57,7 @@ class AdminStudentPerformanceView
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
                   "$yearName Students",
-                  style: Theme.of(context).textTheme.headline5,
+                  style: Theme.of(context).textTheme.titleMedium,
                 ),
               ),
               Padding(
@@ -84,77 +84,75 @@ class AdminStudentPerformanceView
               verticalSpaceSmall,
               viewModel.isBusy
                   ? Expanded(
-                child: Center(child: CircularProgressIndicator()),
-              )
+                      child: Center(child: CircularProgressIndicator()),
+                    )
                   : Expanded(
-                child: ListView.builder(
-                  itemCount: users.length,
-                  itemBuilder: (context, index) {
-                    AppUser user = users[index];
-                    return Container(
-                      margin: const EdgeInsets.symmetric(vertical: 8.0),
-                      padding: const EdgeInsets.all(10.0),
-                      decoration: BoxDecoration(
-                        border: Border.all(color: Colors.black12),
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(10),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.5),
-                            spreadRadius: 2,
-                            blurRadius: 5,
-                            offset: Offset(0, 3),
-                          ),
-                        ],
+                      child: ListView.builder(
+                        itemCount: users.length,
+                        itemBuilder: (context, index) {
+                          AppUser user = users[index];
+                          return Container(
+                            margin: const EdgeInsets.symmetric(vertical: 8.0),
+                            padding: const EdgeInsets.all(10.0),
+                            decoration: BoxDecoration(
+                              border: Border.all(color: Colors.black12),
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(10),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey.withOpacity(0.5),
+                                  spreadRadius: 2,
+                                  blurRadius: 5,
+                                  offset: Offset(0, 3),
+                                ),
+                              ],
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Name: ${user.userName}",
+                                  style: Theme.of(context).textTheme.bodyMedium,
+                                ),
+                                verticalSpaceSmall,
+                                Text(
+                                  "Email: ${user.email}",
+                                  style: Theme.of(context).textTheme.bodyMedium,
+                                ),
+                                verticalSpaceMedium,
+                                const Text("View Performance"),
+                                Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    ElevatedButton(
+                                      onPressed: () {
+                                        viewModel
+                                            .checkPerformanceBasedOnCurrentYear(
+                                          semesterStage: "${currentYearName}S1",
+                                          studentUid: user.userId,
+                                        );
+                                      },
+                                      child: Text("${currentYearName}S1"),
+                                    ),
+                                    horizontalSpaceMedium,
+                                    ElevatedButton(
+                                      onPressed: () {
+                                        viewModel
+                                            .checkPerformanceBasedOnCurrentYear(
+                                          semesterStage: "${currentYearName}S2",
+                                          studentUid: user.userId,
+                                        );
+                                      },
+                                      child: Text("${currentYearName}S2"),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          );
+                        },
                       ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "Name: ${user.userName}",
-                            style: Theme.of(context).textTheme.subtitle1,
-                          ),
-                          verticalSpaceSmall,
-                          Text(
-                            "Email: ${user.email}",
-                            style: Theme.of(context).textTheme.bodyText2,
-                          ),
-                          verticalSpaceMedium,
-                          const Text("View Performance"),
-                          Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              ElevatedButton(
-                                onPressed: () {
-                                  viewModel
-                                      .checkPerformanceBasedOnCurrentYear(
-                                    semesterStage:
-                                    "${currentYearName}S1",
-                                    studentUid: user.userId,
-                                  );
-                                },
-                                child: Text("${currentYearName}S1"),
-                              ),
-                              horizontalSpaceMedium,
-                              ElevatedButton(
-                                onPressed: () {
-                                  viewModel
-                                      .checkPerformanceBasedOnCurrentYear(
-                                    semesterStage:
-                                    "${currentYearName}S2",
-                                    studentUid: user.userId,
-                                  );
-                                },
-                                child: Text("${currentYearName}S2"),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    );
-                  },
-                ),
-              ),
+                    ),
             ],
           ),
         ),
@@ -164,8 +162,8 @@ class AdminStudentPerformanceView
 
   @override
   AdminStudentPerformanceViewModel viewModelBuilder(
-      BuildContext context,
-      ) =>
+    BuildContext context,
+  ) =>
       AdminStudentPerformanceViewModel();
 
   @override
