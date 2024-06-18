@@ -29,13 +29,15 @@ class EditStudentMarksSheet extends StackedView<EditStudentMarksSheetModel>
     required this.completer,
     required this.request,
   }) : super(key: key);
-
+   
+  
   @override
   Widget builder(
     BuildContext context,
     EditStudentMarksSheetModel viewModel,
     Widget? child,
   ) {
+  
     return Container(
       width: MediaQuery.of(context).size.width,
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
@@ -70,12 +72,16 @@ class EditStudentMarksSheet extends StackedView<EditStudentMarksSheetModel>
             children: [
               TextFormField(
                 controller: assignment1Controller,
-                decoration: const InputDecoration(labelText: 'Assignment 1'),
+                decoration: const InputDecoration(
+                  labelText: 'Assignment 1',
+                ),
               ),
               verticalSpaceTiny,
               TextFormField(
                 controller: assignment2Controller,
-                decoration: const InputDecoration(labelText: 'Assignment 2'),
+                decoration: const InputDecoration(
+                  labelText: 'Assignment 2',
+                ),
               ),
               verticalSpaceTiny,
               TextFormField(
@@ -147,4 +153,5 @@ class EditStudentMarksSheet extends StackedView<EditStudentMarksSheetModel>
     syncFormWithViewModel(viewModel);
     super.onViewModelReady(viewModel);
   }
+  
 }

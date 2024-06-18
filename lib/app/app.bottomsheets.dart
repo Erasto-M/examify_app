@@ -5,9 +5,9 @@
 // **************************************************************************
 
 import 'package:examify/ui/bottom_sheets/student_register_unit/student_register_unit_sheet.dart';
-import 'package:examify/ui/bottom_sheets/update_profile/update_profile_sheet.dart';
 import 'package:stacked_services/stacked_services.dart';
 
+import '../ui/bottom_sheets/update_profile/update_profile_sheet.dart';
 import 'app.locator.dart';
 import '../ui/bottom_sheets/add_unit/add_unit_sheet.dart';
 import '../ui/bottom_sheets/edit_student_marks/edit_student_marks_sheet.dart';
@@ -43,3 +43,4 @@ void setupBottomSheetUi() {
 
   bottomsheetService.setCustomSheetBuilders(builders);
 }
+

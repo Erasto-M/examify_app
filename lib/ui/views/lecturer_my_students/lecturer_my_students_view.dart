@@ -112,7 +112,14 @@ class LecturerMyStudentsView extends StackedView<LecturerMyStudentsViewModel> {
                                           onPressed: () {
                                             viewModel.openEditStudentMarksSheet(
                                                 unitCode: student.unitCode!,
-                                                studentId: student.studentUid!);
+                                                studentId: student.studentUid!,
+                                                assignment1:
+                                                    student.assignMent1Marks!,
+                                                assignment2:
+                                                    student.assignMent2Marks!,
+                                                cat1: student.cat1Marks!,
+                                                cat2: student.cat2Marks!,
+                                                examMarks: student.examMarks!);
                                           },
                                           icon: const Icon(
                                             Icons.edit,

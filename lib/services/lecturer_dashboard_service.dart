@@ -18,7 +18,7 @@ class LecturerDashboardService {
     try {
       await firestore
           .collection('units')
-          .where('unitLecturerName', isEqualTo: auth.currentUser!.uid)
+          .where('unitLecturerId', isEqualTo: auth.currentUser!.uid)
           .get()
           .then((value) {
         value.docs.forEach((element) {

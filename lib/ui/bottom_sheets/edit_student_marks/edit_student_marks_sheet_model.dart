@@ -128,4 +128,10 @@ class EditStudentMarksSheetModel extends FormViewModel {
     setBusy(false);
     return false;
   }
+  
+  Stream getAllMyStudents({
+    required String unitCode,
+  }) {
+    return _lectureDashboardService.getAllMyStudents(unitCode: unitCode);
+  }
 }
