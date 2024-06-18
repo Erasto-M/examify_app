@@ -97,7 +97,7 @@ class EditStudentMarksSheet extends StackedView<EditStudentMarksSheetModel>
                   ? const SpinKitSpinningLines(color: primaryColor, size: 70)
                   : InkWell(
                       onTap: () {
-                        viewModel.updateStudentMarks(
+                        viewModel.adminUpdateStudentMarks(
                           unitcode: request.data,
                           studentUid: request.description!,
                           assignment1: assignment1Controller.text,

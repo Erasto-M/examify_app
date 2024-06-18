@@ -79,7 +79,7 @@ class AdminManageCourseView extends StackedView<AdminManageCourseViewModel> {
                           ),
                           verticalSpaceSmall,
                           Text("Code: ${course.unitCode}"),
-                          Text("L.Name: ${course.unitLecturerName}"),
+                          Text("L.ID: ${course.unitLecturerName}"),
                           Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
