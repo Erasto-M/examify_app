@@ -68,7 +68,7 @@ class AdminStudentPerformanceDetailsViewModel extends BaseViewModel {
         model: 'gemini-1.5-flash',
         apiKey: "AIzaSyAPyNw4jkSHZWCN7Kgln5jMHV5aMqkDYDE");
     final prompt =
-        'Recommended performance in 2 lines based on the following marks, all out of 100%: ${totalMarksList.join(", ")}and if all marks are zero just so NO MARKS FOR THIS STUDENT.';
+        'Recommended performance in 2 lines based on the following marks: ${totalMarksList.join(", ")}: if all marks are zero, recommend NO MARKS FOR THIS STUDENT.';
     final content = [Content.text(prompt)];
     final response = await model.generateContent(content);
     _recommendationText = response.text;
