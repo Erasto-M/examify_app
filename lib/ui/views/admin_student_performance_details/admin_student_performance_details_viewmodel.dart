@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:google_generative_ai/google_generative_ai.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
