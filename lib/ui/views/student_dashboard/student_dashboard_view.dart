@@ -317,3 +317,4 @@ class StudentDashboardView extends StackedView<StudentDashboardViewModel> {
     viewModel.getCurrentUserDetails();
   }
 }
+//added text

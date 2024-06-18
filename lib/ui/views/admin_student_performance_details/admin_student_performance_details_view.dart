@@ -1,13 +1,11 @@
 import 'package:examify/ui/common/app_colors.dart';
-import 'package:examify/ui/common/ui_helpers.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 
 import '../../../models/student_registered_units.dart';
 import 'admin_student_performance_details_viewmodel.dart';
 
-class AdminStudentPerformanceDetailsView
-    extends StatefulWidget {
+class AdminStudentPerformanceDetailsView extends StatefulWidget {
   const AdminStudentPerformanceDetailsView({
     Key? key,
     required this.semesterStage,
@@ -29,7 +27,8 @@ class _AdminStudentPerformanceDetailsViewState
     return ViewModelBuilder<AdminStudentPerformanceDetailsViewModel>.reactive(
       viewModelBuilder: () => AdminStudentPerformanceDetailsViewModel(),
       onModelReady: (viewModel) =>
-          viewModel.fetchStudentUnitsAndGenerateRecommendations(widget.semesterStage, widget.studentUid),
+          viewModel.fetchStudentUnitsAndGenerateRecommendations(
+              widget.semesterStage, widget.studentUid),
       builder: (context, viewModel, child) => Scaffold(
         appBar: AppBar(
           title: const Text('Performance Details'),
@@ -46,7 +45,8 @@ class _AdminStudentPerformanceDetailsViewState
                   } else if (snapshot.hasError) {
                     return Center(child: Text('Error: ${snapshot.error}'));
                   } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                    return const Center(child: Text('No registered units found.'));
+                    return const Center(
+                        child: Text('No registered units found.'));
                   } else {
                     final units = snapshot.data!;
                     return Column(
@@ -70,15 +70,15 @@ class _AdminStudentPerformanceDetailsViewState
                               Text(
                                 viewModel.recommendationText ?? '',
                                 style: const TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.bold,
-                                  color: primaryColor
-                                ),
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.bold,
+                                    color: primaryColor),
                               ),
                             ],
                           ),
                         ),
-                        const SizedBox(height: 10), // Add some space between the items
+                        const SizedBox(height: 10),
+                        // Add some space between the items
                         Expanded(
                           child: ListView.builder(
                             itemCount: units.length,
@@ -103,13 +103,13 @@ class _AdminStudentPerformanceDetailsViewState
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text(
-                                      'Unit Name: ${unit.unitName}',
-                                      style: const TextStyle(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
+                                        Text(
+                                          'Unit Name: ${unit.unitName}',
+                                          style: const TextStyle(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
                                     const SizedBox(height: 10),
                                     Text(
                                       'Unit Code: ${unit.unitCode}',
@@ -124,7 +124,7 @@ class _AdminStudentPerformanceDetailsViewState
                                     const SizedBox(height: 10),
                                     Row(
                                       mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                          MainAxisAlignment.spaceBetween,
                                       children: [
                                         Text(
                                           'Ass1: ${unit.assignMent1Marks}',
@@ -145,7 +145,7 @@ class _AdminStudentPerformanceDetailsViewState
                                     const SizedBox(height: 10),
                                     Row(
                                       mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                          MainAxisAlignment.spaceBetween,
                                       children: [
                                         Text(
                                           'Cat1: ${unit.cat1Marks}',
@@ -175,7 +175,7 @@ class _AdminStudentPerformanceDetailsViewState
                                     const SizedBox(height: 10),
                                     Row(
                                       mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                          MainAxisAlignment.spaceBetween,
                                       children: [
                                         Text(
                                           'Total: ${unit.totalMarks}',
@@ -191,6 +191,14 @@ class _AdminStudentPerformanceDetailsViewState
                                             fontWeight: FontWeight.bold,
                                             color: Colors.blue,
                                           ),
+                                        ),
+                                        IconButton(
+                                          icon: const Icon(Icons.edit),
+                                          onPressed: () {
+                                            viewModel.editUnitMarks(
+                                                unitCode: unit.unitCode!,
+                                                studentId: unit.studentUid!);
+                                          },
                                         ),
                                       ],
                                     ),

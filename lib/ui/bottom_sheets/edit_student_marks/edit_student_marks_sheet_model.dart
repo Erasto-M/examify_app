@@ -62,6 +62,59 @@ class EditStudentMarksSheetModel extends FormViewModel {
     }
   }
 
+  Future<void> adminUpdateStudentMarks({
+    required String unitcode,
+    required String studentUid,
+    required String? assignment1,
+    required String? assignment2,
+    required String? cat1,
+    required String? cat2,
+    required String? examMarks,
+    required BuildContext context,
+  }) async {
+    setBusy(true);
+    if (assignment1Value!.isEmpty ||
+        assignment1Value == '' ||
+        assignment2Value!.isEmpty ||
+        assignment2Value == '' ||
+        cat1Value!.isEmpty ||
+        cat1Value == '' ||
+        cat2Value!.isEmpty ||
+        cat2Value == '' ||
+        examMarksValue!.isEmpty ||
+        examMarksValue == '') {
+      Fluttertoast.showToast(msg: "Please fill all fields");
+      setBusy(false);
+      return;
+    } else {
+      int totalMarks = calculateTotalMarks(
+          assignment1: int.parse(assignment1!),
+          assignment2: int.parse(assignment2!),
+          cat1: int.parse(cat1!),
+          cat2: int.parse(cat2!),
+          examMarks: int.parse(examMarks!));
+      int assign1 = (double.parse(assignment1) / 10 * 5).toInt();
+      int assign2 = (double.parse(assignment2) / 10 * 5).toInt();
+      int combinedCat1 = (double.parse(cat1) / 20 * 15).toInt();
+      int combinedCat2 = (double.parse(cat2) / 20 * 15).toInt();
+      int combinedExamMarks = (double.parse(examMarks) / 100 * 70).toInt();
+      await _lectureDashboardService.adminUpdateStudentMarks(
+          unitCode: unitcode,
+          studentId: studentUid,
+          student: StudentsRegisteredUnitsModel(
+              assignMent1Marks: assign1,
+              assignMent2Marks: assign2,
+              cat1Marks: combinedCat1,
+              cat2Marks: combinedCat2,
+              examMarks: combinedExamMarks,
+              totalMarks: totalMarks,
+              grade: calculateGrade(totalMarks: totalMarks)));
+      notifyListeners();
+      Navigator.of(context).pop();
+      setBusy(false);
+    }
+  }
+
   int calculateTotalMarks({
     required int assignment1,
     required int assignment2,

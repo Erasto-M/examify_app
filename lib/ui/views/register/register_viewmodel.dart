@@ -133,7 +133,8 @@ class RegisterViewModel extends FormViewModel {
   }) async {
     setBusy(true);
     if (passwordValue != confirmPasswordValue) {
-      Fluttertoast.showToast(msg: 'Passwords do not match');
+      Fluttertoast.showToast(
+          msg: 'Passwords do not match', backgroundColor: Colors.red);
       setBusy(false);
       return;
     } else if (nameValue!.isEmpty ||
@@ -150,11 +151,13 @@ class RegisterViewModel extends FormViewModel {
         passwordValue! == '' ||
         confirmPasswordValue!.isEmpty ||
         confirmPasswordValue! == '') {
-      Fluttertoast.showToast(msg: 'All fields are required');
+      Fluttertoast.showToast(
+          msg: 'All fields are required', backgroundColor: Colors.red);
       setBusy(false);
     } else if (roleValue == 'Student' &&
         (yearOfStudyValue == null || yearOfStudyValue == '')) {
-      Fluttertoast.showToast(msg: 'Year of study is required');
+      Fluttertoast.showToast(
+          msg: 'Year of study is required', backgroundColor: Colors.red);
       setBusy(false);
     } else {
       await _authenticationService.createUser(

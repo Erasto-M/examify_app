@@ -109,15 +109,12 @@ class AuthenticationService {
         Fluttertoast.showToast(
             msg: 'Please verify your email before logging in');
       }
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'user-not-found') {
-        Fluttertoast.showToast(
-            msg: 'No user found for that email, please register');
-      } else if (e.code == 'wrong-password') {
-        Fluttertoast.showToast(msg: 'Wrong password provided for that user');
-      }
     } catch (e) {
-      Fluttertoast.showToast(msg: e.toString());
+      Fluttertoast.showToast(
+        msg: "Incorrect email or password",
+        textColor: Colors.white,
+        backgroundColor: Colors.red,
+      );
     }
   }
 
