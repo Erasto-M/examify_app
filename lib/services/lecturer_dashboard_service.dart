@@ -16,7 +16,7 @@ class LecturerDashboardService {
     try {
       await firestore
           .collection('units')
-          .where('unitLecturerName', isEqualTo: auth.currentUser!.uid)
+          .where('unitLecturerId', isEqualTo: auth.currentUser!.uid)
           .get()
           .then((value) {
         value.docs.forEach((element) {
@@ -31,28 +31,24 @@ class LecturerDashboardService {
   }
 
   //Fetch all Lecturers students
-  Future<List<StudentsRegisteredUnitsModel>> getAllMyStudents({
-    required String unitCode,
-  }) async {
-    List<StudentsRegisteredUnitsModel> students = [];
-    try {
-      await firestore
-          .collection('student_registered_units')
-          .where("unitLecturer", isEqualTo: auth.currentUser!.uid)
-          .where("unitCode", isEqualTo: unitCode)
-          .get()
-          .then((value) {
-        value.docs.forEach((student) {
-          students.add(StudentsRegisteredUnitsModel.fromMap(student.data()));
-        });
-      });
-      return students;
-    } catch (e) {
-      Fluttertoast.showToast(msg: e.toString());
-    }
-    print(students.length);
-    return [];
+Stream<List<StudentsRegisteredUnitsModel>> getAllMyStudents({
+  required String unitCode,
+}) async* {
+  try {
+    yield* firestore
+        .collection('student_registered_units')
+        .where("unitLecturer", isEqualTo: auth.currentUser!.uid)
+        .where("unitCode", isEqualTo: unitCode)
+        .snapshots()
+        .map((snapshot) => snapshot.docs
+            .map((doc) => StudentsRegisteredUnitsModel.fromMap(doc.data()))
+            .toList());
+  } catch (e) {
+    Fluttertoast.showToast(msg: e.toString());
+    yield [];
   }
+}
+
 
   //update student marks
   Future updateStudentMarks({

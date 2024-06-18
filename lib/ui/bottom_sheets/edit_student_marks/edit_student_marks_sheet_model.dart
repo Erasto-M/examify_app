@@ -20,6 +20,14 @@ class EditStudentMarksSheetModel extends FormViewModel {
     required BuildContext context,
   }) async {
     setBusy(true);
+    bool marksEntered =
+        await checkIfMarksEntered(unitcode: unitcode, studentUid: studentUid);
+    if (marksEntered) {
+      Fluttertoast.showToast(
+          msg: "Marks have already been entered for this student.");
+      setBusy(false);
+      return;
+    }
     if (assignment1Value!.isEmpty ||
         assignment1Value == '' ||
         assignment2Value!.isEmpty ||
@@ -151,5 +159,32 @@ class EditStudentMarksSheetModel extends FormViewModel {
     } else {
       return;
     }
+  }
+
+  bool _isMarksEntered = false;
+  bool get isMarksEntered => _isMarksEntered;
+
+  Future<bool> checkIfMarksEntered({
+    required String unitcode,
+    required String studentUid,
+  }) async {
+    setBusy(true);
+    final students = await _lectureDashboardService
+        .getAllMyStudents(unitCode: unitcode)
+        .first;
+    for (var student in students) {
+      if (student.studentUid == studentUid) {
+        setBusy(false);
+        return true;
+      }
+    }
+    setBusy(false);
+    return false;
+  }
+  
+  Stream getAllMyStudents({
+    required String unitCode,
+  }) {
+    return _lectureDashboardService.getAllMyStudents(unitCode: unitCode);
   }
 }

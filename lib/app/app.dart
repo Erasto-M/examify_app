@@ -32,6 +32,7 @@ import 'package:examify/ui/views/admin_student_performance/admin_student_perform
 import 'package:examify/ui/views/admin_student_performance_details/admin_student_performance_details_view.dart';
 import 'package:examify/ui/views/lecturer_my_students/lecturer_my_students_view.dart';
 import 'package:examify/ui/bottom_sheets/edit_student_marks/edit_student_marks_sheet.dart';
+import 'package:examify/ui/views/student_units_marks/student_units_marks_view.dart';
 // @stacked-import
 
 @StackedApp(
@@ -50,6 +51,7 @@ import 'package:examify/ui/bottom_sheets/edit_student_marks/edit_student_marks_s
     MaterialRoute(page: AdminStudentPerformanceView),
     MaterialRoute(page: AdminStudentPerformanceDetailsView),
     MaterialRoute(page: LecturerMyStudentsView),
+    MaterialRoute(page: StudentUnitsMarksView),
 // @stacked-route
   ],
   dependencies: [

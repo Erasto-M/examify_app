@@ -203,7 +203,7 @@ class StudentDashboardView extends StackedView<StudentDashboardViewModel> {
                                               child: const Column(
                                                 children: [
                                                   Text(
-                                                    "Drop Course",
+                                                    "View Marks",
                                                     style: TextStyle(
                                                       color: Colors.white,
                                                       fontSize: 15,

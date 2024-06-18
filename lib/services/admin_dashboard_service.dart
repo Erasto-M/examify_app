@@ -55,7 +55,9 @@ class AdminDashboardService {
       // Handle error
     } finally {}
   }
-  Stream<List<StudentsRegisteredUnitsModel>> getStudentUnits(String semesterStage, String studentUid) {
+
+  Stream<List<StudentsRegisteredUnitsModel>> getStudentUnits(
+      String semesterStage, String studentUid) {
     return db
         .collection('student_registered_units')
         .where('semesterStage', isEqualTo: semesterStage)

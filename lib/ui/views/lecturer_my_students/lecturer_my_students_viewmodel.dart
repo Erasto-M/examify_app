@@ -35,23 +35,37 @@ class LecturerMyStudentsViewModel extends BaseViewModel {
       print("unitnames: ${unitNames}");
     }
   }
+
   List<StudentsRegisteredUnitsModel>? _students;
   List<StudentsRegisteredUnitsModel>? get students => _students;
 
-  Future<List<StudentsRegisteredUnitsModel>> getAllMyStudents({
+  Stream getAllMyStudents({
     required String unitCode,
-  }) async {
-    return await _lectureDashboardService.getAllMyStudents(unitCode: unitCode);
+  }) {
+    return _lectureDashboardService.getAllMyStudents(unitCode: unitCode);
   }
 
   // open the bottom sheet to edit the student marks
-  void openEditStudentMarksSheet(
-      {required String unitCode, required String studentId}) {
+  void openEditStudentMarksSheet({
+    required String unitCode,
+    required String studentId,
+    required int assignment1,
+    required int assignment2,
+    required int cat1,
+    required int cat2,
+    required int examMarks,
+  }) {
     _bottomSheetService.showCustomSheet(
       variant: BottomSheetType.editStudentMarks,
       isScrollControlled: true,
       description: studentId,
-      data: unitCode,
+      data: {
+        'assignment1': assignment1,
+        'assignment2': assignment2,
+        'cat1': cat1,
+        'cat2': cat2,
+        'examMarks': examMarks
+      },
     );
   }
 }
