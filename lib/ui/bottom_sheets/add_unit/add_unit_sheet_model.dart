@@ -26,12 +26,18 @@ class AddUnitSheetModel extends FormViewModel {
 
   get semesterStagesList => semesterStages;
 
-  String? selectedLec;
+  String? selectedLecName;
 
-  get getSelectedLec => selectedLec;
+  get getSelectedLecName => selectedLecName;
+
+
+  String? selectedLecId;
+
+  get getSelectedLecId => selectedLecId;
 
   void setSelectedLecturer(value) {
-    selectedLec = value;
+    selectedLecName = value['userName'];
+    selectedLecId = value['userId'];
     notifyListeners();
   }
 
@@ -41,8 +47,8 @@ class AddUnitSheetModel extends FormViewModel {
         unitNameValue == null ||
         unitCodeValue!.isEmpty ||
         unitCodeValue == null ||
-        selectedLec!.isEmpty ||
-        selectedLec == null ||
+        selectedLecName!.isEmpty ||
+        selectedLecName == null ||
         selectedSemester!.isEmpty ||
         selectedSemester == null) {
       Fluttertoast.showToast(msg: "All fields are required");

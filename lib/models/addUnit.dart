@@ -3,6 +3,7 @@ class AddUnitModel {
   String unitName;
   String unitCode;
   String unitLecturerName;
+  String unitLecturerId;
   String semesterStage;
   String year;
 
@@ -12,6 +13,7 @@ class AddUnitModel {
     required this.unitName,
     required this.unitCode,
     required this.unitLecturerName,
+    required this.unitLecturerId,
     required this.semesterStage,
     required this.year,
   });
@@ -21,6 +23,7 @@ class AddUnitModel {
     String? unitName,
     String? unitCode,
     String? unitLecturerName,
+    String? unitLecturerId,
     String? semesterStage,
     String? year,
   }) {
@@ -29,6 +32,7 @@ class AddUnitModel {
       unitName: unitName ?? this.unitName,
       unitCode: unitCode ?? this.unitCode,
       unitLecturerName: unitLecturerName ?? this.unitLecturerName,
+      unitLecturerId: unitLecturerName ?? this.unitLecturerId,
       semesterStage: semesterStage ?? this.semesterStage,
       year: year ?? this.year,
     );
@@ -40,6 +44,7 @@ class AddUnitModel {
       'unitName': this.unitName,
       'unitCode': this.unitCode,
       'unitLecturerName': this.unitLecturerName,
+      'unitLecturerId': this.unitLecturerId,
       'semesterStage': this.semesterStage,
       'year': this.year,
     };
@@ -51,6 +56,7 @@ class AddUnitModel {
       unitName: map['unitName'] as String,
       unitCode: map['unitCode'] as String,
       unitLecturerName: map['unitLecturerName'] as String,
+      unitLecturerId: map['unitLecturerId'] as String,
       semesterStage: map['semesterStage'] as String,
       year: map['year'] as String,
     );
@@ -62,6 +68,7 @@ class AddUnitModel {
         ' unitName: $unitName,' +
         ' unitCode: $unitCode,' +
         ' unitLecturerName: $unitLecturerName,' +
+        ' unitLecturerId: $unitLecturerId,' +
         ' semesterStage: $semesterStage,' +
         ' year: $year,' +
         '}';

@@ -1,5 +1,4 @@
 import 'package:examify/ui/common/app_colors.dart';
-import 'package:examify/ui/common/ui_helpers.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 
@@ -78,8 +77,9 @@ class _AdminStudentPerformanceDetailsViewState
                             ],
                           ),
                         ),
-                        const SizedBox(
-                            height: 10), // Add some space between the items
+
+                        const SizedBox(height: 10),
+
                         Expanded(
                           child: ListView.builder(
                             itemCount: units.length,
@@ -104,13 +104,13 @@ class _AdminStudentPerformanceDetailsViewState
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text(
-                                      'Unit Name: ${unit.unitName}',
-                                      style: const TextStyle(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
+                                        Text(
+                                          'Unit Name: ${unit.unitName}',
+                                          style: const TextStyle(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
                                     const SizedBox(height: 10),
                                     Text(
                                       'Unit Code: ${unit.unitCode}',
@@ -192,6 +192,14 @@ class _AdminStudentPerformanceDetailsViewState
                                             fontWeight: FontWeight.bold,
                                             color: Colors.blue,
                                           ),
+                                        ),
+                                        IconButton(
+                                          icon: const Icon(Icons.edit),
+                                          onPressed: () {
+                                            viewModel.editUnitMarks(
+                                                unitCode: unit.unitCode!,
+                                                studentId: unit.studentUid!);
+                                          },
                                         ),
                                       ],
                                     ),
