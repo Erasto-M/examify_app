@@ -39,6 +39,7 @@ class AdminDashboardService {
         });
       });
     } catch (error) {
+      print(error.toString());
       Fluttertoast.showToast(msg: error.toString());
     }
     return units;

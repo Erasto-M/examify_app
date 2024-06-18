@@ -16,9 +16,9 @@ class AdminManageCourseView extends StackedView<AdminManageCourseViewModel> {
     AdminManageCourseViewModel viewModel,
     Widget? child,
   ) {
-    if (viewModel.isBusy) {
-      return Center(child: CircularProgressIndicator());
-    }
+  //   if (viewModel.isBusy) {
+  //     return Center(child: CircularProgressIndicator());
+  //   }
 
     final semesterOneCourses = viewModel.courses
         .where((course) => course.semesterStage.contains('S1'))
