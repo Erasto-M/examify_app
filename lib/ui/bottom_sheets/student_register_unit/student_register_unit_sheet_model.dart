@@ -83,6 +83,13 @@ class StudentRegisterUnitSheetModel extends BaseViewModel {
     'Y4S1',
     'Y4S2',
   ];
+  
+
+  Future<void> fetchAllMyUnits() async {
+    _studentDashboardService.fetchAllMyUnits(
+        semesterStage: getSelectedSemesterStage);
+  }
+
 }
 
 class SelectedUnitsNotifier extends ChangeNotifier {
@@ -110,7 +117,8 @@ class SelectedUnitsNotifier extends ChangeNotifier {
           .removeWhere((selectedUnit) => selectedUnit.unitId == unit.unitId);
     }
   }
-  void notifyListenersBatch(){
+
+  void notifyListenersBatch() {
     notifyListeners();
   }
 }

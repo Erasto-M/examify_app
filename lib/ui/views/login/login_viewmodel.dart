@@ -31,7 +31,10 @@ class LoginViewModel extends FormViewModel {
         loginemailValue == '' ||
         loginpasswordValue!.isEmpty ||
         loginpasswordValue == '') {
-      Fluttertoast.showToast(msg: 'Please fill all fields');
+      Fluttertoast.showToast(
+        msg: 'Please fill all fields',
+        backgroundColor: Colors.red,
+      );
       setBusy(false);
     } else {
       await _authenticationService.loginUser(

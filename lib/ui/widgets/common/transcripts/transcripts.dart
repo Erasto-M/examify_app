@@ -16,7 +16,9 @@ class Transcripts extends StackedView<TranscriptsModel> {
     Widget? child,
   ) {
     return GestureDetector(
-      onTap: () {},
+      onTap: () {
+        viewModel.navigateToTranscriptDetails(yearName: yearName);
+      },
       child: Container(
         height: 70,
         width: MediaQuery.of(context).size.height,
