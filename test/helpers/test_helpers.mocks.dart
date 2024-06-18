@@ -900,6 +900,20 @@ class MockAuthenticationService extends _i1.Mock
         returnValueForMissingStub:
             _i7.Future<List<_i10.AppUser>>.value(<_i10.AppUser>[]),
       ) as _i7.Future<List<_i10.AppUser>>);
+
+  @override
+  _i7.Future<List<_i10.AppUser>> fetchStudentsAccordingToYear(
+          {required String? yearName}) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #fetchStudentsAccordingToYear,
+          [],
+          {#yearName: yearName},
+        ),
+        returnValue: _i7.Future<List<_i10.AppUser>>.value(<_i10.AppUser>[]),
+        returnValueForMissingStub:
+            _i7.Future<List<_i10.AppUser>>.value(<_i10.AppUser>[]),
+      ) as _i7.Future<List<_i10.AppUser>>);
 }
 
 /// A class which mocks [AdminDashboardService].

@@ -96,8 +96,9 @@ class EditStudentMarksSheet extends StackedView<EditStudentMarksSheetModel>
               viewModel.isBusy
                   ? const SpinKitSpinningLines(color: primaryColor, size: 70)
                   : InkWell(
-                      onTap: () {
-                        viewModel.updateStudentMarks(
+                      onTap: () async {
+                        await viewModel
+                            .updateStudentMarks(
                           unitcode: request.data,
                           studentUid: request.description!,
                           assignment1: assignment1Controller.text,
@@ -106,7 +107,14 @@ class EditStudentMarksSheet extends StackedView<EditStudentMarksSheetModel>
                           cat2: cat2Controller.text,
                           examMarks: examMarksController.text,
                           context: context,
-                        );
+                        )
+                            .then((value) {
+                          cat1Controller.clear();
+                          cat2Controller.clear();
+                          assignment1Controller.clear();
+                          assignment2Controller.clear();
+                          examMarksController.clear();
+                        });
                       },
                       child: Container(
                         padding: const EdgeInsets.symmetric(vertical: 10),

@@ -65,11 +65,26 @@ class StudentRegisterUnitSheetModel extends BaseViewModel {
     setBusy(false);
   }
 
+  bool _hasRegisteredUnits = false;
+  bool get hasRegisteredUnits => _hasRegisteredUnits;
   String _selectedSemesterStage = 'Y1S1';
   String get getSelectedSemesterStage => _selectedSemesterStage;
   void setSelectedSemesterStage(String value) {
     _selectedSemesterStage = value;
+    checkIfUnitsRegistered();
     notifyListeners();
+  }
+
+  Future<void> checkIfUnitsRegistered() async {
+    setBusy(true);
+    final registeredUnits = await _studentDashboardService
+        .fetchAllMyUnits(
+          semesterStage: _selectedSemesterStage,
+        )
+        .first;
+
+    _hasRegisteredUnits = registeredUnits.isNotEmpty;
+    setBusy(false);
   }
 
   // semester stages list
@@ -83,13 +98,6 @@ class StudentRegisterUnitSheetModel extends BaseViewModel {
     'Y4S1',
     'Y4S2',
   ];
-  
-
-  Future<void> fetchAllMyUnits() async {
-    _studentDashboardService.fetchAllMyUnits(
-        semesterStage: getSelectedSemesterStage);
-  }
-
 }
 
 class SelectedUnitsNotifier extends ChangeNotifier {

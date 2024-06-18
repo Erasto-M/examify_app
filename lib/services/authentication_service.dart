@@ -276,8 +276,10 @@ class AuthenticationService {
     }
     return users;
   }
+
   //fetch users based on user type
-  Future<List<AppUser>> fetchStudentsAccordingToYear({required String yearName}) async {
+  Future<List<AppUser>> fetchStudentsAccordingToYear(
+      {required String yearName}) async {
     List<AppUser> users = [];
     try {
       QuerySnapshot querySnapshot = await firestore

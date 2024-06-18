@@ -35,13 +35,14 @@ class LecturerMyStudentsViewModel extends BaseViewModel {
       print("unitnames: ${unitNames}");
     }
   }
+
   List<StudentsRegisteredUnitsModel>? _students;
   List<StudentsRegisteredUnitsModel>? get students => _students;
 
-  Future<List<StudentsRegisteredUnitsModel>> getAllMyStudents({
+  Stream getAllMyStudents({
     required String unitCode,
-  }) async {
-    return await _lectureDashboardService.getAllMyStudents(unitCode: unitCode);
+  }) {
+    return _lectureDashboardService.getAllMyStudents(unitCode: unitCode);
   }
 
   // open the bottom sheet to edit the student marks

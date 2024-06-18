@@ -12,13 +12,11 @@ class AdminStudentPerformanceViewModel extends BaseViewModel {
   final _navigationService = locator<NavigationService>();
   TextEditingController searchController = TextEditingController();
 
-
   List<AppUser> usersList = [];
   get users => usersList;
 
   List<AppUser> _filteredUsers = [];
   get filteredUsers => _filteredUsers;
-
 
   void searchStudent() {
     String query = searchController.text.toLowerCase();
@@ -33,11 +31,12 @@ class AdminStudentPerformanceViewModel extends BaseViewModel {
     String currentYearName = yearName.endsWith("one")
         ? "Y1"
         : yearName.endsWith("two")
-        ? "Y2"
-        : yearName.endsWith("three")
-        ? "Y3"
-        : "Y4";
-    usersList = await _authService.fetchStudentsAccordingToYear(yearName: currentYearName);
+            ? "Y2"
+            : yearName.endsWith("three")
+                ? "Y3"
+                : "Y4";
+    usersList = await _authService.fetchStudentsAccordingToYear(
+        yearName: currentYearName);
     notifyListeners();
   }
 
