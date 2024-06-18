@@ -10,7 +10,7 @@ class AdminStudentPerformanceDetailsViewModel extends BaseViewModel {
   Stream<List<StudentsRegisteredUnitsModel>>? _studentUnitsStream;
   Stream<List<StudentsRegisteredUnitsModel>>? get studentUnitsStream => _studentUnitsStream;
 
-  String? _recommendationText;
+  String? _recommendationText = "Getting recommendations...";
   String? get recommendationText => _recommendationText;
 
   // void fetchStudentUnits(String semesterStage, String studentUid) {

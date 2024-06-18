@@ -1,3 +1,4 @@
+import 'package:examify/ui/common/app_colors.dart';
 import 'package:examify/ui/common/ui_helpers.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
@@ -69,8 +70,9 @@ class _AdminStudentPerformanceDetailsViewState
                               Text(
                                 viewModel.recommendationText ?? '',
                                 style: const TextStyle(
-                                  fontSize: 20,
+                                  fontSize: 15,
                                   fontWeight: FontWeight.bold,
+                                  color: primaryColor
                                 ),
                               ),
                             ],
