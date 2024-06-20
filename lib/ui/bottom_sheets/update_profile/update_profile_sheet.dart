@@ -137,28 +137,28 @@ class UpdateProfileSheet extends StackedView<UpdateProfileSheetModel>
                     ),
                   ),
                   verticalSpaceTiny,
-                  TextFormField(
-                    validator: (value) {
-                      if (value!.isEmpty || value == '') {
-                        return 'Please enter your role';
-                      }
-                      return null;
-                    },
-                    controller: updateRoleController,
-                    readOnly: true,
-                    onTap: () {
-                      viewModel.selectRole(context, updateRoleController);
-                    },
-                    decoration: InputDecoration(
-                        prefixIcon: const Icon(Icons.work),
-                        suffixIcon: const Icon(Icons.arrow_drop_down),
-                        hintText: '${userDetails["role"]}',
-                        border: const OutlineInputBorder(
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(10),
-                          ),
-                        )),
-                  ),
+                  // TextFormField(
+                  //   validator: (value) {
+                  //     if (value!.isEmpty || value == '') {
+                  //       return 'Please enter your role';
+                  //     }
+                  //     return null;
+                  //   },
+                  //   controller: updateRoleController,
+                  //   readOnly: true,
+                  //   onTap: () {
+                  //     viewModel.selectRole(context, updateRoleController);
+                  //   },
+                  //   decoration: InputDecoration(
+                  //       prefixIcon: const Icon(Icons.work),
+                  //       suffixIcon: const Icon(Icons.arrow_drop_down),
+                  //       hintText: '${userDetails["role"]}',
+                  //       border: const OutlineInputBorder(
+                  //         borderRadius: BorderRadius.all(
+                  //           Radius.circular(10),
+                  //         ),
+                  //       )),
+                  // ),
                   verticalSpaceMedium,
                   viewModel.isBusy
                       ? const SpinKitSpinningLines(
@@ -174,7 +174,6 @@ class UpdateProfileSheet extends StackedView<UpdateProfileSheetModel>
                               userName: updateUserNameController.text,
                               email: updateEmailController.text,
                               phoneNumber: updatePhoneNumberController.text,
-                              role: updateRoleController.text,
                             );
                           },
                           child: Container(
