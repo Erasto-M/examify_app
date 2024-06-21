@@ -161,21 +161,6 @@ class LoginView extends StackedView<LoginViewModel> with $LoginView {
                                     ),
                                   ),
                             verticalSpaceSmall,
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                const Text(
-                                  "Don't have an account?",
-                                  style: TextStyle(
-                                      color: Colors.black, fontSize: 16),
-                                ),
-                                TextButton(
-                                    onPressed: () {
-                                      viewModel.navigateToRegister();
-                                    },
-                                    child: const Text("Register"))
-                              ],
-                            )
                           ],
                         ))
                   ],

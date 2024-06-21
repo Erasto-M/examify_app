@@ -27,6 +27,8 @@ class AuthenticationService {
     required String gender,
     required String password,
     required String yearOfStudy,
+    required String registrationNumber,
+    required String pfNumber,
   }) async {
     try {
       //register user
@@ -44,14 +46,16 @@ class AuthenticationService {
           'phoneNumber': phoneNumber,
           'userId': value.user!.uid,
           "yearOfStudy": yearOfStudy,
+          "registrationNumber": registrationNumber,
+          "pfNumber": pfNumber,
         });
       }).then((value) {
         //send verification email
         firebaseAuth.currentUser!.sendEmailVerification();
         Fluttertoast.showToast(
-            msg: 'Account created successfully, check your email to verify');
+            msg: 'Account created successfully, verification email sent');
       }).then((value) {
-        _navigationService.navigateToLoginView();
+        _navigationService.navigateToAdminPanelView();
       });
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
@@ -101,7 +105,16 @@ class AuthenticationService {
                 builder: (context) => const AdminHomeView(),
               ),
             );
-          } else {
+          }
+          else if (value.data()!['role'] == 'ExamsCoordinator') {
+            debugPrint("Logging to the ExamsCoordinator");
+            Navigator.of(context).pushReplacement(
+              MaterialPageRoute(
+                builder: (context) => const AdminHomeView(),
+              ),
+            );
+          }
+          else {
             Fluttertoast.showToast(msg: "Role not found");
           }
         });

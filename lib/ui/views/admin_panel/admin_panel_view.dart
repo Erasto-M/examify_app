@@ -95,9 +95,29 @@ class AdminPanelView extends StackedView<AdminPanelViewModel> {
                   ),
                 ),
                 verticalSpaceTiny,
-                const Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [Users(user: 'Students'), Users(user: 'Lecturers')],
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      ElevatedButton(
+                        onPressed: () {
+                          viewModel.navigateToRegisterNewUser();
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: primaryColor,
+                          foregroundColor: Colors.white,// Set background color to green
+                          elevation: 0,
+                          fixedSize: const Size(150, 60),
+                        ),
+                        child: const Text("Register New"),
+                      ),
+                      horizontalSpaceTiny,
+                      const Users(user: 'Students'),
+                      horizontalSpaceTiny,
+                      const Users(user: 'Lecturers'),
+                    ],
+                  ),
                 ),
                 verticalSpaceSmall,
                 const Text(
