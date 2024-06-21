@@ -17,7 +17,6 @@ class AdminStudentPerformanceDetailsViewModel extends BaseViewModel {
       _studentUnitsStream;
   StreamSubscription<List<StudentsRegisteredUnitsModel>>? _streamSubscription;
 
-
   String? _recommendationText = "Getting recommendations...";
   String? get recommendationText => _recommendationText;
 
@@ -48,7 +47,8 @@ class AdminStudentPerformanceDetailsViewModel extends BaseViewModel {
     _streamSubscription = _studentUnitsStream?.listen((units) {
       generateRecommendations(units);
     }, onError: (error) {
-      print('Error fetching student units or generating recommendations: $error');
+      print(
+          'Error fetching student units or generating recommendations: $error');
     });
 
     try {
@@ -74,8 +74,8 @@ class AdminStudentPerformanceDetailsViewModel extends BaseViewModel {
     _recommendationText = response.text;
     notifyListeners();
   }
-  void editUnitMarks(
-      {required String unitCode, required String studentId}) {
+
+  void editUnitMarks({required String unitCode, required String studentId}) {
     _bottomSheetService.showCustomSheet(
       variant: BottomSheetType.editStudentMarks,
       isScrollControlled: true,

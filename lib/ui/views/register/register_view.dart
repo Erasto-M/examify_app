@@ -216,7 +216,7 @@ class RegisterView extends StackedView<RegisterViewModel> with $RegisterView {
                                     hintText: "Registration Number",
                                     border: OutlineInputBorder(
                                         borderRadius:
-                                        BorderRadius.circular(10))),
+                                            BorderRadius.circular(10))),
                               ),
                             verticalSpaceTiny,
                             if (roleController.text == 'Lecturer' ||
@@ -234,9 +234,9 @@ class RegisterView extends StackedView<RegisterViewModel> with $RegisterView {
                                     hintText: "PF Number",
                                     border: OutlineInputBorder(
                                         borderRadius:
-                                        BorderRadius.circular(10))),
+                                            BorderRadius.circular(10))),
                               ),
-                              TextFormField(
+                            TextFormField(
                               validator: (value) {
                                 if (value!.isEmpty || value == '') {
                                   return "Password is required";
@@ -293,9 +293,9 @@ class RegisterView extends StackedView<RegisterViewModel> with $RegisterView {
                                           password: passwordController.text,
                                           confirmPassword:
                                               confirmPasswordController.text,
-                                      registrationNumber: registrationNumberController.text,
-                                      pfNumber: pFNumberController.text
-                                      );
+                                          registrationNumber:
+                                              registrationNumberController.text,
+                                          pfNumber: pFNumberController.text);
                                     },
                                     child: Container(
                                       width: MediaQuery.of(context).size.width,

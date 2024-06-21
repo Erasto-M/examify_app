@@ -751,6 +751,38 @@ class MockAuthenticationService extends _i1.Mock
       );
 
   @override
+  _i7.Future<void> createUser({
+    required String? email,
+    required String? userName,
+    required String? role,
+    required String? phoneNumber,
+    required String? gender,
+    required String? password,
+    required String? yearOfStudy,
+    required String? registrationNumber,
+    required String? pfNumber,
+  }) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #createUser,
+          [],
+          {
+            #email: email,
+            #userName: userName,
+            #role: role,
+            #phoneNumber: phoneNumber,
+            #gender: gender,
+            #password: password,
+            #yearOfStudy: yearOfStudy,
+            #registrationNumber: registrationNumber,
+            #pfNumber: pfNumber,
+          },
+        ),
+        returnValue: _i7.Future<void>.value(),
+        returnValueForMissingStub: _i7.Future<void>.value(),
+      ) as _i7.Future<void>);
+
+  @override
   _i7.Future<void> loginUser({
     required String? email,
     required String? password,

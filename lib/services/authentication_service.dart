@@ -2,17 +2,16 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:examify/app/app.locator.dart';
 import 'package:examify/app/app.router.dart';
 import 'package:examify/models/usersModel.dart';
-import 'package:examify/ui/views/admin_panel/admin_panel_view.dart';
 import 'package:examify/ui/views/lecturer_home/lecturer_home_view.dart';
 import 'package:examify/ui/views/login/login_view.dart';
 import 'package:examify/ui/views/students_home/students_home_view.dart';
-import 'package:examify/ui/widgets/common/users/users.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:stacked_services/stacked_services.dart';
 
 import '../ui/views/admin_home/admin_home_view.dart';
+import '../ui/views/exams_coordinator_home/exams_coordinator_home_view.dart';
 
 class AuthenticationService {
   final _navigationService = locator<NavigationService>();
@@ -105,16 +104,14 @@ class AuthenticationService {
                 builder: (context) => const AdminHomeView(),
               ),
             );
-          }
-          else if (value.data()!['role'] == 'ExamsCoordinator') {
+          } else if (value.data()!['role'] == 'ExamsCoordinator') {
             debugPrint("Logging to the ExamsCoordinator");
             Navigator.of(context).pushReplacement(
               MaterialPageRoute(
-                builder: (context) => const AdminHomeView(),
+                builder: (context) => const ExamsCoordinatorHomeView(),
               ),
             );
-          }
-          else {
+          } else {
             Fluttertoast.showToast(msg: "Role not found");
           }
         });
