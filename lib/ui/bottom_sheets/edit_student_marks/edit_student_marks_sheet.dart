@@ -1,3 +1,4 @@
+import 'package:examify/models/student_registered_units.dart';
 import 'package:examify/ui/bottom_sheets/edit_student_marks/edit_student_marks_sheet.form.dart';
 import 'package:examify/ui/common/app_colors.dart';
 import 'package:examify/ui/common/ui_helpers.dart';
@@ -34,109 +35,124 @@ class EditStudentMarksSheet extends StackedView<EditStudentMarksSheetModel>
     EditStudentMarksSheetModel viewModel,
     Widget? child,
   ) {
-    return Container(
-      width: MediaQuery.of(context).size.width,
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-      decoration: const BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(10),
-          topRight: Radius.circular(10),
-        ),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(
-            request.title ?? 'Edit Student Marks',
-            style: const TextStyle(
-                color: primaryColor, fontSize: 25, fontWeight: FontWeight.w900),
+    return SafeArea(
+      child: Container(
+        margin: const EdgeInsets.only(top: 50),
+        width: MediaQuery.of(context).size.width,
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+        decoration: const BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(10),
+            topRight: Radius.circular(10),
           ),
-          if (request.description != null) ...[
-            verticalSpaceTiny,
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
             Text(
-              request.description!,
-              style: const TextStyle(fontSize: 14, color: kcMediumGrey),
-              maxLines: 3,
-              softWrap: true,
+              request.title ?? 'Enter Student Marks',
+              style: const TextStyle(
+                  color: Colors.black,
+                  fontSize: 25,
+                  fontWeight: FontWeight.w900),
             ),
-          ],
-          verticalSpaceMedium,
-          Form(
-              child: Column(
-            children: [
-              TextFormField(
-                controller: assignment1Controller,
-                decoration: const InputDecoration(
-                  labelText: 'Assignment 1',
-                ),
-              ),
+            if (request.description != null) ...[
               verticalSpaceTiny,
-              TextFormField(
-                controller: assignment2Controller,
-                decoration: const InputDecoration(
-                  labelText: 'Assignment 2',
-                ),
+              Text(
+                request.description!,
+                style: const TextStyle(fontSize: 14, color: kcMediumGrey),
+                maxLines: 3,
+                softWrap: true,
               ),
-              verticalSpaceTiny,
-              TextFormField(
-                controller: cat1Controller,
-                decoration: const InputDecoration(labelText: 'Cat 1'),
-              ),
-              verticalSpaceTiny,
-              TextFormField(
-                controller: cat2Controller,
-                decoration: const InputDecoration(labelText: 'Cat 2'),
-              ),
-              verticalSpaceTiny,
-              TextFormField(
-                controller: examMarksController,
-                decoration: const InputDecoration(labelText: 'Exam Marks '),
-              ),
-              verticalSpaceMedium,
-              viewModel.isBusy
-                  ? const SpinKitSpinningLines(color: primaryColor, size: 70)
-                  : InkWell(
-                      onTap: () {
-                        viewModel
-                            .adminUpdateStudentMarks(
-                          unitcode: request.data,
-                          studentUid: request.description!,
-                          assignment1: assignment1Controller.text,
-                          assignment2: assignment2Controller.text,
-                          cat1: cat1Controller.text,
-                          cat2: cat2Controller.text,
-                          examMarks: examMarksController.text,
-                          context: context,
-                        )
-                            .then((value) {
-                          cat1Controller.clear();
-                          cat2Controller.clear();
-                          assignment1Controller.clear();
-                          assignment2Controller.clear();
-                          examMarksController.clear();
-                        });
-                      },
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(vertical: 10),
-                        decoration: BoxDecoration(
-                            color: primaryColor,
-                            borderRadius: BorderRadius.circular(10)),
-                        width: MediaQuery.of(context).size.width,
-                        child: const Center(
-                            child: Text(
-                          "Submit Marks",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        )),
-                      ),
-                    )
             ],
-          )),
-        ],
+            verticalSpaceSmall,
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: ConstrainedBox(
+                constraints: BoxConstraints(
+                  minWidth: MediaQuery.of(context).size.width,
+                ),
+                child: DataTable(
+                  columns: [
+                    const DataColumn(
+                      label: Text(
+                        "Name",
+                        style: TextStyle(
+                            color: primaryColor,
+                            fontWeight: FontWeight.w600,
+                            fontSize: 18),
+                      ),
+                    ),
+                    DataColumn(
+                      numeric: true,
+                      label: Text(
+                        request.description!,
+                        style: const TextStyle(
+                            color: primaryColor,
+                            fontWeight: FontWeight.w600,
+                            fontSize: 18),
+                      ),
+                    ),
+                  ],
+                  rows: viewModel.studentsList.map((student) {
+                    final controller = viewModel.controllers.putIfAbsent(
+                      student.studentUid!,
+                      () => TextEditingController(),
+                    );
+                    return DataRow(cells: [
+                      DataCell(Text(student.studentName!)),
+                      DataCell(
+                        onTap: () {},
+                        Container(
+                          height: 40,
+                          width: MediaQuery.sizeOf(context).width / 3,
+                          padding: const EdgeInsets.all(3),
+                          child: TextFormField(
+                            controller: controller,
+                            decoration: InputDecoration(
+                                border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(5))),
+                          ),
+                        ),
+                      )
+                    ]);
+                  }).toList(),
+                ),
+              ),
+            ),
+            verticalSpaceSmall,
+            Center(
+              child: InkWell(
+                onTap: () {
+                  viewModel.submitMarks(
+                      unitCode: request.data,
+                      selectedModule: request.description!);
+                },
+                child: Container(
+                  height: 40,
+                  width: MediaQuery.sizeOf(context).width / 2,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    color: primaryColor,
+                  ),
+                  child: Center(
+                    child: viewModel.isBusy
+                        ? const SpinKitSpinningLines(color: Colors.white)
+                        : const Text(
+                            "Save Marks",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold),
+                          ),
+                  ),
+                ),
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
@@ -147,6 +163,7 @@ class EditStudentMarksSheet extends StackedView<EditStudentMarksSheetModel>
   @override
   void onViewModelReady(EditStudentMarksSheetModel viewModel) {
     syncFormWithViewModel(viewModel);
+    viewModel.fetchStudents(request.data);
     super.onViewModelReady(viewModel);
   }
 }

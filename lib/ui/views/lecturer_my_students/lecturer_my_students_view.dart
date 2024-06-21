@@ -11,8 +11,10 @@ class LecturerMyStudentsView extends StackedView<LecturerMyStudentsViewModel> {
   const LecturerMyStudentsView({
     Key? key,
     required this.unitCode,
+    required this.unitName,
   });
   final String unitCode;
+  final String unitName;
 
   @override
   Widget builder(
@@ -22,23 +24,33 @@ class LecturerMyStudentsView extends StackedView<LecturerMyStudentsViewModel> {
   ) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Theme.of(context).colorScheme.background,
+        backgroundColor: Colors.grey[200],
         body: Container(
           padding: const EdgeInsets.only(left: 10.0, right: 5.0, top: 30),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              Row(
+                children: [
+                  IconButton(
+                      onPressed: () {
+                        viewModel.backToHome();
+                      },
+                      icon: const Icon(
+                        Icons.arrow_back_ios,
+                        color: primaryColor,
+                      )),
+                  Text(
+                    unitName,
+                    style: const TextStyle(
+                        fontSize: 20, fontWeight: FontWeight.bold),
+                  ),
+                ],
+              ),
+              verticalSpaceSmall,
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  const Text(
-                    "MyStudents",
-                    style: TextStyle(
-                      fontSize: 17,
-                      color: primaryColor,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  horizontalSpaceMedium,
                   //search students
                   Expanded(
                     child: Container(
@@ -59,9 +71,114 @@ class LecturerMyStudentsView extends StackedView<LecturerMyStudentsViewModel> {
                 ],
               ),
               verticalSpaceSmall,
+              Container(
+                width: MediaQuery.sizeOf(context).width,
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(10),
+                  boxShadow: const [
+                    BoxShadow(
+                      color: Colors.grey,
+                      blurRadius: 5,
+                      offset: Offset(0, 3),
+                    )
+                  ],
+                ),
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          "EnterMarks",
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.normal,
+                          ),
+                        ),
+                        Container(
+                            margin: const EdgeInsets.only(right: 10),
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 15, vertical: 5),
+                            height: 40,
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(10),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey.withOpacity(0.5),
+                                    spreadRadius: 1,
+                                    blurRadius: 5,
+                                    offset: const Offset(0, 3),
+                                  ),
+                                ]),
+                            child: DropdownButton(
+                              value: viewModel.selectedExamModuleToEnterMarks,
+                              items: viewModel.examModelues
+                                  .map((String examModule) => DropdownMenuItem(
+                                        value: examModule,
+                                        child: Text(examModule),
+                                      ))
+                                  .toList(),
+                              onChanged: (newValue) {
+                                viewModel.setSelectedExamModuleToEnterMarks(
+                                    newValue.toString());
+                              },
+                            ))
+                      ],
+                    ),
+                    verticalSpaceSmall,
+                    Center(
+                      child: InkWell(
+                        onTap: () {
+                          viewModel.openEditStudentMarksSheet(
+                            unitCode: unitCode,
+                            unitName: unitName,
+                          );
+                        },
+                        child: Container(
+                          height: 40,
+                          width: MediaQuery.sizeOf(context).width,
+                          decoration: BoxDecoration(
+                              color: primaryColor,
+                              borderRadius: BorderRadius.circular(10)),
+                          child: const Center(
+                            child: Text(
+                              "Submit",
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20),
+                            ),
+                          ),
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+              verticalSpaceSmall,
+              const Divider(
+                thickness: 1,
+                color: Colors.grey,
+              ),
+              const Text(
+                "Marks Sheet ",
+                style: TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.normal,
+                  fontSize: 20,
+                ),
+              ),
+
+              verticalSpaceSmall,
               //list of all students
+
               Expanded(
-                child: StreamBuilder(
+                child: StreamBuilder<List<StudentsRegisteredUnitsModel>>(
                   stream: viewModel.getAllMyStudents(unitCode: unitCode),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
@@ -76,97 +193,133 @@ class LecturerMyStudentsView extends StackedView<LecturerMyStudentsViewModel> {
                         child: Text("No students found"),
                       );
                     } else {
-                      return ListView.builder(
-                        itemCount: snapshot.data!.length,
-                        itemBuilder: (context, index) {
-                          StudentsRegisteredUnitsModel student =
-                              snapshot.data![index];
-                          return Container(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 10, vertical: 5),
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(10),
-                              boxShadow: const [
-                                BoxShadow(
-                                  color: Colors.grey,
-                                  blurRadius: 5,
-                                  offset: Offset(0, 3),
-                                )
-                              ],
-                            ),
-                            margin: const EdgeInsets.only(
-                                left: 10, right: 10, bottom: 10),
-                            child: ListTile(
-                              title: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(
-                                    children: [
-                                      Text(student.studentName!),
-                                      const Spacer(),
-                                      IconButton(
-                                          style: ElevatedButton.styleFrom(
-                                            backgroundColor: primaryColor,
-                                          ),
-                                          onPressed: () {
-                                            viewModel.openEditStudentMarksSheet(
-                                                unitCode: student.unitCode!,
-                                                studentId: student.studentUid!,
-                                                assignment1:
-                                                    student.assignMent1Marks!,
-                                                assignment2:
-                                                    student.assignMent2Marks!,
-                                                cat1: student.cat1Marks!,
-                                                cat2: student.cat2Marks!,
-                                                examMarks: student.examMarks!);
-                                          },
-                                          icon: const Icon(
-                                            Icons.edit,
-                                            color: Colors.white,
-                                          ))
-                                    ],
-                                  ),
-                                  verticalSpaceTiny,
-                                  Text(student.studentEmail!)
-                                ],
+                      return SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: ConstrainedBox(
+                          constraints: BoxConstraints(
+                            minWidth: MediaQuery.of(context).size.width,
+                          ),
+                          child: DataTable(
+                            columns: const [
+                              DataColumn(
+                                label: Text(
+                                  "Name",
+                                  style: TextStyle(
+                                      color: primaryColor,
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 18),
+                                ),
                               ),
-                              subtitle: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(
-                                    children: [
-                                      Text(
-                                          "Assign1 : ${student.assignMent1Marks}"),
-                                      const Spacer(),
-                                      Text(
-                                          "Assign2 : ${student.assignMent2Marks}"),
-                                    ],
-                                  ),
-                                  verticalSpaceSmall,
-                                  Row(
-                                    children: [
-                                      Text("cat1 marks: ${student.cat1Marks}"),
-                                      const Spacer(),
-                                      Text("cat2 marks: ${student.cat2Marks}"),
-                                    ],
-                                  ),
-                                  verticalSpaceSmall,
-                                  Row(
-                                    children: [
-                                      Text("Exam marks: ${student.examMarks}"),
-                                      const Spacer(),
-                                      Text(
-                                          "Total marks: ${student.totalMarks}"),
-                                    ],
-                                  ),
-                                  verticalSpaceSmall,
-                                  Text("Grade: ${student.grade}"),
-                                ],
+                              DataColumn(
+                                label: Text(
+                                  "RegNo",
+                                  style: TextStyle(
+                                      color: primaryColor,
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 18),
+                                ),
                               ),
-                            ),
-                          );
-                        },
+                              DataColumn(
+                                label: Text(
+                                  "Assignment 1",
+                                  style: TextStyle(
+                                      color: primaryColor,
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 18),
+                                ),
+                              ),
+                              DataColumn(
+                                label: Text(
+                                  "Assignment 2",
+                                  style: TextStyle(
+                                      color: primaryColor,
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 18),
+                                ),
+                              ),
+                              DataColumn(
+                                label: Text(
+                                  "Cat 1",
+                                  style: TextStyle(
+                                      color: primaryColor,
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 18),
+                                ),
+                              ),
+                              DataColumn(
+                                label: Text(
+                                  "cat 2",
+                                  style: TextStyle(
+                                      color: primaryColor,
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 18),
+                                ),
+                              ),
+                              DataColumn(
+                                label: Text(
+                                  "Exam ",
+                                  style: TextStyle(
+                                      color: primaryColor,
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 18),
+                                ),
+                              ),
+                              DataColumn(
+                                label: Text(
+                                  "Total marks",
+                                  style: TextStyle(
+                                      color: primaryColor,
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 18),
+                                ),
+                              ),
+                              DataColumn(
+                                label: Text(
+                                  "Grade",
+                                  style: TextStyle(
+                                      color: primaryColor,
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 18),
+                                ),
+                              ),
+                            ],
+                            rows: snapshot.data!.map((student) {
+                              return DataRow(cells: [
+                                DataCell(
+                                  Text(student.studentName!),
+                                ),
+                                DataCell(
+                                  Text(student.studentPhoneNumber!),
+                                ),
+                                DataCell(
+                                  Text(
+                                    student.assignMent1Marks.toString(),
+                                  ),
+                                ),
+                                DataCell(
+                                  Text(student.assignMent2Marks.toString()),
+                                ),
+                                DataCell(
+                                  Text(student.cat1Marks.toString()),
+                                ),
+                                DataCell(
+                                  Text(
+                                    student.cat2Marks.toString(),
+                                  ),
+                                ),
+                                DataCell(
+                                  Text(student.examMarks.toString()),
+                                ),
+                                DataCell(
+                                  Text(student.totalMarks.toString()),
+                                ),
+                                DataCell(
+                                  Text(student.grade.toString()),
+                                ),
+                              ]);
+                            }).toList(),
+                          ),
+                        ),
                       );
                     }
                   },

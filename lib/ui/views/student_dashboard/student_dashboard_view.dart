@@ -121,12 +121,13 @@ class StudentDashboardView extends StackedView<StudentDashboardViewModel> {
                 ],
               ),
               verticalSpaceSmall,
+              verticalSpaceSmall,
               // Courses List
               Expanded(
-                flex: 3,
+                flex: 2,
                 child: viewModel.isBusy
                     ? const SpinKitSpinningLines(color: primaryColor)
-                    : StreamBuilder(
+                    : StreamBuilder<List<StudentsRegisteredUnitsModel>>(
                         stream: viewModel.fetchMyUnits(),
                         builder: (context, snapshot) {
                           if (snapshot.connectionState ==
@@ -146,102 +147,129 @@ class StudentDashboardView extends StackedView<StudentDashboardViewModel> {
                               child: Text("No Units found"),
                             );
                           } else {
-                            return ListView.builder(
-                                shrinkWrap: true,
-                                itemCount: snapshot.data!.length,
-                                itemBuilder: (context, index) {
-                                  StudentsRegisteredUnitsModel unit =
-                                      snapshot.data![index];
-                                  return Container(
-                                    margin: const EdgeInsets.only(bottom: 10),
-                                    padding: const EdgeInsets.all(10),
-                                    height:
-                                        MediaQuery.of(context).size.height / 6,
-                                    width: MediaQuery.of(context).size.width,
-                                    decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.circular(20),
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: Colors.grey.withOpacity(0.5),
-                                          spreadRadius: 1,
-                                          blurRadius: 5,
-                                          offset: const Offset(0, 3),
-                                        ),
-                                      ],
+                            return SingleChildScrollView(
+                              scrollDirection: Axis.horizontal,
+                              child: ConstrainedBox(
+                                constraints: BoxConstraints(
+                                  minWidth: MediaQuery.of(context).size.width,
+                                ),
+                                child: DataTable(
+                                  columns: const [
+                                    DataColumn(
+                                      label: Text(
+                                        "Unit Code",
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 18),
+                                      ),
                                     ),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Row(
-                                          children: [
-                                            Text("${unit.unitCode}"),
-                                            const Spacer(),
-                                            IconButton(
-                                                onPressed: () {},
-                                                icon: const Icon(Icons
-                                                    .arrow_circle_up_outlined)),
-                                          ],
-                                        ),
-                                        Text("${unit.unitName}"),
-                                        verticalSpaceSmall,
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            Container(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                      horizontal: 10,
-                                                      vertical: 5),
-                                              decoration: BoxDecoration(
-                                                color: primaryColor,
-                                                borderRadius:
-                                                    BorderRadius.circular(10),
-                                              ),
-                                              child: const Column(
-                                                children: [
-                                                  Text(
-                                                    "View Marks",
-                                                    style: TextStyle(
-                                                      color: Colors.white,
-                                                      fontSize: 15,
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                            horizontalSpaceMedium,
-                                            horizontalSpaceMedium,
-                                            Container(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                      horizontal: 10,
-                                                      vertical: 5),
-                                              decoration: BoxDecoration(
-                                                color: primaryColor,
-                                                borderRadius:
-                                                    BorderRadius.circular(10),
-                                              ),
-                                              child: const Row(
-                                                children: [
-                                                  Text(
-                                                    "Apply Special ",
-                                                    style: TextStyle(
-                                                      color: Colors.white,
-                                                      fontSize: 15,
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          ],
-                                        )
-                                      ],
+                                    DataColumn(
+                                      label: Text(
+                                        "Unit Name",
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 18),
+                                      ),
                                     ),
-                                  );
-                                });
+                                    DataColumn(
+                                      label: Text(
+                                        "Assignment 1",
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 18),
+                                      ),
+                                    ),
+                                    DataColumn(
+                                      label: Text(
+                                        "Assignment 2",
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 18),
+                                      ),
+                                    ),
+                                    DataColumn(
+                                      label: Text(
+                                        "Cat 1",
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 18),
+                                      ),
+                                    ),
+                                    DataColumn(
+                                      label: Text(
+                                        "cat 2",
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 18),
+                                      ),
+                                    ),
+                                    DataColumn(
+                                      label: Text(
+                                        "Exam ",
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 18),
+                                      ),
+                                    ),
+                                    DataColumn(
+                                      label: Text(
+                                        "Total marks",
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 18),
+                                      ),
+                                    ),
+                                    DataColumn(
+                                      label: Text(
+                                        "Grade",
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 18),
+                                      ),
+                                    ),
+                                  ],
+                                  rows: snapshot.data!.map((units) {
+                                    return DataRow(cells: [
+                                      DataCell(Text(units.unitCode!)),
+                                      DataCell(Text(units.unitName!)),
+                                      DataCell(
+                                        Text(
+                                          units.assignMent1Marks.toString(),
+                                        ),
+                                      ),
+                                      DataCell(
+                                        Text(
+                                          units.assignMent2Marks.toString(),
+                                        ),
+                                      ),
+                                      DataCell(
+                                        Text(
+                                          units.cat1Marks.toString(),
+                                        ),
+                                      ),
+                                      DataCell(
+                                        Text(
+                                          units.cat2Marks.toString(),
+                                        ),
+                                      ),
+                                      DataCell(
+                                        Text(
+                                          units.examMarks.toString(),
+                                        ),
+                                      ),
+                                      DataCell(
+                                        Text(
+                                          units.totalMarks.toString(),
+                                        ),
+                                      ),
+                                      DataCell(
+                                        Text(units.grade!),
+                                      ),
+                                    ]);
+                                  }).toList(),
+                                ),
+                              ),
+                            );
                           }
                         }),
               ),

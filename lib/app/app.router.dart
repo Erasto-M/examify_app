@@ -245,8 +245,8 @@ class StackedRouter extends _i1.RouterBase {
     _i15.LecturerMyStudentsView: (data) {
       final args = data.getArgs<LecturerMyStudentsViewArguments>(nullOk: false);
       return _i17.MaterialPageRoute<dynamic>(
-        builder: (context) =>
-            _i15.LecturerMyStudentsView(key: args.key, unitCode: args.unitCode),
+        builder: (context) => _i15.LecturerMyStudentsView(
+            key: args.key, unitCode: args.unitCode, unitName: args.unitName),
         settings: data,
       );
     },
@@ -427,26 +427,31 @@ class LecturerMyStudentsViewArguments {
   const LecturerMyStudentsViewArguments({
     this.key,
     required this.unitCode,
+    required this.unitName,
   });
 
   final _i17.Key? key;
 
   final String unitCode;
 
+  final String unitName;
+
   @override
   String toString() {
-    return '{"key": "$key", "unitCode": "$unitCode"}';
+    return '{"key": "$key", "unitCode": "$unitCode", "unitName": "$unitName"}';
   }
 
   @override
   bool operator ==(covariant LecturerMyStudentsViewArguments other) {
     if (identical(this, other)) return true;
-    return other.key == key && other.unitCode == unitCode;
+    return other.key == key &&
+        other.unitCode == unitCode &&
+        other.unitName == unitName;
   }
 
   @override
   int get hashCode {
-    return key.hashCode ^ unitCode.hashCode;
+    return key.hashCode ^ unitCode.hashCode ^ unitName.hashCode;
   }
 }
 
@@ -655,6 +660,7 @@ extension NavigatorStateExtension on _i18.NavigationService {
   Future<dynamic> navigateToLecturerMyStudentsView({
     _i17.Key? key,
     required String unitCode,
+    required String unitName,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
@@ -662,8 +668,8 @@ extension NavigatorStateExtension on _i18.NavigationService {
         transition,
   }) async {
     return navigateTo<dynamic>(Routes.lecturerMyStudentsView,
-        arguments:
-            LecturerMyStudentsViewArguments(key: key, unitCode: unitCode),
+        arguments: LecturerMyStudentsViewArguments(
+            key: key, unitCode: unitCode, unitName: unitName),
         id: routerId,
         preventDuplicates: preventDuplicates,
         parameters: parameters,
@@ -888,6 +894,7 @@ extension NavigatorStateExtension on _i18.NavigationService {
   Future<dynamic> replaceWithLecturerMyStudentsView({
     _i17.Key? key,
     required String unitCode,
+    required String unitName,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
@@ -895,8 +902,8 @@ extension NavigatorStateExtension on _i18.NavigationService {
         transition,
   }) async {
     return replaceWith<dynamic>(Routes.lecturerMyStudentsView,
-        arguments:
-            LecturerMyStudentsViewArguments(key: key, unitCode: unitCode),
+        arguments: LecturerMyStudentsViewArguments(
+            key: key, unitCode: unitCode, unitName: unitName),
         id: routerId,
         preventDuplicates: preventDuplicates,
         parameters: parameters,

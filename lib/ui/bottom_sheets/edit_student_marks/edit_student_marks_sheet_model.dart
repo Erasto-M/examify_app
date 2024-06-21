@@ -1,7 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:examify/app/app.locator.dart';
 import 'package:examify/models/student_registered_units.dart';
 import 'package:examify/services/lecturer_dashboard_service.dart';
 import 'package:examify/ui/bottom_sheets/edit_student_marks/edit_student_marks_sheet.form.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:stacked/stacked.dart';
@@ -181,10 +184,81 @@ class EditStudentMarksSheetModel extends FormViewModel {
     setBusy(false);
     return false;
   }
-  
-  Stream getAllMyStudents({
+
+  Stream<List<StudentsRegisteredUnitsModel>> getAllMyStudents({
     required String unitCode,
   }) {
     return _lectureDashboardService.getAllMyStudents(unitCode: unitCode);
+  }
+
+  // datacell Controllers
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
+  FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+  List<StudentsRegisteredUnitsModel> _students = [];
+  List<StudentsRegisteredUnitsModel> get studentsList => _students;
+
+  Map<String, TextEditingController> _controllers = {};
+  Map<String, TextEditingController> get controllers => _controllers;
+
+  // fetching all students and putting them in a list
+  Future<void> fetchStudents(String unitCode) async {
+    final currentUserId = firebaseAuth.currentUser!.uid;
+    setBusy(true);
+    try {
+      final querySnapshot = await firestore
+          .collection('student_registered_units')
+          .where("unitLecturer", isEqualTo: currentUserId)
+          .where("unitCode", isEqualTo: unitCode)
+          .get();
+
+      _students = querySnapshot.docs
+          .map((doc) => StudentsRegisteredUnitsModel.fromMap(doc.data()))
+          .toList();
+
+      for (var student in _students) {
+        controllers.putIfAbsent(
+            student.studentUid!, () => TextEditingController());
+      }
+    } catch (e) {
+      // Handle error
+      print('Error fetching students: $e');
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  // method for pushing the students marks to firebase
+  Future<void> submitMarks(
+      {required String unitCode, required String selectedModule}) async {
+    setBusy(true);
+    if (controllers.entries.isEmpty) {
+      Fluttertoast.showToast(msg: "Please Enter the marks");
+      setBusy(false);
+      return;
+    }
+
+    for (var entry in controllers.entries) {
+      final studentUID = entry.key;
+      int marks = int.parse(entry.value.text);
+      print(studentUID);
+      print(marks);
+
+      try {
+        var querySnapshot = await firestore
+            .collection('student_registered_units')
+            .where("studentUid", isEqualTo: studentUID)
+            .where("unitLecturer", isEqualTo: firebaseAuth.currentUser!.uid)
+            .where("unitCode", isEqualTo: unitCode)
+            .get();
+
+        for (var doc in querySnapshot.docs) {
+          await doc.reference.update({selectedModule: marks});
+        }
+      } catch (e) {
+        Fluttertoast.showToast(msg: e.toString());
+      }
+    }
+    setBusy(false);
+    notifyListeners();
   }
 }

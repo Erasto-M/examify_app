@@ -859,7 +859,6 @@ class MockAuthenticationService extends _i1.Mock
     required String? userName,
     required String? email,
     required String? phoneNumber,
-    required String? role,
   }) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -869,7 +868,6 @@ class MockAuthenticationService extends _i1.Mock
             #userName: userName,
             #email: email,
             #phoneNumber: phoneNumber,
-            #role: role,
           },
         ),
         returnValue: _i7.Future<void>.value(),
@@ -1134,6 +1132,26 @@ class MockLecturerDashboardService extends _i1.Mock
       (super.noSuchMethod(
         Invocation.method(
           #updateStudentMarks,
+          [],
+          {
+            #studentId: studentId,
+            #unitCode: unitCode,
+            #student: student,
+          },
+        ),
+        returnValue: _i7.Future<dynamic>.value(),
+        returnValueForMissingStub: _i7.Future<dynamic>.value(),
+      ) as _i7.Future<dynamic>);
+
+  @override
+  _i7.Future<dynamic> adminUpdateStudentMarks({
+    required String? studentId,
+    required String? unitCode,
+    required _i13.StudentsRegisteredUnitsModel? student,
+  }) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #adminUpdateStudentMarks,
           [],
           {
             #studentId: studentId,
