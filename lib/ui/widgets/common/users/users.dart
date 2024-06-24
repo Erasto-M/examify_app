@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 
-import '../../../common/app_colors.dart';
 import 'users_model.dart';
 
 class Users extends StackedView<UsersModel> {

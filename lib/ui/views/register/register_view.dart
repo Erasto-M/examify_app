@@ -14,6 +14,8 @@ import 'register_viewmodel.dart';
   FormTextField(name: "Phone Number"),
   FormTextField(name: "Gender"),
   FormTextField(name: "Role"),
+  FormTextField(name: "Registration Number"),
+  FormTextField(name: "PF Number"),
   FormTextField(name: "Password"),
   FormTextField(name: "Year of study"),
   FormTextField(name: "Confirm Password"),
@@ -49,7 +51,7 @@ class RegisterView extends StackedView<RegisterViewModel> with $RegisterView {
               ),
               verticalSpaceSmall,
               const Text(
-                'Create account to Get Things Done',
+                'Fill in the form below to create an account',
                 style: TextStyle(
                     color: Colors.white,
                     fontSize: 20,
@@ -70,7 +72,7 @@ class RegisterView extends StackedView<RegisterViewModel> with $RegisterView {
                 child: Column(
                   children: [
                     const Text(
-                      "SIGN UP",
+                      "Register",
                       style: TextStyle(
                         color: Colors.black,
                         fontWeight: FontWeight.bold,
@@ -200,6 +202,40 @@ class RegisterView extends StackedView<RegisterViewModel> with $RegisterView {
                                             BorderRadius.circular(10))),
                               ),
                             verticalSpaceTiny,
+                            if (roleController.text == 'Student')
+                              TextFormField(
+                                validator: (value) {
+                                  if (value!.isEmpty || value == '') {
+                                    return "Registration number is required";
+                                  }
+                                  return '';
+                                },
+                                controller: registrationNumberController,
+                                readOnly: false,
+                                decoration: InputDecoration(
+                                    hintText: "Registration Number",
+                                    border: OutlineInputBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(10))),
+                              ),
+                            verticalSpaceTiny,
+                            if (roleController.text == 'Lecturer' ||
+                                roleController.text == 'ExamsCoordinator')
+                              TextFormField(
+                                validator: (value) {
+                                  if (value!.isEmpty || value == '') {
+                                    return "PF Number is required";
+                                  }
+                                  return '';
+                                },
+                                controller: pFNumberController,
+                                readOnly: false,
+                                decoration: InputDecoration(
+                                    hintText: "PF Number",
+                                    border: OutlineInputBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(10))),
+                              ),
                             TextFormField(
                               validator: (value) {
                                 if (value!.isEmpty || value == '') {
@@ -256,7 +292,10 @@ class RegisterView extends StackedView<RegisterViewModel> with $RegisterView {
                                               yearOfStudyController.text,
                                           password: passwordController.text,
                                           confirmPassword:
-                                              confirmPasswordController.text);
+                                              confirmPasswordController.text,
+                                          registrationNumber:
+                                              registrationNumberController.text,
+                                          pfNumber: pFNumberController.text);
                                     },
                                     child: Container(
                                       width: MediaQuery.of(context).size.width,
@@ -284,21 +323,6 @@ class RegisterView extends StackedView<RegisterViewModel> with $RegisterView {
                                     ),
                                   ),
                             verticalSpaceSmall,
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                const Text(
-                                  "Already have an account?",
-                                  style: TextStyle(
-                                      color: Colors.black, fontSize: 16),
-                                ),
-                                TextButton(
-                                    onPressed: () {
-                                      viewModel.navigateToLogin();
-                                    },
-                                    child: const Text("Login"))
-                              ],
-                            )
                           ],
                         ))
                   ],

@@ -2,17 +2,16 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:examify/app/app.locator.dart';
 import 'package:examify/app/app.router.dart';
 import 'package:examify/models/usersModel.dart';
-import 'package:examify/ui/views/admin_panel/admin_panel_view.dart';
 import 'package:examify/ui/views/lecturer_home/lecturer_home_view.dart';
 import 'package:examify/ui/views/login/login_view.dart';
 import 'package:examify/ui/views/students_home/students_home_view.dart';
-import 'package:examify/ui/widgets/common/users/users.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:stacked_services/stacked_services.dart';
 
 import '../ui/views/admin_home/admin_home_view.dart';
+import '../ui/views/exams_coordinator_home/exams_coordinator_home_view.dart';
 
 class AuthenticationService {
   final _navigationService = locator<NavigationService>();
@@ -27,6 +26,8 @@ class AuthenticationService {
     required String gender,
     required String password,
     required String yearOfStudy,
+    required String registrationNumber,
+    required String pfNumber,
   }) async {
     try {
       //register user
@@ -44,14 +45,16 @@ class AuthenticationService {
           'phoneNumber': phoneNumber,
           'userId': value.user!.uid,
           "yearOfStudy": yearOfStudy,
+          "registrationNumber": registrationNumber,
+          "pfNumber": pfNumber,
         });
       }).then((value) {
         //send verification email
         firebaseAuth.currentUser!.sendEmailVerification();
         Fluttertoast.showToast(
-            msg: 'Account created successfully, check your email to verify');
+            msg: 'Account created successfully, verification email sent');
       }).then((value) {
-        _navigationService.navigateToLoginView();
+        _navigationService.navigateToAdminPanelView();
       });
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
@@ -99,6 +102,13 @@ class AuthenticationService {
             Navigator.of(context).pushReplacement(
               MaterialPageRoute(
                 builder: (context) => const AdminHomeView(),
+              ),
+            );
+          } else if (value.data()!['role'] == 'ExamsCoordinator') {
+            debugPrint("Logging to the ExamsCoordinator");
+            Navigator.of(context).pushReplacement(
+              MaterialPageRoute(
+                builder: (context) => const ExamsCoordinatorHomeView(),
               ),
             );
           } else {
