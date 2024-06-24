@@ -147,7 +147,7 @@ class LecturerMyStudentsView extends StackedView<LecturerMyStudentsViewModel> {
                               borderRadius: BorderRadius.circular(10)),
                           child: const Center(
                             child: Text(
-                              "Submit",
+                              "Click here to enter marks",
                               style: TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold,
