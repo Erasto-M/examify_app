@@ -46,7 +46,7 @@ class ProfileContainer extends StackedView<ProfileContainerModel> {
                         userName,
                         style: const TextStyle(
                           color: Colors.white,
-                          fontSize: 20,
+                          fontSize: 14,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -55,7 +55,7 @@ class ProfileContainer extends StackedView<ProfileContainerModel> {
                         email,
                         style: const TextStyle(
                           color: Colors.white,
-                          fontSize: 14,
+                          fontSize: 12,
                         ),
                       ),
                     ],

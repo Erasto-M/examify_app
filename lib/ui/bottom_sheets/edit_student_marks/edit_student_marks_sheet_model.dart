@@ -6,6 +6,7 @@ import 'package:examify/ui/bottom_sheets/edit_student_marks/edit_student_marks_s
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:stacked/stacked.dart';
 
@@ -229,17 +230,20 @@ class EditStudentMarksSheetModel extends FormViewModel {
 
   // method for pushing the students marks to firebase
   Future<void> submitMarks(
-      {required String unitCode, required String selectedModule}) async {
+      {required String unitCode,
+      required String selectedModule,
+      required BuildContext context}) async {
     setBusy(true);
     if (controllers.entries.isEmpty) {
       Fluttertoast.showToast(msg: "Please Enter the marks");
       setBusy(false);
+      Navigator.of(context).pop();
       return;
     }
 
     for (var entry in controllers.entries) {
       final studentUID = entry.key;
-      int marks = int.parse(entry.value.text);
+      int? marks = int.parse(entry.value.text);
       print(studentUID);
       print(marks);
 

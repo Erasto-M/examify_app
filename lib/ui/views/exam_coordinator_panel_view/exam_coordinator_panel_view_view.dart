@@ -1,20 +1,21 @@
-import 'package:examify/ui/common/app_colors.dart';
-import 'package:examify/ui/common/ui_helpers.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 
+import '../../common/app_colors.dart';
+import '../../common/ui_helpers.dart';
 import '../../widgets/common/manage_courses/manage_courses.dart';
 import '../../widgets/common/transcripts/transcripts.dart';
 import '../../widgets/common/users/users.dart';
-import 'admin_panel_viewmodel.dart';
+import 'exam_coordinator_panel_view_viewmodel.dart';
 
-class AdminPanelView extends StackedView<AdminPanelViewModel> {
-  const AdminPanelView({Key? key}) : super(key: key);
+class ExamCoordinatorPanelViewView
+    extends StackedView<ExamCoordinatorPanelViewViewModel> {
+  const ExamCoordinatorPanelViewView({Key? key}) : super(key: key);
 
   @override
   Widget builder(
     BuildContext context,
-    AdminPanelViewModel viewModel,
+    ExamCoordinatorPanelViewViewModel viewModel,
     Widget? child,
   ) {
     return SafeArea(
@@ -42,7 +43,7 @@ class AdminPanelView extends StackedView<AdminPanelViewModel> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'Hello, Admin',
+                                'Hello, ExamsCo',
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 30,
@@ -63,7 +64,7 @@ class AdminPanelView extends StackedView<AdminPanelViewModel> {
                             radius: 30,
                             backgroundColor: Colors.white,
                             backgroundImage:
-                                AssetImage('Assets/Images/man1.jpeg'),
+                            AssetImage('Assets/Images/man1.jpeg'),
                           ),
                         ],
                       ),
@@ -95,28 +96,15 @@ class AdminPanelView extends StackedView<AdminPanelViewModel> {
                   ),
                 ),
                 verticalSpaceTiny,
-                SingleChildScrollView(
+                const SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      ElevatedButton(
-                        onPressed: () {
-                          viewModel.navigateToRegisterNewUser();
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: primaryColor,
-                          foregroundColor:
-                              Colors.white, // Set background color to green
-                          elevation: 0,
-                          fixedSize: const Size(150, 60),
-                        ),
-                        child: const Text("Register New"),
-                      ),
                       horizontalSpaceTiny,
-                      const Users(user: 'Students'),
+                      Users(user: 'Students'),
                       horizontalSpaceTiny,
-                      const Users(user: 'Lecturers'),
+                      Users(user: 'Lecturers'),
                     ],
                   ),
                 ),
@@ -149,8 +137,8 @@ class AdminPanelView extends StackedView<AdminPanelViewModel> {
   }
 
   @override
-  AdminPanelViewModel viewModelBuilder(
+  ExamCoordinatorPanelViewViewModel viewModelBuilder(
     BuildContext context,
   ) =>
-      AdminPanelViewModel();
+      ExamCoordinatorPanelViewViewModel();
 }
