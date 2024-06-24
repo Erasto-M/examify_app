@@ -93,7 +93,7 @@ class LecturerMyStudentsView extends StackedView<LecturerMyStudentsViewModel> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const Text(
-                          "EnterMarks",
+                          "Select",
                           style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.normal,
