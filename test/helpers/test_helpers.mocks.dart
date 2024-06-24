@@ -759,6 +759,8 @@ class MockAuthenticationService extends _i1.Mock
     required String? gender,
     required String? password,
     required String? yearOfStudy,
+    required String? registrationNumber,
+    required String? pfNumber,
   }) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -772,6 +774,8 @@ class MockAuthenticationService extends _i1.Mock
             #gender: gender,
             #password: password,
             #yearOfStudy: yearOfStudy,
+            #registrationNumber: registrationNumber,
+            #pfNumber: pfNumber,
           },
         ),
         returnValue: _i7.Future<void>.value(),

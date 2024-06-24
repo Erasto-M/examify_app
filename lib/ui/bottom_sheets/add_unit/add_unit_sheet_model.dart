@@ -30,7 +30,6 @@ class AddUnitSheetModel extends FormViewModel {
 
   get getSelectedLecName => selectedLecName;
 
-
   String? selectedLecId;
 
   get getSelectedLecId => selectedLecId;

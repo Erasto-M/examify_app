@@ -29,6 +29,7 @@ class RegisterViewModel extends FormViewModel {
   List role = [
     'Student',
     "Lecturer",
+    "ExamsCoordinator",
   ];
   // gender drop down menu
   void selectGender(
@@ -130,6 +131,8 @@ class RegisterViewModel extends FormViewModel {
     required String password,
     required String confirmPassword,
     required String yearOfStudy,
+    required String registrationNumber,
+    required String pfNumber,
   }) async {
     setBusy(true);
     if (passwordValue != confirmPasswordValue) {
@@ -168,6 +171,8 @@ class RegisterViewModel extends FormViewModel {
         gender: gender,
         password: password,
         yearOfStudy: yearOfStudy,
+        registrationNumber: registrationNumber,
+        pfNumber: pfNumber,
       );
       notifyListeners();
       setBusy(false);

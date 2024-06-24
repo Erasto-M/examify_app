@@ -77,9 +77,7 @@ class _AdminStudentPerformanceDetailsViewState
                             ],
                           ),
                         ),
-
                         const SizedBox(height: 10),
-
                         Expanded(
                           child: ListView.builder(
                             itemCount: units.length,
@@ -104,13 +102,13 @@ class _AdminStudentPerformanceDetailsViewState
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                        Text(
-                                          'Unit Name: ${unit.unitName}',
-                                          style: const TextStyle(
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
+                                    Text(
+                                      'Unit Name: ${unit.unitName}',
+                                      style: const TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
                                     const SizedBox(height: 10),
                                     Text(
                                       'Unit Code: ${unit.unitCode}',
