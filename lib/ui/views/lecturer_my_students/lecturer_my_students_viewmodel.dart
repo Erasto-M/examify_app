@@ -13,6 +13,7 @@ class LecturerMyStudentsViewModel extends BaseViewModel {
   final _authenticationService = locator<AuthenticationService>();
   final _lecturerDashboardService = locator<LecturerDashboardService>();
   final _bottomSheetService = locator<BottomSheetService>();
+  final _navigaationService = locator<NavigationService>();
   //gettiong the current user details
   Map<String, dynamic> userDetails = {};
   Map<String, dynamic> get user => userDetails;
@@ -39,7 +40,7 @@ class LecturerMyStudentsViewModel extends BaseViewModel {
   List<StudentsRegisteredUnitsModel>? _students;
   List<StudentsRegisteredUnitsModel>? get students => _students;
 
-  Stream getAllMyStudents({
+  Stream<List<StudentsRegisteredUnitsModel>> getAllMyStudents({
     required String unitCode,
   }) {
     return _lectureDashboardService.getAllMyStudents(unitCode: unitCode);
@@ -48,18 +49,32 @@ class LecturerMyStudentsViewModel extends BaseViewModel {
   // open the bottom sheet to edit the student marks
   void openEditStudentMarksSheet({
     required String unitCode,
-    required String studentId,
-    required int assignment1,
-    required int assignment2,
-    required int cat1,
-    required int cat2,
-    required int examMarks,
+    required String unitName,
   }) {
     _bottomSheetService.showCustomSheet(
       variant: BottomSheetType.editStudentMarks,
       isScrollControlled: true,
-      description: studentId,
+      description: _selectedExamModuleToEnterMarks,
       data: unitCode,
     );
+  }
+
+  String _selectedExamModuleToEnterMarks = 'assignMent1Marks';
+  String get selectedExamModuleToEnterMarks => _selectedExamModuleToEnterMarks;
+  void setSelectedExamModuleToEnterMarks(String value) {
+    _selectedExamModuleToEnterMarks = value;
+    notifyListeners();
+  }
+
+  List<String> examModelues = [
+    'assignMent1Marks',
+    "assignMent2Marks",
+    "cat1Marks",
+    "cat2Marks",
+    "examMarks",
+  ];
+  Future<void> backToHome() async {
+    await _navigaationService.back();
+    notifyListeners();
   }
 }

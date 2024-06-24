@@ -127,36 +127,18 @@ class LecturerDashboardView extends StackedView<LecturerDashboardViewModel> {
                                   ),
                                   const Spacer(),
                                   IconButton(
-                                    onPressed: () {
-                                      // viewModel.toggleContainer(unit.unitId!);
-                                    },
-                                    icon:
-                                        // viewModel.isContainerHidden(
-                                        //             unit.unitId!) ==
-                                        //         true
-                                        //     ? const Icon(
-                                        //         Icons.arrow_drop_down_outlined)
-                                        //     :
-                                        const Icon(
-                                            Icons.arrow_drop_up_outlined),
+                                    onPressed: () {},
+                                    icon: const Icon(
+                                        Icons.arrow_drop_up_outlined),
                                   ),
                                 ],
                               ),
-                              subtitle:
-                                  // viewModel
-                                  //             .isContainerHidden(unit.unitId!) ==
-                                  //         true
-                                  //     ? const SizedBox()
-                                  Center(
+                              subtitle: Center(
                                 child: InkWell(
                                   onTap: () {
-                                    // viewModel.isContainerHidden(
-                                    //             unit.unitId!) ==
-                                    //         true
-                                    //     ? const SizedBox()
-                                    //     :
                                     viewModel.navigateToViewStudents(
                                       unitCode: unit.unitCode,
+                                      unitName: unit.unitName,
                                     );
                                   },
                                   child: Container(
@@ -169,7 +151,7 @@ class LecturerDashboardView extends StackedView<LecturerDashboardViewModel> {
                                       ),
                                       child: const Center(
                                         child: Text(
-                                          'View Students',
+                                          'Assign marks',
                                           style: TextStyle(
                                             color: Colors.white,
                                             fontSize: 20,

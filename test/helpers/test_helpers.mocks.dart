@@ -863,7 +863,6 @@ class MockAuthenticationService extends _i1.Mock
     required String? userName,
     required String? email,
     required String? phoneNumber,
-    required String? role,
   }) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -873,7 +872,6 @@ class MockAuthenticationService extends _i1.Mock
             #userName: userName,
             #email: email,
             #phoneNumber: phoneNumber,
-            #role: role,
           },
         ),
         returnValue: _i7.Future<void>.value(),
