@@ -36,122 +36,129 @@ class EditStudentMarksSheet extends StackedView<EditStudentMarksSheetModel>
     Widget? child,
   ) {
     return SafeArea(
-      child: Container(
-        margin: const EdgeInsets.only(top: 50),
-        width: MediaQuery.of(context).size.width,
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-        decoration: const BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(10),
-            topRight: Radius.circular(10),
+      child: SingleChildScrollView(
+        child: Container(
+          margin: const EdgeInsets.only(top: 50),
+          width: MediaQuery.of(context).size.width,
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+          decoration: const BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(10),
+              topRight: Radius.circular(10),
+            ),
           ),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-              request.title ?? 'Enter Student Marks',
-              style: const TextStyle(
-                  color: Colors.black,
-                  fontSize: 25,
-                  fontWeight: FontWeight.w900),
-            ),
-            if (request.description != null) ...[
-              verticalSpaceTiny,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
               Text(
-                request.description!,
-                style: const TextStyle(fontSize: 14, color: kcMediumGrey),
-                maxLines: 3,
-                softWrap: true,
+                request.title ?? 'Enter Student Marks',
+                style: const TextStyle(
+                    color: Colors.black,
+                    fontSize: 25,
+                    fontWeight: FontWeight.w900),
               ),
-            ],
-            verticalSpaceSmall,
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: ConstrainedBox(
-                constraints: BoxConstraints(
-                  minWidth: MediaQuery.of(context).size.width,
+              if (request.description != null) ...[
+                verticalSpaceTiny,
+                Text(
+                  request.description!,
+                  style: const TextStyle(fontSize: 14, color: kcMediumGrey),
+                  maxLines: 3,
+                  softWrap: true,
                 ),
-                child: DataTable(
-                  columns: [
-                    const DataColumn(
-                      label: Text(
-                        "Name",
-                        style: TextStyle(
-                            color: primaryColor,
-                            fontWeight: FontWeight.w600,
-                            fontSize: 18),
-                      ),
-                    ),
-                    DataColumn(
-                      numeric: true,
-                      label: Text(
-                        request.description!,
-                        style: const TextStyle(
-                            color: primaryColor,
-                            fontWeight: FontWeight.w600,
-                            fontSize: 18),
-                      ),
-                    ),
-                  ],
-                  rows: viewModel.studentsList.map((student) {
-                    final controller = viewModel.controllers.putIfAbsent(
-                      student.studentUid!,
-                      () => TextEditingController(),
-                    );
-                    return DataRow(cells: [
-                      DataCell(Text(student.studentName!)),
-                      DataCell(
-                        onTap: () {},
-                        Container(
-                          height: 40,
-                          width: MediaQuery.sizeOf(context).width / 3,
-                          padding: const EdgeInsets.all(3),
-                          child: TextFormField(
-                            controller: controller,
-                            decoration: InputDecoration(
-                                border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(5))),
-                          ),
+              ],
+              verticalSpaceSmall,
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(
+                    minWidth: MediaQuery.of(context).size.width,
+                  ),
+                  child: DataTable(
+                    columns: [
+                      const DataColumn(
+                        label: Text(
+                          "Name",
+                          style: TextStyle(
+                              color: primaryColor,
+                              fontWeight: FontWeight.w600,
+                              fontSize: 18),
                         ),
-                      )
-                    ]);
-                  }).toList(),
-                ),
-              ),
-            ),
-            verticalSpaceSmall,
-            Center(
-              child: InkWell(
-                onTap: () {
-                  viewModel.submitMarks(
-                      unitCode: request.data,
-                      selectedModule: request.description!);
-                },
-                child: Container(
-                  height: 40,
-                  width: MediaQuery.sizeOf(context).width / 2,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    color: primaryColor,
-                  ),
-                  child: Center(
-                    child: viewModel.isBusy
-                        ? const SpinKitSpinningLines(color: Colors.white)
-                        : const Text(
-                            "Save Marks",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold),
+                      ),
+                      DataColumn(
+                        numeric: true,
+                        label: Text(
+                          request.description!,
+                          style: const TextStyle(
+                              color: primaryColor,
+                              fontWeight: FontWeight.w600,
+                              fontSize: 18),
+                        ),
+                      ),
+                    ],
+                    rows: viewModel.studentsList.map((student) {
+                      final controller = viewModel.controllers.putIfAbsent(
+                        student.studentUid!,
+                        () => TextEditingController(),
+                      );
+                      return DataRow(cells: [
+                        DataCell(Text(student.studentName!)),
+                        DataCell(
+                          onTap: () {},
+                          Container(
+                            height: 40,
+                            width: MediaQuery.sizeOf(context).width / 3,
+                            padding: const EdgeInsets.all(3),
+                            child: TextFormField(
+                              controller: controller,
+                              decoration: InputDecoration(
+                                  border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(5))),
+                            ),
                           ),
+                        )
+                      ]);
+                    }).toList(),
                   ),
                 ),
               ),
-            )
-          ],
+              verticalSpaceSmall,
+              Center(
+                child: InkWell(
+                  onTap: () {
+                    viewModel.submitMarks(
+                      unitCode: request.data,
+                      selectedModule: request.description!,
+                      context: context,
+                    );
+                  },
+                  child: Container(
+                    height: 40,
+                    width: MediaQuery.sizeOf(context).width / 2,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      color: primaryColor,
+                    ),
+                    child: Center(
+                      child: viewModel.isBusy
+                          ? const SpinKitSpinningLines(
+                              color: Colors.white,
+                              size: 30,
+                            )
+                          : const Text(
+                              "Save Marks",
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                    ),
+                  ),
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );
