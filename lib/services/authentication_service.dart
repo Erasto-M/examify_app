@@ -232,7 +232,6 @@ class AuthenticationService {
     required String userName,
     required String email,
     required String phoneNumber,
-  
   }) async {
     try {
       User? user = firebaseAuth.currentUser;
@@ -241,7 +240,6 @@ class AuthenticationService {
           'userName': userName,
           'email': email,
           "phoneNumber": phoneNumber,
-        
         }).then((value) {
           Fluttertoast.showToast(msg: 'Profile updated successfully');
         });

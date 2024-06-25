@@ -35,6 +35,7 @@ import 'package:examify/ui/bottom_sheets/edit_student_marks/edit_student_marks_s
 import 'package:examify/ui/views/student_units_marks/student_units_marks_view.dart';
 import 'package:examify/ui/views/exams_coordinator_home/exams_coordinator_home_view.dart';
 import 'package:examify/ui/views/exam_coordinator_panel_view/exam_coordinator_panel_view_view.dart';
+import 'package:examify/ui/bottom_sheets/edit_marks_per_student/edit_marks_per_student_sheet.dart';
 // @stacked-import
 
 @StackedApp(
@@ -71,6 +72,7 @@ import 'package:examify/ui/views/exam_coordinator_panel_view/exam_coordinator_pa
     StackedBottomsheet(classType: AddUnitSheet),
     StackedBottomsheet(classType: EditUnitSheet),
     StackedBottomsheet(classType: EditStudentMarksSheet),
+    StackedBottomsheet(classType: EditMarksPerStudentSheet),
 // @stacked-bottom-sheet
   ],
   dialogs: [

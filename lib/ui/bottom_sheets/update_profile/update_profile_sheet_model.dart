@@ -18,14 +18,12 @@ class UpdateProfileSheetModel extends FormViewModel {
     required String userName,
     required String email,
     required String phoneNumber,
-   
   }) async {
     setBusy(true);
     await _authenticationService.updateUserProfile(
       userName: userName,
       email: email,
       phoneNumber: phoneNumber,
-    
     );
     setBusy(false);
   }

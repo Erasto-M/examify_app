@@ -1,8 +1,14 @@
+import 'dart:io';
+
 import 'package:examify/models/student_registered_units.dart';
 import 'package:examify/ui/common/app_colors.dart';
 import 'package:examify/ui/common/ui_helpers.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:pdf/pdf.dart';
+import 'package:printing/printing.dart';
 import 'package:stacked/stacked.dart';
 
 import 'lecturer_my_students_viewmodel.dart';
@@ -29,6 +35,7 @@ class LecturerMyStudentsView extends StackedView<LecturerMyStudentsViewModel> {
           padding: const EdgeInsets.only(left: 10.0, right: 5.0, top: 30),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Row(
                 children: [
@@ -199,132 +206,275 @@ class LecturerMyStudentsView extends StackedView<LecturerMyStudentsViewModel> {
                           constraints: BoxConstraints(
                             minWidth: MediaQuery.of(context).size.width,
                           ),
-                          child: DataTable(
-                            columns: const [
-                              DataColumn(
-                                label: Text(
-                                  "Name",
-                                  style: TextStyle(
-                                      color: primaryColor,
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 18),
-                                ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              DataTable(
+                                columns: const [
+                                  DataColumn(
+                                    label: Text(
+                                      "Name",
+                                      style: TextStyle(
+                                          color: primaryColor,
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 18),
+                                    ),
+                                  ),
+                                  DataColumn(
+                                    label: Text(
+                                      "RegNo",
+                                      style: TextStyle(
+                                          color: primaryColor,
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 18),
+                                    ),
+                                  ),
+                                  DataColumn(
+                                    label: Text(
+                                      "Assignment 1",
+                                      style: TextStyle(
+                                          color: primaryColor,
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 18),
+                                    ),
+                                  ),
+                                  DataColumn(
+                                    label: Text(
+                                      "Assignment 2",
+                                      style: TextStyle(
+                                          color: primaryColor,
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 18),
+                                    ),
+                                  ),
+                                  DataColumn(
+                                    label: Text(
+                                      "Cat 1",
+                                      style: TextStyle(
+                                          color: primaryColor,
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 18),
+                                    ),
+                                  ),
+                                  DataColumn(
+                                    label: Text(
+                                      "cat 2",
+                                      style: TextStyle(
+                                          color: primaryColor,
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 18),
+                                    ),
+                                  ),
+                                  DataColumn(
+                                    label: Text(
+                                      "Exam ",
+                                      style: TextStyle(
+                                          color: primaryColor,
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 18),
+                                    ),
+                                  ),
+                                  DataColumn(
+                                    label: Text(
+                                      "Total marks",
+                                      style: TextStyle(
+                                          color: primaryColor,
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 18),
+                                    ),
+                                  ),
+                                  DataColumn(
+                                    label: Text(
+                                      "Grade",
+                                      style: TextStyle(
+                                          color: primaryColor,
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 18),
+                                    ),
+                                  ),
+                                  DataColumn(
+                                    label: Text(
+                                      "Action",
+                                      style: TextStyle(
+                                          color: primaryColor,
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 18),
+                                    ),
+                                  ),
+                                ],
+                                rows: snapshot.data!.map((student) {
+                                  return DataRow(cells: [
+                                    DataCell(
+                                      Text(student.studentName!),
+                                    ),
+                                    DataCell(
+                                      Text(student.studentPhoneNumber!),
+                                    ),
+                                    DataCell(
+                                      Text(
+                                        student.assignMent1Marks.toString(),
+                                      ),
+                                    ),
+                                    DataCell(
+                                      Text(student.assignMent2Marks.toString()),
+                                    ),
+                                    DataCell(
+                                      Text(student.cat1Marks.toString()),
+                                    ),
+                                    DataCell(
+                                      Text(
+                                        student.cat2Marks.toString(),
+                                      ),
+                                    ),
+                                    DataCell(
+                                      Text(student.examMarks.toString()),
+                                    ),
+                                    DataCell(
+                                      Text(student.totalMarks.toString()),
+                                    ),
+                                    DataCell(
+                                      Text(student.grade.toString()),
+                                    ),
+                                    DataCell(
+                                      MouseRegion(
+                                        cursor: SystemMouseCursors.click,
+                                        child: Tooltip(
+                                          message:
+                                              "Edit marks for ${student.studentName}",
+                                          child: IconButton(
+                                            onPressed: () {
+                                              // Add your edit functionality here
+                                              viewModel
+                                                  .showEditMarksPerStudentSheet(
+                                                studentName:
+                                                    student.studentName!,
+                                                studentUid: student.studentUid!,
+                                                assignMent1Marks:
+                                                    student.assignMent1Marks!,
+                                                assignMent2Marks:
+                                                    student.assignMent2Marks!,
+                                                cat1Marks: student.cat1Marks!,
+                                                cat2Marks: student.cat2Marks!,
+                                                examMarks: student.examMarks!,
+                                              );
+                                            },
+                                            icon: const Icon(
+                                              Icons.edit,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ]);
+                                }).toList(),
                               ),
-                              DataColumn(
-                                label: Text(
-                                  "RegNo",
-                                  style: TextStyle(
-                                      color: primaryColor,
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 18),
-                                ),
+                              // download pdf
+                              verticalSpaceMedium,
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Center(
+                                    child: InkWell(
+                                      onTap: () async {
+                                        final pdf = await viewModel.generatePDF(
+                                            snapshot.data!, unitName);
+                                        final output =
+                                            await getTemporaryDirectory();
+                                        final file =
+                                            File('${output.path}/marks.pdf');
+                                        await file
+                                            .writeAsBytes(await pdf.save());
+                                        viewModel.setPdfPath(file.path);
+                                      },
+                                      child: Container(
+                                        height: 40,
+                                        width:
+                                            MediaQuery.sizeOf(context).width /
+                                                2,
+                                        decoration: BoxDecoration(
+                                            color: primaryColor,
+                                            borderRadius:
+                                                BorderRadius.circular(10)),
+                                        child: const Center(
+                                          child: Text(
+                                            "View Marks PDF",
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 17),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  horizontalSpaceMedium,
+                                  Center(
+                                    child: InkWell(
+                                      child: Container(
+                                        height: 40,
+                                        width:
+                                            MediaQuery.sizeOf(context).width /
+                                                2,
+                                        decoration: BoxDecoration(
+                                            color: primaryColor,
+                                            borderRadius:
+                                                BorderRadius.circular(10)),
+                                        child: const Center(
+                                          child: Text(
+                                            "Download Marks PDF",
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 17),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
-                              DataColumn(
-                                label: Text(
-                                  "Assignment 1",
-                                  style: TextStyle(
-                                      color: primaryColor,
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 18),
-                                ),
-                              ),
-                              DataColumn(
-                                label: Text(
-                                  "Assignment 2",
-                                  style: TextStyle(
-                                      color: primaryColor,
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 18),
-                                ),
-                              ),
-                              DataColumn(
-                                label: Text(
-                                  "Cat 1",
-                                  style: TextStyle(
-                                      color: primaryColor,
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 18),
-                                ),
-                              ),
-                              DataColumn(
-                                label: Text(
-                                  "cat 2",
-                                  style: TextStyle(
-                                      color: primaryColor,
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 18),
-                                ),
-                              ),
-                              DataColumn(
-                                label: Text(
-                                  "Exam ",
-                                  style: TextStyle(
-                                      color: primaryColor,
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 18),
-                                ),
-                              ),
-                              DataColumn(
-                                label: Text(
-                                  "Total marks",
-                                  style: TextStyle(
-                                      color: primaryColor,
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 18),
-                                ),
-                              ),
-                              DataColumn(
-                                label: Text(
-                                  "Grade",
-                                  style: TextStyle(
-                                      color: primaryColor,
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 18),
-                                ),
-                              ),
+                              verticalSpaceMedium,
                             ],
-                            rows: snapshot.data!.map((student) {
-                              return DataRow(cells: [
-                                DataCell(
-                                  Text(student.studentName!),
-                                ),
-                                DataCell(
-                                  Text(student.studentPhoneNumber!),
-                                ),
-                                DataCell(
-                                  Text(
-                                    student.assignMent1Marks.toString(),
-                                  ),
-                                ),
-                                DataCell(
-                                  Text(student.assignMent2Marks.toString()),
-                                ),
-                                DataCell(
-                                  Text(student.cat1Marks.toString()),
-                                ),
-                                DataCell(
-                                  Text(
-                                    student.cat2Marks.toString(),
-                                  ),
-                                ),
-                                DataCell(
-                                  Text(student.examMarks.toString()),
-                                ),
-                                DataCell(
-                                  Text(student.totalMarks.toString()),
-                                ),
-                                DataCell(
-                                  Text(student.grade.toString()),
-                                ),
-                              ]);
-                            }).toList(),
                           ),
                         ),
                       );
+                      //
                     }
                   },
                 ),
-              )
+              ),
+              verticalSpaceSmall,
+              viewModel.pdfPath != null
+                  ? Expanded(
+                      child: Container(
+                        margin: EdgeInsets.only(top: 30),
+                        height: 500,
+                        child: PDFView(
+                          filePath: viewModel.pdfPath,
+                          enableSwipe: true,
+                          swipeHorizontal: true,
+                          autoSpacing: false,
+                          pageFling: false,
+                          onRender: (pages) {
+                            viewModel.setPageCount(pages!);
+                          },
+                          onViewCreated: (controller) {
+                            viewModel.setPdfController(controller);
+                          },
+                          onPageChanged: (page, total) {
+                            viewModel.setCurrentPage(page!);
+                          },
+                          onError: (error) {
+                            print(error.toString());
+                          },
+                          onPageError: (page, error) {
+                            print('$page : ${error.toString()}');
+                          },
+                        ),
+                      ),
+                    )
+                  : Container()
             ],
           ),
         ),
@@ -338,5 +488,6 @@ class LecturerMyStudentsView extends StackedView<LecturerMyStudentsViewModel> {
   ) =>
       LecturerMyStudentsViewModel();
 }
+
 
 //erasto flutter developer
