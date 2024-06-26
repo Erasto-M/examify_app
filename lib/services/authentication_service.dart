@@ -56,7 +56,7 @@ class AuthenticationService {
         Fluttertoast.showToast(
             msg: 'Account created successfully, verification email sent');
       }).then((value) {
-        _navigationService.navigateToAdminPanelView();
+        _navigationService.navigateToAdminHomeView();
       });
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
