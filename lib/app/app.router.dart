@@ -297,8 +297,10 @@ class StackedRouter extends _i1.RouterBase {
       );
     },
     _i19.MarksSheetPdfView: (data) {
+      final args = data.getArgs<MarksSheetPdfViewArguments>(nullOk: false);
       return _i20.MaterialPageRoute<dynamic>(
-        builder: (context) => const _i19.MarksSheetPdfView(),
+        builder: (context) => _i19.MarksSheetPdfView(
+            key: args.key, pdfPath: args.pdfPath, unitName: args.unitName),
         settings: data,
       );
     },
@@ -498,6 +500,38 @@ class LecturerMyStudentsViewArguments {
   @override
   int get hashCode {
     return key.hashCode ^ unitCode.hashCode ^ unitName.hashCode;
+  }
+}
+
+class MarksSheetPdfViewArguments {
+  const MarksSheetPdfViewArguments({
+    this.key,
+    required this.pdfPath,
+    required this.unitName,
+  });
+
+  final _i20.Key? key;
+
+  final String? pdfPath;
+
+  final String? unitName;
+
+  @override
+  String toString() {
+    return '{"key": "$key", "pdfPath": "$pdfPath", "unitName": "$unitName"}';
+  }
+
+  @override
+  bool operator ==(covariant MarksSheetPdfViewArguments other) {
+    if (identical(this, other)) return true;
+    return other.key == key &&
+        other.pdfPath == pdfPath &&
+        other.unitName == unitName;
+  }
+
+  @override
+  int get hashCode {
+    return key.hashCode ^ pdfPath.hashCode ^ unitName.hashCode;
   }
 }
 
@@ -764,14 +798,19 @@ extension NavigatorStateExtension on _i21.NavigationService {
         transition: transition);
   }
 
-  Future<dynamic> navigateToMarksSheetPdfView([
+  Future<dynamic> navigateToMarksSheetPdfView({
+    _i20.Key? key,
+    required String? pdfPath,
+    required String? unitName,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
     Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
         transition,
-  ]) async {
+  }) async {
     return navigateTo<dynamic>(Routes.marksSheetPdfView,
+        arguments: MarksSheetPdfViewArguments(
+            key: key, pdfPath: pdfPath, unitName: unitName),
         id: routerId,
         preventDuplicates: preventDuplicates,
         parameters: parameters,
@@ -1040,14 +1079,19 @@ extension NavigatorStateExtension on _i21.NavigationService {
         transition: transition);
   }
 
-  Future<dynamic> replaceWithMarksSheetPdfView([
+  Future<dynamic> replaceWithMarksSheetPdfView({
+    _i20.Key? key,
+    required String? pdfPath,
+    required String? unitName,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
     Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
         transition,
-  ]) async {
+  }) async {
     return replaceWith<dynamic>(Routes.marksSheetPdfView,
+        arguments: MarksSheetPdfViewArguments(
+            key: key, pdfPath: pdfPath, unitName: unitName),
         id: routerId,
         preventDuplicates: preventDuplicates,
         parameters: parameters,

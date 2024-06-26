@@ -372,14 +372,12 @@ class LecturerMyStudentsView extends StackedView<LecturerMyStudentsViewModel> {
                               // download pdf
                               verticalSpaceMedium,
                               Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Center(
                                     child: InkWell(
                                       onTap: () async {
-                                        viewModel.navigateToPdfView();
-                                        final pdf = await viewModel.generatePDF(
+                                        var pdf = await viewModel.generatePDF(
                                             snapshot.data!, unitName);
                                         final output =
                                             await getTemporaryDirectory();
@@ -388,6 +386,9 @@ class LecturerMyStudentsView extends StackedView<LecturerMyStudentsViewModel> {
                                         await file
                                             .writeAsBytes(await pdf.save());
                                         viewModel.setPdfPath(file.path);
+                                        viewModel.navigateToPdfView(
+                                          unitName: unitName,
+                                        );
                                       },
                                       child: Container(
                                         height: 40,
@@ -411,29 +412,6 @@ class LecturerMyStudentsView extends StackedView<LecturerMyStudentsViewModel> {
                                     ),
                                   ),
                                   horizontalSpaceMedium,
-                                  Center(
-                                    child: InkWell(
-                                      child: Container(
-                                        height: 40,
-                                        width:
-                                            MediaQuery.sizeOf(context).width /
-                                                2,
-                                        decoration: BoxDecoration(
-                                            color: primaryColor,
-                                            borderRadius:
-                                                BorderRadius.circular(10)),
-                                        child: const Center(
-                                          child: Text(
-                                            "Download Marks PDF",
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 17),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
                                 ],
                               ),
                               verticalSpaceMedium,

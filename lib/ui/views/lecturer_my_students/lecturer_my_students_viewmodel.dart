@@ -5,7 +5,9 @@ import 'package:examify/models/addUnit.dart';
 import 'package:examify/models/student_registered_units.dart';
 import 'package:examify/services/authentication_service.dart';
 import 'package:examify/services/lecturer_dashboard_service.dart';
+import 'package:examify/ui/common/app_colors.dart';
 import 'package:flutter_pdfview/flutter_pdfview.dart';
+import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 
 import 'package:stacked/stacked.dart';
@@ -143,19 +145,29 @@ class LecturerMyStudentsViewModel extends BaseViewModel {
               children: [
                 pw.Text('Marks Sheet for - $unitName',
                     style: pw.TextStyle(
-                        fontSize: 20, fontWeight: pw.FontWeight.bold)),
+                        color: PdfColors.green,
+                        fontSize: 20,
+                        fontWeight: pw.FontWeight.bold)),
                 pw.SizedBox(height: 20),
                 pw.TableHelper.fromTextArray(
                   border: pw.TableBorder.all(),
+                  cellHeight: 30,
+                  cellStyle: const pw.TextStyle(
+                    fontSize: 12,
+                  ),
+                  headerStyle: pw.TextStyle(
+                      fontSize: 16,
+                      fontWeight: pw.FontWeight.bold,
+                      color: PdfColors.black),
                   headers: [
                     'RegNo',
                     'Name',
-                    'Assigment1',
-                    'Assigment2',
-                    'CAT1 Marks',
-                    'CAT2 Marks',
-                    'Exam Marks',
-                    'Total Marks',
+                    'Assign1',
+                    'Assign2',
+                    'CAT1 ',
+                    'CAT2 ',
+                    'Exam ',
+                    'Total ',
                     'Grade',
                   ],
                   data: students.map((student) {
@@ -171,6 +183,18 @@ class LecturerMyStudentsViewModel extends BaseViewModel {
                       student.grade
                     ];
                   }).toList(),
+                  cellPadding: const pw.EdgeInsets.all(1),
+                  columnWidths: {
+                    0: const pw.FixedColumnWidth(100),
+                    1: const pw.FixedColumnWidth(100),
+                    2: const pw.FixedColumnWidth(90),
+                    3: const pw.FixedColumnWidth(90),
+                    4: const pw.FixedColumnWidth(60),
+                    5: const pw.FixedColumnWidth(60),
+                    6: const pw.FixedColumnWidth(60),
+                    7: const pw.FixedColumnWidth(60),
+                    8: const pw.FixedColumnWidth(70),
+                  },
                 )
               ]);
         },
@@ -180,7 +204,8 @@ class LecturerMyStudentsViewModel extends BaseViewModel {
   }
 
   //navigate to pdf view
-  void navigateToPdfView() {
-    _navigationService.navigateToMarksSheetPdfView();
+  void navigateToPdfView({required String unitName}) {
+    _navigationService.navigateToMarksSheetPdfView(
+        pdfPath: pdfPath, unitName: unitName);
   }
 }

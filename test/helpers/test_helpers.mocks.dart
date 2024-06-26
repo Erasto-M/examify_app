@@ -1132,6 +1132,7 @@ class MockLecturerDashboardService extends _i1.Mock
     required String? studentId,
     required String? unitCode,
     required _i13.StudentsRegisteredUnitsModel? student,
+    required _i6.BuildContext? context,
   }) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -1141,6 +1142,7 @@ class MockLecturerDashboardService extends _i1.Mock
             #studentId: studentId,
             #unitCode: unitCode,
             #student: student,
+            #context: context,
           },
         ),
         returnValue: _i7.Future<dynamic>.value(),
