@@ -350,12 +350,13 @@ class LecturerMyStudentsView extends StackedView<LecturerMyStudentsViewModel> {
                                                     student.studentName!,
                                                 studentUid: student.studentUid!,
                                                 assignMent1Marks:
-                                                    student.assignMent1Marks!,
+                                                    student.assignMent1Marks,
                                                 assignMent2Marks:
-                                                    student.assignMent2Marks!,
-                                                cat1Marks: student.cat1Marks!,
-                                                cat2Marks: student.cat2Marks!,
-                                                examMarks: student.examMarks!,
+                                                    student.assignMent2Marks,
+                                                cat1Marks: student.cat1Marks,
+                                                cat2Marks: student.cat2Marks,
+                                                examMarks: student.examMarks,
+                                                unitCode: student.unitCode!,
                                               );
                                             },
                                             icon: const Icon(
@@ -377,6 +378,7 @@ class LecturerMyStudentsView extends StackedView<LecturerMyStudentsViewModel> {
                                   Center(
                                     child: InkWell(
                                       onTap: () async {
+                                        viewModel.navigateToPdfView();
                                         final pdf = await viewModel.generatePDF(
                                             snapshot.data!, unitName);
                                         final output =
@@ -444,37 +446,6 @@ class LecturerMyStudentsView extends StackedView<LecturerMyStudentsViewModel> {
                   },
                 ),
               ),
-              verticalSpaceSmall,
-              viewModel.pdfPath != null
-                  ? Expanded(
-                      child: Container(
-                        margin: EdgeInsets.only(top: 30),
-                        height: 500,
-                        child: PDFView(
-                          filePath: viewModel.pdfPath,
-                          enableSwipe: true,
-                          swipeHorizontal: true,
-                          autoSpacing: false,
-                          pageFling: false,
-                          onRender: (pages) {
-                            viewModel.setPageCount(pages!);
-                          },
-                          onViewCreated: (controller) {
-                            viewModel.setPdfController(controller);
-                          },
-                          onPageChanged: (page, total) {
-                            viewModel.setCurrentPage(page!);
-                          },
-                          onError: (error) {
-                            print(error.toString());
-                          },
-                          onPageError: (page, error) {
-                            print('$page : ${error.toString()}');
-                          },
-                        ),
-                      ),
-                    )
-                  : Container()
             ],
           ),
         ),
@@ -488,6 +459,3 @@ class LecturerMyStudentsView extends StackedView<LecturerMyStudentsViewModel> {
   ) =>
       LecturerMyStudentsViewModel();
 }
-
-
-//erasto flutter developer

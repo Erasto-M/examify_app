@@ -1,5 +1,6 @@
 import 'package:examify/app/app.bottomsheets.dart';
 import 'package:examify/app/app.locator.dart';
+import 'package:examify/app/app.router.dart';
 import 'package:examify/models/addUnit.dart';
 import 'package:examify/models/student_registered_units.dart';
 import 'package:examify/services/authentication_service.dart';
@@ -11,6 +12,7 @@ import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
 class LecturerMyStudentsViewModel extends BaseViewModel {
+  final _navigationService = locator<NavigationService>();
   String? pdfPath;
   late PDFViewController pdfViewController;
   int? pageCount;
@@ -107,11 +109,12 @@ class LecturerMyStudentsViewModel extends BaseViewModel {
   Future<void> showEditMarksPerStudentSheet({
     required String studentName,
     required String studentUid,
-    required int assignMent1Marks,
-    required int assignMent2Marks,
-    required int cat1Marks,
-    required int cat2Marks,
-    required int examMarks,
+    required String unitCode,
+    int? assignMent1Marks,
+    int? assignMent2Marks,
+    int? cat1Marks,
+    int? cat2Marks,
+    int? examMarks,
   }) async {
     await _bottomSheetService.showCustomSheet(
       variant: BottomSheetType.editMarksPerStudent,
@@ -124,6 +127,7 @@ class LecturerMyStudentsViewModel extends BaseViewModel {
         "cat1Marks": cat1Marks,
         "cat2Marks": cat2Marks,
         "examMarks": examMarks,
+        "unitCode": unitCode,
       },
     );
   }
@@ -148,15 +152,15 @@ class LecturerMyStudentsViewModel extends BaseViewModel {
                     'Name',
                     'Assigment1',
                     'Assigment2',
-                    'CAT1',
-                    'CAT2',
-                    'Exam',
-                    'Total'
-                        'Grade'
+                    'CAT1 Marks',
+                    'CAT2 Marks',
+                    'Exam Marks',
+                    'Total Marks',
+                    'Grade',
                   ],
                   data: students.map((student) {
                     return [
-                      student.studentRegNo,
+                      student.studentPhoneNumber,
                       student.studentName,
                       student.assignMent1Marks.toString(),
                       student.assignMent2Marks.toString(),
@@ -173,5 +177,10 @@ class LecturerMyStudentsViewModel extends BaseViewModel {
       ),
     );
     return pdf;
+  }
+
+  //navigate to pdf view
+  void navigateToPdfView() {
+    _navigationService.navigateToMarksSheetPdfView();
   }
 }
