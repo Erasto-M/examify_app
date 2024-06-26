@@ -7,7 +7,7 @@ import 'package:stacked_services/stacked_services.dart';
 import '../../../app/app.bottomsheets.dart';
 import '../../../app/app.locator.dart';
 import '../../../models/student_registered_units.dart';
-import '../../../services/admin_dashboard_service.dart';
+import '../../../services/cod_dashboard_service.dart';
 
 class AdminStudentPerformanceDetailsViewModel extends BaseViewModel {
   final _bottomSheetService = locator<BottomSheetService>();

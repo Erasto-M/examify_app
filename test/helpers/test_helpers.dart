@@ -3,7 +3,7 @@ import 'package:mockito/mockito.dart';
 import 'package:examify/app/app.locator.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:examify/services/authentication_service.dart';
-import 'package:examify/services/admin_dashboard_service.dart';
+import 'package:examify/services/cod_dashboard_service.dart';
 
 import 'package:examify/services/lecturer_dashboard_service.dart';
 
