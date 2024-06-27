@@ -42,7 +42,7 @@ class AdminPanelView extends StackedView<AdminPanelViewModel> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'Hello, Admin',
+                                'Hello, COD',
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 30,

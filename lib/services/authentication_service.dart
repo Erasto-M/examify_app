@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:stacked_services/stacked_services.dart';
 
+import '../models/student_registered_units.dart';
 import '../ui/views/admin_home/admin_home_view.dart';
 import '../ui/views/exams_coordinator_home/exams_coordinator_home_view.dart';
 
@@ -17,6 +18,7 @@ class AuthenticationService {
   final _navigationService = locator<NavigationService>();
   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   FirebaseFirestore firestore = FirebaseFirestore.instance;
+
   //register user
   Future<void> createUser({
     required String email,
@@ -54,7 +56,7 @@ class AuthenticationService {
         Fluttertoast.showToast(
             msg: 'Account created successfully, verification email sent');
       }).then((value) {
-        _navigationService.navigateToAdminPanelView();
+        _navigationService.navigateToAdminHomeView();
       });
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
@@ -187,7 +189,7 @@ class AuthenticationService {
                     builder: (context) => const LecturerHomeView(),
                   ),
                 );
-              } else if (value.data()!['role'] == "Admin") {
+              } else if (value.data()!['role'] == "COD") {
                 Navigator.of(context).pushReplacement(
                   MaterialPageRoute(
                     builder: (context) => const AdminHomeView(),
@@ -232,7 +234,6 @@ class AuthenticationService {
     required String userName,
     required String email,
     required String phoneNumber,
-  
   }) async {
     try {
       User? user = firebaseAuth.currentUser;
@@ -241,7 +242,6 @@ class AuthenticationService {
           'userName': userName,
           'email': email,
           "phoneNumber": phoneNumber,
-        
         }).then((value) {
           Fluttertoast.showToast(msg: 'Profile updated successfully');
         });
@@ -295,7 +295,6 @@ class AuthenticationService {
       QuerySnapshot querySnapshot = await firestore
           .collection('users')
           .where('role', isEqualTo: 'Student')
-          .where('yearOfStudy', isEqualTo: yearName)
           .get();
       querySnapshot.docs.forEach((element) {
         users.add(AppUser.fromMap(element.data() as Map<String, dynamic>));
@@ -304,5 +303,23 @@ class AuthenticationService {
       Fluttertoast.showToast(msg: e.toString());
     }
     return users;
+  }
+
+  //Fetch all Lecturers students
+  Stream<List<StudentsRegisteredUnitsModel>> fetchStudentsAccordingToYearStream(
+      {required String yearName, required String semesterStage}) async* {
+    try {
+      yield* firestore
+          .collection('student_registered_units')
+          .where('unitCode', isEqualTo: 'CCS 1105')
+          .where('semesterStage', isEqualTo: semesterStage)
+          .snapshots()
+          .map((snapshot) => snapshot.docs
+              .map((doc) => StudentsRegisteredUnitsModel.fromMap(doc.data()))
+              .toList());
+    } catch (e) {
+      Fluttertoast.showToast(msg: e.toString());
+      yield [];
+    }
   }
 }

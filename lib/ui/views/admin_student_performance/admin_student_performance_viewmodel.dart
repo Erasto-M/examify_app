@@ -5,6 +5,7 @@ import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
 import '../../../app/app.locator.dart';
+import '../../../models/student_registered_units.dart';
 import '../../../services/authentication_service.dart';
 
 class AdminStudentPerformanceViewModel extends BaseViewModel {
@@ -15,8 +16,17 @@ class AdminStudentPerformanceViewModel extends BaseViewModel {
   List<AppUser> usersList = [];
   get users => usersList;
 
+
   List<AppUser> _filteredUsers = [];
   get filteredUsers => _filteredUsers;
+
+  String selectedSem = '';
+  String get getSelectedSem => selectedSem;
+
+  void setSelectedSem(String value) {
+    selectedSem = value;
+    notifyListeners();
+  }
 
   void searchStudent() {
     String query = searchController.text.toLowerCase();
@@ -35,9 +45,20 @@ class AdminStudentPerformanceViewModel extends BaseViewModel {
             : yearName.endsWith("three")
                 ? "Y3"
                 : "Y4";
-    usersList = await _authService.fetchStudentsAccordingToYear(
-        yearName: currentYearName);
     notifyListeners();
+  }
+
+  Stream<List<StudentsRegisteredUnitsModel>> fetchStudentsAccordingToYearStream({
+    required String yearName,  required String semesterStage,
+  }) {
+    String currentYearName = yearName.endsWith("one")
+        ? "Y1"
+        : yearName.endsWith("two")
+        ? "Y2"
+        : yearName.endsWith("three")
+        ? "Y3"
+        : "Y4";
+    return _authService.fetchStudentsAccordingToYearStream(yearName: currentYearName, semesterStage: semesterStage);
   }
 
   void checkPerformanceBasedOnCurrentYear(
