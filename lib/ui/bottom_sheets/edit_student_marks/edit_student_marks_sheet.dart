@@ -105,11 +105,8 @@ class EditStudentMarksSheet extends StackedView<EditStudentMarksSheetModel>
                       return DataRow(cells: [
                         DataCell(Text(student.studentName!)),
                         DataCell(
-                          onTap: () {},
-                          Container(
-                            height: 40,
-                            width: MediaQuery.sizeOf(context).width / 3,
-                            padding: const EdgeInsets.all(3),
+                          SizedBox(
+                            width: 70,
                             child: TextFormField(
                               controller: controller,
                               decoration: InputDecoration(
@@ -117,7 +114,7 @@ class EditStudentMarksSheet extends StackedView<EditStudentMarksSheetModel>
                                       borderRadius: BorderRadius.circular(5))),
                             ),
                           ),
-                        )
+                        ),
                       ]);
                     }).toList(),
                   ),
@@ -130,6 +127,7 @@ class EditStudentMarksSheet extends StackedView<EditStudentMarksSheetModel>
                     viewModel.submitMarks(
                       unitCode: request.data,
                       selectedModule: request.description!,
+                     
                       context: context,
                     );
                   },

@@ -4,7 +4,6 @@ import 'package:examify/models/student_registered_units.dart';
 import 'package:examify/services/lecturer_dashboard_service.dart';
 import 'package:examify/ui/bottom_sheets/edit_student_marks/edit_student_marks_sheet.form.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -229,40 +228,87 @@ class EditStudentMarksSheetModel extends FormViewModel {
     }
   }
 
-  // method for pushing the students marks to firebase
+// numeric
+  bool isNumeric(String? value) {
+    if (value!.isEmpty) {
+      return false;
+    }
+    return double.tryParse(value) != null;
+  }
+
+  /*
+  1. method for pushing the students marks to firebase
+  2. Validate if any field is empty or null 
+  3. Validate if the input is numeric and within the allowed range 
+  4. validate if the input is a number
+   */
   Future<void> submitMarks(
       {required String unitCode,
       required String selectedModule,
       required BuildContext context}) async {
     setBusy(true);
-    if (controllers.entries.isEmpty) {
-      Fluttertoast.showToast(msg: "Please Enter the marks");
-      setBusy(false);
-      Navigator.of(context).pop();
-      return;
+
+    for (var entry in controllers.entries) {
+      if (entry.value.text.trim().isEmpty ||
+          controllers.isEmpty ||
+          controllers == {}) {
+        Fluttertoast.showToast(msg: "Please Enter all  the marks");
+        setBusy(false);
+        return;
+      }
     }
 
     for (var entry in controllers.entries) {
-      final studentUID = entry.key;
-      int? marks = int.parse(entry.value.text);
-      print(studentUID);
-      print(marks);
+      final studentId = entry.key;
+      final text = entry.value.text.trim();
+
+      if (!isNumeric(text)) {
+        Fluttertoast.showToast(msg: 'Invalid input . Please enter a number');
+        setBusy(false);
+        return;
+      }
+      /*convert the input to an interger */
+      int? marks = int.parse(text);
+
+      /*validate the marks based on the selected module */
+      print('selectedModule: $selectedModule');
+      if ((selectedModule == "assignMent1Marks" ||
+              selectedModule == "assignMent2Marks") &&
+          marks > 5) {
+        Fluttertoast.showToast(msg: 'Assignment marks should not exceed 5');
+        setBusy(false);
+        return;
+      } else if ((selectedModule == 'cat1Marks' ||
+              selectedModule == 'cat2Marks') &&
+          marks > 10) {
+        Fluttertoast.showToast(msg: 'CAT marks should not exceed 10');
+        setBusy(false);
+        return;
+      } else if (selectedModule == 'examMarks' && marks > 70) {
+        Fluttertoast.showToast(msg: 'Exam marks should not exceed 70');
+        setBusy(false);
+        return;
+      }
 
       try {
         var querySnapshot = await firestore
             .collection('student_registered_units')
-            .where("studentUid", isEqualTo: studentUID)
+            .where("studentUid", isEqualTo: studentId)
             .where("unitLecturer", isEqualTo: firebaseAuth.currentUser!.uid)
             .where("unitCode", isEqualTo: unitCode)
             .get();
 
         for (var doc in querySnapshot.docs) {
-          await doc.reference.update({selectedModule: marks});
+          await doc.reference.update({selectedModule: marks}).then((value) {
+            Fluttertoast.showToast(msg: "Marks  saved successfully");
+            Navigator.of(context).pop();
+          });
         }
       } catch (e) {
         Fluttertoast.showToast(msg: e.toString());
       }
     }
+
     setBusy(false);
     notifyListeners();
   }
