@@ -41,7 +41,7 @@ class RegisterView extends StackedView<RegisterViewModel> with $RegisterView {
               children: [
                 verticalSpaceSmall,
                 const Padding(
-                  padding: EdgeInsets.all(16.0), 
+                  padding: EdgeInsets.all(16.0),
                   child: Center(
                     child: Text(
                       'Please fill in the form below to create an account',
@@ -82,7 +82,8 @@ class RegisterView extends StackedView<RegisterViewModel> with $RegisterView {
                                     hintText: " Name",
                                     prefixIcon: const Icon(Icons.person),
                                     border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(10))),
+                                        borderRadius:
+                                            BorderRadius.circular(10))),
                               ),
                               verticalSpaceTiny,
                               TextFormField(
@@ -99,7 +100,8 @@ class RegisterView extends StackedView<RegisterViewModel> with $RegisterView {
                                     hintText: " Email",
                                     prefixIcon: const Icon(Icons.email),
                                     border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(10))),
+                                        borderRadius:
+                                            BorderRadius.circular(10))),
                               ),
                               verticalSpaceTiny,
                               TextFormField(
@@ -119,7 +121,8 @@ class RegisterView extends StackedView<RegisterViewModel> with $RegisterView {
                                     hintText: "Phone Number",
                                     prefixIcon: const Icon(Icons.phone),
                                     border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(10))),
+                                        borderRadius:
+                                            BorderRadius.circular(10))),
                               ),
                               verticalSpaceTiny,
                               TextFormField(
@@ -138,9 +141,11 @@ class RegisterView extends StackedView<RegisterViewModel> with $RegisterView {
                                 decoration: InputDecoration(
                                     hintText: "Gender",
                                     prefixIcon: const Icon(Icons.person),
-                                    suffixIcon: const Icon(Icons.arrow_drop_down),
+                                    suffixIcon:
+                                        const Icon(Icons.arrow_drop_down),
                                     border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(10))),
+                                        borderRadius:
+                                            BorderRadius.circular(10))),
                               ),
                               verticalSpaceTiny,
                               TextFormField(
@@ -157,10 +162,13 @@ class RegisterView extends StackedView<RegisterViewModel> with $RegisterView {
                                 },
                                 decoration: InputDecoration(
                                     hintText: "Role",
-                                    suffixIcon: const Icon(Icons.arrow_drop_down),
-                                    prefixIcon: const Icon(Icons.calendar_today),
+                                    suffixIcon:
+                                        const Icon(Icons.arrow_drop_down),
+                                    prefixIcon:
+                                        const Icon(Icons.calendar_today),
                                     border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(10))),
+                                        borderRadius:
+                                            BorderRadius.circular(10))),
                               ),
                               verticalSpaceTiny,
                               if (roleController.text == 'Student')
@@ -234,10 +242,12 @@ class RegisterView extends StackedView<RegisterViewModel> with $RegisterView {
                                 controller: passwordController,
                                 decoration: InputDecoration(
                                     hintText: "Password",
-                                    suffixIcon: const Icon(Icons.visibility_off),
+                                    suffixIcon:
+                                        const Icon(Icons.visibility_off),
                                     prefixIcon: const Icon(Icons.lock),
                                     border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(10))),
+                                        borderRadius:
+                                            BorderRadius.circular(10))),
                               ),
                               verticalSpaceTiny,
                               TextFormField(
@@ -254,10 +264,12 @@ class RegisterView extends StackedView<RegisterViewModel> with $RegisterView {
                                 controller: confirmPasswordController,
                                 decoration: InputDecoration(
                                     hintText: "Confirm Password",
-                                    suffixIcon: const Icon(Icons.visibility_off),
+                                    suffixIcon:
+                                        const Icon(Icons.visibility_off),
                                     prefixIcon: const Icon(Icons.lock),
                                     border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(10))),
+                                        borderRadius:
+                                            BorderRadius.circular(10))),
                               ),
                               verticalSpaceSmall,
                               viewModel.isBusy
@@ -280,11 +292,13 @@ class RegisterView extends StackedView<RegisterViewModel> with $RegisterView {
                                             confirmPassword:
                                                 confirmPasswordController.text,
                                             registrationNumber:
-                                                registrationNumberController.text,
+                                                registrationNumberController
+                                                    .text,
                                             pfNumber: pFNumberController.text);
                                       },
                                       child: Container(
-                                        width: MediaQuery.of(context).size.width,
+                                        width:
+                                            MediaQuery.of(context).size.width,
                                         height: 50,
                                         decoration: BoxDecoration(
                                             color: primaryColor,
@@ -298,7 +312,8 @@ class RegisterView extends StackedView<RegisterViewModel> with $RegisterView {
                                               Text("REGISTER",
                                                   style: TextStyle(
                                                       color: Colors.white,
-                                                      fontWeight: FontWeight.bold,
+                                                      fontWeight:
+                                                          FontWeight.bold,
                                                       fontSize: 20)),
                                               horizontalSpaceSmall,
                                               Icon(Icons.arrow_forward_ios,

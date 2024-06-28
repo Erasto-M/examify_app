@@ -279,4 +279,10 @@ class StudentDashboardViewModel extends BaseViewModel {
   Future<void> navigateBack() async {
     _navigationService.back();
   }
+
+  //Navigate to apply special Exam
+  Future<void> navigateToApplySpecialExam() async {
+    await _navigationService.navigateToApplySpecialExamView();
+    notifyListeners();
+  }
 }
