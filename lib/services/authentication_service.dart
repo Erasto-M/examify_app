@@ -99,7 +99,7 @@ class AuthenticationService {
                 builder: (context) => const LecturerHomeView(),
               ),
             );
-          } else if (value.data()!['role'] == 'Admin') {
+          } else if (value.data()!['role'] == 'COD') {
             debugPrint("Logging to the admin");
             Navigator.of(context).pushReplacement(
               MaterialPageRoute(
