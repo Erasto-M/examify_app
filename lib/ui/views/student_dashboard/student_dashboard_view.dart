@@ -395,7 +395,9 @@ class StudentDashboardView extends StackedView<StudentDashboardViewModel> {
                   heroTag: 'apply_special_exam',
                   backgroundColor: Colors.white,
                   foregroundColor: primaryColor,
-                  onPressed: () {},
+                  onPressed: () {
+                    viewModel.navigateToApplySpecialExam();
+                  },
                   label: const Text(
                     'Apply special Exam',
                     style: TextStyle(color: Colors.black),

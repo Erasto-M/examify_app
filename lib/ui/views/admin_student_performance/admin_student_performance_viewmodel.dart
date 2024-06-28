@@ -16,7 +16,6 @@ class AdminStudentPerformanceViewModel extends BaseViewModel {
   List<AppUser> usersList = [];
   get users => usersList;
 
-
   List<AppUser> _filteredUsers = [];
   get filteredUsers => _filteredUsers;
 
@@ -48,17 +47,20 @@ class AdminStudentPerformanceViewModel extends BaseViewModel {
     notifyListeners();
   }
 
-  Stream<List<StudentsRegisteredUnitsModel>> fetchStudentsAccordingToYearStream({
-    required String yearName,  required String semesterStage,
+  Stream<List<StudentsRegisteredUnitsModel>>
+      fetchStudentsAccordingToYearStream({
+    required String yearName,
+    required String semesterStage,
   }) {
     String currentYearName = yearName.endsWith("one")
         ? "Y1"
         : yearName.endsWith("two")
-        ? "Y2"
-        : yearName.endsWith("three")
-        ? "Y3"
-        : "Y4";
-    return _authService.fetchStudentsAccordingToYearStream(yearName: currentYearName, semesterStage: semesterStage);
+            ? "Y2"
+            : yearName.endsWith("three")
+                ? "Y3"
+                : "Y4";
+    return _authService.fetchStudentsAccordingToYearStream(
+        yearName: currentYearName, semesterStage: semesterStage);
   }
 
   void checkPerformanceBasedOnCurrentYear(

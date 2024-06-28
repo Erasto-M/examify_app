@@ -27,7 +27,6 @@ class AdminStudentPerformanceView
                 ? "Y3"
                 : "Y4";
 
-
     return SafeArea(
       child: Scaffold(
         backgroundColor: Theme.of(context).colorScheme.background,
@@ -104,7 +103,9 @@ class AdminStudentPerformanceView
               verticalSpaceSmall,
               Expanded(
                 child: StreamBuilder<List<StudentsRegisteredUnitsModel>>(
-                  stream: viewModel.fetchStudentsAccordingToYearStream(yearName: yearName, semesterStage: viewModel.getSelectedSem),
+                  stream: viewModel.fetchStudentsAccordingToYearStream(
+                      yearName: yearName,
+                      semesterStage: viewModel.getSelectedSem),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return const Center(
