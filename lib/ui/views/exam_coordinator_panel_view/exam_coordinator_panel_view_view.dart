@@ -64,7 +64,7 @@ class ExamCoordinatorPanelViewView
                             radius: 30,
                             backgroundColor: Colors.white,
                             backgroundImage:
-                            AssetImage('Assets/Images/man1.jpeg'),
+                                AssetImage('Assets/Images/man1.jpeg'),
                           ),
                         ],
                       ),
