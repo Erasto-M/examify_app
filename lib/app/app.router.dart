@@ -280,7 +280,11 @@ class StackedRouter extends _i1.RouterBase {
     },
     _i15.LecturerMyStudentsView: (data) {
       final args = data.getArgs<LecturerMyStudentsViewArguments>(nullOk: false);
+
       return _i21.MaterialPageRoute<dynamic>(
+
+      return _i19.MaterialPageRoute<dynamic>(
+
         builder: (context) => _i15.LecturerMyStudentsView(
             key: args.key, unitCode: args.unitCode, unitName: args.unitName),
         settings: data,
