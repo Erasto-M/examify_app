@@ -37,6 +37,7 @@ import 'package:examify/ui/views/exams_coordinator_home/exams_coordinator_home_v
 import 'package:examify/ui/views/exam_coordinator_panel_view/exam_coordinator_panel_view_view.dart';
 import 'package:examify/ui/bottom_sheets/edit_marks_per_student/edit_marks_per_student_sheet.dart';
 import 'package:examify/ui/views/marks_sheet_pdf/marks_sheet_pdf_view.dart';
+import 'package:examify/ui/views/my_trancripts/my_trancripts_view.dart';
 // @stacked-import
 
 @StackedApp(
@@ -59,6 +60,7 @@ import 'package:examify/ui/views/marks_sheet_pdf/marks_sheet_pdf_view.dart';
     MaterialRoute(page: ExamsCoordinatorHomeView),
     MaterialRoute(page: ExamCoordinatorPanelViewView),
     MaterialRoute(page: MarksSheetPdfView),
+    MaterialRoute(page: MyTrancriptsView),
 // @stacked-route
   ],
   dependencies: [

@@ -127,7 +127,6 @@ class EditStudentMarksSheet extends StackedView<EditStudentMarksSheetModel>
                     viewModel.submitMarks(
                       unitCode: request.data,
                       selectedModule: request.description!,
-                     
                       context: context,
                     );
                   },
