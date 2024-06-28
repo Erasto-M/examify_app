@@ -249,7 +249,7 @@ class EditStudentMarksSheetModel extends FormViewModel {
     setBusy(true);
 
     for (var entry in controllers.entries) {
-      if (entry.value.text.trim().isEmpty ||
+      if (controllers.entries.isEmpty ||
           controllers.isEmpty ||
           controllers == {}) {
         Fluttertoast.showToast(msg: "Please Enter all  the marks");
@@ -260,7 +260,7 @@ class EditStudentMarksSheetModel extends FormViewModel {
 
     for (var entry in controllers.entries) {
       final studentId = entry.key;
-      final text = entry.value.text.trim();
+      final text = entry.value.text;
 
       if (!isNumeric(text)) {
         Fluttertoast.showToast(msg: 'Invalid input . Please enter a number');
