@@ -8,10 +8,10 @@ class AcademicsView extends StackedView<AcademicsViewModel> {
 
   @override
   Widget builder(
-      BuildContext context,
-      AcademicsViewModel viewModel,
-      Widget? child,
-      ) {
+    BuildContext context,
+    AcademicsViewModel viewModel,
+    Widget? child,
+  ) {
     return DefaultTabController(
       length: 4,
       child: Scaffold(
@@ -78,15 +78,16 @@ class AcademicsView extends StackedView<AcademicsViewModel> {
 
   @override
   AcademicsViewModel viewModelBuilder(
-      BuildContext context,
-      ) =>
+    BuildContext context,
+  ) =>
       AcademicsViewModel();
 }
 
 class AcademicReportList extends StatelessWidget {
   final AcademicsViewModel viewModel;
 
-  const AcademicReportList({Key? key, required this.viewModel}) : super(key: key);
+  const AcademicReportList({Key? key, required this.viewModel})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
