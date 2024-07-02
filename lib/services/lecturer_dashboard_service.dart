@@ -50,6 +50,24 @@ class LecturerDashboardService {
     }
   }
 
+  Stream<List<StudentsRegisteredUnitsModel>> getStudentsBasedOnUnitAndYear({
+    required String unitCode, required String semesterStage,
+  }) async* {
+    try {
+      yield* firestore
+          .collection('student_registered_units')
+          .where("unitCode", isEqualTo: unitCode)
+      .where("semesterStage", isEqualTo: semesterStage)
+          .snapshots()
+          .map((snapshot) => snapshot.docs
+          .map((doc) => StudentsRegisteredUnitsModel.fromMap(doc.data()))
+          .toList());
+    } catch (e) {
+      Fluttertoast.showToast(msg: e.toString());
+      yield [];
+    }
+  }
+
   //update student marks
   Future updateStudentMarks({
     required String studentId,
@@ -128,4 +146,23 @@ class LecturerDashboardService {
       Fluttertoast.showToast(msg: e.toString());
     } catch (e) {}
   }
+  Stream<List<AddUnitModel>> fetchUnits({required String semesterStage}) {
+    try {
+      print("Fetching units as stream");
+      return firestore
+          .collection("units")
+          .where("semesterStage", isEqualTo: semesterStage)
+          .snapshots()
+          .map((querySnapshot) {
+        print("Number of units fetched: ${querySnapshot.docs.length}");
+        return querySnapshot.docs.map((doc) {
+          return AddUnitModel.fromMap(doc.data() as Map<String, dynamic>);
+        }).toList();
+      });
+    } catch (e) {
+      Fluttertoast.showToast(msg: e.toString());
+      return Stream.value([]); // Return an empty stream in case of error
+    }
+  }
+
 }

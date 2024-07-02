@@ -69,24 +69,7 @@ class ExamCoordinatorPanelViewView
                         ],
                       ),
                     )),
-                verticalSpaceMedium,
-                const Text(
-                  'Manage Courses',
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                verticalSpaceSmall,
-                const Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    ManageCourses(yearName: 'Y1'),
-                    ManageCourses(yearName: 'Y2'),
-                    ManageCourses(yearName: 'Y3'),
-                    ManageCourses(yearName: 'Y4'),
-                  ],
-                ),
+
                 verticalSpaceSmall,
                 const Text(
                   'Users',
@@ -128,6 +111,40 @@ class ExamCoordinatorPanelViewView
                     Transcripts(yearName: 'Year four'),
                   ],
                 ),
+
+                verticalSpaceSmall,
+                // access marksheets
+                InkWell(
+                  onTap: () {
+                    //navigate to marksheets
+                    viewModel.navigateToMarksheets();
+                  },
+                  child: Container(
+                    //text
+                    height: MediaQuery.of(context).size.height / 7,
+                    padding: const EdgeInsets.all(10.0),
+                    width: MediaQuery.of(context).size.width,
+                    decoration: BoxDecoration(
+                      color: primaryColor,
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: const Center(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text(
+                            'Access Marksheets',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 30,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                )
               ],
             ),
           ),
