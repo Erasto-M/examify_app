@@ -1,7 +1,10 @@
 import 'package:examify/models/addUnit.dart';
+import 'package:examify/models/special_exams_model.dart';
 import 'package:examify/ui/common/app_colors.dart';
+import 'package:examify/ui/views/apply_special_exam/apply_special_exam_view.form.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked/stacked_annotations.dart';
 
@@ -13,7 +16,8 @@ import 'apply_special_exam_viewmodel.dart';
     FormTextField(name: 'reason'),
   ],
 )
-class ApplySpecialExamView extends StackedView<ApplySpecialExamViewModel> {
+class ApplySpecialExamView extends StackedView<ApplySpecialExamViewModel>
+    with $ApplySpecialExamView {
   const ApplySpecialExamView({Key? key}) : super(key: key);
 
   @override
@@ -63,8 +67,9 @@ class ApplySpecialExamView extends StackedView<ApplySpecialExamViewModel> {
               ),
             ),
             const SizedBox(height: 20),
-            const TextField(
-              decoration: InputDecoration(
+            TextFormField(
+              controller: reasonController,
+              decoration: const InputDecoration(
                 labelText: 'Reason for Applying Special Exam',
                 hintText: 'Type Reasons',
                 border: OutlineInputBorder(
@@ -164,22 +169,32 @@ class ApplySpecialExamView extends StackedView<ApplySpecialExamViewModel> {
                         }),
                   ),
 
-            Container(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 60,
-                vertical: 10,
-              ),
-              decoration: BoxDecoration(
-                color: primaryColor,
-                borderRadius: BorderRadius.circular(5),
-              ),
-              child: const Text(
-                "Apply Now!!",
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
+            InkWell(
+              onTap: () async {
+                await viewModel.applySpecialExam(
+                    specialExamReason: reasonController.text);
+              },
+              child: Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 60,
+                  vertical: 10,
                 ),
+                decoration: BoxDecoration(
+                  color: primaryColor,
+                  borderRadius: BorderRadius.circular(5),
+                ),
+                child: viewModel.isBusy
+                    ? const CircularProgressIndicator(
+                        color: Colors.white,
+                      )
+                    : const Text(
+                        "Apply Now!!",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
               ),
             ),
             const SizedBox(height: 20),
@@ -203,8 +218,40 @@ class ApplySpecialExamView extends StackedView<ApplySpecialExamViewModel> {
               ),
             ),
             const SizedBox(
-              height: 30,
+              height: 20,
             ),
+            SizedBox(
+              height: 300,
+              child: StreamBuilder(
+                  stream: viewModel.mySpecialExamUnits(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return Center(
+                        child: CircularProgressIndicator(
+                          color: primaryColor,
+                        ),
+                      );
+                    } else if (snapshot.hasError) {
+                      return Center(
+                        child: Text(snapshot.error.toString()),
+                      );
+                    } else if (!snapshot.hasData) {
+                      return Center(
+                        child: Text('No Specials'),
+                      );
+                    } else {
+                      List<SpecialExamsModel> specials = snapshot.data!;
+                      return ListView.builder(
+                          itemCount: specials.length,
+                          itemBuilder: (context, index) {
+                            final units = specials[index];
+                            return Row(
+                              children: [Text(units.unitName!)],
+                            );
+                          });
+                    }
+                  }),
+            )
           ]),
         ),
       ),
@@ -216,4 +263,9 @@ class ApplySpecialExamView extends StackedView<ApplySpecialExamViewModel> {
     BuildContext context,
   ) =>
       ApplySpecialExamViewModel();
+  @override
+  void onViewModelReady(ApplySpecialExamViewModel viewModel) {
+    super.onViewModelReady(viewModel);
+    syncFormWithViewModel(viewModel);
+  }
 }

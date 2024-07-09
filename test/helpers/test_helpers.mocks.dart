@@ -8,6 +8,7 @@ import 'dart:ui' as _i8;
 
 import 'package:cloud_firestore/cloud_firestore.dart' as _i3;
 import 'package:examify/models/addUnit.dart' as _i13;
+import 'package:examify/models/special_exams_model.dart' as _i16;
 import 'package:examify/models/student_registered_units.dart' as _i11;
 import 'package:examify/models/usersModel.dart' as _i10;
 import 'package:examify/services/authentication_service.dart' as _i9;
@@ -1313,4 +1314,16 @@ class MockStudentDashboardService extends _i1.Mock
         returnValueForMissingStub:
             _i7.Stream<List<_i11.StudentsRegisteredUnitsModel>>.empty(),
       ) as _i7.Stream<List<_i11.StudentsRegisteredUnitsModel>>);
+
+  @override
+  _i7.Future<void> applySpecialExams(
+          List<_i16.SpecialExamsModel>? selectedUnits) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #applySpecialExams,
+          [selectedUnits],
+        ),
+        returnValue: _i7.Future<void>.value(),
+        returnValueForMissingStub: _i7.Future<void>.value(),
+      ) as _i7.Future<void>);
 }

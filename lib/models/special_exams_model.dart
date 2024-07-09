@@ -13,6 +13,7 @@ class SpecialExamsModel {
   final String? semesterStage;
   final String? yearOfStudent;
   final String? specialExamStatus;
+  final String? specialExamReason;
   //constructor
   SpecialExamsModel({
     this.studentName,
@@ -26,6 +27,7 @@ class SpecialExamsModel {
     this.semesterStage,
     this.yearOfStudent,
     this.specialExamStatus,
+    this.specialExamReason,
   });
   //copyWith method
   SpecialExamsModel copyWith({
@@ -40,6 +42,7 @@ class SpecialExamsModel {
     String? semesterStage,
     String? yearOfStudent,
     String? specialExamStatus,
+    String? specialExamReason,
   }) {
     return SpecialExamsModel(
       studentName: studentName ?? this.studentName,
@@ -53,6 +56,7 @@ class SpecialExamsModel {
       semesterStage: semesterStage ?? this.semesterStage,
       yearOfStudent: yearOfStudent ?? this.yearOfStudent,
       specialExamStatus: specialExamStatus ?? this.specialExamStatus,
+      specialExamReason: specialExamReason ?? this.specialExamReason,
     );
   }
   //to map
@@ -72,6 +76,7 @@ class SpecialExamsModel {
       'semesterStage': semesterStage,
       'yearOfStudent': yearOfStudent,
       'specialExamStatus': specialExamStatus,
+      'specialExamReason': specialExamReason,
     };
   }
 
@@ -88,6 +93,7 @@ class SpecialExamsModel {
       semesterStage: map['semesterStage'] != null ? map["semesterStage"] ?? '' as String : null,
       yearOfStudent: map['yearOfStudent'] != null ? map["yearOfStudent"] ?? '' as String : null,
       specialExamStatus: map['specialExamStatus'] != null ? map["specialExamStatus"] ?? '' as String : null,
+      specialExamReason: map['specialExamReason'] != null ? map["specialExamReason"] ?? '' as String : null,
     );
   }
 

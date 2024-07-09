@@ -1,11 +1,14 @@
 import 'package:examify/app/app.locator.dart';
 import 'package:examify/models/addUnit.dart';
+import 'package:examify/models/special_exams_model.dart';
 import 'package:examify/models/student_registered_units.dart';
 import 'package:examify/services/student_dashboard_service.dart';
+import 'package:examify/ui/views/apply_special_exam/apply_special_exam_view.form.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
-class ApplySpecialExamViewModel extends BaseViewModel {
+class ApplySpecialExamViewModel extends FormViewModel {
   final _navigationService = locator<NavigationService>();
   final _studentDashboardService = locator<StudentDashboardService>();
 
@@ -52,5 +55,40 @@ class ApplySpecialExamViewModel extends BaseViewModel {
           (selectedUnit) => selectedUnit.unitCode == unit.unitCode);
     }
     notifyListeners();
+  }
+
+  Future<void> applySpecialExam({String? specialExamReason}) async {
+    setBusy(true);
+    if (reasonValue == "" || reasonValue!.isEmpty) {
+      Fluttertoast.showToast(msg: 'please give a reason');
+      setBusy(false);
+    } else if (selectedUnits.isEmpty) {
+      Fluttertoast.showToast(msg: 'Please select Units');
+      setBusy(false);
+    } else {
+      List<SpecialExamsModel> specialExams = selectedUnits.map((unit) {
+        return SpecialExamsModel(
+          studentName: unit.studentName,
+          studeEmail: unit.studentEmail,
+          studePhone: unit.studentPhoneNumber,
+          studeRegNo: unit.studentRegNo,
+          unitCode: unit.unitCode,
+          unitName: unit.unitName,
+          unitLecturer: unit.unitLecturer,
+          semesterStage: unit.semesterStage,
+          yearOfStudent: unit.yearOfStudent,
+          specialExamStatus: 'pending',
+          specialExamReason: specialExamReason,
+        );
+      }).toList();
+      await _studentDashboardService.applySpecialExams(specialExams);
+      setBusy(false);
+    }
+  }
+
+  //get al my special exams units
+  Stream<List<SpecialExamsModel>> mySpecialExamUnits() {
+    return _studentDashboardService.getAllMySpecials(
+        semesterStage: selectedSemesterStage!);
   }
 }

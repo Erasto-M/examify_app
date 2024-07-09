@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:examify/models/addUnit.dart';
+import 'package:examify/models/special_exams_model.dart';
 import 'package:examify/models/student_registered_units.dart';
 import 'package:examify/ui/bottom_sheets/student_register_unit/student_register_unit_sheet.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -75,5 +76,44 @@ class StudentDashboardService {
       Fluttertoast.showToast(msg: e.toString());
       return Stream.value([]); // Return an empty stream in case of error
     }
+  }
+
+  //appply Special Exam
+  Future<void> applySpecialExams(
+    List<SpecialExamsModel> selectedUnits,
+  ) async {
+    try {
+      final currentUser = auth.currentUser;
+      if (currentUser != null) {
+        String currentUserId = currentUser.uid;
+
+        for (var unit in selectedUnits) {
+          Fluttertoast.showToast(msg: unit.specialExamReason!);
+          final specialExamsCollection = db.collection("SpecialEXams");
+          final newUnitWithId = unit.copyWith(studeUid: currentUserId);
+          await specialExamsCollection.doc().set(newUnitWithId.toMap());
+          print("this are my specials: ${newUnitWithId.toMap()}");
+        }
+        Fluttertoast.showToast(msg: "Special Exams Applied Successfully");
+      }
+    } catch (e) {
+      Fluttertoast.showToast(msg: e.toString());
+    }
+  }
+
+  // method to fetch the units
+  Stream<List<SpecialExamsModel>> getAllMySpecials({required String semesterStage}) {
+    try {
+      return db
+          .collection('SpecialEXams')
+          .where('studeUid', isEqualTo: auth.currentUser!.uid).where('semesterStage' , isEqualTo: semesterStage)
+          .snapshots()
+          .map((querySnapshot) {
+        return querySnapshot.docs.map((doc) {
+          return SpecialExamsModel.fromMap(doc.data() as Map<String, dynamic>);
+        }).toList();
+      });
+    } catch (e) {}
+    return Stream.value([]);
   }
 }
