@@ -1149,6 +1149,27 @@ class MockLecturerDashboardService extends _i1.Mock
       ) as _i7.Stream<List<_i11.StudentsRegisteredUnitsModel>>);
 
   @override
+  _i7.Stream<List<_i11.StudentsRegisteredUnitsModel>>
+      getStudentsBasedOnUnitAndYear({
+    required String? unitCode,
+    required String? semesterStage,
+  }) =>
+          (super.noSuchMethod(
+            Invocation.method(
+              #getStudentsBasedOnUnitAndYear,
+              [],
+              {
+                #unitCode: unitCode,
+                #semesterStage: semesterStage,
+              },
+            ),
+            returnValue:
+                _i7.Stream<List<_i11.StudentsRegisteredUnitsModel>>.empty(),
+            returnValueForMissingStub:
+                _i7.Stream<List<_i11.StudentsRegisteredUnitsModel>>.empty(),
+          ) as _i7.Stream<List<_i11.StudentsRegisteredUnitsModel>>);
+
+  @override
   _i7.Future<dynamic> updateStudentMarks({
     required String? studentId,
     required String? unitCode,
@@ -1189,6 +1210,19 @@ class MockLecturerDashboardService extends _i1.Mock
         returnValue: _i7.Future<dynamic>.value(),
         returnValueForMissingStub: _i7.Future<dynamic>.value(),
       ) as _i7.Future<dynamic>);
+
+  @override
+  _i7.Stream<List<_i13.AddUnitModel>> fetchUnits(
+          {required String? semesterStage}) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #fetchUnits,
+          [],
+          {#semesterStage: semesterStage},
+        ),
+        returnValue: _i7.Stream<List<_i13.AddUnitModel>>.empty(),
+        returnValueForMissingStub: _i7.Stream<List<_i13.AddUnitModel>>.empty(),
+      ) as _i7.Stream<List<_i13.AddUnitModel>>);
 }
 
 /// A class which mocks [StudentDashboardService].

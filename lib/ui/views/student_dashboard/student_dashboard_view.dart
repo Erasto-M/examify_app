@@ -399,7 +399,7 @@ class StudentDashboardView extends StackedView<StudentDashboardViewModel> {
                     viewModel.navigateToApplySpecialExam();
                   },
                   label: const Text(
-                    'Apply special Exam',
+                    'Special Exams',
                     style: TextStyle(color: Colors.black),
                   )),
             ],
