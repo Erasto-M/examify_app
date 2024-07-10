@@ -245,8 +245,14 @@ class ApplySpecialExamView extends StackedView<ApplySpecialExamViewModel>
                           itemCount: specials.length,
                           itemBuilder: (context, index) {
                             final units = specials[index];
-                            return Row(
-                              children: [Text(units.unitName!)],
+                            return ListTile(
+                              title: Text(units.unitCode!),
+                              subtitle: Text(units.unitName!),
+                              trailing: Container(
+                                padding: EdgeInsets.all(10),
+                                decoration: BoxDecoration(color: Colors.blue),
+                                child: Text(units.specialExamStatus!),
+                              ),
                             );
                           });
                     }

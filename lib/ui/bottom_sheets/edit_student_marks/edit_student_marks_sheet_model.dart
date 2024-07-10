@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:examify/app/app.locator.dart';
 import 'package:examify/models/student_registered_units.dart';
@@ -305,7 +307,7 @@ class EditStudentMarksSheetModel extends FormViewModel {
           });
         }
       } catch (e) {
-        Fluttertoast.showToast(msg: e.toString());
+        log(e.toString());
       }
     }
 
