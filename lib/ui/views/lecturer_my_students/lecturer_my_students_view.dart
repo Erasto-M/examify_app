@@ -197,6 +197,23 @@ class LecturerMyStudentsView extends StackedView<LecturerMyStudentsViewModel> {
                         child: Text("No students found"),
                       );
                     } else {
+                      snapshot.data!.forEach((student) async {
+                        final int totalMarks = student.assignMent1Marks! +
+                            student.assignMent2Marks! +
+                            student.cat1Marks! +
+                            student.cat2Marks! +
+                            student.examMarks!;
+                        final grade = viewModel
+                            .calculateGrade(totalMarks: totalMarks)
+                            .toString();
+                        await viewModel.updateTotalMarksAndGrade(
+                            unit: StudentsRegisteredUnitsModel(
+                          unitCode: student.unitCode,
+                          studentUid: student.studentUid,
+                          totalMarks: totalMarks,
+                          grade: grade,
+                        ));
+                      });
                       return SingleChildScrollView(
                         scrollDirection: Axis.horizontal,
                         child: ConstrainedBox(
@@ -300,6 +317,14 @@ class LecturerMyStudentsView extends StackedView<LecturerMyStudentsViewModel> {
                                   ),
                                 ],
                                 rows: snapshot.data!.map((student) {
+                                  // final int totalMarks =
+                                  //     student.assignMent1Marks! +
+                                  //         student.assignMent2Marks! +
+                                  //         student.cat1Marks! +
+                                  //         student.cat2Marks! +
+                                  //         student.examMarks!;
+                                  // final String? grade;
+
                                   return DataRow(cells: [
                                     DataCell(
                                       Text(student.studentName!),

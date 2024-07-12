@@ -1,4 +1,10 @@
+import 'package:examify/ui/common/app_colors.dart';
+import 'package:examify/ui/views/missing_marks/missing_marks_view.dart';
+import 'package:examify/ui/views/passlist/passlist_view.dart';
+import 'package:examify/ui/views/special_exams_list/special_exams_list_view.dart';
+import 'package:examify/ui/views/supplist/supplist_view.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:stacked/stacked.dart';
 
 import 'academics_viewmodel.dart';
@@ -16,12 +22,45 @@ class AcademicsView extends StackedView<AcademicsViewModel> {
       length: 4,
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Academic Reports'),
-          bottom: TabBar(
-            indicatorColor: Theme.of(context).primaryColor,
-            labelColor: Theme.of(context).primaryColor,
-            unselectedLabelColor: Colors.black,
-            tabs: const [
+          backgroundColor: primaryColor,
+          title: const Text(
+            'Academic Reports',
+            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+          ),
+          actions: [
+            Padding(
+              padding: const EdgeInsets.only(right: 30),
+              child: DropdownButton<String>(
+                value: viewModel.getselectedSemester,
+                onChanged: (String? newValue) {
+                  if (newValue != null) {
+                    viewModel.setSelectedSemester(newValue);
+                  }
+                },
+                style: const TextStyle(color: Colors.white),
+                dropdownColor: primaryColor,
+                icon: Icon(Icons.arrow_drop_down, color: Colors.white),
+                items: viewModel.semesters
+                    .map<DropdownMenuItem<String>>((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(
+                      value,
+                      style: const TextStyle(
+                          color: Colors.white, fontWeight: FontWeight.bold),
+                    ),
+                  );
+                }).toList(),
+              ),
+            ),
+          ],
+          bottom: const TabBar(
+            indicatorColor: Colors.white,
+            labelColor: Colors.white,
+            labelStyle: TextStyle(
+                color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),
+            unselectedLabelStyle: TextStyle(color: Colors.white, fontSize: 15),
+            tabs: [
               Tab(text: 'Passlist'),
               Tab(text: 'Supp'),
               Tab(text: 'Special'),
@@ -35,7 +74,7 @@ class AcademicsView extends StackedView<AcademicsViewModel> {
             children: [
               TextField(
                 decoration: InputDecoration(
-                  prefixIcon: Icon(Icons.search),
+                  prefixIcon: const Icon(Icons.search),
                   hintText: 'Search',
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10.0),
@@ -43,29 +82,16 @@ class AcademicsView extends StackedView<AcademicsViewModel> {
                 ),
               ),
               const SizedBox(height: 10),
-              DropdownButton<String>(
-                value: viewModel.selectedSemester,
-                onChanged: (String? newValue) {
-                  if (newValue != null) {
-                    viewModel.setSelectedSemester(newValue);
-                  }
-                },
-                items: viewModel.semesters
-                    .map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(value),
-                  );
-                }).toList(),
-              ),
               const SizedBox(height: 10),
               Expanded(
                 child: TabBarView(
                   children: [
-                    AcademicReportList(viewModel: viewModel),
-                    AcademicReportList(viewModel: viewModel),
-                    AcademicReportList(viewModel: viewModel),
-                    AcademicReportList(viewModel: viewModel),
+                    PasslistView(
+                      selectedSemesterStage: viewModel.getselectedSemester,
+                    ),
+                    const SupplistView(),
+                    const SpecialExamsListView(),
+                    const MissingMarksView(),
                   ],
                 ),
               ),
@@ -81,26 +107,4 @@ class AcademicsView extends StackedView<AcademicsViewModel> {
     BuildContext context,
   ) =>
       AcademicsViewModel();
-}
-
-class AcademicReportList extends StatelessWidget {
-  final AcademicsViewModel viewModel;
-
-  const AcademicReportList({Key? key, required this.viewModel})
-      : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return ListView.builder(
-      itemCount: viewModel.academicReports.length,
-      itemBuilder: (context, index) {
-        final report = viewModel.academicReports[index];
-        return ListTile(
-          leading: Text('${index + 1}'),
-          title: Text(report['RegNo']!),
-          subtitle: Text(report['Name']!),
-        );
-      },
-    );
-  }
 }

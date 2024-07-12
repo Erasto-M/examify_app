@@ -1,4 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:examify/models/special_exams_model.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 import '../models/addUnit.dart';
@@ -70,5 +72,41 @@ class AdminDashboardService {
       }
       return units;
     });
+  }
+
+  // calcualate reports
+  Stream<List<StudentsRegisteredUnitsModel>> getAllStudentDetails(
+      {required String semesterStage}) {
+    try {
+      return db
+          .collection('student_registered_units')
+          .where('semesterStage', isEqualTo: semesterStage)
+          .snapshots()
+          .map((querySnapshot) {
+        return querySnapshot.docs.map((doc) {
+          return StudentsRegisteredUnitsModel.fromMap(
+              doc.data() as Map<String, dynamic>);
+        }).toList();
+      });
+    } catch (e) {}
+    return Stream.value([]);
+  }
+
+  Stream<List<SpecialExamsModel>> getSpecialExams(
+      {required String semesterStage}) {
+    try {
+      return db
+          .collection('SpecialEXams')
+          .where('semesterStage', isEqualTo: semesterStage)
+          .where('specialExamStatus', isEqualTo: 'pending')
+          .snapshots()
+          .map((querySnapshot) {
+        return querySnapshot.docs.map((doc) {
+          return SpecialExamsModel.fromMap(
+              doc.data() as Map<String, dynamic>);
+        }).toList();
+      });
+    } catch (e) {}
+    return Stream.value([]);
   }
 }

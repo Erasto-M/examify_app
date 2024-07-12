@@ -9,15 +9,16 @@ import 'package:stacked/stacked.dart';
 import '../../../models/addUnit.dart';
 import 'ec_access_marks_sheets_viewmodel.dart';
 
-class EcAccessMarksSheetsView extends StackedView<EcAccessMarksSheetsViewModel> {
+class EcAccessMarksSheetsView
+    extends StackedView<EcAccessMarksSheetsViewModel> {
   const EcAccessMarksSheetsView({Key? key}) : super(key: key);
 
   @override
   Widget builder(
-      BuildContext context,
-      EcAccessMarksSheetsViewModel viewModel,
-      Widget? child,
-      ) {
+    BuildContext context,
+    EcAccessMarksSheetsViewModel viewModel,
+    Widget? child,
+  ) {
     return DefaultTabController(
       length: viewModel.years.length,
       child: SafeArea(
@@ -54,12 +55,13 @@ class EcAccessMarksSheetsView extends StackedView<EcAccessMarksSheetsViewModel> 
                 );
               } else {
                 Map<String, dynamic> data =
-                snapshot.data!.data() as Map<String, dynamic>;
+                    snapshot.data!.data() as Map<String, dynamic>;
                 bool isAvailable =
                     data['${viewModel.selectedYear}_available'] ?? false;
 
                 return Container(
-                  padding: const EdgeInsets.only(left: 10.0, right: 5.0, top: 30),
+                  padding:
+                      const EdgeInsets.only(left: 10.0, right: 5.0, top: 30),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -102,8 +104,8 @@ class EcAccessMarksSheetsView extends StackedView<EcAccessMarksSheetsViewModel> 
                       verticalSpaceSmall,
                       Container(
                         width: MediaQuery.sizeOf(context).width,
-                        padding:
-                        const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 10, vertical: 5),
                         decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(10),
@@ -138,17 +140,22 @@ class EcAccessMarksSheetsView extends StackedView<EcAccessMarksSheetsViewModel> 
                                           ),
                                         ]),
                                     child: DropdownButton(
-                                      value: viewModel.selectedUnitToGetMarks.isNotEmpty ? viewModel.selectedUnitToGetMarks : null,
+                                      value: viewModel
+                                              .selectedUnitToGetMarks.isNotEmpty
+                                          ? viewModel.selectedUnitToGetMarks
+                                          : null,
                                       hint: const Text("Select Unit"),
                                       items: viewModel.unitsPerSelectedSemester
-                                          ?.map((AddUnitModel unit) => DropdownMenuItem(
-                                        value: unit.unitCode,
-                                        child: Text(unit.unitName),
-                                      ))
+                                          ?.map((AddUnitModel unit) =>
+                                              DropdownMenuItem(
+                                                value: unit.unitCode,
+                                                child: Text(unit.unitName),
+                                              ))
                                           .toList(),
                                       onChanged: (newValue) {
-                                        viewModel.setSelectedExamModuleToEnterMarks(
-                                            newValue.toString());
+                                        viewModel
+                                            .setSelectedExamModuleToEnterMarks(
+                                                newValue.toString());
                                       },
                                     ))
                               ],
@@ -174,10 +181,13 @@ class EcAccessMarksSheetsView extends StackedView<EcAccessMarksSheetsViewModel> 
                       //list of all students
 
                       Expanded(
-                        child: StreamBuilder<List<StudentsRegisteredUnitsModel>>(
-                          stream: viewModel.getAllMyStudents(unitCode: viewModel.selectedUnitToGetMarks),
+                        child:
+                            StreamBuilder<List<StudentsRegisteredUnitsModel>>(
+                          stream: viewModel.getAllMyStudents(
+                              unitCode: viewModel.selectedUnitToGetMarks),
                           builder: (context, snapshot) {
-                            if (snapshot.connectionState == ConnectionState.waiting) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
                               return const Center(
                                 child: SpinKitSpinningLines(
                                   color: primaryColor,
@@ -196,7 +206,8 @@ class EcAccessMarksSheetsView extends StackedView<EcAccessMarksSheetsViewModel> 
                                     minWidth: MediaQuery.of(context).size.width,
                                   ),
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       DataTable(
                                         columns: const [
@@ -292,14 +303,17 @@ class EcAccessMarksSheetsView extends StackedView<EcAccessMarksSheetsViewModel> 
                                             ),
                                             DataCell(
                                               Text(
-                                                student.assignMent1Marks.toString(),
+                                                student.assignMent1Marks
+                                                    .toString(),
                                               ),
                                             ),
                                             DataCell(
-                                              Text(student.assignMent2Marks.toString()),
+                                              Text(student.assignMent2Marks
+                                                  .toString()),
                                             ),
                                             DataCell(
-                                              Text(student.cat1Marks.toString()),
+                                              Text(
+                                                  student.cat1Marks.toString()),
                                             ),
                                             DataCell(
                                               Text(
@@ -307,10 +321,12 @@ class EcAccessMarksSheetsView extends StackedView<EcAccessMarksSheetsViewModel> 
                                               ),
                                             ),
                                             DataCell(
-                                              Text(student.examMarks.toString()),
+                                              Text(
+                                                  student.examMarks.toString()),
                                             ),
                                             DataCell(
-                                              Text(student.totalMarks.toString()),
+                                              Text(student.totalMarks
+                                                  .toString()),
                                             ),
                                             DataCell(
                                               Text(student.grade.toString()),
@@ -341,7 +357,7 @@ class EcAccessMarksSheetsView extends StackedView<EcAccessMarksSheetsViewModel> 
 
   @override
   EcAccessMarksSheetsViewModel viewModelBuilder(
-      BuildContext context,
-      ) =>
+    BuildContext context,
+  ) =>
       EcAccessMarksSheetsViewModel();
 }

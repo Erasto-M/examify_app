@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:examify/models/addUnit.dart';
 import 'package:examify/models/student_registered_units.dart';
+import 'package:examify/ui/bottom_sheets/student_register_unit/student_register_unit_sheet.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -51,17 +52,18 @@ class LecturerDashboardService {
   }
 
   Stream<List<StudentsRegisteredUnitsModel>> getStudentsBasedOnUnitAndYear({
-    required String unitCode, required String semesterStage,
+    required String unitCode,
+    required String semesterStage,
   }) async* {
     try {
       yield* firestore
           .collection('student_registered_units')
           .where("unitCode", isEqualTo: unitCode)
-      .where("semesterStage", isEqualTo: semesterStage)
+          .where("semesterStage", isEqualTo: semesterStage)
           .snapshots()
           .map((snapshot) => snapshot.docs
-          .map((doc) => StudentsRegisteredUnitsModel.fromMap(doc.data()))
-          .toList());
+              .map((doc) => StudentsRegisteredUnitsModel.fromMap(doc.data()))
+              .toList());
     } catch (e) {
       Fluttertoast.showToast(msg: e.toString());
       yield [];
@@ -146,6 +148,7 @@ class LecturerDashboardService {
       Fluttertoast.showToast(msg: e.toString());
     } catch (e) {}
   }
+
   Stream<List<AddUnitModel>> fetchUnits({required String semesterStage}) {
     try {
       print("Fetching units as stream");
@@ -165,4 +168,25 @@ class LecturerDashboardService {
     }
   }
 
+  Future<void> updateTotalMarksAndGrade(
+      {required StudentsRegisteredUnitsModel unit}) async {
+    try {
+      final currentUser = auth.currentUser;
+      if (currentUser != null) {
+        String userId = currentUser.uid;
+        final collection = await firestore
+            .collection('student_registered_units')
+            .where("studentUid", isEqualTo: unit.studentUid)
+            .where('unitLecturer', isEqualTo: userId)
+            .where("unitCode", isEqualTo: unit.unitCode)
+            .get();
+        for (var doc in collection.docs) {
+          await doc.reference.update({
+            "totalMarks": unit.totalMarks,
+            "grade": unit.grade,
+          });
+        }
+      }
+    } catch (e) {}
+  }
 }

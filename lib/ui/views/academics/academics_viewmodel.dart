@@ -1,8 +1,13 @@
+import 'package:examify/app/app.locator.dart';
+import 'package:examify/app/app.router.dart';
+import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
+import 'package:stacked_services/stacked_services.dart';
 
 class AcademicsViewModel extends BaseViewModel {
+  final _navigationService = locator<NavigationService>();
   String _selectedSemester = 'Y1S1';
-  List<String> _semesters = [
+  final List<String> _semesters = [
     'Y1S1',
     'Y1S2',
     'Y2S1',
@@ -12,14 +17,10 @@ class AcademicsViewModel extends BaseViewModel {
     'Y4S1',
     'Y4S2'
   ];
-  List<Map<String, String>> _academicReports = List.generate(
-    20,
-    (index) => {'RegNo': 'C026 - 01 - 0697/2020', 'Name': 'John Doe'},
-  );
 
-  String get selectedSemester => _selectedSemester;
+  String get getselectedSemester => _selectedSemester;
   List<String> get semesters => _semesters;
-  List<Map<String, String>> get academicReports => _academicReports;
+ 
 
   void setSelectedSemester(String semester) {
     _selectedSemester = semester;

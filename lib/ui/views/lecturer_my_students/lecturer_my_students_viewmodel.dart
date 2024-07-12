@@ -208,4 +208,26 @@ class LecturerMyStudentsViewModel extends BaseViewModel {
     _navigationService.navigateToMarksSheetPdfView(
         pdfPath: pdfPath, unitName: unitName);
   }
+
+  calculateGrade({required int totalMarks}) {
+    if (totalMarks >= 70 && totalMarks <= 100) {
+      return "A";
+    } else if (totalMarks >= 60 && totalMarks <= 69) {
+      return "B";
+    } else if (totalMarks >= 50 && totalMarks <= 59) {
+      return "C";
+    } else if (totalMarks >= 40 && totalMarks <= 49) {
+      return "D";
+    } else if (totalMarks >= 0 && totalMarks <= 39) {
+      return "E";
+    } else {
+      return;
+    }
+  }
+
+  //update totalmarks and grade
+  Future<void> updateTotalMarksAndGrade(
+      {required StudentsRegisteredUnitsModel unit}) {
+    return _lectureDashboardService.updateTotalMarksAndGrade(unit: unit);
+  }
 }
