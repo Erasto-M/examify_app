@@ -30,17 +30,22 @@ import 'package:examify/ui/views/lecturer_my_students/lecturer_my_students_view.
 import 'package:examify/ui/views/login/login_view.dart' as _i4;
 import 'package:examify/ui/views/marks_sheet_pdf/marks_sheet_pdf_view.dart'
     as _i19;
+import 'package:examify/ui/views/missing_marks/missing_marks_view.dart' as _i26;
 import 'package:examify/ui/views/my_trancripts/my_trancripts_view.dart' as _i20;
+import 'package:examify/ui/views/passlist/passlist_view.dart' as _i23;
 import 'package:examify/ui/views/register/register_view.dart' as _i5;
+import 'package:examify/ui/views/special_exams_list/special_exams_list_view.dart'
+    as _i25;
 import 'package:examify/ui/views/startup/startup_view.dart' as _i3;
 import 'package:examify/ui/views/student_units_marks/student_units_marks_view.dart'
     as _i16;
 import 'package:examify/ui/views/students_home/students_home_view.dart' as _i8;
+import 'package:examify/ui/views/supplist/supplist_view.dart' as _i24;
 import 'package:examify/ui/views/users/users_view.dart' as _i12;
-import 'package:flutter/material.dart' as _i23;
+import 'package:flutter/material.dart' as _i27;
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart' as _i1;
-import 'package:stacked_services/stacked_services.dart' as _i24;
+import 'package:stacked_services/stacked_services.dart' as _i28;
 
 class Routes {
   static const homeView = '/home-view';
@@ -87,6 +92,14 @@ class Routes {
 
   static const ecAccessMarksSheetsView = '/ec-access-marks-sheets-view';
 
+  static const passlistView = '/passlist-view';
+
+  static const supplistView = '/supplist-view';
+
+  static const specialExamsListView = '/special-exams-list-view';
+
+  static const missingMarksView = '/missing-marks-view';
+
   static const all = <String>{
     homeView,
     startupView,
@@ -109,6 +122,10 @@ class Routes {
     myTrancriptsView,
     applySpecialExamView,
     ecAccessMarksSheetsView,
+    passlistView,
+    supplistView,
+    specialExamsListView,
+    missingMarksView,
   };
 }
 
@@ -198,17 +215,33 @@ class StackedRouter extends _i1.RouterBase {
       Routes.ecAccessMarksSheetsView,
       page: _i22.EcAccessMarksSheetsView,
     ),
+    _i1.RouteDef(
+      Routes.passlistView,
+      page: _i23.PasslistView,
+    ),
+    _i1.RouteDef(
+      Routes.supplistView,
+      page: _i24.SupplistView,
+    ),
+    _i1.RouteDef(
+      Routes.specialExamsListView,
+      page: _i25.SpecialExamsListView,
+    ),
+    _i1.RouteDef(
+      Routes.missingMarksView,
+      page: _i26.MissingMarksView,
+    ),
   ];
 
   final _pagesMap = <Type, _i1.StackedRouteFactory>{
     _i2.HomeView: (data) {
-      return _i23.MaterialPageRoute<dynamic>(
+      return _i27.MaterialPageRoute<dynamic>(
         builder: (context) => const _i2.HomeView(),
         settings: data,
       );
     },
     _i3.StartupView: (data) {
-      return _i23.MaterialPageRoute<dynamic>(
+      return _i27.MaterialPageRoute<dynamic>(
         builder: (context) => const _i3.StartupView(),
         settings: data,
       );
@@ -217,7 +250,7 @@ class StackedRouter extends _i1.RouterBase {
       final args = data.getArgs<LoginViewArguments>(
         orElse: () => const LoginViewArguments(),
       );
-      return _i23.MaterialPageRoute<dynamic>(
+      return _i27.MaterialPageRoute<dynamic>(
         builder: (context) => _i4.LoginView(key: args.key),
         settings: data,
       );
@@ -226,44 +259,44 @@ class StackedRouter extends _i1.RouterBase {
       final args = data.getArgs<RegisterViewArguments>(
         orElse: () => const RegisterViewArguments(),
       );
-      return _i23.MaterialPageRoute<dynamic>(
+      return _i27.MaterialPageRoute<dynamic>(
         builder: (context) => _i5.RegisterView(key: args.key),
         settings: data,
       );
     },
     _i6.ForgotPasswordView: (data) {
-      return _i23.MaterialPageRoute<dynamic>(
+      return _i27.MaterialPageRoute<dynamic>(
         builder: (context) => const _i6.ForgotPasswordView(),
         settings: data,
       );
     },
     _i7.AdminPanelView: (data) {
-      return _i23.MaterialPageRoute<dynamic>(
+      return _i27.MaterialPageRoute<dynamic>(
         builder: (context) => const _i7.AdminPanelView(),
         settings: data,
       );
     },
     _i8.StudentsHomeView: (data) {
-      return _i23.MaterialPageRoute<dynamic>(
+      return _i27.MaterialPageRoute<dynamic>(
         builder: (context) => const _i8.StudentsHomeView(),
         settings: data,
       );
     },
     _i9.LecturerHomeView: (data) {
-      return _i23.MaterialPageRoute<dynamic>(
+      return _i27.MaterialPageRoute<dynamic>(
         builder: (context) => const _i9.LecturerHomeView(),
         settings: data,
       );
     },
     _i10.AdminHomeView: (data) {
-      return _i23.MaterialPageRoute<dynamic>(
+      return _i27.MaterialPageRoute<dynamic>(
         builder: (context) => const _i10.AdminHomeView(),
         settings: data,
       );
     },
     _i11.AdminManageCourseView: (data) {
       final args = data.getArgs<AdminManageCourseViewArguments>(nullOk: false);
-      return _i23.MaterialPageRoute<dynamic>(
+      return _i27.MaterialPageRoute<dynamic>(
         builder: (context) =>
             _i11.AdminManageCourseView(key: args.key, year: args.year),
         settings: data,
@@ -271,7 +304,7 @@ class StackedRouter extends _i1.RouterBase {
     },
     _i12.UsersView: (data) {
       final args = data.getArgs<UsersViewArguments>(nullOk: false);
-      return _i23.MaterialPageRoute<dynamic>(
+      return _i27.MaterialPageRoute<dynamic>(
         builder: (context) => _i12.UsersView(key: args.key, user: args.user),
         settings: data,
       );
@@ -279,7 +312,7 @@ class StackedRouter extends _i1.RouterBase {
     _i13.AdminStudentPerformanceView: (data) {
       final args =
           data.getArgs<AdminStudentPerformanceViewArguments>(nullOk: false);
-      return _i23.MaterialPageRoute<dynamic>(
+      return _i27.MaterialPageRoute<dynamic>(
         builder: (context) => _i13.AdminStudentPerformanceView(
             key: args.key, yearName: args.yearName),
         settings: data,
@@ -288,7 +321,7 @@ class StackedRouter extends _i1.RouterBase {
     _i14.AdminStudentPerformanceDetailsView: (data) {
       final args = data.getArgs<AdminStudentPerformanceDetailsViewArguments>(
           nullOk: false);
-      return _i23.MaterialPageRoute<dynamic>(
+      return _i27.MaterialPageRoute<dynamic>(
         builder: (context) => _i14.AdminStudentPerformanceDetailsView(
             key: args.key,
             semesterStage: args.semesterStage,
@@ -298,33 +331,33 @@ class StackedRouter extends _i1.RouterBase {
     },
     _i15.LecturerMyStudentsView: (data) {
       final args = data.getArgs<LecturerMyStudentsViewArguments>(nullOk: false);
-      return _i23.MaterialPageRoute<dynamic>(
+      return _i27.MaterialPageRoute<dynamic>(
         builder: (context) => _i15.LecturerMyStudentsView(
             key: args.key, unitCode: args.unitCode, unitName: args.unitName),
         settings: data,
       );
     },
     _i16.StudentUnitsMarksView: (data) {
-      return _i23.MaterialPageRoute<dynamic>(
+      return _i27.MaterialPageRoute<dynamic>(
         builder: (context) => const _i16.StudentUnitsMarksView(),
         settings: data,
       );
     },
     _i17.ExamsCoordinatorHomeView: (data) {
-      return _i23.MaterialPageRoute<dynamic>(
+      return _i27.MaterialPageRoute<dynamic>(
         builder: (context) => const _i17.ExamsCoordinatorHomeView(),
         settings: data,
       );
     },
     _i18.ExamCoordinatorPanelViewView: (data) {
-      return _i23.MaterialPageRoute<dynamic>(
+      return _i27.MaterialPageRoute<dynamic>(
         builder: (context) => const _i18.ExamCoordinatorPanelViewView(),
         settings: data,
       );
     },
     _i19.MarksSheetPdfView: (data) {
       final args = data.getArgs<MarksSheetPdfViewArguments>(nullOk: false);
-      return _i23.MaterialPageRoute<dynamic>(
+      return _i27.MaterialPageRoute<dynamic>(
         builder: (context) => _i19.MarksSheetPdfView(
             key: args.key, pdfPath: args.pdfPath, unitName: args.unitName),
         settings: data,
@@ -332,21 +365,47 @@ class StackedRouter extends _i1.RouterBase {
     },
     _i20.MyTrancriptsView: (data) {
       final args = data.getArgs<MyTrancriptsViewArguments>(nullOk: false);
-      return _i23.MaterialPageRoute<dynamic>(
+      return _i27.MaterialPageRoute<dynamic>(
         builder: (context) => _i20.MyTrancriptsView(
             key: args.key, transcriptPath: args.transcriptPath),
         settings: data,
       );
     },
     _i21.ApplySpecialExamView: (data) {
-      return _i23.MaterialPageRoute<dynamic>(
+      return _i27.MaterialPageRoute<dynamic>(
         builder: (context) => const _i21.ApplySpecialExamView(),
         settings: data,
       );
     },
     _i22.EcAccessMarksSheetsView: (data) {
-      return _i23.MaterialPageRoute<dynamic>(
+      return _i27.MaterialPageRoute<dynamic>(
         builder: (context) => const _i22.EcAccessMarksSheetsView(),
+        settings: data,
+      );
+    },
+    _i23.PasslistView: (data) {
+      final args = data.getArgs<PasslistViewArguments>(nullOk: false);
+      return _i27.MaterialPageRoute<dynamic>(
+        builder: (context) => _i23.PasslistView(
+            key: args.key, selectedSemesterStage: args.selectedSemesterStage),
+        settings: data,
+      );
+    },
+    _i24.SupplistView: (data) {
+      return _i27.MaterialPageRoute<dynamic>(
+        builder: (context) => const _i24.SupplistView(),
+        settings: data,
+      );
+    },
+    _i25.SpecialExamsListView: (data) {
+      return _i27.MaterialPageRoute<dynamic>(
+        builder: (context) => const _i25.SpecialExamsListView(),
+        settings: data,
+      );
+    },
+    _i26.MissingMarksView: (data) {
+      return _i27.MaterialPageRoute<dynamic>(
+        builder: (context) => const _i26.MissingMarksView(),
         settings: data,
       );
     },
@@ -362,7 +421,7 @@ class StackedRouter extends _i1.RouterBase {
 class LoginViewArguments {
   const LoginViewArguments({this.key});
 
-  final _i23.Key? key;
+  final _i27.Key? key;
 
   @override
   String toString() {
@@ -384,7 +443,7 @@ class LoginViewArguments {
 class RegisterViewArguments {
   const RegisterViewArguments({this.key});
 
-  final _i23.Key? key;
+  final _i27.Key? key;
 
   @override
   String toString() {
@@ -409,7 +468,7 @@ class AdminManageCourseViewArguments {
     required this.year,
   });
 
-  final _i23.Key? key;
+  final _i27.Key? key;
 
   final String year;
 
@@ -436,7 +495,7 @@ class UsersViewArguments {
     required this.user,
   });
 
-  final _i23.Key? key;
+  final _i27.Key? key;
 
   final String user;
 
@@ -463,7 +522,7 @@ class AdminStudentPerformanceViewArguments {
     required this.yearName,
   });
 
-  final _i23.Key? key;
+  final _i27.Key? key;
 
   final String yearName;
 
@@ -491,7 +550,7 @@ class AdminStudentPerformanceDetailsViewArguments {
     required this.studentUid,
   });
 
-  final _i23.Key? key;
+  final _i27.Key? key;
 
   final String semesterStage;
 
@@ -524,7 +583,7 @@ class LecturerMyStudentsViewArguments {
     required this.unitName,
   });
 
-  final _i23.Key? key;
+  final _i27.Key? key;
 
   final String unitCode;
 
@@ -556,7 +615,7 @@ class MarksSheetPdfViewArguments {
     required this.unitName,
   });
 
-  final _i23.Key? key;
+  final _i27.Key? key;
 
   final String? pdfPath;
 
@@ -587,7 +646,7 @@ class MyTrancriptsViewArguments {
     required this.transcriptPath,
   });
 
-  final _i23.Key? key;
+  final _i27.Key? key;
 
   final String? transcriptPath;
 
@@ -608,7 +667,35 @@ class MyTrancriptsViewArguments {
   }
 }
 
-extension NavigatorStateExtension on _i24.NavigationService {
+class PasslistViewArguments {
+  const PasslistViewArguments({
+    this.key,
+    required this.selectedSemesterStage,
+  });
+
+  final _i27.Key? key;
+
+  final String selectedSemesterStage;
+
+  @override
+  String toString() {
+    return '{"key": "$key", "selectedSemesterStage": "$selectedSemesterStage"}';
+  }
+
+  @override
+  bool operator ==(covariant PasslistViewArguments other) {
+    if (identical(this, other)) return true;
+    return other.key == key &&
+        other.selectedSemesterStage == selectedSemesterStage;
+  }
+
+  @override
+  int get hashCode {
+    return key.hashCode ^ selectedSemesterStage.hashCode;
+  }
+}
+
+extension NavigatorStateExtension on _i28.NavigationService {
   Future<dynamic> navigateToHomeView([
     int? routerId,
     bool preventDuplicates = true,
@@ -638,7 +725,7 @@ extension NavigatorStateExtension on _i24.NavigationService {
   }
 
   Future<dynamic> navigateToLoginView({
-    _i23.Key? key,
+    _i27.Key? key,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
@@ -654,7 +741,7 @@ extension NavigatorStateExtension on _i24.NavigationService {
   }
 
   Future<dynamic> navigateToRegisterView({
-    _i23.Key? key,
+    _i27.Key? key,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
@@ -740,7 +827,7 @@ extension NavigatorStateExtension on _i24.NavigationService {
   }
 
   Future<dynamic> navigateToAdminManageCourseView({
-    _i23.Key? key,
+    _i27.Key? key,
     required String year,
     int? routerId,
     bool preventDuplicates = true,
@@ -757,7 +844,7 @@ extension NavigatorStateExtension on _i24.NavigationService {
   }
 
   Future<dynamic> navigateToUsersView({
-    _i23.Key? key,
+    _i27.Key? key,
     required String user,
     int? routerId,
     bool preventDuplicates = true,
@@ -774,7 +861,7 @@ extension NavigatorStateExtension on _i24.NavigationService {
   }
 
   Future<dynamic> navigateToAdminStudentPerformanceView({
-    _i23.Key? key,
+    _i27.Key? key,
     required String yearName,
     int? routerId,
     bool preventDuplicates = true,
@@ -792,7 +879,7 @@ extension NavigatorStateExtension on _i24.NavigationService {
   }
 
   Future<dynamic> navigateToAdminStudentPerformanceDetailsView({
-    _i23.Key? key,
+    _i27.Key? key,
     required String semesterStage,
     required String studentUid,
     int? routerId,
@@ -811,7 +898,7 @@ extension NavigatorStateExtension on _i24.NavigationService {
   }
 
   Future<dynamic> navigateToLecturerMyStudentsView({
-    _i23.Key? key,
+    _i27.Key? key,
     required String unitCode,
     required String unitName,
     int? routerId,
@@ -872,7 +959,7 @@ extension NavigatorStateExtension on _i24.NavigationService {
   }
 
   Future<dynamic> navigateToMarksSheetPdfView({
-    _i23.Key? key,
+    _i27.Key? key,
     required String? pdfPath,
     required String? unitName,
     int? routerId,
@@ -891,7 +978,7 @@ extension NavigatorStateExtension on _i24.NavigationService {
   }
 
   Future<dynamic> navigateToMyTrancriptsView({
-    _i23.Key? key,
+    _i27.Key? key,
     required String? transcriptPath,
     int? routerId,
     bool preventDuplicates = true,
@@ -936,6 +1023,66 @@ extension NavigatorStateExtension on _i24.NavigationService {
         transition: transition);
   }
 
+  Future<dynamic> navigateToPasslistView({
+    _i27.Key? key,
+    required String selectedSemesterStage,
+    int? routerId,
+    bool preventDuplicates = true,
+    Map<String, String>? parameters,
+    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
+        transition,
+  }) async {
+    return navigateTo<dynamic>(Routes.passlistView,
+        arguments: PasslistViewArguments(
+            key: key, selectedSemesterStage: selectedSemesterStage),
+        id: routerId,
+        preventDuplicates: preventDuplicates,
+        parameters: parameters,
+        transition: transition);
+  }
+
+  Future<dynamic> navigateToSupplistView([
+    int? routerId,
+    bool preventDuplicates = true,
+    Map<String, String>? parameters,
+    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
+        transition,
+  ]) async {
+    return navigateTo<dynamic>(Routes.supplistView,
+        id: routerId,
+        preventDuplicates: preventDuplicates,
+        parameters: parameters,
+        transition: transition);
+  }
+
+  Future<dynamic> navigateToSpecialExamsListView([
+    int? routerId,
+    bool preventDuplicates = true,
+    Map<String, String>? parameters,
+    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
+        transition,
+  ]) async {
+    return navigateTo<dynamic>(Routes.specialExamsListView,
+        id: routerId,
+        preventDuplicates: preventDuplicates,
+        parameters: parameters,
+        transition: transition);
+  }
+
+  Future<dynamic> navigateToMissingMarksView([
+    int? routerId,
+    bool preventDuplicates = true,
+    Map<String, String>? parameters,
+    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
+        transition,
+  ]) async {
+    return navigateTo<dynamic>(Routes.missingMarksView,
+        id: routerId,
+        preventDuplicates: preventDuplicates,
+        parameters: parameters,
+        transition: transition);
+  }
+
   Future<dynamic> replaceWithHomeView([
     int? routerId,
     bool preventDuplicates = true,
@@ -965,7 +1112,7 @@ extension NavigatorStateExtension on _i24.NavigationService {
   }
 
   Future<dynamic> replaceWithLoginView({
-    _i23.Key? key,
+    _i27.Key? key,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
@@ -981,7 +1128,7 @@ extension NavigatorStateExtension on _i24.NavigationService {
   }
 
   Future<dynamic> replaceWithRegisterView({
-    _i23.Key? key,
+    _i27.Key? key,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
@@ -1067,7 +1214,7 @@ extension NavigatorStateExtension on _i24.NavigationService {
   }
 
   Future<dynamic> replaceWithAdminManageCourseView({
-    _i23.Key? key,
+    _i27.Key? key,
     required String year,
     int? routerId,
     bool preventDuplicates = true,
@@ -1084,7 +1231,7 @@ extension NavigatorStateExtension on _i24.NavigationService {
   }
 
   Future<dynamic> replaceWithUsersView({
-    _i23.Key? key,
+    _i27.Key? key,
     required String user,
     int? routerId,
     bool preventDuplicates = true,
@@ -1101,7 +1248,7 @@ extension NavigatorStateExtension on _i24.NavigationService {
   }
 
   Future<dynamic> replaceWithAdminStudentPerformanceView({
-    _i23.Key? key,
+    _i27.Key? key,
     required String yearName,
     int? routerId,
     bool preventDuplicates = true,
@@ -1119,7 +1266,7 @@ extension NavigatorStateExtension on _i24.NavigationService {
   }
 
   Future<dynamic> replaceWithAdminStudentPerformanceDetailsView({
-    _i23.Key? key,
+    _i27.Key? key,
     required String semesterStage,
     required String studentUid,
     int? routerId,
@@ -1138,7 +1285,7 @@ extension NavigatorStateExtension on _i24.NavigationService {
   }
 
   Future<dynamic> replaceWithLecturerMyStudentsView({
-    _i23.Key? key,
+    _i27.Key? key,
     required String unitCode,
     required String unitName,
     int? routerId,
@@ -1199,7 +1346,7 @@ extension NavigatorStateExtension on _i24.NavigationService {
   }
 
   Future<dynamic> replaceWithMarksSheetPdfView({
-    _i23.Key? key,
+    _i27.Key? key,
     required String? pdfPath,
     required String? unitName,
     int? routerId,
@@ -1218,7 +1365,7 @@ extension NavigatorStateExtension on _i24.NavigationService {
   }
 
   Future<dynamic> replaceWithMyTrancriptsView({
-    _i23.Key? key,
+    _i27.Key? key,
     required String? transcriptPath,
     int? routerId,
     bool preventDuplicates = true,
@@ -1257,6 +1404,66 @@ extension NavigatorStateExtension on _i24.NavigationService {
         transition,
   ]) async {
     return replaceWith<dynamic>(Routes.ecAccessMarksSheetsView,
+        id: routerId,
+        preventDuplicates: preventDuplicates,
+        parameters: parameters,
+        transition: transition);
+  }
+
+  Future<dynamic> replaceWithPasslistView({
+    _i27.Key? key,
+    required String selectedSemesterStage,
+    int? routerId,
+    bool preventDuplicates = true,
+    Map<String, String>? parameters,
+    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
+        transition,
+  }) async {
+    return replaceWith<dynamic>(Routes.passlistView,
+        arguments: PasslistViewArguments(
+            key: key, selectedSemesterStage: selectedSemesterStage),
+        id: routerId,
+        preventDuplicates: preventDuplicates,
+        parameters: parameters,
+        transition: transition);
+  }
+
+  Future<dynamic> replaceWithSupplistView([
+    int? routerId,
+    bool preventDuplicates = true,
+    Map<String, String>? parameters,
+    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
+        transition,
+  ]) async {
+    return replaceWith<dynamic>(Routes.supplistView,
+        id: routerId,
+        preventDuplicates: preventDuplicates,
+        parameters: parameters,
+        transition: transition);
+  }
+
+  Future<dynamic> replaceWithSpecialExamsListView([
+    int? routerId,
+    bool preventDuplicates = true,
+    Map<String, String>? parameters,
+    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
+        transition,
+  ]) async {
+    return replaceWith<dynamic>(Routes.specialExamsListView,
+        id: routerId,
+        preventDuplicates: preventDuplicates,
+        parameters: parameters,
+        transition: transition);
+  }
+
+  Future<dynamic> replaceWithMissingMarksView([
+    int? routerId,
+    bool preventDuplicates = true,
+    Map<String, String>? parameters,
+    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
+        transition,
+  ]) async {
+    return replaceWith<dynamic>(Routes.missingMarksView,
         id: routerId,
         preventDuplicates: preventDuplicates,
         parameters: parameters,

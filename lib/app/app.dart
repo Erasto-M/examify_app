@@ -40,6 +40,10 @@ import 'package:examify/ui/views/marks_sheet_pdf/marks_sheet_pdf_view.dart';
 import 'package:examify/ui/views/my_trancripts/my_trancripts_view.dart';
 import 'package:examify/ui/views/apply_special_exam/apply_special_exam_view.dart';
 import 'package:examify/ui/views/ec_access_marks_sheets/ec_access_marks_sheets_view.dart';
+import 'package:examify/ui/views/passlist/passlist_view.dart';
+import 'package:examify/ui/views/supplist/supplist_view.dart';
+import 'package:examify/ui/views/special_exams_list/special_exams_list_view.dart';
+import 'package:examify/ui/views/missing_marks/missing_marks_view.dart';
 // @stacked-import
 
 @StackedApp(
@@ -65,6 +69,10 @@ import 'package:examify/ui/views/ec_access_marks_sheets/ec_access_marks_sheets_v
     MaterialRoute(page: MyTrancriptsView),
     MaterialRoute(page: ApplySpecialExamView),
     MaterialRoute(page: EcAccessMarksSheetsView),
+    MaterialRoute(page: PasslistView),
+    MaterialRoute(page: SupplistView),
+    MaterialRoute(page: SpecialExamsListView),
+    MaterialRoute(page: MissingMarksView),
 // @stacked-route
   ],
   dependencies: [

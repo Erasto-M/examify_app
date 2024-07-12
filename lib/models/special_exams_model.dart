@@ -61,8 +61,6 @@ class SpecialExamsModel {
   }
   //to map
 
- 
-
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'studentName': studentName,
@@ -82,22 +80,41 @@ class SpecialExamsModel {
 
   factory SpecialExamsModel.fromMap(Map<String, dynamic> map) {
     return SpecialExamsModel(
-      studentName: map['studentName'] != null ? map["studentName"] ?? '' as String : null,
-      studeRegNo: map['studeRegNo'] != null ? map["studeRegNo"] ?? '' as String : null,
-      studeEmail: map['studeEmail'] != null ? map["studeEmail"] ?? '' as String : null,
-      studePhone: map['studePhone'] != null ? map["studePhone"] ?? '' as String : null,
-      studeUid: map['studeUid'] != null ? map["studeUid"] ?? '' as String : null,
-      unitCode: map['unitCode'] != null ? map["unitCode"] ?? '' as String : null,
-      unitName: map['unitName'] != null ? map["unitName"] ?? '' as String : null,
-      unitLecturer: map['unitLecturer'] != null ? map["unitLecturer"] ?? '' as String : null,
-      semesterStage: map['semesterStage'] != null ? map["semesterStage"] ?? '' as String : null,
-      yearOfStudent: map['yearOfStudent'] != null ? map["yearOfStudent"] ?? '' as String : null,
-      specialExamStatus: map['specialExamStatus'] != null ? map["specialExamStatus"] ?? '' as String : null,
-      specialExamReason: map['specialExamReason'] != null ? map["specialExamReason"] ?? '' as String : null,
+      studentName: map['studentName'] != null
+          ? map["studentName"] ?? '' as String
+          : null,
+      studeRegNo:
+          map['studeRegNo'] != null ? map["studeRegNo"] ?? '' as String : null,
+      studeEmail:
+          map['studeEmail'] != null ? map["studeEmail"] ?? '' as String : null,
+      studePhone:
+          map['studePhone'] != null ? map["studePhone"] ?? '' as String : null,
+      studeUid:
+          map['studeUid'] != null ? map["studeUid"] ?? '' as String : null,
+      unitCode:
+          map['unitCode'] != null ? map["unitCode"] ?? '' as String : null,
+      unitName:
+          map['unitName'] != null ? map["unitName"] ?? '' as String : null,
+      unitLecturer: map['unitLecturer'] != null
+          ? map["unitLecturer"] ?? '' as String
+          : null,
+      semesterStage: map['semesterStage'] != null
+          ? map["semesterStage"] ?? '' as String
+          : null,
+      yearOfStudent: map['yearOfStudent'] != null
+          ? map["yearOfStudent"] ?? '' as String
+          : null,
+      specialExamStatus: map['specialExamStatus'] != null
+          ? map["specialExamStatus"] ?? '' as String
+          : null,
+      specialExamReason: map['specialExamReason'] != null
+          ? map["specialExamReason"] ?? '' as String
+          : null,
     );
   }
 
   String toJson() => json.encode(toMap());
 
-  factory SpecialExamsModel.fromJson(String source) => SpecialExamsModel.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory SpecialExamsModel.fromJson(String source) =>
+      SpecialExamsModel.fromMap(json.decode(source) as Map<String, dynamic>);
 }

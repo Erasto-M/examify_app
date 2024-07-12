@@ -39,7 +39,7 @@ void setupBottomSheetUi() {
         EditStudentMarksSheet(request: request, completer: completer),
     BottomSheetType.editMarksPerStudent: (context, request, completer) =>
         EditMarksPerStudentSheet(request: request, completer: completer),
-        BottomSheetType.studentRegisterUnit: (context, request, completer) =>
+    BottomSheetType.studentRegisterUnit: (context, request, completer) =>
         StudentRegisterUnitSheet(request: request, completer: completer),
     BottomSheetType.updateProfile: (context, request, completer) =>
         UpdateProfileSheet(request: request, completer: completer),

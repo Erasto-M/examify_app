@@ -19,7 +19,9 @@ class EcAccessMarksSheetsViewModel extends BaseViewModel {
   List<AddUnitModel>? get unitsPerSelectedSemester => _unitsPerSelectedSemester;
 
   void fetchUnits() {
-    _lectureDashboardService.fetchUnits(semesterStage: _selectedYear).listen((units) {
+    _lectureDashboardService
+        .fetchUnits(semesterStage: _selectedYear)
+        .listen((units) {
       _unitsPerSelectedSemester = units;
       notifyListeners();
     });
@@ -36,7 +38,6 @@ class EcAccessMarksSheetsViewModel extends BaseViewModel {
     'Y4S2'
   ];
 
-
   String get selectedYear => _selectedYear;
 
   void setSelectedYear(String year) {
@@ -44,7 +45,6 @@ class EcAccessMarksSheetsViewModel extends BaseViewModel {
     notifyListeners();
     fetchUnits();
   }
-
 
   Stream<List<AddUnitModel>> fetchUnitsBasedOnYear() {
     return _lectureDashboardService.fetchUnits(semesterStage: _selectedYear);

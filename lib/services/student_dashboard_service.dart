@@ -102,11 +102,13 @@ class StudentDashboardService {
   }
 
   // method to fetch the units
-  Stream<List<SpecialExamsModel>> getAllMySpecials({required String semesterStage}) {
+  Stream<List<SpecialExamsModel>> getAllMySpecials(
+      {required String semesterStage}) {
     try {
       return db
           .collection('SpecialEXams')
-          .where('studeUid', isEqualTo: auth.currentUser!.uid).where('semesterStage' , isEqualTo: semesterStage)
+          .where('studeUid', isEqualTo: auth.currentUser!.uid)
+          .where('semesterStage', isEqualTo: semesterStage)
           .snapshots()
           .map((querySnapshot) {
         return querySnapshot.docs.map((doc) {

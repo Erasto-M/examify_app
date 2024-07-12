@@ -1029,6 +1029,26 @@ class MockAdminDashboardService extends _i1.Mock
         returnValueForMissingStub:
             _i7.Stream<List<_i11.StudentsRegisteredUnitsModel>>.empty(),
       ) as _i7.Stream<List<_i11.StudentsRegisteredUnitsModel>>);
+
+  @override
+  _i7.Stream<List<_i11.StudentsRegisteredUnitsModel>> getAllStudentDetails({
+    required String? yearName,
+    required String? semesterStage,
+  }) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getAllStudentDetails,
+          [],
+          {
+            #yearName: yearName,
+            #semesterStage: semesterStage,
+          },
+        ),
+        returnValue:
+            _i7.Stream<List<_i11.StudentsRegisteredUnitsModel>>.empty(),
+        returnValueForMissingStub:
+            _i7.Stream<List<_i11.StudentsRegisteredUnitsModel>>.empty(),
+      ) as _i7.Stream<List<_i11.StudentsRegisteredUnitsModel>>);
 }
 
 /// A class which mocks [LecturerDashboardService].
@@ -1224,6 +1244,19 @@ class MockLecturerDashboardService extends _i1.Mock
         returnValue: _i7.Stream<List<_i13.AddUnitModel>>.empty(),
         returnValueForMissingStub: _i7.Stream<List<_i13.AddUnitModel>>.empty(),
       ) as _i7.Stream<List<_i13.AddUnitModel>>);
+
+  @override
+  _i7.Future<void> updateTotalMarksAndGrade(
+          {required _i11.StudentsRegisteredUnitsModel? unit}) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #updateTotalMarksAndGrade,
+          [],
+          {#unit: unit},
+        ),
+        returnValue: _i7.Future<void>.value(),
+        returnValueForMissingStub: _i7.Future<void>.value(),
+      ) as _i7.Future<void>);
 }
 
 /// A class which mocks [StudentDashboardService].
@@ -1326,4 +1359,18 @@ class MockStudentDashboardService extends _i1.Mock
         returnValue: _i7.Future<void>.value(),
         returnValueForMissingStub: _i7.Future<void>.value(),
       ) as _i7.Future<void>);
+
+  @override
+  _i7.Stream<List<_i16.SpecialExamsModel>> getAllMySpecials(
+          {required String? semesterStage}) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getAllMySpecials,
+          [],
+          {#semesterStage: semesterStage},
+        ),
+        returnValue: _i7.Stream<List<_i16.SpecialExamsModel>>.empty(),
+        returnValueForMissingStub:
+            _i7.Stream<List<_i16.SpecialExamsModel>>.empty(),
+      ) as _i7.Stream<List<_i16.SpecialExamsModel>>);
 }
