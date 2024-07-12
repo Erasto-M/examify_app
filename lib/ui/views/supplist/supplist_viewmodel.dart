@@ -7,9 +7,11 @@ import '../../../models/student_registered_units.dart';
 class SupplistViewModel extends BaseViewModel {
   final _adminDashBoard = locator<AdminDashboardService>();
 
-  Stream<Map<String, List<StudentsRegisteredUnitsModel>>> getSuppList() {
+  Stream<Map<String, List<StudentsRegisteredUnitsModel>>> getSuppList({
+    required String semesterStage,
+  }) {
     return _adminDashBoard
-        .getAllStudentDetails(semesterStage: 'Y1S1')
+        .getAllStudentDetails(semesterStage: semesterStage)
         .map((studentUnits) {
       final suppList = <String, List<StudentsRegisteredUnitsModel>>{};
 

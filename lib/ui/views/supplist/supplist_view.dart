@@ -7,8 +7,8 @@ import '../../common/app_colors.dart';
 import 'supplist_viewmodel.dart';
 
 class SupplistView extends StackedView<SupplistViewModel> {
-  const SupplistView({Key? key}) : super(key: key);
-
+  const SupplistView({Key? key, required this.semesterStage}) : super(key: key);
+  final String semesterStage;
   @override
   Widget builder(
     BuildContext context,
@@ -21,7 +21,7 @@ class SupplistView extends StackedView<SupplistViewModel> {
         child: Container(
           padding: const EdgeInsets.only(left: 5.0, right: 5.0),
           child: StreamBuilder<Map<String, List<StudentsRegisteredUnitsModel>>>(
-            stream: viewModel.getSuppList(),
+            stream: viewModel.getSuppList(semesterStage: semesterStage),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Center(
@@ -40,7 +40,8 @@ class SupplistView extends StackedView<SupplistViewModel> {
                 );
               } else {
                 final studentsMap = snapshot.data!;
-                return Flexible(
+                return SizedBox(
+                  height: MediaQuery.of(context).size.height,
                   child: ListView.builder(
                       shrinkWrap: true,
                       itemCount: studentsMap.length,

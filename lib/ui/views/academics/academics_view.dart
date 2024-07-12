@@ -89,9 +89,15 @@ class AcademicsView extends StackedView<AcademicsViewModel> {
                     PasslistView(
                       selectedSemesterStage: viewModel.getselectedSemester,
                     ),
-                    const SupplistView(),
-                    const SpecialExamsListView(),
-                    const MissingMarksView(),
+                    SupplistView(
+                      semesterStage: viewModel.getselectedSemester,
+                    ),
+                    SpecialExamsListView(
+                      semesterStage: viewModel.getselectedSemester,
+                    ),
+                    MissingMarksView(
+                      semesterStage: viewModel.getselectedSemester,
+                    ),
                   ],
                 ),
               ),

@@ -24,7 +24,8 @@ class StudentsRegisteredUnitsModel {
   final int? totalMarks;
   final String? grade;
   final bool? appliedSpecialExam;
-  const StudentsRegisteredUnitsModel({
+   String? missingMarksMessage;
+   StudentsRegisteredUnitsModel({
     this.unitName,
     this.unitCode,
     this.unitLecturer,
@@ -45,6 +46,7 @@ class StudentsRegisteredUnitsModel {
     this.totalMarks,
     this.grade,
     this.appliedSpecialExam,
+    this.missingMarksMessage = '',
   });
 
   StudentsRegisteredUnitsModel copyWith({
@@ -68,6 +70,7 @@ class StudentsRegisteredUnitsModel {
     int? totalMarks,
     String? grade,
     bool? appliedSpecialExam,
+    String? missingMarksMessage,
   }) {
     return StudentsRegisteredUnitsModel(
       unitName: unitName ?? this.unitName,
@@ -90,31 +93,33 @@ class StudentsRegisteredUnitsModel {
       totalMarks: totalMarks ?? this.totalMarks,
       grade: grade ?? this.grade,
       appliedSpecialExam: appliedSpecialExam ?? this.appliedSpecialExam,
+      missingMarksMessage: missingMarksMessage ?? this.missingMarksMessage,
     );
   }
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      'unitName': unitName ?? '',
-      'unitCode': unitCode ?? '',
-      'unitLecturer': unitLecturer ?? '',
-      'unitDepartment': unitDepartment ?? "Computer Science",
-      'semesterStage': semesterStage ?? "",
-      'yearOfStudent': yearOfStudent ?? "",
-      'studentName': studentName ?? '',
-      'studentRegNo': studentRegNo ?? '',
-      'studentUid': studentUid ?? '',
-      'studentEmail': studentEmail ?? '',
-      'studentPhoneNumber': studentPhoneNumber ?? '',
-      'studentGender': studentGender ?? '',
+      'unitName': unitName,
+      'unitCode': unitCode,
+      'unitLecturer': unitLecturer,
+      'unitDepartment': unitDepartment,
+      'semesterStage': semesterStage,
+      'yearOfStudent': yearOfStudent,
+      'studentName': studentName,
+      'studentRegNo': studentRegNo,
+      'studentUid': studentUid,
+      'studentEmail': studentEmail,
+      'studentPhoneNumber': studentPhoneNumber,
+      'studentGender': studentGender,
       'assignMent1Marks': assignMent1Marks,
       'assignMent2Marks': assignMent2Marks,
       'cat1Marks': cat1Marks,
       'cat2Marks': cat2Marks,
       'examMarks': examMarks,
       'totalMarks': totalMarks,
-      'grade': grade ?? '',
-      'appliedSpecialExam': appliedSpecialExam ?? false,
+      'grade': grade,
+      'appliedSpecialExam': appliedSpecialExam,
+      'missingMarksMessage': missingMarksMessage,
     };
   }
 
@@ -168,6 +173,9 @@ class StudentsRegisteredUnitsModel {
       appliedSpecialExam: map['appliedSpecialExam'] != null
           ? map["appliedSpecialExam"] ?? false as bool
           : null,
+      missingMarksMessage: map['missingMarksMessage'] != null
+          ? map["missingMarksMessage"] ?? '' as String
+          : null,
     );
   }
   factory StudentsRegisteredUnitsModel.fromDocument(DocumentSnapshot doc) {
@@ -203,7 +211,7 @@ class StudentsRegisteredUnitsModel {
 
   @override
   String toString() {
-    return 'StudentsRegisteredUnitsModel( unitName: $unitName, unitCode: $unitCode, unitLecturer: $unitLecturer, unitDepartment: $unitDepartment, semesterStage: $semesterStage, yearOfStudent: $yearOfStudent, studentName: $studentName, studentRegNo: $studentRegNo, studentUid: $studentUid, studentEmail: $studentEmail, studentPhoneNumber: $studentPhoneNumber, studentGender: $studentGender, assignMent1Marks: $assignMent1Marks, assignMent2Marks: $assignMent2Marks, cat1Marks: $cat1Marks, cat2Marks: $cat2Marks, examMarks: $examMarks, totalMarks: $totalMarks, grade: $grade, appliedSpecialExam: $appliedSpecialExam)';
+    return 'StudentsRegisteredUnitsModel(unitName: $unitName, unitCode: $unitCode, unitLecturer: $unitLecturer, unitDepartment: $unitDepartment, semesterStage: $semesterStage, yearOfStudent: $yearOfStudent, studentName: $studentName, studentRegNo: $studentRegNo, studentUid: $studentUid, studentEmail: $studentEmail, studentPhoneNumber: $studentPhoneNumber, studentGender: $studentGender, assignMent1Marks: $assignMent1Marks, assignMent2Marks: $assignMent2Marks, cat1Marks: $cat1Marks, cat2Marks: $cat2Marks, examMarks: $examMarks, totalMarks: $totalMarks, grade: $grade, appliedSpecialExam: $appliedSpecialExam, missingMarksMessage: $missingMarksMessage)';
   }
 
   @override
@@ -229,7 +237,8 @@ class StudentsRegisteredUnitsModel {
         other.examMarks == examMarks &&
         other.totalMarks == totalMarks &&
         other.grade == grade &&
-        other.appliedSpecialExam == appliedSpecialExam;
+        other.appliedSpecialExam == appliedSpecialExam &&
+        other.missingMarksMessage == missingMarksMessage;
   }
 
   @override
@@ -253,6 +262,7 @@ class StudentsRegisteredUnitsModel {
         examMarks.hashCode ^
         totalMarks.hashCode ^
         grade.hashCode ^
-        appliedSpecialExam.hashCode;
+        appliedSpecialExam.hashCode ^
+        missingMarksMessage.hashCode;
   }
 }

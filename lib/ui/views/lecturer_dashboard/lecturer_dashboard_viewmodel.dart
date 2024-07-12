@@ -1,6 +1,8 @@
 import 'package:examify/app/app.locator.dart';
 import 'package:examify/app/app.router.dart';
 import 'package:examify/models/addUnit.dart';
+import 'package:examify/models/special_exams_model.dart';
+import 'package:examify/models/student_registered_units.dart';
 import 'package:examify/services/authentication_service.dart';
 import 'package:examify/services/lecturer_dashboard_service.dart';
 import 'package:examify/ui/views/lecturer_my_students/lecturer_my_students_viewmodel.dart';
@@ -66,5 +68,9 @@ class LecturerDashboardViewModel extends BaseViewModel {
       unitCode: unitCode,
       unitName: unitName,
     );
+  }
+
+  Stream<List<SpecialExamsModel>> mySpecialExamUnits() {
+    return _lecturerDashboardService.getAllMyStudentSpecials();
   }
 }

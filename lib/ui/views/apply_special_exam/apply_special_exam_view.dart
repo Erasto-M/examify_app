@@ -226,7 +226,7 @@ class ApplySpecialExamView extends StackedView<ApplySpecialExamViewModel>
                   stream: viewModel.mySpecialExamUnits(),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
-                      return Center(
+                      return const Center(
                         child: CircularProgressIndicator(
                           color: primaryColor,
                         ),
@@ -236,7 +236,7 @@ class ApplySpecialExamView extends StackedView<ApplySpecialExamViewModel>
                         child: Text(snapshot.error.toString()),
                       );
                     } else if (!snapshot.hasData) {
-                      return Center(
+                      return const Center(
                         child: Text('No Specials'),
                       );
                     } else {
@@ -249,8 +249,8 @@ class ApplySpecialExamView extends StackedView<ApplySpecialExamViewModel>
                               title: Text(units.unitCode!),
                               subtitle: Text(units.unitName!),
                               trailing: Container(
-                                padding: EdgeInsets.all(10),
-                                decoration: BoxDecoration(color: Colors.blue),
+                                padding: const EdgeInsets.all(10),
+                                decoration: const BoxDecoration(color: Colors.blue),
                                 child: Text(units.specialExamStatus!),
                               ),
                             );

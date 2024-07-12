@@ -8,13 +8,13 @@ import 'dart:ui' as _i8;
 
 import 'package:cloud_firestore/cloud_firestore.dart' as _i3;
 import 'package:examify/models/addUnit.dart' as _i13;
-import 'package:examify/models/special_exams_model.dart' as _i16;
+import 'package:examify/models/special_exams_model.dart' as _i14;
 import 'package:examify/models/student_registered_units.dart' as _i11;
 import 'package:examify/models/usersModel.dart' as _i10;
 import 'package:examify/services/authentication_service.dart' as _i9;
 import 'package:examify/services/cod_dashboard_service.dart' as _i12;
-import 'package:examify/services/lecturer_dashboard_service.dart' as _i14;
-import 'package:examify/services/student_dashboard_service.dart' as _i15;
+import 'package:examify/services/lecturer_dashboard_service.dart' as _i15;
+import 'package:examify/services/student_dashboard_service.dart' as _i16;
 import 'package:firebase_auth/firebase_auth.dart' as _i2;
 import 'package:flutter/material.dart' as _i6;
 import 'package:mockito/mockito.dart' as _i1;
@@ -1031,31 +1031,40 @@ class MockAdminDashboardService extends _i1.Mock
       ) as _i7.Stream<List<_i11.StudentsRegisteredUnitsModel>>);
 
   @override
-  _i7.Stream<List<_i11.StudentsRegisteredUnitsModel>> getAllStudentDetails({
-    required String? yearName,
-    required String? semesterStage,
-  }) =>
+  _i7.Stream<List<_i11.StudentsRegisteredUnitsModel>> getAllStudentDetails(
+          {required String? semesterStage}) =>
       (super.noSuchMethod(
         Invocation.method(
           #getAllStudentDetails,
           [],
-          {
-            #yearName: yearName,
-            #semesterStage: semesterStage,
-          },
+          {#semesterStage: semesterStage},
         ),
         returnValue:
             _i7.Stream<List<_i11.StudentsRegisteredUnitsModel>>.empty(),
         returnValueForMissingStub:
             _i7.Stream<List<_i11.StudentsRegisteredUnitsModel>>.empty(),
       ) as _i7.Stream<List<_i11.StudentsRegisteredUnitsModel>>);
+
+  @override
+  _i7.Stream<List<_i14.SpecialExamsModel>> getSpecialExams(
+          {required String? semesterStage}) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getSpecialExams,
+          [],
+          {#semesterStage: semesterStage},
+        ),
+        returnValue: _i7.Stream<List<_i14.SpecialExamsModel>>.empty(),
+        returnValueForMissingStub:
+            _i7.Stream<List<_i14.SpecialExamsModel>>.empty(),
+      ) as _i7.Stream<List<_i14.SpecialExamsModel>>);
 }
 
 /// A class which mocks [LecturerDashboardService].
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockLecturerDashboardService extends _i1.Mock
-    implements _i14.LecturerDashboardService {
+    implements _i15.LecturerDashboardService {
   @override
   _i3.FirebaseFirestore get firestore => (super.noSuchMethod(
         Invocation.getter(#firestore),
@@ -1263,7 +1272,7 @@ class MockLecturerDashboardService extends _i1.Mock
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockStudentDashboardService extends _i1.Mock
-    implements _i15.StudentDashboardService {
+    implements _i16.StudentDashboardService {
   @override
   _i3.FirebaseFirestore get db => (super.noSuchMethod(
         Invocation.getter(#db),
@@ -1350,7 +1359,7 @@ class MockStudentDashboardService extends _i1.Mock
 
   @override
   _i7.Future<void> applySpecialExams(
-          List<_i16.SpecialExamsModel>? selectedUnits) =>
+          List<_i14.SpecialExamsModel>? selectedUnits) =>
       (super.noSuchMethod(
         Invocation.method(
           #applySpecialExams,
@@ -1361,7 +1370,7 @@ class MockStudentDashboardService extends _i1.Mock
       ) as _i7.Future<void>);
 
   @override
-  _i7.Stream<List<_i16.SpecialExamsModel>> getAllMySpecials(
+  _i7.Stream<List<_i14.SpecialExamsModel>> getAllMySpecials(
           {required String? semesterStage}) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -1369,8 +1378,8 @@ class MockStudentDashboardService extends _i1.Mock
           [],
           {#semesterStage: semesterStage},
         ),
-        returnValue: _i7.Stream<List<_i16.SpecialExamsModel>>.empty(),
+        returnValue: _i7.Stream<List<_i14.SpecialExamsModel>>.empty(),
         returnValueForMissingStub:
-            _i7.Stream<List<_i16.SpecialExamsModel>>.empty(),
-      ) as _i7.Stream<List<_i16.SpecialExamsModel>>);
+            _i7.Stream<List<_i14.SpecialExamsModel>>.empty(),
+      ) as _i7.Stream<List<_i14.SpecialExamsModel>>);
 }

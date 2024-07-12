@@ -1,8 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:examify/models/addUnit.dart';
+import 'package:examify/models/special_exams_model.dart';
 import 'package:examify/models/student_registered_units.dart';
 import 'package:examify/ui/bottom_sheets/student_register_unit/student_register_unit_sheet.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
@@ -78,16 +80,6 @@ class LecturerDashboardService {
     required BuildContext context,
   }) async {
     try {
-      // print('studentId FROM VIEWMODEL: $studentId');
-      // print('unitCode: $unitCode');
-      // print("student Marks: ${student.assignMent1Marks}");
-      // print("student Marks: ${student.assignMent2Marks}");
-      // print("student Marks: ${student.cat1Marks}");
-      // print("student Marks: ${student.cat2Marks}");
-      // print("student Marks: ${student.examMarks}");
-      // print("student Marks: ${student.totalMarks}");
-      // print("student Marks: ${student.grade}");
-
       final collection = await firestore
           .collection('student_registered_units')
           .where("studentUid", isEqualTo: studentId)
@@ -188,5 +180,21 @@ class LecturerDashboardService {
         }
       }
     } catch (e) {}
+  }
+
+  // Fetch All Special Exams For a scpecific Lecturer
+  Stream<List<SpecialExamsModel>> getAllMyStudentSpecials() {
+    try {
+      return FirebaseFirestore.instance
+          .collection('SpecialEXams')
+          .where('unitLecturer', isEqualTo: auth.currentUser!.uid)
+          .snapshots()
+          .map((querySnapshot) {
+        return querySnapshot.docs.map((doc) {
+          return SpecialExamsModel.fromMap(doc.data() as Map<String, dynamic>);
+        }).toList();
+      });
+    } catch (e) {}
+    return Stream.value([]);
   }
 }

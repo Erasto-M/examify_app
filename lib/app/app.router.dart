@@ -392,20 +392,26 @@ class StackedRouter extends _i1.RouterBase {
       );
     },
     _i24.SupplistView: (data) {
+      final args = data.getArgs<SupplistViewArguments>(nullOk: false);
       return _i27.MaterialPageRoute<dynamic>(
-        builder: (context) => const _i24.SupplistView(),
+        builder: (context) =>
+            _i24.SupplistView(key: args.key, semesterStage: args.semesterStage),
         settings: data,
       );
     },
     _i25.SpecialExamsListView: (data) {
+      final args = data.getArgs<SpecialExamsListViewArguments>(nullOk: false);
       return _i27.MaterialPageRoute<dynamic>(
-        builder: (context) => const _i25.SpecialExamsListView(),
+        builder: (context) => _i25.SpecialExamsListView(
+            key: args.key, semesterStage: args.semesterStage),
         settings: data,
       );
     },
     _i26.MissingMarksView: (data) {
+      final args = data.getArgs<MissingMarksViewArguments>(nullOk: false);
       return _i27.MaterialPageRoute<dynamic>(
-        builder: (context) => const _i26.MissingMarksView(),
+        builder: (context) => _i26.MissingMarksView(
+            key: args.key, semesterStage: args.semesterStage),
         settings: data,
       );
     },
@@ -692,6 +698,87 @@ class PasslistViewArguments {
   @override
   int get hashCode {
     return key.hashCode ^ selectedSemesterStage.hashCode;
+  }
+}
+
+class SupplistViewArguments {
+  const SupplistViewArguments({
+    this.key,
+    required this.semesterStage,
+  });
+
+  final _i27.Key? key;
+
+  final String semesterStage;
+
+  @override
+  String toString() {
+    return '{"key": "$key", "semesterStage": "$semesterStage"}';
+  }
+
+  @override
+  bool operator ==(covariant SupplistViewArguments other) {
+    if (identical(this, other)) return true;
+    return other.key == key && other.semesterStage == semesterStage;
+  }
+
+  @override
+  int get hashCode {
+    return key.hashCode ^ semesterStage.hashCode;
+  }
+}
+
+class SpecialExamsListViewArguments {
+  const SpecialExamsListViewArguments({
+    this.key,
+    required this.semesterStage,
+  });
+
+  final _i27.Key? key;
+
+  final String semesterStage;
+
+  @override
+  String toString() {
+    return '{"key": "$key", "semesterStage": "$semesterStage"}';
+  }
+
+  @override
+  bool operator ==(covariant SpecialExamsListViewArguments other) {
+    if (identical(this, other)) return true;
+    return other.key == key && other.semesterStage == semesterStage;
+  }
+
+  @override
+  int get hashCode {
+    return key.hashCode ^ semesterStage.hashCode;
+  }
+}
+
+class MissingMarksViewArguments {
+  const MissingMarksViewArguments({
+    this.key,
+    required this.semesterStage,
+  });
+
+  final _i27.Key? key;
+
+  final String semesterStage;
+
+  @override
+  String toString() {
+    return '{"key": "$key", "semesterStage": "$semesterStage"}';
+  }
+
+  @override
+  bool operator ==(covariant MissingMarksViewArguments other) {
+    if (identical(this, other)) return true;
+    return other.key == key && other.semesterStage == semesterStage;
+  }
+
+  @override
+  int get hashCode {
+    return key.hashCode ^ semesterStage.hashCode;
   }
 }
 
@@ -1041,42 +1128,54 @@ extension NavigatorStateExtension on _i28.NavigationService {
         transition: transition);
   }
 
-  Future<dynamic> navigateToSupplistView([
+  Future<dynamic> navigateToSupplistView({
+    _i27.Key? key,
+    required String semesterStage,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
     Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
         transition,
-  ]) async {
+  }) async {
     return navigateTo<dynamic>(Routes.supplistView,
+        arguments:
+            SupplistViewArguments(key: key, semesterStage: semesterStage),
         id: routerId,
         preventDuplicates: preventDuplicates,
         parameters: parameters,
         transition: transition);
   }
 
-  Future<dynamic> navigateToSpecialExamsListView([
+  Future<dynamic> navigateToSpecialExamsListView({
+    _i27.Key? key,
+    required String semesterStage,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
     Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
         transition,
-  ]) async {
+  }) async {
     return navigateTo<dynamic>(Routes.specialExamsListView,
+        arguments: SpecialExamsListViewArguments(
+            key: key, semesterStage: semesterStage),
         id: routerId,
         preventDuplicates: preventDuplicates,
         parameters: parameters,
         transition: transition);
   }
 
-  Future<dynamic> navigateToMissingMarksView([
+  Future<dynamic> navigateToMissingMarksView({
+    _i27.Key? key,
+    required String semesterStage,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
     Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
         transition,
-  ]) async {
+  }) async {
     return navigateTo<dynamic>(Routes.missingMarksView,
+        arguments:
+            MissingMarksViewArguments(key: key, semesterStage: semesterStage),
         id: routerId,
         preventDuplicates: preventDuplicates,
         parameters: parameters,
@@ -1428,42 +1527,54 @@ extension NavigatorStateExtension on _i28.NavigationService {
         transition: transition);
   }
 
-  Future<dynamic> replaceWithSupplistView([
+  Future<dynamic> replaceWithSupplistView({
+    _i27.Key? key,
+    required String semesterStage,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
     Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
         transition,
-  ]) async {
+  }) async {
     return replaceWith<dynamic>(Routes.supplistView,
+        arguments:
+            SupplistViewArguments(key: key, semesterStage: semesterStage),
         id: routerId,
         preventDuplicates: preventDuplicates,
         parameters: parameters,
         transition: transition);
   }
 
-  Future<dynamic> replaceWithSpecialExamsListView([
+  Future<dynamic> replaceWithSpecialExamsListView({
+    _i27.Key? key,
+    required String semesterStage,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
     Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
         transition,
-  ]) async {
+  }) async {
     return replaceWith<dynamic>(Routes.specialExamsListView,
+        arguments: SpecialExamsListViewArguments(
+            key: key, semesterStage: semesterStage),
         id: routerId,
         preventDuplicates: preventDuplicates,
         parameters: parameters,
         transition: transition);
   }
 
-  Future<dynamic> replaceWithMissingMarksView([
+  Future<dynamic> replaceWithMissingMarksView({
+    _i27.Key? key,
+    required String semesterStage,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
     Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
         transition,
-  ]) async {
+  }) async {
     return replaceWith<dynamic>(Routes.missingMarksView,
+        arguments:
+            MissingMarksViewArguments(key: key, semesterStage: semesterStage),
         id: routerId,
         preventDuplicates: preventDuplicates,
         parameters: parameters,

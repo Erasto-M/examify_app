@@ -7,8 +7,8 @@ import 'package:stacked/stacked.dart';
 import 'special_exams_list_viewmodel.dart';
 
 class SpecialExamsListView extends StackedView<SpecialExamsListViewModel> {
-  const SpecialExamsListView({Key? key}) : super(key: key);
-
+  const SpecialExamsListView({Key? key, required this.semesterStage}) : super(key: key);
+  final String semesterStage;
   @override
   Widget builder(
     BuildContext context,
@@ -21,7 +21,7 @@ class SpecialExamsListView extends StackedView<SpecialExamsListViewModel> {
         child: Container(
           padding: const EdgeInsets.only(left: 5.0, right: 5.0),
           child: StreamBuilder<Map<String, List<SpecialExamsModel>>>(
-            stream: viewModel.getSpecialsExam(),
+            stream: viewModel.getSpecialsExam(semesterStage: semesterStage),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Center(
@@ -40,7 +40,8 @@ class SpecialExamsListView extends StackedView<SpecialExamsListViewModel> {
                 );
               } else {
                 final studentsMap = snapshot.data!;
-                return Flexible(
+                return SizedBox(
+                  height: MediaQuery.of(context).size.height,
                   child: ListView.builder(
                       shrinkWrap: true,
                       itemCount: studentsMap.length,
