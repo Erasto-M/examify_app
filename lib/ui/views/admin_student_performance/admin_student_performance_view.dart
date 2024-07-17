@@ -1,3 +1,4 @@
+import 'package:examify/models/addUnit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:stacked/stacked.dart';
@@ -88,17 +89,76 @@ class AdminStudentPerformanceView
                 children: [
                   ElevatedButton(
                     onPressed: () {
-                      viewModel.setSelectedSem('Y1S1');
+                      viewModel.setSelectedSem('${currentYearName}S1');
                     },
                     child: Text("${currentYearName}S1"),
                   ),
                   ElevatedButton(
                     onPressed: () {
-                      viewModel.setSelectedSem('Y1S2');
+                      viewModel.setSelectedSem('${currentYearName}S2');
                     },
                     child: Text("${currentYearName}S2"),
                   ),
                 ],
+              ),
+              verticalSpaceSmall,
+              Container(
+                width: MediaQuery.sizeOf(context).width,
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(10),
+                  boxShadow: const [
+                    BoxShadow(
+                      color: Colors.grey,
+                      blurRadius: 5,
+                      offset: Offset(0, 3),
+                    )
+                  ],
+                ),
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                            margin: const EdgeInsets.only(right: 10),
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 15, vertical: 5),
+                            height: 40,
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(10),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey.withOpacity(0.5),
+                                    spreadRadius: 1,
+                                    blurRadius: 5,
+                                    offset: const Offset(0, 3),
+                                  ),
+                                ]),
+                            child: DropdownButton(
+                              value: viewModel.selectedUnitToGetMarks.isNotEmpty
+                                  ? viewModel.selectedUnitToGetMarks
+                                  : null,
+                              hint: const Text("Select Unit"),
+                              items: viewModel.unitsPerSelectedSemester
+                                  ?.map((AddUnitModel unit) => DropdownMenuItem(
+                                        value: unit.unitCode,
+                                        child: Text(unit.unitName),
+                                      ))
+                                  .toList(),
+                              onChanged: (newValue) {
+                                viewModel.setSelectedUnitCode(
+                                    newValue.toString());
+                              },
+                            ))
+                      ],
+                    ),
+                  ],
+                ),
               ),
               verticalSpaceSmall,
               Expanded(
@@ -337,7 +397,7 @@ class AdminStudentPerformanceView
 
   @override
   void onViewModelReady(AdminStudentPerformanceViewModel viewModel) {
-    // viewModel.fetchUsers(yearName: yearName);
+    viewModel.setInitSemValue(yearName);
     super.onViewModelReady(viewModel);
   }
 }

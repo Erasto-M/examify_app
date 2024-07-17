@@ -360,4 +360,11 @@ class EcAccessMarksSheetsView
     BuildContext context,
   ) =>
       EcAccessMarksSheetsViewModel();
+
+  @override
+  void onViewModelReady(EcAccessMarksSheetsViewModel viewModel) {
+    viewModel.fetchUnits();
+    super.onViewModelReady(viewModel);
+  }
+
 }

@@ -304,22 +304,4 @@ class AuthenticationService {
     }
     return users;
   }
-
-  //Fetch all Lecturers students
-  Stream<List<StudentsRegisteredUnitsModel>> fetchStudentsAccordingToYearStream(
-      {required String yearName, required String semesterStage}) async* {
-    try {
-      yield* firestore
-          .collection('student_registered_units')
-          .where('unitCode', isEqualTo: 'CCS 1105')
-          .where('semesterStage', isEqualTo: semesterStage)
-          .snapshots()
-          .map((snapshot) => snapshot.docs
-              .map((doc) => StudentsRegisteredUnitsModel.fromMap(doc.data()))
-              .toList());
-    } catch (e) {
-      Fluttertoast.showToast(msg: e.toString());
-      yield [];
-    }
-  }
 }
