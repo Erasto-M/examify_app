@@ -73,4 +73,12 @@ class LecturerDashboardViewModel extends BaseViewModel {
   Stream<List<SpecialExamsModel>> mySpecialExamUnits() {
     return _lecturerDashboardService.getAllMyStudentSpecials();
   }
+
+  //approve special exam status
+  Future approveSpecialExam({String? studentId, String? unitCode}) async {
+    setBusy(true);
+    await _lecturerDashboardService.updateSpecialExamStatus(
+        studentId: studentId!, unitCode: unitCode!);
+    setBusy(false);
+  }
 }

@@ -1266,6 +1266,36 @@ class MockLecturerDashboardService extends _i1.Mock
         returnValue: _i7.Future<void>.value(),
         returnValueForMissingStub: _i7.Future<void>.value(),
       ) as _i7.Future<void>);
+
+  @override
+  _i7.Stream<List<_i14.SpecialExamsModel>> getAllMyStudentSpecials() =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getAllMyStudentSpecials,
+          [],
+        ),
+        returnValue: _i7.Stream<List<_i14.SpecialExamsModel>>.empty(),
+        returnValueForMissingStub:
+            _i7.Stream<List<_i14.SpecialExamsModel>>.empty(),
+      ) as _i7.Stream<List<_i14.SpecialExamsModel>>);
+
+  @override
+  _i7.Future<dynamic> updateSpecialExamStatus({
+    required String? studentId,
+    required String? unitCode,
+  }) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #updateSpecialExamStatus,
+          [],
+          {
+            #studentId: studentId,
+            #unitCode: unitCode,
+          },
+        ),
+        returnValue: _i7.Future<dynamic>.value(),
+        returnValueForMissingStub: _i7.Future<dynamic>.value(),
+      ) as _i7.Future<dynamic>);
 }
 
 /// A class which mocks [StudentDashboardService].

@@ -229,43 +229,115 @@ class LecturerDashboardView extends StackedView<LecturerDashboardViewModel> {
                                         const SizedBox(
                                           height: 5,
                                         ),
-                                        Row(
-                                          children: [
-                                            Text(
-                                              units.unitCode!,
-                                              style: const TextStyle(),
-                                            ),
-                                            const SizedBox(
-                                              width: 5,
-                                            ),
-                                            Text(units.unitName!),
-                                          ],
-                                        ),
+                                        units.specialExamStatus ==
+                                                'Lecturer Approved'
+                                            ? Row(
+                                                children: [
+                                                  Text(
+                                                    units.unitCode!,
+                                                    style: const TextStyle(),
+                                                  ),
+                                                  const SizedBox(
+                                                    width: 10,
+                                                  ),
+                                                  Flexible(
+                                                      child: Text(
+                                                          units.unitName!)),
+                                                ],
+                                              )
+                                            : Column(
+                                                children: [
+                                                  Text(
+                                                    units.unitCode!,
+                                                    style: const TextStyle(),
+                                                  ),
+                                                  const SizedBox(
+                                                    width: 5,
+                                                  ),
+                                                  Text(units.unitName!),
+                                                ],
+                                              ),
                                         const SizedBox(
                                           height: 5,
                                         ),
                                         const Text(
                                           "Reason for Special Exam:",
                                           style: TextStyle(
-                                              fontWeight: FontWeight.bold),
+                                            fontWeight: FontWeight.bold,
+                                          ),
                                         ),
                                         Text(units.specialExamReason!),
+                                        const SizedBox(
+                                          height: 5,
+                                        ),
+                                        Row(
+                                          children: [
+                                            const Text(
+                                              "Status:",
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Colors.black),
+                                            ),
+                                            const SizedBox(
+                                              width: 5,
+                                            ),
+                                            Text(
+                                              units.specialExamStatus!,
+                                              style: TextStyle(
+                                                  color: units.specialExamStatus ==
+                                                          'Lecturer Approved'
+                                                      ? primaryColor
+                                                      : units.specialExamStatus ==
+                                                              'pending'
+                                                          ? Colors.orange
+                                                          : Colors.red),
+                                            ),
+                                          ],
+                                        ),
                                       ],
                                     ),
-                                    trailing: Container(
-                                      padding: const EdgeInsets.all(10),
-                                      decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          color: units.specialExamStatus ==
-                                                  'Approved'
-                                              ? Colors.green
-                                              : units.specialExamStatus ==
+                                    trailing: units.specialExamStatus ==
+                                            'Lecturer Approved'
+                                        ? const SizedBox()
+                                        : InkWell(
+                                            onTap: () {
+                                              viewModel.approveSpecialExam(
+                                                unitCode: units.unitCode,
+                                                studentId: units.studeUid,
+                                              );
+                                            },
+                                            child: Container(
+                                              padding: const EdgeInsets.all(10),
+                                              decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(10),
+                                                  color: units.specialExamStatus ==
+                                                          'Lecturer Approved'
+                                                      ? primaryColor
+                                                      : units.specialExamStatus ==
+                                                              'pending'
+                                                          ? Colors.orange
+                                                          : Colors.red),
+                                              child: units.specialExamStatus ==
                                                       'pending'
-                                                  ? Colors.orange
-                                                  : Colors.red),
-                                      child: Text(units.specialExamStatus!),
-                                    ),
+                                                  ? viewModel.isBusy
+                                                      ? const CircularProgressIndicator(
+                                                          color: Colors.white,
+                                                        )
+                                                      : const Text(
+                                                          'click to Approve',
+                                                          style: TextStyle(
+                                                            color: Colors.white,
+                                                          ),
+                                                        )
+                                                  : const Text(
+                                                      'Rejected',
+                                                      style: TextStyle(
+                                                        color: Colors.white,
+                                                      ),
+                                                    ),
+                                            ),
+                                          ),
                                   ),
                                 );
                               });

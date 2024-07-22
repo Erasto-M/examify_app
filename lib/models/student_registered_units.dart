@@ -24,8 +24,9 @@ class StudentsRegisteredUnitsModel {
   final int? totalMarks;
   final String? grade;
   final bool? appliedSpecialExam;
-   String? missingMarksMessage;
-   StudentsRegisteredUnitsModel({
+  String? missingMarksMessage;
+  final String? isUnitApproved;
+  StudentsRegisteredUnitsModel({
     this.unitName,
     this.unitCode,
     this.unitLecturer,
@@ -47,6 +48,7 @@ class StudentsRegisteredUnitsModel {
     this.grade,
     this.appliedSpecialExam,
     this.missingMarksMessage = '',
+    this.isUnitApproved,
   });
 
   StudentsRegisteredUnitsModel copyWith({
@@ -71,6 +73,7 @@ class StudentsRegisteredUnitsModel {
     String? grade,
     bool? appliedSpecialExam,
     String? missingMarksMessage,
+    String? isUnitApproved,
   }) {
     return StudentsRegisteredUnitsModel(
       unitName: unitName ?? this.unitName,
@@ -94,6 +97,7 @@ class StudentsRegisteredUnitsModel {
       grade: grade ?? this.grade,
       appliedSpecialExam: appliedSpecialExam ?? this.appliedSpecialExam,
       missingMarksMessage: missingMarksMessage ?? this.missingMarksMessage,
+      isUnitApproved: isUnitApproved ?? this.isUnitApproved,
     );
   }
 
@@ -120,6 +124,7 @@ class StudentsRegisteredUnitsModel {
       'grade': grade,
       'appliedSpecialExam': appliedSpecialExam,
       'missingMarksMessage': missingMarksMessage,
+      'isUnitApproved': isUnitApproved,
     };
   }
 
@@ -176,6 +181,9 @@ class StudentsRegisteredUnitsModel {
       missingMarksMessage: map['missingMarksMessage'] != null
           ? map["missingMarksMessage"] ?? '' as String
           : null,
+      isUnitApproved: map['isUnitApproved'] != null
+          ? map["isUnitApproved"] ?? '' as String
+          : null,
     );
   }
   factory StudentsRegisteredUnitsModel.fromDocument(DocumentSnapshot doc) {
@@ -211,7 +219,7 @@ class StudentsRegisteredUnitsModel {
 
   @override
   String toString() {
-    return 'StudentsRegisteredUnitsModel(unitName: $unitName, unitCode: $unitCode, unitLecturer: $unitLecturer, unitDepartment: $unitDepartment, semesterStage: $semesterStage, yearOfStudent: $yearOfStudent, studentName: $studentName, studentRegNo: $studentRegNo, studentUid: $studentUid, studentEmail: $studentEmail, studentPhoneNumber: $studentPhoneNumber, studentGender: $studentGender, assignMent1Marks: $assignMent1Marks, assignMent2Marks: $assignMent2Marks, cat1Marks: $cat1Marks, cat2Marks: $cat2Marks, examMarks: $examMarks, totalMarks: $totalMarks, grade: $grade, appliedSpecialExam: $appliedSpecialExam, missingMarksMessage: $missingMarksMessage)';
+    return 'StudentsRegisteredUnitsModel(unitName: $unitName, unitCode: $unitCode, unitLecturer: $unitLecturer, unitDepartment: $unitDepartment, semesterStage: $semesterStage, yearOfStudent: $yearOfStudent, studentName: $studentName, studentRegNo: $studentRegNo, studentUid: $studentUid, studentEmail: $studentEmail, studentPhoneNumber: $studentPhoneNumber, studentGender: $studentGender, assignMent1Marks: $assignMent1Marks, assignMent2Marks: $assignMent2Marks, cat1Marks: $cat1Marks, cat2Marks: $cat2Marks, examMarks: $examMarks, totalMarks: $totalMarks, grade: $grade, appliedSpecialExam: $appliedSpecialExam, missingMarksMessage: $missingMarksMessage, isUnitApproved: $isUnitApproved)';
   }
 
   @override
@@ -238,7 +246,8 @@ class StudentsRegisteredUnitsModel {
         other.totalMarks == totalMarks &&
         other.grade == grade &&
         other.appliedSpecialExam == appliedSpecialExam &&
-        other.missingMarksMessage == missingMarksMessage;
+        other.missingMarksMessage == missingMarksMessage &&
+        other.isUnitApproved == isUnitApproved;
   }
 
   @override
@@ -263,6 +272,7 @@ class StudentsRegisteredUnitsModel {
         totalMarks.hashCode ^
         grade.hashCode ^
         appliedSpecialExam.hashCode ^
-        missingMarksMessage.hashCode;
+        missingMarksMessage.hashCode ^
+        isUnitApproved.hashCode;
   }
 }

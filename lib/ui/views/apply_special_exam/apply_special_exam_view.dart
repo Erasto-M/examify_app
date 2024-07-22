@@ -27,7 +27,7 @@ class ApplySpecialExamView extends StackedView<ApplySpecialExamViewModel>
     Widget? child,
   ) {
     return Scaffold(
-      backgroundColor: Colors.grey[200],
+      backgroundColor: Colors.white,
       appBar: AppBar(
         leading: IconButton(
           icon: const Icon(
@@ -52,7 +52,7 @@ class ApplySpecialExamView extends StackedView<ApplySpecialExamViewModel>
       ),
       body: SingleChildScrollView(
         child: Container(
-          padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+          padding: const EdgeInsets.only(left: 15.0, right: 15.0, bottom: 30.0),
           child: Column(children: [
             const SizedBox(height: 20),
 
@@ -245,14 +245,36 @@ class ApplySpecialExamView extends StackedView<ApplySpecialExamViewModel>
                           itemCount: specials.length,
                           itemBuilder: (context, index) {
                             final units = specials[index];
-                            return ListTile(
-                              title: Text(units.unitCode!),
-                              subtitle: Text(units.unitName!),
-                              trailing: Container(
-                                padding: const EdgeInsets.all(10),
-                                decoration: const BoxDecoration(color: Colors.blue),
-                                child: Text(units.specialExamStatus!),
-                              ),
+                            return Card(
+                              color: Colors.white,
+                              child: ListTile(
+                                  title: Row(
+                                    children: [
+                                      Text(units.unitCode!),
+                                      const SizedBox(width: 10),
+                                      Flexible(child: Text(units.unitName!)),
+                                    ],
+                                  ),
+                                  subtitle: Row(
+                                    children: [
+                                      const Text("Status:"),
+                                      const SizedBox(width: 10),
+                                      Text(
+                                        units.specialExamStatus!,
+                                        style: TextStyle(
+                                            color: units.specialExamStatus ==
+                                                    'Lecturer Approved'
+                                                ? Colors.green
+                                                : units.specialExamStatus ==
+                                                        'Rejected'
+                                                    ? Colors.red
+                                                    : units.specialExamStatus ==
+                                                            'Approved'
+                                                        ? primaryColor
+                                                        : Colors.orange),
+                                      ),
+                                    ],
+                                  )),
                             );
                           });
                     }

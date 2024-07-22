@@ -20,7 +20,6 @@ class AcademicsViewModel extends BaseViewModel {
 
   String get getselectedSemester => _selectedSemester;
   List<String> get semesters => _semesters;
- 
 
   void setSelectedSemester(String semester) {
     _selectedSemester = semester;

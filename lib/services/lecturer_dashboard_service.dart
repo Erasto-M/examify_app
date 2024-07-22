@@ -197,4 +197,27 @@ class LecturerDashboardService {
     } catch (e) {}
     return Stream.value([]);
   }
+
+  // update speciall exam status
+  Future updateSpecialExamStatus({
+    required String studentId,
+    required String unitCode,
+  }) async {
+    try {
+      final collection = await firestore
+          .collection("SpecialEXams")
+          .where('studeUid', isEqualTo: studentId)
+          .where('unitCode', isEqualTo: unitCode)
+          .where('unitLecturer', isEqualTo: auth.currentUser!.uid)
+          .get();
+      for (var doc in collection.docs) {
+        await doc.reference.update({
+          "specialExamStatus": "Lecturer Approved",
+        });
+      }
+      Fluttertoast.showToast(msg: "Special Exam Status Updated Successfully");
+    } catch (e) {
+      Fluttertoast.showToast(msg: e.toString());
+    }
+  }
 }

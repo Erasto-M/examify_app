@@ -7,7 +7,8 @@ import 'package:stacked/stacked.dart';
 import 'special_exams_list_viewmodel.dart';
 
 class SpecialExamsListView extends StackedView<SpecialExamsListViewModel> {
-  const SpecialExamsListView({Key? key, required this.semesterStage}) : super(key: key);
+  const SpecialExamsListView({Key? key, required this.semesterStage})
+      : super(key: key);
   final String semesterStage;
   @override
   Widget builder(

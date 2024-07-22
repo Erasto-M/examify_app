@@ -11,7 +11,7 @@ class SpecialExamsListViewModel extends BaseViewModel {
     required String semesterStage,
   }) {
     return _adminDashBoard
-        .getSpecialExams(semesterStage:semesterStage )
+        .getSpecialExams(semesterStage: semesterStage)
         .map((studentUnits) {
       final specialList = <String, List<SpecialExamsModel>>{};
 
