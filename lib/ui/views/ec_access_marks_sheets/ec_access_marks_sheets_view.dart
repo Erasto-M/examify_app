@@ -31,16 +31,13 @@ class EcAccessMarksSheetsView
                 return Tab(text: year);
               }).toList(),
               onTap: (index) {
-                viewModel.setSelectedYear(viewModel.years[index]);
+                viewModel.setSelectedSemester(semester: viewModel.years[index]);
               },
             ),
           ),
           backgroundColor: Colors.grey[200],
-          body: FutureBuilder<DocumentSnapshot>(
-            future: FirebaseFirestore.instance
-                .collection('academic_reports_availability')
-                .doc('1YqKYQDE7I7cJGNQEzE8')
-                .get(),
+          body: FutureBuilder(
+            future: viewModel.getReportsAvailabilityStatus(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Center(
@@ -57,7 +54,7 @@ class EcAccessMarksSheetsView
                 Map<String, dynamic> data =
                     snapshot.data!.data() as Map<String, dynamic>;
                 bool isAvailable =
-                    data['${viewModel.selectedYear}_available'] ?? false;
+                    data['${viewModel.selectedSemester}_available'] ?? false;
 
                 return Container(
                   padding:
@@ -66,14 +63,8 @@ class EcAccessMarksSheetsView
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Row(
-                        children: [
-                          Text(
-                            viewModel.selectedUnitToGetMarks,
-                            style: const TextStyle(
-                                fontSize: 20, fontWeight: FontWeight.bold),
-                          ),
-                        ],
+                      const Row(
+                        children: [],
                       ),
                       verticalSpaceSmall,
                       Row(
@@ -81,22 +72,12 @@ class EcAccessMarksSheetsView
                           Checkbox(
                             value: isAvailable,
                             onChanged: (bool? value) {
-                              FirebaseFirestore.instance
-                                  .collection('academic_reports_availability')
-                                  .doc('1YqKYQDE7I7cJGNQEzE8')
-                                  .update({
-                                '${viewModel.selectedYear}_available': value,
-                              }).then((_) {
-                                // Successfully updated
-                                print('Successfully updated');
-                              }).catchError((error) {
-                                // Handle the error
-                                print('Failed to update: $error');
-                              });
+                              viewModel.updateReportsAvailabilityStatus(
+                                  value!, viewModel.selectedSemester);
                             },
                           ),
                           Text(
-                            'Make ${viewModel.selectedYear} reports available',
+                            'Make ${viewModel.selectedSemester} reports available',
                             style: const TextStyle(fontSize: 16),
                           ),
                         ],
@@ -144,7 +125,7 @@ class EcAccessMarksSheetsView
                                               .selectedUnitToGetMarks.isNotEmpty
                                           ? viewModel.selectedUnitToGetMarks
                                           : null,
-                                      hint: const Text("Select Unit"),
+                                      hint: const Text("Please select unit"),
                                       items: viewModel.unitsPerSelectedSemester
                                           ?.map((AddUnitModel unit) =>
                                               DropdownMenuItem(
@@ -153,9 +134,8 @@ class EcAccessMarksSheetsView
                                               ))
                                           .toList(),
                                       onChanged: (newValue) {
-                                        viewModel
-                                            .setSelectedExamModuleToEnterMarks(
-                                                newValue.toString());
+                                        viewModel.setSelectedUnitToGetMarks(
+                                            newValue.toString());
                                       },
                                     ))
                               ],
@@ -363,8 +343,8 @@ class EcAccessMarksSheetsView
 
   @override
   void onViewModelReady(EcAccessMarksSheetsViewModel viewModel) {
+    viewModel.setSelectedSemester(semester: viewModel.years[0]);
     viewModel.fetchUnits();
     super.onViewModelReady(viewModel);
   }
-
 }

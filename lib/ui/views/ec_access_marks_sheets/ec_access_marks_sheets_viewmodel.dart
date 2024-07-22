@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:examify/services/cod_dashboard_service.dart';
 import 'package:stacked/stacked.dart';
 
 import '../../../models/addUnit.dart';
@@ -6,11 +8,12 @@ import '../../../services/lecturer_dashboard_service.dart';
 
 class EcAccessMarksSheetsViewModel extends BaseViewModel {
   final _lectureDashboardService = LecturerDashboardService();
+  final _adminService = AdminDashboardService();
 
   List<StudentsRegisteredUnitsModel>? _students;
   List<StudentsRegisteredUnitsModel>? get students => _students;
 
-  String _selectedYear = '';
+  String _selectedSemester = '';
   String _selectedUnitToViewMarks = '';
 
   String get selectedUnitToGetMarks => _selectedUnitToViewMarks;
@@ -20,9 +23,10 @@ class EcAccessMarksSheetsViewModel extends BaseViewModel {
 
   void fetchUnits() {
     _lectureDashboardService
-        .fetchUnits(semesterStage: _selectedYear)
+        .fetchUnits(semesterStage: _selectedSemester)
         .listen((units) {
       _unitsPerSelectedSemester = units;
+      setSelectedUnitToGetMarks(units[0].unitCode);
       notifyListeners();
     });
   }
@@ -38,19 +42,19 @@ class EcAccessMarksSheetsViewModel extends BaseViewModel {
     'Y4S2'
   ];
 
-  String get selectedYear => _selectedYear;
+  String get selectedSemester => _selectedSemester;
 
-  void setSelectedYear(String year) {
-    _selectedYear = year;
+  void setSelectedSemester({required String semester}) {
+    _selectedSemester = semester;
     notifyListeners();
     fetchUnits();
   }
 
   Stream<List<AddUnitModel>> fetchUnitsBasedOnYear() {
-    return _lectureDashboardService.fetchUnits(semesterStage: _selectedYear);
+    return _lectureDashboardService.fetchUnits(semesterStage: _selectedSemester);
   }
 
-  void setSelectedExamModuleToEnterMarks(String value) {
+  void setSelectedUnitToGetMarks(String value) {
     _selectedUnitToViewMarks = value;
     notifyListeners();
   }
@@ -60,7 +64,16 @@ class EcAccessMarksSheetsViewModel extends BaseViewModel {
   }) {
     return _lectureDashboardService.getStudentsBasedOnUnitAndYear(
       unitCode: _selectedUnitToViewMarks,
-      semesterStage: _selectedYear,
+      semesterStage: _selectedSemester,
     );
+  }
+
+  Future<DocumentSnapshot?> getReportsAvailabilityStatus() async {
+    return await _adminService.getReportsAvailabilityStatus();
+  }
+
+  Future updateReportsAvailabilityStatus(bool value, String selectedYear) async{
+    await _adminService.updateReportsAvailabilityStatus(value, selectedYear);
+    notifyListeners();
   }
 }
