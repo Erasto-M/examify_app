@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:examify/app/app.locator.dart';
 import 'package:examify/app/app.router.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +19,14 @@ class AcademicsViewModel extends BaseViewModel {
     'Y4S2'
   ];
 
+  Stream<DocumentSnapshot?> getReportsAvailabilityStatus(String selectedSemester) {
+    return FirebaseFirestore.instance
+        .collection('academic_reports_availability')
+        .doc('1YqKYQDE7I7cJGNQEzE8')
+        .snapshots();
+  }
+
+
   String get getselectedSemester => _selectedSemester;
   List<String> get semesters => _semesters;
  
@@ -27,3 +36,4 @@ class AcademicsViewModel extends BaseViewModel {
     notifyListeners();
   }
 }
+
