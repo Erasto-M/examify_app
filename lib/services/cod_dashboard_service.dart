@@ -102,11 +102,58 @@ class AdminDashboardService {
           .snapshots()
           .map((querySnapshot) {
         return querySnapshot.docs.map((doc) {
-          return SpecialExamsModel.fromMap(
-              doc.data() as Map<String, dynamic>);
+          return SpecialExamsModel.fromMap(doc.data() as Map<String, dynamic>);
         }).toList();
       });
     } catch (e) {}
     return Stream.value([]);
+  }
+
+  //Fetch all Lecturers students
+  Stream<List<StudentsRegisteredUnitsModel>> fetchStudentsAccordingToYearStream(
+      {required String yearName,
+      required String semesterStage,
+      required String unitCode}) async* {
+    try {
+      yield* db
+          .collection('student_registered_units')
+          .where('unitCode', isEqualTo: unitCode)
+          .where('semesterStage', isEqualTo: semesterStage)
+          .snapshots()
+          .map((snapshot) => snapshot.docs
+              .map((doc) => StudentsRegisteredUnitsModel.fromMap(doc.data()))
+              .toList());
+    } catch (e) {
+      Fluttertoast.showToast(msg: e.toString());
+      yield [];
+    }
+  }
+
+  Future<DocumentSnapshot?> getReportsAvailabilityStatus() async {
+  try {
+    return await FirebaseFirestore.instance
+        .collection('academic_reports_availability')
+        .doc('1YqKYQDE7I7cJGNQEzE8')
+        .get();
+  } catch (e) {
+    print(e.toString());
+    return null;
+  }
+}
+
+
+  Future updateReportsAvailabilityStatus(
+      bool value, String selectedYear) async {
+    await FirebaseFirestore.instance
+        .collection('academic_reports_availability')
+        .doc('1YqKYQDE7I7cJGNQEzE8')
+        .update({
+      '${selectedYear}_available': value,
+    }).then((_) {
+      // Successfully updated
+      print('Successfully updated');
+    }).catchError((error) {
+      print('Failed to update: $error');
+    });
   }
 }
