@@ -71,7 +71,7 @@ class SpecialExamsListView extends StackedView<SpecialExamsListViewModel> {
                         final studentUnits = studentsMap[studentUid]!;
                         final student = studentUnits.first;
                         return Card(
-                          color: Colors.white70,
+                          color: Colors.white,
                           child: ListTile(
                             title: Text(student.studentName ?? '',
                                 style: const TextStyle(

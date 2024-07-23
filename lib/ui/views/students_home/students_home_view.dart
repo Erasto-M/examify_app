@@ -4,6 +4,7 @@ import 'package:examify/ui/views/academics/academics_view.dart';
 import 'package:examify/ui/views/profile/profile_view.dart';
 import 'package:examify/ui/views/student_dashboard/student_dashboard_view.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:stacked/stacked.dart';
 
 import 'students_home_viewmodel.dart';
@@ -17,9 +18,14 @@ class StudentsHomeView extends StackedView<StudentsHomeViewModel> {
     StudentsHomeViewModel viewModel,
     Widget? child,
   ) {
+    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+      statusBarColor: primaryColor,
+      statusBarIconBrightness: Brightness.light,
+      statusBarBrightness: Brightness.light,
+    ));
     return SafeArea(
       child: Scaffold(
-          backgroundColor: Colors.grey[200],
+          backgroundColor: Colors.white,
           body: [
             const StudentDashboardView(),
             const AcademicsView(),
@@ -28,6 +34,7 @@ class StudentsHomeView extends StackedView<StudentsHomeViewModel> {
           bottomNavigationBar: BottomNavigationBar(
             onTap: viewModel.selectedIndex,
             currentIndex: viewModel.currentIndexValue,
+            backgroundColor: Colors.white,
             items: const [
               BottomNavigationBarItem(
                 icon: Icon(Icons.home),
