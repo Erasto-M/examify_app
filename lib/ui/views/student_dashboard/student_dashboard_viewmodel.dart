@@ -30,6 +30,11 @@ class StudentDashboardViewModel extends BaseViewModel {
         semesterStage: getSelectedSemesterStageForCourses);
   }
 
+  Stream<List<StudentsRegisteredUnitsModel>> fetchMyUnits2() {
+    return _studentDashboardService.fetchAllMyUnits2(
+        semesterStage: getSelectedSemesterStageForCourses);
+  }
+
   String _greeting = '';
 
   String get greeting => _greeting;
@@ -84,12 +89,16 @@ class StudentDashboardViewModel extends BaseViewModel {
   List<String> semesterStages = [
     'Y1S1',
     'Y1S2',
+    'Y1',
     'Y2S1',
     'Y2S2',
+    'Y2',
     'Y3S1',
     'Y3S2',
+    'Y3',
     'Y4S1',
     'Y4S2',
+    'Y4',
   ];
 //transcript path
   String? transcriptPath;
@@ -117,7 +126,11 @@ class StudentDashboardViewModel extends BaseViewModel {
 
   //Generate Trancripts
   pw.Document generateTrancript(
-      List<StudentsRegisteredUnitsModel> students, String semesterStage) {
+      {required List<StudentsRegisteredUnitsModel> students,
+      required String semesterStage,
+      required String meanGrade,
+      required String recommendation,
+      required double meanScore}) {
     final transcript = pw.Document();
     transcript.addPage(
       pw.Page(
@@ -224,12 +237,14 @@ class StudentDashboardViewModel extends BaseViewModel {
                                           pw.Center(
                                               child: pw.Text('MeanScore:')),
                                           pw.SizedBox(width: 10),
-                                          pw.Center(child: pw.Text('78')),
+                                          pw.Center(
+                                              child: pw.Text(
+                                                  meanScore.toString())),
                                           pw.SizedBox(width: 10),
                                           pw.Center(
                                               child: pw.Text('MeanGrade:')),
                                           pw.SizedBox(width: 10),
-                                          pw.Center(child: pw.Text('A')),
+                                          pw.Center(child: pw.Text(meanGrade)),
                                         ],
                                       ),
                                       pw.SizedBox(height: 10),
@@ -252,7 +267,8 @@ class StudentDashboardViewModel extends BaseViewModel {
                                               child:
                                                   pw.Text('Reccommendation:')),
                                           pw.SizedBox(width: 10),
-                                          pw.Center(child: pw.Text('PASS')),
+                                          pw.Center(
+                                              child: pw.Text(recommendation)),
                                         ],
                                       ),
                                       pw.SizedBox(height: 10),
@@ -284,5 +300,24 @@ class StudentDashboardViewModel extends BaseViewModel {
   Future<void> navigateToApplySpecialExam() async {
     await _navigationService.navigateToApplySpecialExamView();
     notifyListeners();
+  }
+
+  double calculateMeanScore(List<StudentsRegisteredUnitsModel> units) {
+    double totalMarks = units.fold(0, (sum, unit) => sum + unit.totalMarks!);
+    return totalMarks / units.length;
+  }
+
+  String calculateMeanGrade(double meanScore) {
+    if (meanScore >= 70) return 'A';
+    if (meanScore >= 60) return 'B';
+    if (meanScore >= 50) return 'C';
+    if (meanScore >= 40) return 'D';
+    if (meanScore >= 0 && meanScore <= 39) return 'E';
+    return 'No Grade';
+  }
+
+  String getRecommendation(String meanGrade) {
+    if (meanGrade == 'A' || meanGrade == 'B' || meanGrade == 'C') return 'Pass';
+    return 'Fail';
   }
 }
