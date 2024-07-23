@@ -86,7 +86,7 @@ class AddUnitSheet extends StackedView<AddUnitSheetModel> with $AddUnitSheet {
             ),
           ),
           verticalSpaceMedium,
-          Text(
+         const Text(
             'Choose respective lecturer',
             style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
           ),
@@ -109,9 +109,9 @@ class AddUnitSheet extends StackedView<AddUnitSheetModel> with $AddUnitSheet {
             ),
           ),
 
-          Text(
+          const Text(
             'Choose semester stage',
-            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
           ),
           verticalSpaceTiny,
           // dropdown to show semester stages list with a given list from viewmodel

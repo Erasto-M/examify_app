@@ -155,4 +155,22 @@ class AdminDashboardService {
       print('Failed to update: $error');
     });
   }
+
+  //fetch all Special Exams for a Selected Semester Stage
+  Stream<List<SpecialExamsModel>> fetchSpecialExamsBasedOnSemesterStage(
+      {required String semesterStage}) async* {
+    try {
+      yield* db
+          .collection('SpecialEXams')
+          .where('semesterStage', isEqualTo: semesterStage)
+          .snapshots()
+          .map((snapshot) => snapshot.docs
+              .map((doc) => SpecialExamsModel.fromMap(doc.data()))
+              .toList());
+    } catch (e) {
+      Fluttertoast.showToast(msg: e.toString());
+      yield [];
+    }
+  }
+
 }
