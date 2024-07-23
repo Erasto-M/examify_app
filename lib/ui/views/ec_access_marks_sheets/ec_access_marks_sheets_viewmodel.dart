@@ -13,7 +13,7 @@ class EcAccessMarksSheetsViewModel extends BaseViewModel {
   List<StudentsRegisteredUnitsModel>? _students;
   List<StudentsRegisteredUnitsModel>? get students => _students;
 
-  String _selectedSemester = '';
+  String _selectedSemester = 'Y1S1'; // Default to a valid value
   String _selectedUnitToViewMarks = '';
 
   String get selectedUnitToGetMarks => _selectedUnitToViewMarks;
@@ -25,9 +25,16 @@ class EcAccessMarksSheetsViewModel extends BaseViewModel {
     _lectureDashboardService
         .fetchUnits(semesterStage: _selectedSemester)
         .listen((units) {
-      _unitsPerSelectedSemester = units;
-      setSelectedUnitToGetMarks(units[0].unitCode);
-      notifyListeners();
+          if (units.isEmpty) {
+            print('No units found for $_selectedSemester');            
+          }
+          _unitsPerSelectedSemester = units;
+          if (units.isNotEmpty) {
+            setSelectedUnitToGetMarks(units[0].unitCode);
+          }
+          notifyListeners();
+    }).onError((error) {
+      print('Error fetching units: $error');
     });
   }
 
@@ -46,8 +53,8 @@ class EcAccessMarksSheetsViewModel extends BaseViewModel {
 
   void setSelectedSemester({required String semester}) {
     _selectedSemester = semester;
-    notifyListeners();
     fetchUnits();
+    notifyListeners();
   }
 
   Stream<List<AddUnitModel>> fetchUnitsBasedOnYear() {
@@ -63,17 +70,26 @@ class EcAccessMarksSheetsViewModel extends BaseViewModel {
     required String unitCode,
   }) {
     return _lectureDashboardService.getStudentsBasedOnUnitAndYear(
-      unitCode: _selectedUnitToViewMarks,
+      unitCode: unitCode,
       semesterStage: _selectedSemester,
     );
   }
 
   Future<DocumentSnapshot?> getReportsAvailabilityStatus() async {
-    return await _adminService.getReportsAvailabilityStatus();
+    try {
+      return await _adminService.getReportsAvailabilityStatus();
+    } catch (e) {
+      print('Error getting report availability status: $e');
+      return null;
+    }
   }
 
-  Future updateReportsAvailabilityStatus(bool value, String selectedYear) async{
-    await _adminService.updateReportsAvailabilityStatus(value, selectedYear);
-    notifyListeners();
+  Future<void> updateReportsAvailabilityStatus(bool value, String selectedYear) async {
+    try {
+      await _adminService.updateReportsAvailabilityStatus(value, selectedYear);
+      notifyListeners();
+    } catch (e) {
+      print('Error updating report availability status: $e');
+    }
   }
 }
