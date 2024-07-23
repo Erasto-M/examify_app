@@ -62,27 +62,6 @@ class AdminStudentPerformanceView
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                child: TextField(
-                  controller: viewModel.searchController,
-                  decoration: InputDecoration(
-                    hintText: "Search for a student",
-                    suffixIcon: IconButton(
-                      icon: const Icon(Icons.search),
-                      onPressed: () {
-                        viewModel.searchStudent();
-                      },
-                    ),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                  ),
-                  onSubmitted: (value) {
-                    viewModel.searchStudent();
-                  },
-                ),
-              ),
               // tabrow to click s1 or s2
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
