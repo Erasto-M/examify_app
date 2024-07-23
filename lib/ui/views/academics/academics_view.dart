@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:examify/ui/common/app_colors.dart';
 import 'package:examify/ui/views/missing_marks/missing_marks_view.dart';
 import 'package:examify/ui/views/passlist/passlist_view.dart';
@@ -14,10 +15,10 @@ class AcademicsView extends StackedView<AcademicsViewModel> {
 
   @override
   Widget builder(
-    BuildContext context,
-    AcademicsViewModel viewModel,
-    Widget? child,
-  ) {
+      BuildContext context,
+      AcademicsViewModel viewModel,
+      Widget? child,
+      ) {
     return DefaultTabController(
       length: 4,
       child: Scaffold(
@@ -75,24 +76,38 @@ class AcademicsView extends StackedView<AcademicsViewModel> {
           child: Column(
             children: [
               const SizedBox(height: 10),
-              const SizedBox(height: 10),
-              Expanded(
-                child: TabBarView(
-                  children: [
-                    PasslistView(
-                      selectedSemesterStage: viewModel.getselectedSemester,
+              StreamBuilder<DocumentSnapshot?>(
+                stream: viewModel.getReportsAvailabilityStatus(viewModel.getselectedSemester),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const CircularProgressIndicator();
+                  }
+                  if (snapshot.hasError) {
+                    return const Text('Error fetching data');
+                  }
+                  bool isAvailable = snapshot.data?['${viewModel.getselectedSemester}_available'] ?? false;
+                  if (!isAvailable) {
+                    return const Text('Reports not yet available');
+                  }
+                  return Expanded(
+                    child: TabBarView(
+                      children: [
+                        PasslistView(
+                          selectedSemesterStage: viewModel.getselectedSemester,
+                        ),
+                        SupplistView(
+                          semesterStage: viewModel.getselectedSemester,
+                        ),
+                        SpecialExamsListView(
+                          semesterStage: viewModel.getselectedSemester,
+                        ),
+                        MissingMarksView(
+                          semesterStage: viewModel.getselectedSemester,
+                        ),
+                      ],
                     ),
-                    SupplistView(
-                      semesterStage: viewModel.getselectedSemester,
-                    ),
-                    SpecialExamsListView(
-                      semesterStage: viewModel.getselectedSemester,
-                    ),
-                    MissingMarksView(
-                      semesterStage: viewModel.getselectedSemester,
-                    ),
-                  ],
-                ),
+                  );
+                },
               ),
             ],
           ),
@@ -103,7 +118,6 @@ class AcademicsView extends StackedView<AcademicsViewModel> {
 
   @override
   AcademicsViewModel viewModelBuilder(
-    BuildContext context,
-  ) =>
-      AcademicsViewModel();
+      BuildContext context,
+      ) => AcademicsViewModel();
 }

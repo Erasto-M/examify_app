@@ -195,6 +195,20 @@ class AuthenticationService {
                     builder: (context) => const AdminHomeView(),
                   ),
                 );
+              } else if (value.data()!['role'] == 'COD') {
+                debugPrint("Logging to the admin");
+                Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(
+                    builder: (context) => const AdminHomeView(),
+                  ),
+                );
+              } else if (value.data()!['role'] == 'ExamsCoordinator') {
+                debugPrint("Logging to the ExamsCoordinator");
+                Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(
+                    builder: (context) => const ExamsCoordinatorHomeView(),
+                  ),
+                );
               }
             });
           } else {
