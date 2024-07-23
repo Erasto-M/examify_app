@@ -1,4 +1,5 @@
 import 'package:examify/ui/common/app_colors.dart';
+import 'package:examify/ui/common/ui_helpers.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 
@@ -13,19 +14,193 @@ class CodSpecialExamsView extends StackedView<CodSpecialExamsViewModel> {
     CodSpecialExamsViewModel viewModel,
     Widget? child,
   ) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        title: const Text(
-          'Manage Special Exams',
-          style: TextStyle(color: Colors.white),
+    return DefaultTabController(
+      length: viewModel.years.length,
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        appBar: AppBar(
+          leading: IconButton(
+            icon: const Icon(
+              Icons.arrow_back_ios,
+              color: Colors.white,
+            ),
+            onPressed: () {
+              viewModel.navigateBack();
+            },
+          ),
+          centerTitle: true,
+          automaticallyImplyLeading: false,
+          backgroundColor: primaryColor,
+          title: const Text(
+            'Manage Special Exams',
+            style: TextStyle(color: Colors.white),
+          ),
+          bottom: TabBar(
+            indicatorColor: Colors.white,
+            labelColor: Colors.white,
+            unselectedLabelStyle: const TextStyle(
+                fontWeight: FontWeight.normal, color: Colors.white),
+            isScrollable: true,
+            tabs: viewModel.years.map((year) {
+              return Tab(text: year);
+            }).toList(),
+            onTap: (index) {
+              viewModel.setSelectedSemester(semester: viewModel.years[index]);
+            },
+          ),
         ),
-        centerTitle: true,
-        automaticallyImplyLeading: false,
-        backgroundColor: primaryColor,
-      ),
-      body: Container(
-        padding: const EdgeInsets.only(left: 5.0, right: 5.0),
+        body: Container(
+            padding: const EdgeInsets.only(left: 5.0, right: 5.0),
+            child: StreamBuilder<List<Map<String, dynamic>>>(
+              stream: viewModel.getAllSpecialExams(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(child: CircularProgressIndicator());
+                }
+                if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                  return const Center(child: Text('No special exams found.'));
+                }
+
+                final specialExams = snapshot.data!;
+                print('specialExams: $specialExams');
+
+                return ListView.builder(
+                  itemCount: specialExams.length,
+                  itemBuilder: (context, index) {
+                    final exam = specialExams[index];
+                    final List<String> unitNames =
+                        List<String>.from(exam['unitName']);
+                    final List<String> unitCodes =
+                        List<String>.from(exam['unitCode']);
+                    final List<String> statuses =
+                        List<String>.from(exam['statuses']);
+                    print('unitNames: $unitNames');
+                    print('unitCodes: $unitCodes');
+                    print('statuses: $statuses');
+
+                    // Ensure the lengths match
+                    if (unitNames.length != unitCodes.length ||
+                        unitNames.length != statuses.length) {
+                      return const Card(
+                        color: Colors.white,
+                        child: ListTile(
+                          title: Text(
+                            'Error: Units and statuses list length mismatch.',
+                            style: const TextStyle(
+                              color: Colors.red,
+                              fontSize: 15,
+                            ),
+                          ),
+                        ),
+                      );
+                    }
+
+                    return Card(
+                      color: Colors.white,
+                      child: ListTile(
+                        title: Row(
+                          children: [
+                            Text(
+                              exam['studentRegNumber'],
+                              style: const TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            const SizedBox(width: 10),
+                            Flexible(
+                              child: Text(
+                                exam['studentName'],
+                                style: const TextStyle(
+                                    color: primaryColor,
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                          ],
+                        ),
+                        subtitle: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text(
+                              'Units Applied Special:',
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            const SizedBox(height: 5),
+                            // Iterate through units and statuses
+                            ...List.generate(unitNames.length, (unitIndex) {
+                              return Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Row(
+                                  children: [
+                                    Expanded(
+                                      flex: 2,
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            '${unitIndex + 1}. ${unitCodes[unitIndex]}',
+                                            style: const TextStyle(
+                                              fontSize: 15,
+                                            ),
+                                          ),
+                                          Text(
+                                            unitNames[unitIndex],
+                                            style: const TextStyle(
+                                              fontSize: 15,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    Expanded(
+                                      flex: 1,
+                                      child: Text(
+                                        statuses[unitIndex],
+                                        style: TextStyle(
+                                          color: statuses[unitIndex] ==
+                                                  'Lecturer Approved'
+                                              ? Colors.green
+                                              : statuses[unitIndex] == 'pending'
+                                                  ? Colors.orange
+                                                  : Colors.red,
+                                          fontSize: 15,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            }),
+                            verticalSpaceSmall,
+                            //approve container
+                            Container(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 20, vertical: 5),
+                              decoration: BoxDecoration(
+                                color: primaryColor,
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: const Text(
+                                'Approve',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 15,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+                );
+              },
+            )),
       ),
     );
   }
