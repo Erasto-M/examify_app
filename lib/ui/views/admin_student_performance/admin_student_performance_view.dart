@@ -151,8 +151,8 @@ class AdminStudentPerformanceView
                                       ))
                                   .toList(),
                               onChanged: (newValue) {
-                                viewModel.setSelectedUnitCode(
-                                    newValue.toString());
+                                viewModel
+                                    .setSelectedUnitCode(newValue.toString());
                               },
                             ))
                       ],

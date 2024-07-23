@@ -22,6 +22,7 @@ class AcademicsView extends StackedView<AcademicsViewModel> {
     return DefaultTabController(
       length: 4,
       child: Scaffold(
+        backgroundColor: Colors.white,
         appBar: AppBar(
           automaticallyImplyLeading: false,
           backgroundColor: primaryColor,
@@ -74,15 +75,6 @@ class AcademicsView extends StackedView<AcademicsViewModel> {
           padding: const EdgeInsets.all(16.0),
           child: Column(
             children: [
-              TextField(
-                decoration: InputDecoration(
-                  prefixIcon: const Icon(Icons.search),
-                  hintText: 'Search',
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
-                ),
-              ),
               const SizedBox(height: 10),
               StreamBuilder<DocumentSnapshot?>(
                 stream: viewModel.getReportsAvailabilityStatus(viewModel.getselectedSemester),

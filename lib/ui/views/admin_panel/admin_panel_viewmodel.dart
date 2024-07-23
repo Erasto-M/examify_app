@@ -9,4 +9,8 @@ class AdminPanelViewModel extends BaseViewModel {
   void navigateToRegisterNewUser() {
     _navigationService.navigateToRegisterView();
   }
+
+  Future navigateToManageSpecialExams() async {
+    _navigationService.navigateToCodSpecialExamsView();
+  }
 }

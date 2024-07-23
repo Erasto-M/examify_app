@@ -19,7 +19,7 @@ class LecturerHomeView extends StackedView<LecturerHomeViewModel> {
   ) {
     return SafeArea(
       child: Scaffold(
-          backgroundColor: Colors.grey[200],
+          backgroundColor: Colors.white,
           body: [
             const LecturerDashboardView(),
             const AcademicsView(),
@@ -28,6 +28,7 @@ class LecturerHomeView extends StackedView<LecturerHomeViewModel> {
           bottomNavigationBar: BottomNavigationBar(
             onTap: viewModel.selectedIndex,
             currentIndex: viewModel.currentIndexValue,
+            backgroundColor: Colors.white,
             items: const [
               BottomNavigationBarItem(
                 icon: Icon(Icons.home),

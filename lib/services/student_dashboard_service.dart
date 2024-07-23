@@ -78,6 +78,35 @@ class StudentDashboardService {
     }
   }
 
+  Stream<List<StudentsRegisteredUnitsModel>> fetchAllMyUnits2(
+      {required String semesterStage}) {
+    try {
+      print("Fetching All My Units");
+
+      String baseYear = semesterStage.substring(0, 2);
+      List<String> stagesToInclude = [
+        "${baseYear}S1",
+        "${baseYear}S2",
+      ];
+
+      return db
+          .collection("student_registered_units")
+          .where("studentUid", isEqualTo: auth.currentUser!.uid)
+          .where("semesterStage", whereIn: stagesToInclude)
+          .snapshots()
+          .map((querySnapshot) {
+        print("Number of units fetched: ${querySnapshot.docs.length}");
+        return querySnapshot.docs.map((doc) {
+          return StudentsRegisteredUnitsModel.fromMap(
+              doc.data() as Map<String, dynamic>);
+        }).toList();
+      });
+    } catch (e) {
+      Fluttertoast.showToast(msg: e.toString());
+      return Stream.value([]); // Return an empty stream in case of error
+    }
+  }
+
   //appply Special Exam
   Future<void> applySpecialExams(
     List<SpecialExamsModel> selectedUnits,

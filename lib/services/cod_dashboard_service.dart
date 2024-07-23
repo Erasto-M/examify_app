@@ -130,17 +130,16 @@ class AdminDashboardService {
   }
 
   Future<DocumentSnapshot?> getReportsAvailabilityStatus() async {
-  try {
-    return await FirebaseFirestore.instance
-        .collection('academic_reports_availability')
-        .doc('1YqKYQDE7I7cJGNQEzE8')
-        .get();
-  } catch (e) {
-    print(e.toString());
-    return null;
+    try {
+      return await FirebaseFirestore.instance
+          .collection('academic_reports_availability')
+          .doc('1YqKYQDE7I7cJGNQEzE8')
+          .get();
+    } catch (e) {
+      print(e.toString());
+      return null;
+    }
   }
-}
-
 
   Future updateReportsAvailabilityStatus(
       bool value, String selectedYear) async {

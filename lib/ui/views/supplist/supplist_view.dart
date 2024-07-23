@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:stacked/stacked.dart';
+import 'package:stacked/stacked_annotations.dart';
 
 import '../../../models/student_registered_units.dart';
 import '../../common/app_colors.dart';
 import 'supplist_viewmodel.dart';
 
+@FormView(
+  fields: [
+    FormTextField(name: 'searchSupplist'),
+  ],
+)
 class SupplistView extends StackedView<SupplistViewModel> {
   const SupplistView({Key? key, required this.semesterStage}) : super(key: key);
   final String semesterStage;
@@ -16,11 +22,25 @@ class SupplistView extends StackedView<SupplistViewModel> {
     Widget? child,
   ) {
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.surface,
+      backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Container(
+          color: Colors.white,
           padding: const EdgeInsets.only(left: 5.0, right: 5.0),
-          child: StreamBuilder<Map<String, List<StudentsRegisteredUnitsModel>>>(
+          child:
+              // TextField(
+              //   decoration: InputDecoration(
+              //     prefixIcon: const Icon(Icons.search),
+              //     hintText: 'Search',
+              //     border: OutlineInputBorder(
+              //       borderRadius: BorderRadius.circular(10.0),
+              //     ),
+              //   ),
+              // ),
+              // const SizedBox(
+              //   height: 10,
+              // ),
+              StreamBuilder<Map<String, List<StudentsRegisteredUnitsModel>>>(
             stream: viewModel.getSuppList(semesterStage: semesterStage),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
@@ -50,6 +70,7 @@ class SupplistView extends StackedView<SupplistViewModel> {
                         final studentUnits = studentsMap[studentUid]!;
                         final student = studentUnits.first;
                         return Card(
+                          color: Colors.white,
                           child: ListTile(
                             title: Text(student.studentName!,
                                 style: const TextStyle(

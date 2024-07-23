@@ -28,7 +28,7 @@ class AdminStudentPerformanceViewModel extends BaseViewModel {
   String selectedSem = '';
   String get getSelectedSem => selectedSem;
 
-   String selectedUnitCode = 'CCS 1105';
+  String selectedUnitCode = 'CCS 1105';
   String get getSelectedUnitCode => selectedSem;
 
   void setSelectedUnitCode(String value) {
@@ -104,7 +104,9 @@ class AdminStudentPerformanceViewModel extends BaseViewModel {
                 ? "Y3"
                 : "Y4";
     return _adminDashboardService.fetchStudentsAccordingToYearStream(
-        yearName: currentYearName, semesterStage: semesterStage, unitCode: selectedUnitCode);
+        yearName: currentYearName,
+        semesterStage: semesterStage,
+        unitCode: selectedUnitCode);
   }
 
   void checkPerformanceBasedOnCurrentYear(
@@ -112,5 +114,4 @@ class AdminStudentPerformanceViewModel extends BaseViewModel {
     _navigationService.navigateToAdminStudentPerformanceDetailsView(
         semesterStage: semesterStage, studentUid: studentUid!!);
   }
-
 }

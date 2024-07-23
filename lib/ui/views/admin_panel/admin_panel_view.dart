@@ -140,6 +140,33 @@ class AdminPanelView extends StackedView<AdminPanelViewModel> {
                     Transcripts(yearName: 'Year four'),
                   ],
                 ),
+                verticalSpaceMedium,
+                const Text("Special Exams",
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    )),
+                verticalSpaceSmall,
+                InkWell(
+                  onTap: () {
+                    viewModel.navigateToManageSpecialExams();
+                  },
+                  child: Container(
+                    padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+                    width: MediaQuery.of(context).size.width,
+                    decoration: BoxDecoration(
+                      color: primaryColor,
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: const Center(
+                      child: Text('Manage special exams',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                          )),
+                    ),
+                  ),
+                )
               ],
             ),
           ),

@@ -44,6 +44,7 @@ import 'package:examify/ui/views/passlist/passlist_view.dart';
 import 'package:examify/ui/views/supplist/supplist_view.dart';
 import 'package:examify/ui/views/special_exams_list/special_exams_list_view.dart';
 import 'package:examify/ui/views/missing_marks/missing_marks_view.dart';
+import 'package:examify/ui/views/cod_special_exams/cod_special_exams_view.dart';
 // @stacked-import
 
 @StackedApp(
@@ -73,6 +74,7 @@ import 'package:examify/ui/views/missing_marks/missing_marks_view.dart';
     MaterialRoute(page: SupplistView),
     MaterialRoute(page: SpecialExamsListView),
     MaterialRoute(page: MissingMarksView),
+    MaterialRoute(page: CodSpecialExamsView),
 // @stacked-route
   ],
   dependencies: [

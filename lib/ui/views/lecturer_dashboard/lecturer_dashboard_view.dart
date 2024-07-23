@@ -5,6 +5,7 @@ import 'package:examify/ui/common/app_colors.dart';
 import 'package:examify/ui/common/ui_helpers.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:stacked/stacked.dart';
@@ -24,6 +25,61 @@ class LecturerDashboardView extends StackedView<LecturerDashboardViewModel> {
     String greeting = viewModel.getGreeting(now);
     return SafeArea(
       child: Scaffold(
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+          elevation: 0,
+          systemOverlayStyle: SystemUiOverlayStyle.light,
+          centerTitle: true,
+          title: Row(
+            children: [
+              Text(
+                '${greeting} , ',
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              Flexible(
+                child: Text(
+                  viewModel.userDetails["userName"] ?? "UserName",
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          actions: [
+            // ignore: avoid_unnecessary_containers
+            Container(
+              margin: const EdgeInsets.only(right: 10, top: 2),
+              child: const CircleAvatar(
+                backgroundColor: Colors.white,
+                radius: 30,
+                backgroundImage: AssetImage('Assets/Images/man1.jpeg'),
+              ),
+            ),
+          ],
+          bottom: PreferredSize(
+              preferredSize: const Size.fromHeight(0),
+              child: Padding(
+                padding: const EdgeInsets.only(left: 20),
+                child: Row(
+                  children: [
+                    Text(
+                      "${now.day}-${now.month}-${now.year}  ${now.hour}: ${now.minute} ${now.hour > 12 ? "PM" : "AM"}",
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 14,
+                      ),
+                    ),
+                  ],
+                ),
+              )),
+          backgroundColor: primaryColor,
+        ),
         backgroundColor: Colors.white,
         body: SingleChildScrollView(
           child: Container(
@@ -31,53 +87,6 @@ class LecturerDashboardView extends StackedView<LecturerDashboardViewModel> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Container(
-                  padding: const EdgeInsets.all(10),
-                  height: MediaQuery.of(context).size.height / 7,
-                  width: MediaQuery.of(context).size.width,
-                  decoration: BoxDecoration(
-                    color: primaryColor,
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: Center(
-                      child: Row(
-                    children: [
-                      Column(
-                        children: [
-                          Text(
-                            '${greeting} , ',
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          verticalSpaceTiny,
-                          Text(
-                            viewModel.userDetails["userName"] ?? "UserName",
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 18,
-                            ),
-                          ),
-                          Text(
-                            "${now.day}-${now.month}-${now.year}  ${now.hour}: ${now.minute} ${now.hour > 12 ? "PM" : "AM"}",
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 18,
-                            ),
-                          ),
-                        ],
-                      ),
-                      const Spacer(),
-                      const CircleAvatar(
-                        backgroundColor: Colors.white,
-                        radius: 40,
-                        backgroundImage: AssetImage('Assets/Images/man1.jpeg'),
-                      ),
-                    ],
-                  )),
-                ),
                 verticalSpaceSmall,
                 const Text(
                   "Courses you are teaching",
@@ -229,43 +238,115 @@ class LecturerDashboardView extends StackedView<LecturerDashboardViewModel> {
                                         const SizedBox(
                                           height: 5,
                                         ),
-                                        Row(
-                                          children: [
-                                            Text(
-                                              units.unitCode!,
-                                              style: const TextStyle(),
-                                            ),
-                                            const SizedBox(
-                                              width: 5,
-                                            ),
-                                            Text(units.unitName!),
-                                          ],
-                                        ),
+                                        units.specialExamStatus ==
+                                                'Lecturer Approved'
+                                            ? Row(
+                                                children: [
+                                                  Text(
+                                                    units.unitCode!,
+                                                    style: const TextStyle(),
+                                                  ),
+                                                  const SizedBox(
+                                                    width: 10,
+                                                  ),
+                                                  Flexible(
+                                                      child: Text(
+                                                          units.unitName!)),
+                                                ],
+                                              )
+                                            : Column(
+                                                children: [
+                                                  Text(
+                                                    units.unitCode!,
+                                                    style: const TextStyle(),
+                                                  ),
+                                                  const SizedBox(
+                                                    width: 5,
+                                                  ),
+                                                  Text(units.unitName!),
+                                                ],
+                                              ),
                                         const SizedBox(
                                           height: 5,
                                         ),
                                         const Text(
                                           "Reason for Special Exam:",
                                           style: TextStyle(
-                                              fontWeight: FontWeight.bold),
+                                            fontWeight: FontWeight.bold,
+                                          ),
                                         ),
                                         Text(units.specialExamReason!),
+                                        const SizedBox(
+                                          height: 5,
+                                        ),
+                                        Row(
+                                          children: [
+                                            const Text(
+                                              "Status:",
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Colors.black),
+                                            ),
+                                            const SizedBox(
+                                              width: 5,
+                                            ),
+                                            Text(
+                                              units.specialExamStatus!,
+                                              style: TextStyle(
+                                                  color: units.specialExamStatus ==
+                                                          'Lecturer Approved'
+                                                      ? primaryColor
+                                                      : units.specialExamStatus ==
+                                                              'pending'
+                                                          ? Colors.orange
+                                                          : Colors.red),
+                                            ),
+                                          ],
+                                        ),
                                       ],
                                     ),
-                                    trailing: Container(
-                                      padding: const EdgeInsets.all(10),
-                                      decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          color: units.specialExamStatus ==
-                                                  'Approved'
-                                              ? Colors.green
-                                              : units.specialExamStatus ==
+                                    trailing: units.specialExamStatus ==
+                                            'Lecturer Approved'
+                                        ? const SizedBox()
+                                        : InkWell(
+                                            onTap: () {
+                                              viewModel.approveSpecialExam(
+                                                unitCode: units.unitCode,
+                                                studentId: units.studeUid,
+                                              );
+                                            },
+                                            child: Container(
+                                              padding: const EdgeInsets.all(10),
+                                              decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(10),
+                                                  color: units.specialExamStatus ==
+                                                          'Lecturer Approved'
+                                                      ? primaryColor
+                                                      : units.specialExamStatus ==
+                                                              'pending'
+                                                          ? Colors.orange
+                                                          : Colors.red),
+                                              child: units.specialExamStatus ==
                                                       'pending'
-                                                  ? Colors.orange
-                                                  : Colors.red),
-                                      child: Text(units.specialExamStatus!),
-                                    ),
+                                                  ? viewModel.isBusy
+                                                      ? const CircularProgressIndicator(
+                                                          color: Colors.white,
+                                                        )
+                                                      : const Text(
+                                                          'click to Approve',
+                                                          style: TextStyle(
+                                                            color: Colors.white,
+                                                          ),
+                                                        )
+                                                  : const Text(
+                                                      'Rejected',
+                                                      style: TextStyle(
+                                                        color: Colors.white,
+                                                      ),
+                                                    ),
+                                            ),
+                                          ),
                                   ),
                                 );
                               });

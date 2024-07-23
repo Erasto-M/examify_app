@@ -58,7 +58,8 @@ class EcAccessMarksSheetsViewModel extends BaseViewModel {
   }
 
   Stream<List<AddUnitModel>> fetchUnitsBasedOnYear() {
-    return _lectureDashboardService.fetchUnits(semesterStage: _selectedSemester);
+    return _lectureDashboardService.fetchUnits(
+        semesterStage: _selectedSemester);
   }
 
   void setSelectedUnitToGetMarks(String value) {
@@ -84,6 +85,7 @@ class EcAccessMarksSheetsViewModel extends BaseViewModel {
     }
   }
 
+
   Future<void> updateReportsAvailabilityStatus(bool value, String selectedYear) async {
     try {
       await _adminService.updateReportsAvailabilityStatus(value, selectedYear);
@@ -91,5 +93,6 @@ class EcAccessMarksSheetsViewModel extends BaseViewModel {
     } catch (e) {
       print('Error updating report availability status: $e');
     }
+
   }
 }

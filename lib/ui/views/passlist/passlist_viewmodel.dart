@@ -3,8 +3,9 @@ import 'package:examify/models/student_registered_units.dart';
 import 'package:examify/services/cod_dashboard_service.dart';
 import 'package:stacked/stacked.dart';
 
-class PasslistViewModel extends BaseViewModel {
+class PasslistViewModel extends FormViewModel {
   final _adminDashBoard = locator<AdminDashboardService>();
+  
 
   Stream<List<StudentsRegisteredUnitsModel>> getPassLists({
     required String selectedSemesterStage,
