@@ -18,9 +18,10 @@ class MissingMarksView extends StackedView<MissingMarksViewModel> {
     Widget? child,
   ) {
     return Scaffold(
-        backgroundColor: Theme.of(context).colorScheme.background,
-        body: Container(
+        backgroundColor: Colors.white,
+        body: SingleChildScrollView(
           child: Container(
+            color: Colors.white,
             child:
                 StreamBuilder<Map<String, List<StudentsRegisteredUnitsModel>>>(
               stream:
@@ -51,6 +52,7 @@ class MissingMarksView extends StackedView<MissingMarksViewModel> {
                         final studentUnits = studentsMap[studentUid]!;
                         final student = studentUnits.first;
                         return Card(
+                          color: Colors.white,
                           child: ListTile(
                             title: Text(
                               student.studentName ?? '',

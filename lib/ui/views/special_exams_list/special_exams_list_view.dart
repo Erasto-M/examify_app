@@ -3,9 +3,15 @@ import 'package:examify/ui/common/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:stacked/stacked.dart';
+import 'package:stacked/stacked_annotations.dart';
 
 import 'special_exams_list_viewmodel.dart';
 
+@FormView(
+  fields: [
+    FormTextField(name: 'searchSpecialExams'),
+  ],
+)
 class SpecialExamsListView extends StackedView<SpecialExamsListViewModel> {
   const SpecialExamsListView({Key? key, required this.semesterStage})
       : super(key: key);
@@ -17,11 +23,25 @@ class SpecialExamsListView extends StackedView<SpecialExamsListViewModel> {
     Widget? child,
   ) {
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.surface,
+      backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Container(
+          color: Colors.white,
           padding: const EdgeInsets.only(left: 5.0, right: 5.0),
-          child: StreamBuilder<Map<String, List<SpecialExamsModel>>>(
+          child:
+              // TextField(
+              //   decoration: InputDecoration(
+              //     prefixIcon: const Icon(Icons.search),
+              //     hintText: 'Search',
+              //     border: OutlineInputBorder(
+              //       borderRadius: BorderRadius.circular(10.0),
+              //     ),
+              //   ),
+              // ),
+              // const SizedBox(
+              //   height: 10,
+              // ),
+              StreamBuilder<Map<String, List<SpecialExamsModel>>>(
             stream: viewModel.getSpecialsExam(semesterStage: semesterStage),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
@@ -51,6 +71,7 @@ class SpecialExamsListView extends StackedView<SpecialExamsListViewModel> {
                         final studentUnits = studentsMap[studentUid]!;
                         final student = studentUnits.first;
                         return Card(
+                          color: Colors.white70,
                           child: ListTile(
                             title: Text(student.studentName ?? '',
                                 style: const TextStyle(

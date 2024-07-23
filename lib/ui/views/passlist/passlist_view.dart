@@ -1,12 +1,17 @@
 import 'package:examify/models/student_registered_units.dart';
 import 'package:examify/ui/common/app_colors.dart';
+import 'package:examify/ui/views/passlist/passlist_view.form.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:stacked/stacked.dart';
+import 'package:stacked/stacked_annotations.dart';
 
 import 'passlist_viewmodel.dart';
 
-class PasslistView extends StackedView<PasslistViewModel> {
+@FormView(fields: [
+  FormTextField(name: 'searchPasslist'),
+])
+class PasslistView extends StackedView<PasslistViewModel> with $PasslistView {
   const PasslistView({Key? key, required this.selectedSemesterStage})
       : super(key: key);
   final String selectedSemesterStage;
@@ -18,11 +23,26 @@ class PasslistView extends StackedView<PasslistViewModel> {
     Widget? child,
   ) {
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.surface,
+      backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Container(
+          color: Colors.white,
           padding: const EdgeInsets.only(left: 5.0, right: 5.0),
-          child: StreamBuilder<List<StudentsRegisteredUnitsModel>>(
+          child:
+              // TextField(
+              //   controller: searchPasslistController,
+              //   decoration: InputDecoration(
+              //     prefixIcon: const Icon(Icons.search),
+              //     hintText: 'Search',
+              //     border: OutlineInputBorder(
+              //       borderRadius: BorderRadius.circular(10.0),
+              //     ),
+              //   ),
+              // ),
+              // const SizedBox(
+              //   height: 10,
+              // ),
+              StreamBuilder<List<StudentsRegisteredUnitsModel>>(
             stream: viewModel.getPassLists(
                 selectedSemesterStage: selectedSemesterStage),
             builder: (context, snapshot) {
@@ -95,4 +115,8 @@ class PasslistView extends StackedView<PasslistViewModel> {
     BuildContext context,
   ) =>
       PasslistViewModel();
+  @override
+  void onViewModelReady(PasslistViewModel viewModel) {
+    syncFormWithViewModel(viewModel);
+  }
 }

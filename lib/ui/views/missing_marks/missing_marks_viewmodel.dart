@@ -1,9 +1,15 @@
 import 'package:examify/app/app.locator.dart';
 import 'package:stacked/stacked.dart';
+import 'package:stacked/stacked_annotations.dart';
 
 import '../../../models/student_registered_units.dart';
 import '../../../services/cod_dashboard_service.dart';
 
+@FormView(
+  fields: [
+    FormTextField(name: 'semesterStage'),
+  ],
+)
 class MissingMarksViewModel extends BaseViewModel {
   final _adminDashBoard = locator<AdminDashboardService>();
   Stream<Map<String, List<StudentsRegisteredUnitsModel>>> getMissingMarksList({
