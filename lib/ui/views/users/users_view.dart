@@ -54,7 +54,7 @@ class UsersView extends StackedView<UsersViewModel> {
                 ),
                 ListView(
                     shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
+                    physics: const NeverScrollableScrollPhysics(),
                     children: users.map((user) {
                       return Container(
                         padding: const EdgeInsets.all(10.0),
@@ -98,7 +98,7 @@ class UsersView extends StackedView<UsersViewModel> {
                                 ElevatedButton(
                                   onPressed: () {
                                     viewModel.email(
-                                      email: user.email,
+                                      email: user.email??'example@gmail.com',
                                     );
                                   },
                                   child: const Text('Email'),
@@ -107,7 +107,7 @@ class UsersView extends StackedView<UsersViewModel> {
                                 ElevatedButton(
                                   onPressed: () {
                                     viewModel.call(
-                                        phoneNumber: user.phoneNumber);
+                                        phoneNumber: user.phoneNumber??'1234567890');
                                   },
                                   child: const Text('Call'),
                                 ),
