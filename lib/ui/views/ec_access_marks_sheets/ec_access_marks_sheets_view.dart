@@ -1,4 +1,4 @@
-import 'package:cloud_firestore/cloud_firestore.dart'; // Add Firebase Firestore dependency
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:examify/models/student_registered_units.dart';
 import 'package:examify/ui/common/app_colors.dart';
 import 'package:examify/ui/common/ui_helpers.dart';
@@ -36,7 +36,7 @@ class EcAccessMarksSheetsView
             ),
           ),
           backgroundColor: Colors.grey[200],
-          body: FutureBuilder(
+          body: FutureBuilder<DocumentSnapshot?>(
             future: viewModel.getReportsAvailabilityStatus(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
@@ -46,9 +46,9 @@ class EcAccessMarksSheetsView
                     size: 70,
                   ),
                 );
-              } else if (!snapshot.hasData) {
+              } else if (snapshot.hasError || !snapshot.hasData) {
                 return const Center(
-                  child: Text("No data found"),
+                  child: Text("Error or no data found"),
                 );
               } else {
                 Map<String, dynamic> data =
@@ -63,17 +63,15 @@ class EcAccessMarksSheetsView
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Row(
-                        children: [],
-                      ),
-                      verticalSpaceSmall,
                       Row(
                         children: [
                           Checkbox(
                             value: isAvailable,
                             onChanged: (bool? value) {
-                              viewModel.updateReportsAvailabilityStatus(
-                                  value!, viewModel.selectedSemester);
+                              if (value != null) {
+                                viewModel.updateReportsAvailabilityStatus(
+                                    value, viewModel.selectedSemester);
+                              }
                             },
                           ),
                           Text(
@@ -84,7 +82,7 @@ class EcAccessMarksSheetsView
                       ),
                       verticalSpaceSmall,
                       Container(
-                        width: MediaQuery.sizeOf(context).width,
+                        width: MediaQuery.of(context).size.width,
                         padding: const EdgeInsets.symmetric(
                             horizontal: 10, vertical: 5),
                         decoration: BoxDecoration(
@@ -105,39 +103,44 @@ class EcAccessMarksSheetsView
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Container(
-                                    margin: const EdgeInsets.only(right: 10),
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 15, vertical: 5),
-                                    height: 40,
-                                    decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        borderRadius: BorderRadius.circular(10),
-                                        boxShadow: [
-                                          BoxShadow(
-                                            color: Colors.grey.withOpacity(0.5),
-                                            spreadRadius: 1,
-                                            blurRadius: 5,
-                                            offset: const Offset(0, 3),
-                                          ),
-                                        ]),
-                                    child: DropdownButton(
-                                      value: viewModel
-                                              .selectedUnitToGetMarks.isNotEmpty
-                                          ? viewModel.selectedUnitToGetMarks
-                                          : null,
-                                      hint: const Text("Please select unit"),
-                                      items: viewModel.unitsPerSelectedSemester
-                                          ?.map((AddUnitModel unit) =>
-                                              DropdownMenuItem(
-                                                value: unit.unitCode,
-                                                child: Text(unit.unitName),
-                                              ))
-                                          .toList(),
-                                      onChanged: (newValue) {
+                                  margin: const EdgeInsets.only(right: 10),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 15, vertical: 5),
+                                  height: 40,
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(10),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.grey.withOpacity(0.5),
+                                        spreadRadius: 1,
+                                        blurRadius: 5,
+                                        offset: const Offset(0, 3),
+                                      ),
+                                    ],
+                                  ),
+                                  child: DropdownButton<String>(
+                                    value: viewModel
+                                            .selectedUnitToGetMarks.isNotEmpty
+                                        ? viewModel.selectedUnitToGetMarks
+                                        : null,
+                                    hint: const Text("Please select unit"),
+                                    items: viewModel.unitsPerSelectedSemester
+                                            ?.map((unit) {
+                                          return DropdownMenuItem<String>(
+                                            value: unit.unitCode,
+                                            child: Text(unit.unitName),
+                                          );
+                                        }).toList() ??
+                                        [],
+                                    onChanged: (newValue) {
+                                      if (newValue != null) {
                                         viewModel.setSelectedUnitToGetMarks(
-                                            newValue.toString());
-                                      },
-                                    ))
+                                            newValue);
+                                      }
+                                    },
+                                  ),
+                                ),
                               ],
                             ),
                           ],
@@ -156,10 +159,7 @@ class EcAccessMarksSheetsView
                           fontSize: 20,
                         ),
                       ),
-
                       verticalSpaceSmall,
-                      //list of all students
-
                       Expanded(
                         child:
                             StreamBuilder<List<StudentsRegisteredUnitsModel>>(
@@ -174,11 +174,16 @@ class EcAccessMarksSheetsView
                                   size: 70,
                                 ),
                               );
-                            } else if (!snapshot.hasData) {
+                            } else if (snapshot.hasError) {
+                              return const Center(
+                                child: Text("Error or no data found"),
+                              );
+                            } else if (!snapshot.hasData ||
+                                snapshot.data!.isEmpty) {
                               return const Center(
                                 child: Text("No data found"),
                               );
-                            } else {
+                            } else if(snapshot.hasData) {
                               return SingleChildScrollView(
                                 scrollDirection: Axis.horizontal,
                                 child: ConstrainedBox(
@@ -247,7 +252,7 @@ class EcAccessMarksSheetsView
                                           ),
                                           DataColumn(
                                             label: Text(
-                                              "Exam ",
+                                              "Exam",
                                               style: TextStyle(
                                                   color: primaryColor,
                                                   fontWeight: FontWeight.w600,
@@ -275,50 +280,45 @@ class EcAccessMarksSheetsView
                                         ],
                                         rows: snapshot.data!.map((student) {
                                           return DataRow(cells: [
-                                            DataCell(
-                                              Text(student.studentName!),
-                                            ),
-                                            DataCell(
-                                              Text(student.studentPhoneNumber!),
-                                            ),
-                                            DataCell(
-                                              Text(
-                                                student.assignMent1Marks
-                                                    .toString(),
-                                              ),
-                                            ),
-                                            DataCell(
-                                              Text(student.assignMent2Marks
-                                                  .toString()),
-                                            ),
-                                            DataCell(
-                                              Text(
-                                                  student.cat1Marks.toString()),
-                                            ),
-                                            DataCell(
-                                              Text(
-                                                student.cat2Marks.toString(),
-                                              ),
-                                            ),
-                                            DataCell(
-                                              Text(
-                                                  student.examMarks.toString()),
-                                            ),
-                                            DataCell(
-                                              Text(student.totalMarks
-                                                  .toString()),
-                                            ),
-                                            DataCell(
-                                              Text(student.grade.toString()),
-                                            ),
+                                            DataCell(Text(
+                                                student.studentName ?? '')),
+                                            DataCell(Text(
+                                                student.studentPhoneNumber ??
+                                                    '')),
+                                            DataCell(Text(student
+                                                    .assignMent1Marks
+                                                    ?.toString() ??
+                                                '')),
+                                            DataCell(Text(student
+                                                    .assignMent2Marks
+                                                    ?.toString() ??
+                                                '')),
+                                            DataCell(Text(
+                                                student.cat1Marks?.toString() ??
+                                                    '')),
+                                            DataCell(Text(
+                                                student.cat2Marks?.toString() ??
+                                                    '')),
+                                            DataCell(Text(
+                                                student.examMarks?.toString() ??
+                                                    '')),
+                                            DataCell(Text(student.totalMarks
+                                                    ?.toString() ??
+                                                '')),
+                                            DataCell(Text(
+                                                student.grade?.toString() ??
+                                                    '')),
                                           ]);
                                         }).toList(),
                                       ),
-                                      // download pdf
                                       verticalSpaceMedium,
                                     ],
                                   ),
                                 ),
+                              );
+                            }else{
+                              return const Center(
+                                child: Text("No data found"),
                               );
                             }
                           },
@@ -336,9 +336,7 @@ class EcAccessMarksSheetsView
   }
 
   @override
-  EcAccessMarksSheetsViewModel viewModelBuilder(
-    BuildContext context,
-  ) =>
+  EcAccessMarksSheetsViewModel viewModelBuilder(BuildContext context) =>
       EcAccessMarksSheetsViewModel();
 
   @override
