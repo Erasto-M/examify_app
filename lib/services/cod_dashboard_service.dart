@@ -156,4 +156,30 @@ class AdminDashboardService {
       print('Failed to update: $error');
     });
   }
+
+  Future<DocumentSnapshot?> getRegistrationWindowStatus(String year) async {
+    try {
+      return await db
+          .collection('unit_registration_availability')
+          .doc('2sz1qRL20HBQsnkXMfIG')
+          .get();
+    } catch (e) {
+      print(e.toString());
+      return null;
+    }
+  }
+
+  Future<void> updateRegistrationWindowStatus(bool value, String year) async {
+    try {
+      await db
+          .collection('unit_registration_availability')
+          .doc('2sz1qRL20HBQsnkXMfIG')
+          .update({
+        '${year}_opened': value,
+      });
+      print('Successfully updated');
+    } catch (error) {
+      print('Failed to update: $error');
+    }
+  }
 }
