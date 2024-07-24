@@ -35,25 +35,25 @@ class StudentDashboardView extends StackedView<StudentDashboardViewModel> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         elevation: 0,
+        automaticallyImplyLeading: false,
         systemOverlayStyle: SystemUiOverlayStyle.light,
         centerTitle: true,
-        title: Row(
+        title: const Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              '${greeting} , ',
-              style: const TextStyle(
+              'Dedan Kimathi University ', // Replace with your university name
+              style: TextStyle(
                 color: Colors.white,
-                fontSize: 20,
+                fontSize: 18,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            Flexible(
-              child: Text(
-                viewModel.userDetails["userName"] ?? "UserName",
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 18,
-                ),
+            Text(
+              'BSC Computer Science', // Replace with your department name
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 16,
               ),
             ),
           ],
@@ -70,21 +70,25 @@ class StudentDashboardView extends StackedView<StudentDashboardViewModel> {
           ),
         ],
         bottom: PreferredSize(
-            preferredSize: const Size.fromHeight(0),
-            child: Padding(
-              padding: const EdgeInsets.only(left: 20),
-              child: Row(
-                children: [
-                  Text(
-                    "${now.day}-${now.month}-${now.year}  ${now.hour}: ${now.minute} ${now.hour > 12 ? "PM" : "AM"}",
+          preferredSize: const Size.fromHeight(40), // Adjust height as needed
+          child: Padding(
+            padding: const EdgeInsets.only(
+                left: 20, bottom: 10), // Adjust padding as needed
+            child: Row(
+              children: [
+                Flexible(
+                  child: Text(
+                    '${greeting} ${viewModel.userDetails["userName"] ?? ""}, ${now.day}-${now.month}-${now.year}  ${now.hour}: ${now.minute} ${now.hour > 12 ? "PM" : "AM"}',
                     style: const TextStyle(
                       color: Colors.white,
                       fontSize: 14,
                     ),
                   ),
-                ],
-              ),
-            )),
+                ),
+              ],
+            ),
+          ),
+        ),
         backgroundColor: primaryColor,
       ),
       body: SingleChildScrollView(
@@ -140,7 +144,6 @@ class StudentDashboardView extends StackedView<StudentDashboardViewModel> {
               verticalSpaceSmall,
               // Courses List
               SizedBox(
-                height: 500,
                 child: viewModel.isBusy
                     ? const SpinKitSpinningLines(color: primaryColor)
                     : StreamBuilder<List<StudentsRegisteredUnitsModel>>(
@@ -175,6 +178,7 @@ class StudentDashboardView extends StackedView<StudentDashboardViewModel> {
                               child: Text("No Units found"),
                             );
                           } else {
+                            final snapshotData = snapshot.data;
                             double meanScore =
                                 viewModel.calculateMeanScore(snapshot.data!);
                             String meanGrade =
@@ -185,8 +189,7 @@ class StudentDashboardView extends StackedView<StudentDashboardViewModel> {
                                 ? const Center(
                                     child: Text("No Units found"),
                                   )
-                                : Flexible(
-                                    child: Column(
+                                : Column(
                                     children: [
                                       SingleChildScrollView(
                                         scrollDirection: Axis.horizontal,
@@ -308,16 +311,36 @@ class StudentDashboardView extends StackedView<StudentDashboardViewModel> {
                                                 ),
                                                 DataCell(
                                                   Text(
-                                                    units.examMarks.toString(),
+                                                    units.appliedSpecialExam ==
+                                                            true
+                                                        ? 'special Exam'
+                                                        : units.examMarks
+                                                            .toString(),
                                                   ),
                                                 ),
                                                 DataCell(
-                                                  Text(
-                                                    units.totalMarks.toString(),
-                                                  ),
+                                                  units.appliedSpecialExam ==
+                                                          true
+                                                      ? const Text(
+                                                          'NA',
+                                                        )
+                                                      : Text(
+                                                          units.totalMarks
+                                                              .toString(),
+                                                        ),
                                                 ),
                                                 DataCell(
-                                                  Text(units.grade!),
+                                                  units.appliedSpecialExam ==
+                                                          true
+                                                      ? const Text(
+                                                          'Incomplete',
+                                                          style: TextStyle(
+                                                              color:
+                                                                  Colors.red),
+                                                        )
+                                                      : Text(
+                                                          units.grade ?? 'NA',
+                                                        ),
                                                 ),
                                               ]);
                                             }).toList(),
@@ -325,34 +348,37 @@ class StudentDashboardView extends StackedView<StudentDashboardViewModel> {
                                         ),
                                       ),
                                       verticalSpaceSmall,
-                                      Row(
-                                        children: [
-                                          Text(
-                                            'Mean Score: $meanScore ',
-                                            style: const TextStyle(
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                          const Spacer(),
-                                          Text(
-                                            'MeanGrade: $meanGrade',
-                                            style: const TextStyle(
-                                              fontWeight: FontWeight.bold,
+                                      if (!viewModel
+                                          .hasSpecialExams(snapshot.data!)) ...[
+                                        Row(
+                                          children: [
+                                            Text(
+                                              'Mean Score: $meanScore ',
+                                              style: const TextStyle(
+                                                  fontWeight: FontWeight.bold),
                                             ),
-                                          )
-                                        ],
-                                      ),
-                                      verticalSpaceSmall,
-                                      Row(
-                                        children: [
-                                          const Text(
-                                            'Reccomendation: ',
-                                            style: TextStyle(
-                                              fontWeight: FontWeight.bold,
+                                            const Spacer(),
+                                            Text(
+                                              'MeanGrade: $meanGrade',
+                                              style: const TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                        verticalSpaceSmall,
+                                        Row(
+                                          children: [
+                                            const Text(
+                                              'Reccomendation: ',
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                              ),
                                             ),
-                                          ),
-                                          Text(recommendation)
-                                        ],
-                                      ),
+                                            Text(recommendation)
+                                          ],
+                                        ),
+                                      ],
                                       verticalSpaceTiny,
                                       verticalSpaceSmall,
                                       const SizedBox(
@@ -411,11 +437,12 @@ class StudentDashboardView extends StackedView<StudentDashboardViewModel> {
                                         ),
                                       ),
                                     ],
-                                  ));
+                                  );
                           }
                         }),
               ),
 
+              verticalSpaceSmall,
               verticalSpaceSmall,
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -437,7 +464,9 @@ class StudentDashboardView extends StackedView<StudentDashboardViewModel> {
                       backgroundColor: Colors.white,
                       foregroundColor: primaryColor,
                       onPressed: () {
-                        viewModel.navigateToApplySpecialExam();
+                        viewModel.navigateToApplySpecialExam(
+                            semesterStage:
+                                viewModel.getSelectedSemesterStageForCourses);
                       },
                       label: const Text(
                         'Special Exams',
@@ -445,6 +474,7 @@ class StudentDashboardView extends StackedView<StudentDashboardViewModel> {
                       )),
                 ],
               ),
+              verticalSpaceMedium,
             ],
           ),
         ),

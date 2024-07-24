@@ -15,10 +15,10 @@ class AcademicsView extends StackedView<AcademicsViewModel> {
 
   @override
   Widget builder(
-      BuildContext context,
-      AcademicsViewModel viewModel,
-      Widget? child,
-      ) {
+    BuildContext context,
+    AcademicsViewModel viewModel,
+    Widget? child,
+  ) {
     return DefaultTabController(
       length: 4,
       child: Scaffold(
@@ -77,7 +77,8 @@ class AcademicsView extends StackedView<AcademicsViewModel> {
             children: [
               const SizedBox(height: 10),
               StreamBuilder<DocumentSnapshot?>(
-                stream: viewModel.getReportsAvailabilityStatus(viewModel.getselectedSemester),
+                stream: viewModel.getReportsAvailabilityStatus(
+                    viewModel.getselectedSemester),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return const CircularProgressIndicator();
@@ -85,7 +86,9 @@ class AcademicsView extends StackedView<AcademicsViewModel> {
                   if (snapshot.hasError) {
                     return const Text('Error fetching data');
                   }
-                  bool isAvailable = snapshot.data?['${viewModel.getselectedSemester}_available'] ?? false;
+                  bool isAvailable = snapshot.data?[
+                          '${viewModel.getselectedSemester}_available'] ??
+                      false;
                   if (!isAvailable) {
                     return const Text('Reports not yet available');
                   }
@@ -118,6 +121,7 @@ class AcademicsView extends StackedView<AcademicsViewModel> {
 
   @override
   AcademicsViewModel viewModelBuilder(
-      BuildContext context,
-      ) => AcademicsViewModel();
+    BuildContext context,
+  ) =>
+      AcademicsViewModel();
 }

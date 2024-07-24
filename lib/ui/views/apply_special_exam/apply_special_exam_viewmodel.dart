@@ -18,13 +18,13 @@ class ApplySpecialExamViewModel extends FormViewModel {
     notifyListeners();
   }
 
-  String? _selectedSemesterStage = 'Y1S1';
-  String? get selectedSemesterStage => _selectedSemesterStage;
+  // String? _selectedSemesterStage = 'Y1S1';
+  // String? get selectedSemesterStage => _selectedSemesterStage;
 
-  void setSelectedSemesterStage(String value) {
-    _selectedSemesterStage = value;
-    notifyListeners();
-  }
+  // void setSelectedSemesterStage(String value) {
+  //   _selectedSemesterStage = value;
+  //   notifyListeners();
+  // }
 
   bool _isSpecialExamApplied = false;
   bool? get getIsSpecialExamApplied => _isSpecialExamApplied;
@@ -34,9 +34,10 @@ class ApplySpecialExamViewModel extends FormViewModel {
     notifyListeners();
   }
 
-  Stream<List<StudentsRegisteredUnitsModel>> fetchMyUnits() {
+  Stream<List<StudentsRegisteredUnitsModel>> fetchMyUnits(
+      {required String semesterStage}) {
     return _studentDashboardService.fetchAllMyUnits(
-        semesterStage: selectedSemesterStage!);
+        semesterStage: semesterStage);
   }
 
   // list of selected units
@@ -87,8 +88,9 @@ class ApplySpecialExamViewModel extends FormViewModel {
   }
 
   //get al my special exams units
-  Stream<List<SpecialExamsModel>> mySpecialExamUnits() {
+  Stream<List<SpecialExamsModel>> mySpecialExamUnits(
+      {required String selectedSemesterStage}) {
     return _studentDashboardService.getAllMySpecials(
-        semesterStage: selectedSemesterStage!);
+        semesterStage: selectedSemesterStage);
   }
 }

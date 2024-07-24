@@ -183,7 +183,7 @@ class EcAccessMarksSheetsView
                               return const Center(
                                 child: Text("No data found"),
                               );
-                            } else if(snapshot.hasData) {
+                            } else if (snapshot.hasData) {
                               return SingleChildScrollView(
                                 scrollDirection: Axis.horizontal,
                                 child: ConstrainedBox(
@@ -316,7 +316,7 @@ class EcAccessMarksSheetsView
                                   ),
                                 ),
                               );
-                            }else{
+                            } else {
                               return const Center(
                                 child: Text("No data found"),
                               );

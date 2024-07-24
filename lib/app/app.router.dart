@@ -381,8 +381,10 @@ class StackedRouter extends _i1.RouterBase {
       );
     },
     _i21.ApplySpecialExamView: (data) {
+      final args = data.getArgs<ApplySpecialExamViewArguments>(nullOk: false);
       return _i28.MaterialPageRoute<dynamic>(
-        builder: (context) => const _i21.ApplySpecialExamView(),
+        builder: (context) => _i21.ApplySpecialExamView(
+            key: args.key, semesterStage: args.semesterStage),
         settings: data,
       );
     },
@@ -685,6 +687,33 @@ class MyTrancriptsViewArguments {
   @override
   int get hashCode {
     return key.hashCode ^ transcriptPath.hashCode;
+  }
+}
+
+class ApplySpecialExamViewArguments {
+  const ApplySpecialExamViewArguments({
+    this.key,
+    required this.semesterStage,
+  });
+
+  final _i28.Key? key;
+
+  final String semesterStage;
+
+  @override
+  String toString() {
+    return '{"key": "$key", "semesterStage": "$semesterStage"}';
+  }
+
+  @override
+  bool operator ==(covariant ApplySpecialExamViewArguments other) {
+    if (identical(this, other)) return true;
+    return other.key == key && other.semesterStage == semesterStage;
+  }
+
+  @override
+  int get hashCode {
+    return key.hashCode ^ semesterStage.hashCode;
   }
 }
 
@@ -1097,14 +1126,18 @@ extension NavigatorStateExtension on _i29.NavigationService {
         transition: transition);
   }
 
-  Future<dynamic> navigateToApplySpecialExamView([
+  Future<dynamic> navigateToApplySpecialExamView({
+    _i28.Key? key,
+    required String semesterStage,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
     Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
         transition,
-  ]) async {
+  }) async {
     return navigateTo<dynamic>(Routes.applySpecialExamView,
+        arguments: ApplySpecialExamViewArguments(
+            key: key, semesterStage: semesterStage),
         id: routerId,
         preventDuplicates: preventDuplicates,
         parameters: parameters,
@@ -1510,14 +1543,18 @@ extension NavigatorStateExtension on _i29.NavigationService {
         transition: transition);
   }
 
-  Future<dynamic> replaceWithApplySpecialExamView([
+  Future<dynamic> replaceWithApplySpecialExamView({
+    _i28.Key? key,
+    required String semesterStage,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
     Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
         transition,
-  ]) async {
+  }) async {
     return replaceWith<dynamic>(Routes.applySpecialExamView,
+        arguments: ApplySpecialExamViewArguments(
+            key: key, semesterStage: semesterStage),
         id: routerId,
         preventDuplicates: preventDuplicates,
         parameters: parameters,

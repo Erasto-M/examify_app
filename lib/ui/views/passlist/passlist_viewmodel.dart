@@ -5,7 +5,6 @@ import 'package:stacked/stacked.dart';
 
 class PasslistViewModel extends FormViewModel {
   final _adminDashBoard = locator<AdminDashboardService>();
-  
 
   Stream<List<StudentsRegisteredUnitsModel>> getPassLists({
     required String selectedSemesterStage,

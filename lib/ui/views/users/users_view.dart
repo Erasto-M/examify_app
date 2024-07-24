@@ -97,17 +97,17 @@ class UsersView extends StackedView<UsersViewModel> {
                               children: [
                                 ElevatedButton(
                                   onPressed: () {
-                                    viewModel.email(
-                                      email: user.email??'example@gmail.com',
-                                    );
+                                    // viewModel.email(
+                                    //   email: user.email??'example@gmail.com',
+                                    // );
                                   },
                                   child: const Text('Email'),
                                 ),
                                 horizontalSpaceMedium,
                                 ElevatedButton(
                                   onPressed: () {
-                                    viewModel.call(
-                                        phoneNumber: user.phoneNumber??'1234567890');
+                                    // viewModel.call(
+                                    //     phoneNumber: user.phoneNumber??'1234567890');
                                   },
                                   child: const Text('Call'),
                                 ),

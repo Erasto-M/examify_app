@@ -2,8 +2,10 @@ import 'package:examify/ui/views/academics/academics_view.dart';
 import 'package:examify/ui/views/admin_panel/admin_panel_view.dart';
 import 'package:examify/ui/views/profile/profile_view.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:stacked/stacked.dart';
 
+import '../../common/app_colors.dart';
 import 'admin_home_viewmodel.dart';
 
 class AdminHomeView extends StackedView<AdminHomeViewModel> {
@@ -15,6 +17,11 @@ class AdminHomeView extends StackedView<AdminHomeViewModel> {
     AdminHomeViewModel viewModel,
     Widget? child,
   ) {
+    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+      statusBarColor: primaryColor,
+      statusBarIconBrightness: Brightness.light,
+      statusBarBrightness: Brightness.light,
+    ));
     return Scaffold(
         backgroundColor: Theme.of(context).colorScheme.surface,
         body: [
