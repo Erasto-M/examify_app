@@ -1,6 +1,7 @@
 import 'package:examify/ui/common/app_colors.dart';
 import 'package:examify/ui/common/ui_helpers.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:stacked/stacked.dart';
 
 import '../../widgets/common/profile_container/profile_container.dart';
@@ -17,6 +18,11 @@ class ProfileView extends StackedView<ProfileViewModel> {
     Widget? child,
     // get current user details
   ) {
+    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+      statusBarColor: primaryColor,
+      statusBarIconBrightness: Brightness.light,
+      statusBarBrightness: Brightness.light,
+    ));
     Map<String, dynamic> userDetails = viewModel.userDetails;
     print("userdetails: $userDetails ");
     return SafeArea(

@@ -297,13 +297,16 @@ class StudentDashboardViewModel extends BaseViewModel {
   }
 
   //Navigate to apply special Exam
-  Future<void> navigateToApplySpecialExam() async {
-    await _navigationService.navigateToApplySpecialExamView();
+  Future<void> navigateToApplySpecialExam(
+      {required String semesterStage}) async {
+    await _navigationService.navigateToApplySpecialExamView(
+        semesterStage: semesterStage);
     notifyListeners();
   }
 
   double calculateMeanScore(List<StudentsRegisteredUnitsModel> units) {
-    double totalMarks = units.fold(0, (sum, unit) => sum + unit.totalMarks!);
+    double totalMarks =
+        units.fold(0, (sum, unit) => sum + (unit.totalMarks ?? 0));
     return totalMarks / units.length;
   }
 
@@ -319,5 +322,10 @@ class StudentDashboardViewModel extends BaseViewModel {
   String getRecommendation(String meanGrade) {
     if (meanGrade == 'A' || meanGrade == 'B' || meanGrade == 'C') return 'Pass';
     return 'Fail';
+  }
+
+  // look whether a student has any special exams
+  bool hasSpecialExams(List<StudentsRegisteredUnitsModel> units) {
+    return units.any((unit) => unit.appliedSpecialExam == true);
   }
 }

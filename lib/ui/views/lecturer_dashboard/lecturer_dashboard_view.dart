@@ -308,45 +308,51 @@ class LecturerDashboardView extends StackedView<LecturerDashboardViewModel> {
                                     trailing: units.specialExamStatus ==
                                             'Lecturer Approved'
                                         ? const SizedBox()
-                                        : InkWell(
-                                            onTap: () {
-                                              viewModel.approveSpecialExam(
-                                                unitCode: units.unitCode,
-                                                studentId: units.studeUid,
-                                              );
-                                            },
-                                            child: Container(
-                                              padding: const EdgeInsets.all(10),
-                                              decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(10),
-                                                  color: units.specialExamStatus ==
-                                                          'Lecturer Approved'
-                                                      ? primaryColor
-                                                      : units.specialExamStatus ==
-                                                              'pending'
-                                                          ? Colors.orange
-                                                          : Colors.red),
-                                              child: units.specialExamStatus ==
-                                                      'pending'
-                                                  ? viewModel.isBusy
-                                                      ? const CircularProgressIndicator(
-                                                          color: Colors.white,
-                                                        )
+                                        : units.specialExamStatus == 'Approved'
+                                            ? const SizedBox()
+                                            : InkWell(
+                                                onTap: () {
+                                                  viewModel.approveSpecialExam(
+                                                    unitCode: units.unitCode,
+                                                    studentId: units.studeUid,
+                                                  );
+                                                },
+                                                child: Container(
+                                                  padding:
+                                                      const EdgeInsets.all(10),
+                                                  decoration: BoxDecoration(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10),
+                                                      color: units.specialExamStatus ==
+                                                              'Lecturer Approved'
+                                                          ? primaryColor
+                                                          : units.specialExamStatus ==
+                                                                  'pending'
+                                                              ? Colors.orange
+                                                              : Colors.red),
+                                                  child: units.specialExamStatus ==
+                                                          'pending'
+                                                      ? viewModel.isBusy
+                                                          ? const CircularProgressIndicator(
+                                                              color:
+                                                                  Colors.white,
+                                                            )
+                                                          : const Text(
+                                                              'click to Approve',
+                                                              style: TextStyle(
+                                                                color: Colors
+                                                                    .white,
+                                                              ),
+                                                            )
                                                       : const Text(
-                                                          'click to Approve',
+                                                          'Rejected',
                                                           style: TextStyle(
                                                             color: Colors.white,
                                                           ),
-                                                        )
-                                                  : const Text(
-                                                      'Rejected',
-                                                      style: TextStyle(
-                                                        color: Colors.white,
-                                                      ),
-                                                    ),
-                                            ),
-                                          ),
+                                                        ),
+                                                ),
+                                              ),
                                   ),
                                 );
                               });

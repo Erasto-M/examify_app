@@ -8,6 +8,7 @@ import '../models/student_registered_units.dart';
 
 class AdminDashboardService {
   FirebaseFirestore db = FirebaseFirestore.instance;
+  FirebaseAuth auth = FirebaseAuth.instance;
   Future<AddUnitModel?> addUnit({
     required AddUnitModel addUnitModel,
   }) async {
@@ -98,7 +99,7 @@ class AdminDashboardService {
       return db
           .collection('SpecialEXams')
           .where('semesterStage', isEqualTo: semesterStage)
-          .where('specialExamStatus', isEqualTo: 'pending')
+          .where('specialExamStatus', isEqualTo: 'Approved')
           .snapshots()
           .map((querySnapshot) {
         return querySnapshot.docs.map((doc) {
@@ -173,4 +174,66 @@ class AdminDashboardService {
     }
   }
 
+
+  Future<void> codApproveSpecialExams({
+    required String studentId,
+    required String semesterStage,
+    required List<String> unitCodes,
+  }) async {
+    try {
+      print("studentId in Service : $studentId");
+      print("semesterStage: $semesterStage");
+      print("unitCodes in service: $unitCodes");
+      final specialExamsSnapshot = await FirebaseFirestore.instance
+          .collection("SpecialEXams")
+          .where('studeUid', isEqualTo: studentId)
+          .where('semesterStage', isEqualTo: semesterStage)
+          .where('unitCode', whereIn: unitCodes)
+          .get();
+
+      print(
+          "specialExamsSnapshot.docs.length: ${specialExamsSnapshot.docs.length}");
+
+      if (specialExamsSnapshot.docs.isEmpty) {
+        Fluttertoast.showToast(msg: "No special exams found for the student.");
+        return;
+      }
+
+      // Check if all units do not have a pending status
+      bool allUnitsApproved = true;
+      for (var doc in specialExamsSnapshot.docs) {
+        String status = doc['specialExamStatus'];
+        if (status == ('pending')) {
+          allUnitsApproved = false;
+          break;
+        }
+      }
+
+      if (allUnitsApproved) {
+        // Update special exam status in SpecialExams collection
+        for (var doc in specialExamsSnapshot.docs) {
+          await doc.reference.update({"specialExamStatus": "Approved"});
+        }
+
+        // Update status in StudentRegisteredUnits collection
+        final registeredUnitsSnapshot = await FirebaseFirestore.instance
+            .collection("student_registered_units")
+            .where('studentUid', isEqualTo: studentId)
+            .where('semesterStage', isEqualTo: semesterStage)
+            .where('unitCode', whereIn: unitCodes)
+            .get();
+
+        for (var doc in registeredUnitsSnapshot.docs) {
+          await doc.reference.update({"appliedSpecialExam": true});
+        }
+
+        Fluttertoast.showToast(msg: "Special Exam Status Updated Successfully");
+      } else {
+        Fluttertoast.showToast(
+            msg: "Cannot approve as there are pending units.");
+      }
+    } catch (e) {
+      Fluttertoast.showToast(msg: e.toString());
+    }
+  }
 }

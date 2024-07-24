@@ -57,6 +57,9 @@ class CodSpecialExamsViewModel extends BaseViewModel {
             'unitName': [exam.unitName],
             'unitCode': [exam.unitCode],
             'statuses': [exam.specialExamStatus],
+
+            'studentId': studentUid,
+
           };
         }
       }
@@ -65,4 +68,25 @@ class CodSpecialExamsViewModel extends BaseViewModel {
       yield studentMap.values.toList();
     }
   }
+
+  // student loading state map
+  final Map<String, bool> studentLoadingState = {};
+  // Update special exam status
+  Future<void> updateSpecialExamStatus(
+      {required String studentId, required List<String> unitCodes}) async {
+    studentLoadingState[studentId] = true;
+    await Future.delayed(const Duration(seconds: 2));
+    notifyListeners();
+    await _codService.codApproveSpecialExams(
+        studentId: studentId,
+        semesterStage: _selectedSemester,
+        unitCodes: unitCodes);
+    studentLoadingState[studentId] = false;
+    notifyListeners();
+  }
+
+  bool isStudentLoading({required String studentId}) {
+    return studentLoadingState[studentId] ?? false;
+  }
+
 }

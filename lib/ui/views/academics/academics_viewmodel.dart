@@ -19,13 +19,13 @@ class AcademicsViewModel extends BaseViewModel {
     'Y4S2'
   ];
 
-  Stream<DocumentSnapshot?> getReportsAvailabilityStatus(String selectedSemester) {
+  Stream<DocumentSnapshot?> getReportsAvailabilityStatus(
+      String selectedSemester) {
     return FirebaseFirestore.instance
         .collection('academic_reports_availability')
         .doc('1YqKYQDE7I7cJGNQEzE8')
         .snapshots();
   }
-
 
   String get getselectedSemester => _selectedSemester;
   List<String> get semesters => _semesters;
@@ -35,4 +35,3 @@ class AcademicsViewModel extends BaseViewModel {
     notifyListeners();
   }
 }
-

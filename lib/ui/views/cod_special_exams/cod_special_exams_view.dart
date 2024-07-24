@@ -62,7 +62,7 @@ class CodSpecialExamsView extends StackedView<CodSpecialExamsViewModel> {
                 }
 
                 final specialExams = snapshot.data!;
-                print('specialExams: $specialExams');
+
 
                 return ListView.builder(
                   itemCount: specialExams.length,
@@ -74,9 +74,10 @@ class CodSpecialExamsView extends StackedView<CodSpecialExamsViewModel> {
                         List<String>.from(exam['unitCode']);
                     final List<String> statuses =
                         List<String>.from(exam['statuses']);
-                    print('unitNames: $unitNames');
-                    print('unitCodes: $unitCodes');
-                    print('statuses: $statuses');
+
+                    final studentUid = exam['studentId'];
+                    final studentName = exam['studentName'];
+
 
                     // Ensure the lengths match
                     if (unitNames.length != unitCodes.length ||
@@ -178,19 +179,38 @@ class CodSpecialExamsView extends StackedView<CodSpecialExamsViewModel> {
                             }),
                             verticalSpaceSmall,
                             //approve container
-                            Container(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 20, vertical: 5),
-                              decoration: BoxDecoration(
-                                color: primaryColor,
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              child: const Text(
-                                'Approve',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 15,
-                                ),
+
+                            Center(
+                              child: InkWell(
+                                onTap: () {
+                                  viewModel.updateSpecialExamStatus(
+                                      studentId: studentUid,
+                                      unitCodes: unitCodes);
+                                },
+                                child: statuses[0] == 'pending'
+                                    ? Container(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 30, vertical: 10),
+                                        decoration: BoxDecoration(
+                                          color: primaryColor,
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                        ),
+                                        child: viewModel.isStudentLoading(
+                                                studentId: studentUid)
+                                            ? const CircularProgressIndicator(
+                                                color: Colors.white,
+                                              )
+                                            : const Text(
+                                                'Approve',
+                                                style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 15,
+                                                ),
+                                              ),
+                                      )
+                                    : const SizedBox(),
+
                               ),
                             ),
                           ],

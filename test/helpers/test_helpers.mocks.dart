@@ -947,6 +947,28 @@ class MockAdminDashboardService extends _i1.Mock
       );
 
   @override
+  _i2.FirebaseAuth get auth => (super.noSuchMethod(
+        Invocation.getter(#auth),
+        returnValue: _FakeFirebaseAuth_0(
+          this,
+          Invocation.getter(#auth),
+        ),
+        returnValueForMissingStub: _FakeFirebaseAuth_0(
+          this,
+          Invocation.getter(#auth),
+        ),
+      ) as _i2.FirebaseAuth);
+
+  @override
+  set auth(_i2.FirebaseAuth? _auth) => super.noSuchMethod(
+        Invocation.setter(
+          #auth,
+          _auth,
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
   _i7.Future<_i12.AddUnitModel?> addUnit(
           {required _i12.AddUnitModel? addUnitModel}) =>
       (super.noSuchMethod(
@@ -1089,6 +1111,40 @@ class MockAdminDashboardService extends _i1.Mock
         returnValue: _i7.Future<dynamic>.value(),
         returnValueForMissingStub: _i7.Future<dynamic>.value(),
       ) as _i7.Future<dynamic>);
+
+  @override
+  _i7.Stream<List<_i14.SpecialExamsModel>>
+      fetchSpecialExamsBasedOnSemesterStage({required String? semesterStage}) =>
+          (super.noSuchMethod(
+            Invocation.method(
+              #fetchSpecialExamsBasedOnSemesterStage,
+              [],
+              {#semesterStage: semesterStage},
+            ),
+            returnValue: _i7.Stream<List<_i14.SpecialExamsModel>>.empty(),
+            returnValueForMissingStub:
+                _i7.Stream<List<_i14.SpecialExamsModel>>.empty(),
+          ) as _i7.Stream<List<_i14.SpecialExamsModel>>);
+
+  @override
+  _i7.Future<void> codApproveSpecialExams({
+    required String? studentId,
+    required String? semesterStage,
+    required List<String>? unitCodes,
+  }) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #codApproveSpecialExams,
+          [],
+          {
+            #studentId: studentId,
+            #semesterStage: semesterStage,
+            #unitCodes: unitCodes,
+          },
+        ),
+        returnValue: _i7.Future<void>.value(),
+        returnValueForMissingStub: _i7.Future<void>.value(),
+      ) as _i7.Future<void>);
 }
 
 /// A class which mocks [LecturerDashboardService].

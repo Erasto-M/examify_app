@@ -2,6 +2,7 @@ import 'package:examify/models/addUnit.dart';
 import 'package:examify/models/special_exams_model.dart';
 import 'package:examify/ui/common/app_colors.dart';
 import 'package:examify/ui/views/apply_special_exam/apply_special_exam_view.form.dart';
+import 'package:examify/ui/views/student_dashboard/student_dashboard_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -18,7 +19,9 @@ import 'apply_special_exam_viewmodel.dart';
 )
 class ApplySpecialExamView extends StackedView<ApplySpecialExamViewModel>
     with $ApplySpecialExamView {
-  const ApplySpecialExamView({Key? key}) : super(key: key);
+  const ApplySpecialExamView({Key? key, required this.semesterStage})
+      : super(key: key);
+  final String semesterStage;
 
   @override
   Widget builder(
@@ -26,6 +29,7 @@ class ApplySpecialExamView extends StackedView<ApplySpecialExamViewModel>
     ApplySpecialExamViewModel viewModel,
     Widget? child,
   ) {
+    StudentDashboardViewModel studeViewModel = StudentDashboardViewModel();
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -88,34 +92,34 @@ class ApplySpecialExamView extends StackedView<ApplySpecialExamViewModel>
               ),
             ),
             const SizedBox(height: 10),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Text('Choose semester stage'),
-                const SizedBox(width: 30),
-                DropdownButton<String>(
-                  value: viewModel.selectedSemesterStage,
-                  items: const <String>[
-                    'Y1S1',
-                    'Y1S2',
-                    'Y2S1',
-                    'Y2S2',
-                    'Y3S1',
-                    'Y3S2',
-                    'Y4S1',
-                    'Y4S2'
-                  ].map((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
-                  onChanged: (newValue) {
-                    viewModel.setSelectedSemesterStage(newValue!);
-                  },
-                ),
-              ],
-            ),
+            // Row(
+            //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //   children: [
+            //     const Text('Choose semester stage'),
+            //     const SizedBox(width: 30),
+            //     DropdownButton<String>(
+            //       value: viewModel.selectedSemesterStage,
+            //       items: const <String>[
+            //         'Y1S1',
+            //         'Y1S2',
+            //         'Y2S1',
+            //         'Y2S2',
+            //         'Y3S1',
+            //         'Y3S2',
+            //         'Y4S1',
+            //         'Y4S2'
+            //       ].map((String value) {
+            //         return DropdownMenuItem<String>(
+            //           value: value,
+            //           child: Text(value),
+            //         );
+            //       }).toList(),
+            //       onChanged: (newValue) {
+            //         viewModel.setSelectedSemesterStage(newValue!);
+            //       },
+            //     ),
+            //   ],
+            // ),
             const SizedBox(height: 10),
 
             viewModel.isBusy
@@ -123,7 +127,8 @@ class ApplySpecialExamView extends StackedView<ApplySpecialExamViewModel>
                 : SizedBox(
                     height: 330,
                     child: StreamBuilder<List<StudentsRegisteredUnitsModel>>(
-                        stream: viewModel.fetchMyUnits(),
+                        stream: viewModel.fetchMyUnits(
+                            semesterStage: semesterStage),
                         builder: (context, snapshot) {
                           if (snapshot.connectionState ==
                               ConnectionState.waiting) {
@@ -223,7 +228,8 @@ class ApplySpecialExamView extends StackedView<ApplySpecialExamViewModel>
             SizedBox(
               height: 300,
               child: StreamBuilder(
-                  stream: viewModel.mySpecialExamUnits(),
+                  stream: viewModel.mySpecialExamUnits(
+                      selectedSemesterStage: semesterStage),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return const Center(

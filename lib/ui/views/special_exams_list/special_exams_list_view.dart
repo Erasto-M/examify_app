@@ -28,20 +28,7 @@ class SpecialExamsListView extends StackedView<SpecialExamsListViewModel> {
         child: Container(
           color: Colors.white,
           padding: const EdgeInsets.only(left: 5.0, right: 5.0),
-          child:
-              // TextField(
-              //   decoration: InputDecoration(
-              //     prefixIcon: const Icon(Icons.search),
-              //     hintText: 'Search',
-              //     border: OutlineInputBorder(
-              //       borderRadius: BorderRadius.circular(10.0),
-              //     ),
-              //   ),
-              // ),
-              // const SizedBox(
-              //   height: 10,
-              // ),
-              StreamBuilder<Map<String, List<SpecialExamsModel>>>(
+          child: StreamBuilder<Map<String, List<SpecialExamsModel>>>(
             stream: viewModel.getSpecialsExam(semesterStage: semesterStage),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
