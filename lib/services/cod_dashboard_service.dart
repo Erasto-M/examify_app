@@ -130,6 +130,75 @@ class AdminDashboardService {
     }
   }
 
+  Stream<List<Map<String, dynamic>>> fetchConsolidatedMarksheets({
+    required String semesterStage,
+  }) async* {
+    try {
+      final studentsStream = db
+          .collection('student_registered_units')
+          .where('semesterStage', isEqualTo: semesterStage)
+          .snapshots()
+          .map((snapshot) => snapshot.docs
+              .map((doc) => StudentsRegisteredUnitsModel.fromMap(doc.data()))
+              .toList());
+
+      await for (var students in studentsStream) {
+        final Map<String, Map<String, dynamic>> studentMap = {};
+
+        for (var student in students) {
+          final studentUid = student.studentUid;
+
+          if (studentMap.containsKey(studentUid)) {
+            studentMap[studentUid]!['units'].add({
+              'unitName': student.unitName,
+              'unitCode': student.unitCode,
+              'marks': student.totalMarks,
+              'grade': student.grade,
+            });
+          } else {
+            studentMap[studentUid!] = {
+              'studentName': student.studentName,
+              'studentRegNumber': student.studentRegNo,
+              'studentUid': studentUid,
+              'units': [
+                {
+                  'unitName': student.unitName,
+                  'unitCode': student.unitCode,
+                  'marks': student.totalMarks,
+                  'grade': student.grade,
+                }
+              ],
+            };
+          }
+        }
+
+        for (var studentData in studentMap.values) {
+          final units = studentData['units'] as List<Map<String, dynamic>>;
+          final totalMarks = units.fold(
+              0, (sum1, unit) => sum1 + (unit['marks'] as int? ?? 0));
+          final meanMarks = units.isNotEmpty ? totalMarks / units.length : 0;
+          final grade = meanMarks >= 70
+              ? 'A'
+              : meanMarks >= 60
+                  ? 'B'
+                  : meanMarks >= 50
+                      ? 'C'
+                      : meanMarks >= 40
+                          ? 'D'
+                          : 'E';
+          studentData['totalMarks'] = totalMarks;
+          studentData['meanMarks'] = meanMarks;
+          studentData['grade'] = grade;
+        }
+
+        yield studentMap.values.toList();
+      }
+    } catch (e) {
+      Fluttertoast.showToast(msg: e.toString());
+      yield [];
+    }
+  }
+
   Future<DocumentSnapshot?> getReportsAvailabilityStatus() async {
     try {
       return await FirebaseFirestore.instance
@@ -173,7 +242,6 @@ class AdminDashboardService {
       yield [];
     }
   }
-
 
   Future<void> codApproveSpecialExams({
     required String studentId,

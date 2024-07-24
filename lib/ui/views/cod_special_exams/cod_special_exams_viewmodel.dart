@@ -57,9 +57,7 @@ class CodSpecialExamsViewModel extends BaseViewModel {
             'unitName': [exam.unitName],
             'unitCode': [exam.unitCode],
             'statuses': [exam.specialExamStatus],
-
             'studentId': studentUid,
-
           };
         }
       }
@@ -88,5 +86,4 @@ class CodSpecialExamsViewModel extends BaseViewModel {
   bool isStudentLoading({required String studentId}) {
     return studentLoadingState[studentId] ?? false;
   }
-
 }

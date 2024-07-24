@@ -376,7 +376,9 @@ class StackedRouter extends _i1.RouterBase {
       final args = data.getArgs<MyTrancriptsViewArguments>(nullOk: false);
       return _i28.MaterialPageRoute<dynamic>(
         builder: (context) => _i20.MyTrancriptsView(
-            key: args.key, transcriptPath: args.transcriptPath),
+            key: args.key,
+            transcriptPath: args.transcriptPath,
+            nameForAppBar: args.nameForAppBar),
         settings: data,
       );
     },
@@ -667,26 +669,31 @@ class MyTrancriptsViewArguments {
   const MyTrancriptsViewArguments({
     this.key,
     required this.transcriptPath,
+    required this.nameForAppBar,
   });
 
   final _i28.Key? key;
 
   final String? transcriptPath;
 
+  final String? nameForAppBar;
+
   @override
   String toString() {
-    return '{"key": "$key", "transcriptPath": "$transcriptPath"}';
+    return '{"key": "$key", "transcriptPath": "$transcriptPath", "nameForAppBar": "$nameForAppBar"}';
   }
 
   @override
   bool operator ==(covariant MyTrancriptsViewArguments other) {
     if (identical(this, other)) return true;
-    return other.key == key && other.transcriptPath == transcriptPath;
+    return other.key == key &&
+        other.transcriptPath == transcriptPath &&
+        other.nameForAppBar == nameForAppBar;
   }
 
   @override
   int get hashCode {
-    return key.hashCode ^ transcriptPath.hashCode;
+    return key.hashCode ^ transcriptPath.hashCode ^ nameForAppBar.hashCode;
   }
 }
 
@@ -1111,6 +1118,7 @@ extension NavigatorStateExtension on _i29.NavigationService {
   Future<dynamic> navigateToMyTrancriptsView({
     _i28.Key? key,
     required String? transcriptPath,
+    required String? nameForAppBar,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
@@ -1118,8 +1126,10 @@ extension NavigatorStateExtension on _i29.NavigationService {
         transition,
   }) async {
     return navigateTo<dynamic>(Routes.myTrancriptsView,
-        arguments:
-            MyTrancriptsViewArguments(key: key, transcriptPath: transcriptPath),
+        arguments: MyTrancriptsViewArguments(
+            key: key,
+            transcriptPath: transcriptPath,
+            nameForAppBar: nameForAppBar),
         id: routerId,
         preventDuplicates: preventDuplicates,
         parameters: parameters,
@@ -1528,6 +1538,7 @@ extension NavigatorStateExtension on _i29.NavigationService {
   Future<dynamic> replaceWithMyTrancriptsView({
     _i28.Key? key,
     required String? transcriptPath,
+    required String? nameForAppBar,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
@@ -1535,8 +1546,10 @@ extension NavigatorStateExtension on _i29.NavigationService {
         transition,
   }) async {
     return replaceWith<dynamic>(Routes.myTrancriptsView,
-        arguments:
-            MyTrancriptsViewArguments(key: key, transcriptPath: transcriptPath),
+        arguments: MyTrancriptsViewArguments(
+            key: key,
+            transcriptPath: transcriptPath,
+            nameForAppBar: nameForAppBar),
         id: routerId,
         preventDuplicates: preventDuplicates,
         parameters: parameters,

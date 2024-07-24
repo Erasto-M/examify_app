@@ -63,7 +63,6 @@ class CodSpecialExamsView extends StackedView<CodSpecialExamsViewModel> {
 
                 final specialExams = snapshot.data!;
 
-
                 return ListView.builder(
                   itemCount: specialExams.length,
                   itemBuilder: (context, index) {
@@ -77,7 +76,6 @@ class CodSpecialExamsView extends StackedView<CodSpecialExamsViewModel> {
 
                     final studentUid = exam['studentId'];
                     final studentName = exam['studentName'];
-
 
                     // Ensure the lengths match
                     if (unitNames.length != unitCodes.length ||
@@ -210,7 +208,6 @@ class CodSpecialExamsView extends StackedView<CodSpecialExamsViewModel> {
                                               ),
                                       )
                                     : const SizedBox(),
-
                               ),
                             ),
                           ],
