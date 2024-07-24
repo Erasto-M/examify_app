@@ -73,6 +73,7 @@ class CodSpecialExamsView extends StackedView<CodSpecialExamsViewModel> {
                         List<String>.from(exam['unitCode']);
                     final List<String> statuses =
                         List<String>.from(exam['statuses']);
+
                     final studentUid = exam['studentId'];
                     final studentName = exam['studentName'];
 
@@ -176,6 +177,7 @@ class CodSpecialExamsView extends StackedView<CodSpecialExamsViewModel> {
                             }),
                             verticalSpaceSmall,
                             //approve container
+
                             Center(
                               child: InkWell(
                                 onTap: () {

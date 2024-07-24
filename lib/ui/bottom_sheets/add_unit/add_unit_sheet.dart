@@ -86,6 +86,7 @@ class AddUnitSheet extends StackedView<AddUnitSheetModel> with $AddUnitSheet {
             ),
           ),
           verticalSpaceMedium,
+
           const Text(
             'Choose respective lecturer',
             style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600),

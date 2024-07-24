@@ -1084,6 +1084,20 @@ class MockAdminDashboardService extends _i1.Mock
           ) as _i7.Stream<List<_i13.StudentsRegisteredUnitsModel>>);
 
   @override
+  _i7.Stream<List<Map<String, dynamic>>> fetchConsolidatedMarksheets(
+          {required String? semesterStage}) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #fetchConsolidatedMarksheets,
+          [],
+          {#semesterStage: semesterStage},
+        ),
+        returnValue: _i7.Stream<List<Map<String, dynamic>>>.empty(),
+        returnValueForMissingStub:
+            _i7.Stream<List<Map<String, dynamic>>>.empty(),
+      ) as _i7.Stream<List<Map<String, dynamic>>>);
+
+  @override
   _i7.Future<_i3.DocumentSnapshot<Object?>?> getReportsAvailabilityStatus() =>
       (super.noSuchMethod(
         Invocation.method(

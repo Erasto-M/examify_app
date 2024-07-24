@@ -8,8 +8,11 @@ import 'package:stacked/stacked.dart';
 import 'my_trancripts_viewmodel.dart';
 
 class MyTrancriptsView extends StackedView<MyTrancriptsViewModel> {
-  MyTrancriptsView({Key? key, required this.transcriptPath}) : super(key: key);
+  MyTrancriptsView(
+      {Key? key, required this.transcriptPath, required this.nameForAppBar})
+      : super(key: key);
   final String? transcriptPath;
+  final String? nameForAppBar;
   @override
   Widget builder(
     BuildContext context,
@@ -32,9 +35,9 @@ class MyTrancriptsView extends StackedView<MyTrancriptsViewModel> {
         backgroundColor: primaryColor,
         automaticallyImplyLeading: false,
         centerTitle: true,
-        title: const Text(
-          'My Trancripts',
-          style: TextStyle(
+        title: Text(
+          nameForAppBar ?? "View Sheet",
+          style: const TextStyle(
               color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
         ),
       ),

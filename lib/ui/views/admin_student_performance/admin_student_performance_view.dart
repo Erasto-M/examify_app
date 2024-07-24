@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:examify/models/addUnit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:stacked/stacked.dart';
 import '../../../models/student_registered_units.dart';
 import '../../../models/usersModel.dart';
@@ -30,9 +33,10 @@ class AdminStudentPerformanceView
 
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Theme.of(context).colorScheme.background,
+        backgroundColor: Colors.white,
         body: Container(
           padding: const EdgeInsets.all(10),
+          color: Colors.white,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -49,7 +53,7 @@ class AdminStudentPerformanceView
                     },
                   ),
                   Text(
-                    "Student Performance",
+                    "Students Performance Sheets",
                     style: Theme.of(context).textTheme.titleMedium,
                   ),
                   const SizedBox(width: 50),
@@ -81,6 +85,75 @@ class AdminStudentPerformanceView
                 ],
               ),
               verticalSpaceSmall,
+              SizedBox(
+                height: 60,
+                child: StreamBuilder<List<Map<String, dynamic>>>(
+                  stream: viewModel
+                      .getConsolidatedMarksheets(viewModel.getSelectedSem),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const Center(
+                        child: SpinKitSpinningLines(
+                          color: primaryColor,
+                          size: 70,
+                        ),
+                      );
+                    } else if (!snapshot.hasData) {
+                      return const Center(
+                        child: Text("No data found"),
+                      );
+                    } else if (snapshot.hasError) {
+                      return const Center(
+                        child: Text("An error occurred"),
+                      );
+                    } else {
+                      final students = snapshot.data!;
+                      return InkWell(
+                        onTap: () async {
+                          var transcript = await viewModel.generateTranscript(
+                            students: students,
+                            semesterStage: viewModel.getSelectedSem,
+                          );
+                          final output = await getTemporaryDirectory();
+                          final file = File('${output.path}/transcript.pdf');
+                          await file.writeAsBytes(await transcript.save());
+                          viewModel.setPdfPath(file.path);
+                          viewModel.navigateToConsolidatedMarksView();
+                        },
+                        child: Container(
+                          height: 60,
+                          width: MediaQuery.of(context).size.width,
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 15, vertical: 5),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(10),
+                            boxShadow: const [
+                              BoxShadow(
+                                color: Colors.grey,
+                                blurRadius: 5,
+                                offset: Offset(0, 3),
+                              ),
+                            ],
+                          ),
+                          child: Center(
+                            child: Text(
+                              'Generate Consolidated Mark Sheet for ${viewModel.getSelectedSem}',
+                              style: const TextStyle(
+                                color: primaryColor,
+                                fontWeight: FontWeight.w600,
+                                fontSize: 18,
+                              ),
+                            ),
+                          ),
+                        ),
+                      );
+                    }
+                  },
+                ),
+              ),
+
+              verticalSpaceSmall,
               Container(
                 width: MediaQuery.sizeOf(context).width,
                 padding:
@@ -93,7 +166,7 @@ class AdminStudentPerformanceView
                       color: Colors.grey,
                       blurRadius: 5,
                       offset: Offset(0, 3),
-                    )
+                    ),
                   ],
                 ),
                 child: Column(
@@ -121,7 +194,7 @@ class AdminStudentPerformanceView
                             child: DropdownButton(
                               value: viewModel.selectedUnitToGetMarks.isNotEmpty
                                   ? viewModel.selectedUnitToGetMarks
-                                  : null,
+                                  : 'Select Unit',
                               hint: const Text("Select Unit"),
                               items: viewModel.unitsPerSelectedSemester
                                   ?.map((AddUnitModel unit) => DropdownMenuItem(

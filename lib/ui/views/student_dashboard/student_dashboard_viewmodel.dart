@@ -288,6 +288,7 @@ class StudentDashboardViewModel extends BaseViewModel {
   void navigateToTrancscriptView() async {
     await _navigationService.navigateToMyTrancriptsView(
       transcriptPath: transcriptPath,
+      nameForAppBar: 'My Transcript',
     );
   }
 
