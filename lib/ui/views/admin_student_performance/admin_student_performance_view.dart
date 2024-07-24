@@ -30,9 +30,10 @@ class AdminStudentPerformanceView
 
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Theme.of(context).colorScheme.background,
+        backgroundColor: Colors.white,
         body: Container(
           padding: const EdgeInsets.all(10),
+          color: Colors.white,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -49,7 +50,7 @@ class AdminStudentPerformanceView
                     },
                   ),
                   Text(
-                    "Student Performance",
+                    "Students Performance Sheets",
                     style: Theme.of(context).textTheme.titleMedium,
                   ),
                   const SizedBox(width: 50),
@@ -82,6 +83,34 @@ class AdminStudentPerformanceView
               ),
               verticalSpaceSmall,
               Container(
+                height: 60,
+                width: MediaQuery.sizeOf(context).width,
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(10),
+                  boxShadow: const [
+                    BoxShadow(
+                      color: Colors.grey,
+                      blurRadius: 5,
+                      offset: Offset(0, 3),
+                    )
+                  ],
+                ),
+                child: Flexible(
+                  child: Text(
+                    'Generate Consolidated Mark Sheet for ${viewModel.getSelectedSem}',
+                    style: const TextStyle(
+                      color: primaryColor,
+                      fontWeight: FontWeight.w600,
+                      fontSize: 18,
+                    ),
+                  ),
+                ),
+              ),
+              verticalSpaceSmall,
+              Container(
                 width: MediaQuery.sizeOf(context).width,
                 padding:
                     const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
@@ -93,7 +122,7 @@ class AdminStudentPerformanceView
                       color: Colors.grey,
                       blurRadius: 5,
                       offset: Offset(0, 3),
-                    )
+                    ),
                   ],
                 ),
                 child: Column(
