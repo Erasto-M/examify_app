@@ -43,8 +43,8 @@ class AdminStudentPerformanceViewModel extends BaseViewModel {
   String _selectedUnitToViewMarks = '';
   String get selectedUnitToGetMarks => _selectedUnitToViewMarks;
 
-  List<AddUnitModel>? _unitsPerSelectedSemester;
-  List<AddUnitModel>? get unitsPerSelectedSemester => _unitsPerSelectedSemester;
+  List<AddUnitModel> _unitsPerSelectedSemester = [];
+  List<AddUnitModel> get unitsPerSelectedSemester => _unitsPerSelectedSemester;
 
   void fetchUnits() {
     _lectureDashboardService

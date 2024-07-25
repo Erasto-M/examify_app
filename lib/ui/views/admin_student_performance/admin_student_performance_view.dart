@@ -154,7 +154,7 @@ class AdminStudentPerformanceView
               ),
 
               verticalSpaceSmall,
-              Container(
+             Container(
                 width: MediaQuery.sizeOf(context).width,
                 padding:
                     const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
@@ -166,7 +166,7 @@ class AdminStudentPerformanceView
                       color: Colors.grey,
                       blurRadius: 5,
                       offset: Offset(0, 3),
-                    ),
+                    )
                   ],
                 ),
                 child: Column(
@@ -194,14 +194,14 @@ class AdminStudentPerformanceView
                             child: DropdownButton(
                               value: viewModel.selectedUnitToGetMarks.isNotEmpty
                                   ? viewModel.selectedUnitToGetMarks
-                                  : 'Select Unit',
+                                  : null,
                               hint: const Text("Select Unit"),
                               items: viewModel.unitsPerSelectedSemester
-                                  ?.map((AddUnitModel unit) => DropdownMenuItem(
+                                  .map((AddUnitModel unit) => DropdownMenuItem(
                                         value: unit.unitCode,
                                         child: Text(unit.unitName),
                                       ))
-                                  .toList(),
+                                  .toList() ?? [],
                               onChanged: (newValue) {
                                 viewModel
                                     .setSelectedUnitCode(newValue.toString());
@@ -211,8 +211,7 @@ class AdminStudentPerformanceView
                     ),
                   ],
                 ),
-              ),
-              verticalSpaceSmall,
+              ), verticalSpaceSmall,
               Expanded(
                 child: StreamBuilder<List<StudentsRegisteredUnitsModel>>(
                   stream: viewModel.fetchStudentsAccordingToYearStream(
