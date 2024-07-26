@@ -221,4 +221,37 @@ class LecturerDashboardService {
       Fluttertoast.showToast(msg: e.toString());
     }
   }
+
+  //customize units assesment
+  Future sendCustomizedUnitAssessMents({
+    required StudentsRegisteredUnitsModel units,
+    required String unitCode,
+  }) async {
+    try {
+      final currentUser = auth.currentUser;
+      if (currentUser != null) {
+        final userId = currentUser.uid;
+        final collection = await firestore
+            .collection('student_registered_units')
+            .where('unitLecturer', isEqualTo: userId)
+            .where('unitCode', isEqualTo: unitCode)
+            .get();
+        for (var doc in collection.docs) {
+          await doc.reference.update({
+            "assignMent1OutOff": units.assignMent1OutOff,
+            "assignMent2OutOff": units.assignMent2OutOff,
+            "cat1Marks1OutOff": units.cat1Marks1OutOff,
+            "cat2MarksOutOff": units.cat2MarksOutOff,
+            "examMarksOutOff": units.examMarksOutOff,
+          });
+        }
+        Fluttertoast.showToast(msg: "Assesment Updated Successfully");
+      }
+    } catch (e) {
+      Fluttertoast.showToast(msg: e.toString());
+      debugPrint(e.toString());
+    }
+  }
+
+  // fet
 }

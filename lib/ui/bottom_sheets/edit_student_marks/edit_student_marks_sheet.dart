@@ -55,7 +55,7 @@ class EditStudentMarksSheet extends StackedView<EditStudentMarksSheetModel>
               Text(
                 request.title ?? 'Enter Student Marks',
                 style: const TextStyle(
-                    color: Colors.black,
+                    color: primaryColor,
                     fontSize: 25,
                     fontWeight: FontWeight.w900),
               ),

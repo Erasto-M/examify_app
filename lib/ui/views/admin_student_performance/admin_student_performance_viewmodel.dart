@@ -292,7 +292,7 @@ class AdminStudentPerformanceViewModel extends BaseViewModel {
   void navigateToConsolidatedMarksView() async {
     await _navigationService.navigateToMyTrancriptsView(
       transcriptPath: transcriptPath,
-      nameForAppBar:  "Consolidated Marks Sheet",
+      nameForAppBar: "Consolidated Marks Sheet",
     );
   }
 }

@@ -154,7 +154,7 @@ class AdminStudentPerformanceView
               ),
 
               verticalSpaceSmall,
-             Container(
+              Container(
                 width: MediaQuery.sizeOf(context).width,
                 padding:
                     const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
@@ -197,11 +197,13 @@ class AdminStudentPerformanceView
                                   : null,
                               hint: const Text("Select Unit"),
                               items: viewModel.unitsPerSelectedSemester
-                                  .map((AddUnitModel unit) => DropdownMenuItem(
-                                        value: unit.unitCode,
-                                        child: Text(unit.unitName),
-                                      ))
-                                  .toList() ?? [],
+                                      .map((AddUnitModel unit) =>
+                                          DropdownMenuItem(
+                                            value: unit.unitCode,
+                                            child: Text(unit.unitName),
+                                          ))
+                                      .toList() ??
+                                  [],
                               onChanged: (newValue) {
                                 viewModel
                                     .setSelectedUnitCode(newValue.toString());
@@ -211,7 +213,8 @@ class AdminStudentPerformanceView
                     ),
                   ],
                 ),
-              ), verticalSpaceSmall,
+              ),
+              verticalSpaceSmall,
               Expanded(
                 child: StreamBuilder<List<StudentsRegisteredUnitsModel>>(
                   stream: viewModel.fetchStudentsAccordingToYearStream(

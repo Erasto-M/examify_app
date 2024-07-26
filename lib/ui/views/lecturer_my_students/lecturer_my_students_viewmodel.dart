@@ -230,4 +230,23 @@ class LecturerMyStudentsViewModel extends BaseViewModel {
       {required StudentsRegisteredUnitsModel unit}) {
     return _lectureDashboardService.updateTotalMarksAndGrade(unit: unit);
   }
+
+  Future openCustomizeAssessMentBottomSheet({
+    required String unitCode,
+    required String unitName,
+    required StudentsRegisteredUnitsModel units,
+  }) async {
+    await _bottomSheetService.showCustomSheet(
+      variant: BottomSheetType.customizeUnitsAssesment,
+      title: unitName,
+      description: unitCode,
+      data: {
+        'assignment1': units.assignMent1OutOff,
+        'assignment2': units.assignMent2OutOff,
+        'cat1': units.cat1Marks1OutOff ,
+        'cat2': units.cat2MarksOutOff,
+        'exam': units.examMarksOutOff,
+      }
+    );
+  }
 }

@@ -54,56 +54,65 @@ class LecturerMyStudentsView extends StackedView<LecturerMyStudentsViewModel> {
                   ],
                 ),
                 verticalSpaceSmall,
-                // Row(
-                //   mainAxisAlignment: MainAxisAlignment.start,
-                //   children: [
-                //     //search students
-                //     Expanded(
-                //       child: Container(
-                //         color: Colors.white,
-                //         height: 50,
-                //         margin: const EdgeInsets.only(right: 10),
-                //         child: TextField(
-                //           decoration: InputDecoration(
-                //             hintText: "Search students",
-                //             prefixIcon: const Icon(Icons.search),
-                //             suffixIcon: const Icon(Icons.mic),
-                //             border: OutlineInputBorder(
-                //               borderRadius: BorderRadius.circular(30),
-                //             ),
-                //           ),
-                //         ),
-                //       ),
-                //     ),
-                //   ],
-                // ),
 
                 //Customize unit assessment
-                Container(
-                  height: 50,
-                  width: MediaQuery.sizeOf(context).width,
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(10),
-                    boxShadow: const [
-                      BoxShadow(
-                        color: Colors.grey,
-                        blurRadius: 5,
-                        offset: Offset(0, 3),
-                      )
-                    ],
-                  ),
-                  child: const Center(
-                    child: Text(
-                      'Customize unit assessment',
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.normal,
-                      ),
-                    ),
-                  ),
-                ),
+                StreamBuilder(
+                    stream: viewModel.getAllMyStudents(unitCode: unitCode),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        List<StudentsRegisteredUnitsModel> student =
+                            snapshot.data!;
+                        return InkWell(
+                          onTap: () {
+                            viewModel.openCustomizeAssessMentBottomSheet(
+                                unitCode: unitCode,
+                                unitName: unitName,
+                                units: StudentsRegisteredUnitsModel(
+                                  assignMent1OutOff:
+                                      student[0].assignMent1OutOff,
+                                  assignMent2OutOff:
+                                      student[0].assignMent2OutOff,
+                                  cat1Marks1OutOff: student[0].cat1Marks1OutOff,
+                                  cat2MarksOutOff: student[0].cat2MarksOutOff,
+                                  examMarksOutOff: student[0].examMarksOutOff,
+                                ));
+                          },
+                          child: Container(
+                            height: 50,
+                            width: MediaQuery.sizeOf(context).width,
+                            padding: const EdgeInsets.symmetric(horizontal: 10),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(10),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey[200]!,
+                                  blurRadius: 5,
+                                  offset: Offset(0, 3),
+                                )
+                              ],
+                            ),
+                            child: const Center(
+                              child: Row(
+                                children: [
+                                  Text(
+                                    'Customize assessment',
+                                    style: TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.normal,
+                                    ),
+                                  ),
+                                  Spacer(),
+                                  Icon(Icons.dashboard_customize,
+                                      color: primaryColor),
+                                ],
+                              ),
+                            ),
+                          ),
+                        );
+                      }
+                      return const SizedBox();
+                    }),
                 verticalSpaceSmall,
                 Container(
                   width: MediaQuery.sizeOf(context).width,
@@ -141,12 +150,12 @@ class LecturerMyStudentsView extends StackedView<LecturerMyStudentsViewModel> {
                               decoration: BoxDecoration(
                                   color: Colors.white,
                                   borderRadius: BorderRadius.circular(10),
-                                  boxShadow: [
+                                  boxShadow: const [
                                     BoxShadow(
-                                      color: Colors.grey.withOpacity(0.5),
+                                      color: Colors.white,
                                       spreadRadius: 1,
                                       blurRadius: 5,
-                                      offset: const Offset(0, 3),
+                                      offset: Offset(0, 3),
                                     ),
                                   ]),
                               child: DropdownButton(
@@ -348,14 +357,6 @@ class LecturerMyStudentsView extends StackedView<LecturerMyStudentsViewModel> {
                                     ),
                                   ],
                                   rows: snapshot.data!.map((student) {
-                                    // final int totalMarks =
-                                    //     student.assignMent1Marks! +
-                                    //         student.assignMent2Marks! +
-                                    //         student.cat1Marks! +
-                                    //         student.cat2Marks! +
-                                    //         student.examMarks!;
-                                    // final String? grade;
-
                                     return DataRow(cells: [
                                       DataCell(
                                         Text(student.studentName!),
