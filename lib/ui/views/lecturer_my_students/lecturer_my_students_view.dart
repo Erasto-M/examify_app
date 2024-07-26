@@ -54,28 +54,55 @@ class LecturerMyStudentsView extends StackedView<LecturerMyStudentsViewModel> {
                   ],
                 ),
                 verticalSpaceSmall,
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    //search students
-                    Expanded(
-                      child: Container(
-                        color: Colors.white,
-                        height: 50,
-                        margin: const EdgeInsets.only(right: 10),
-                        child: TextField(
-                          decoration: InputDecoration(
-                            hintText: "Search students",
-                            prefixIcon: const Icon(Icons.search),
-                            suffixIcon: const Icon(Icons.mic),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(30),
-                            ),
-                          ),
-                        ),
+                // Row(
+                //   mainAxisAlignment: MainAxisAlignment.start,
+                //   children: [
+                //     //search students
+                //     Expanded(
+                //       child: Container(
+                //         color: Colors.white,
+                //         height: 50,
+                //         margin: const EdgeInsets.only(right: 10),
+                //         child: TextField(
+                //           decoration: InputDecoration(
+                //             hintText: "Search students",
+                //             prefixIcon: const Icon(Icons.search),
+                //             suffixIcon: const Icon(Icons.mic),
+                //             border: OutlineInputBorder(
+                //               borderRadius: BorderRadius.circular(30),
+                //             ),
+                //           ),
+                //         ),
+                //       ),
+                //     ),
+                //   ],
+                // ),
+
+                //Customize unit assessment
+                Container(
+                  height: 50,
+                  width: MediaQuery.sizeOf(context).width,
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(10),
+                    boxShadow: const [
+                      BoxShadow(
+                        color: Colors.grey,
+                        blurRadius: 5,
+                        offset: Offset(0, 3),
+                      )
+                    ],
+                  ),
+                  child: const Center(
+                    child: Text(
+                      'Customize unit assessment',
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.normal,
                       ),
                     ),
-                  ],
+                  ),
                 ),
                 verticalSpaceSmall,
                 Container(

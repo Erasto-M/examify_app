@@ -156,6 +156,7 @@ class LecturerDashboardService {
       });
     } catch (e) {
       Fluttertoast.showToast(msg: e.toString());
+      print(e.toString());
       return Stream.value([]); // Return an empty stream in case of error
     }
   }
