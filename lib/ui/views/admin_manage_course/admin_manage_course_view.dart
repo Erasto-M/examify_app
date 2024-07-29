@@ -127,8 +127,27 @@ class AdminManageCourseView extends StackedView<AdminManageCourseViewModel> {
                       ),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: Text("Semester Two",
-                            style: Theme.of(context).textTheme.titleLarge),
+                        child: Column(
+                          children: [
+                            Text("Semester Two",
+                                style: Theme.of(context).textTheme.titleLarge),
+                            Row(
+                              children: [
+                                Text(viewModel.isRegistrationWindowS1Open
+                                    ? "Close registration window"
+                                    : "Open registration window"),
+                                horizontalSpaceLarge,
+                                Switch(
+                                  value: viewModel.isRegistrationWindowS2Open,
+                                  onChanged: (bool value) {
+                                    viewModel.updateRegistrationWindowStatus(
+                                        value, "${year}S2");
+                                  },
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
                       ListView(
                         shrinkWrap: true,
