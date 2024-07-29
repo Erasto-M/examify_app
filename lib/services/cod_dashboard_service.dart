@@ -99,7 +99,7 @@ class AdminDashboardService {
       return db
           .collection('SpecialEXams')
           .where('semesterStage', isEqualTo: semesterStage)
-          .where('specialExamStatus', isEqualTo: 'pending')
+          .where('specialExamStatus', isEqualTo: 'Approved')
           .snapshots()
           .map((querySnapshot) {
         return querySnapshot.docs.map((doc) {

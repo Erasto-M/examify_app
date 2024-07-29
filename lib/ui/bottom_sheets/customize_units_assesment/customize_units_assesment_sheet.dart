@@ -99,7 +99,6 @@ class CustomizeUnitsAssesmentSheet
                   controller: assignment1OutofController,
                   decoration: InputDecoration(
                     prefixIcon: const Icon(Icons.edit),
-
                     hintText: request.data['assignment1'].toString(),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(5),

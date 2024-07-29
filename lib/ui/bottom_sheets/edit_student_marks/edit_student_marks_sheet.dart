@@ -52,8 +52,8 @@ class EditStudentMarksSheet extends StackedView<EditStudentMarksSheetModel>
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text(
-                request.title ?? 'Enter Student Marks',
+             const  Text(
+                 'Enter Student Marks',
                 style: const TextStyle(
                     color: primaryColor,
                     fontSize: 25,
@@ -124,9 +124,15 @@ class EditStudentMarksSheet extends StackedView<EditStudentMarksSheetModel>
               Center(
                 child: InkWell(
                   onTap: () {
+                    debugPrint("This is the data ${request.data}" );
                     viewModel.submitMarks(
-                      unitCode: request.data,
+                      unitCode: request.title!,
                       selectedModule: request.description!,
+                      assignMent1Outof: request.data['assignment1'],
+                      assignMent2Outof: request.data['assignment2'],
+                      cat1Outof: request.data['cat1'],
+                      cat2Outof: request.data['cat2'],
+                      examOutof: request.data['exam'],
                       context: context,
                     );
                   },
@@ -167,7 +173,7 @@ class EditStudentMarksSheet extends StackedView<EditStudentMarksSheetModel>
   @override
   void onViewModelReady(EditStudentMarksSheetModel viewModel) {
     syncFormWithViewModel(viewModel);
-    viewModel.fetchStudents(request.data);
+    viewModel.fetchStudents(request.title!);
     super.onViewModelReady(viewModel);
   }
 }

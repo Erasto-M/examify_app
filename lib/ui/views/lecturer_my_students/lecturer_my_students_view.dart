@@ -175,32 +175,44 @@ class LecturerMyStudentsView extends StackedView<LecturerMyStudentsViewModel> {
                         ],
                       ),
                       verticalSpaceSmall,
-                      Center(
-                        child: InkWell(
-                          onTap: () {
-                            viewModel.openEditStudentMarksSheet(
-                              unitCode: unitCode,
-                              unitName: unitName,
-                            );
-                          },
-                          child: Container(
-                            height: 40,
-                            width: MediaQuery.sizeOf(context).width,
-                            decoration: BoxDecoration(
-                                color: primaryColor,
-                                borderRadius: BorderRadius.circular(10)),
-                            child: const Center(
-                              child: Text(
-                                "Click here to enter marks",
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 20),
-                              ),
-                            ),
-                          ),
-                        ),
-                      )
+                      StreamBuilder(
+                          stream:
+                              viewModel.getAllMyStudents(unitCode: unitCode),
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                              List<StudentsRegisteredUnitsModel> student =
+                                  snapshot.data!;
+                              return Center(
+                                child: InkWell(
+                                  onTap: () {
+                                    viewModel.openEditStudentMarksSheet(
+                                      unitCode: unitCode,
+                                      unitName: unitName,
+                                      student: snapshot.data!
+                                    );
+                                  },
+                                  child: Container(
+                                    height: 40,
+                                    width: MediaQuery.sizeOf(context).width,
+                                    decoration: BoxDecoration(
+                                        color: primaryColor,
+                                        borderRadius:
+                                            BorderRadius.circular(10)),
+                                    child: const Center(
+                                      child: Text(
+                                        "Click here to enter marks",
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 20),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              );
+                            }
+                            return const SizedBox();
+                          })
                     ],
                   ),
                 ),
@@ -238,11 +250,11 @@ class LecturerMyStudentsView extends StackedView<LecturerMyStudentsViewModel> {
                         );
                       } else {
                         snapshot.data!.forEach((student) async {
-                          final int totalMarks = student.assignMent1Marks! +
-                              student.assignMent2Marks! +
-                              student.cat1Marks! +
-                              student.cat2Marks! +
-                              student.examMarks!;
+                          final  totalMarks = ((student.assignMent1Marks!/student.assignMent1OutOff!)*5) +
+                             (( student.assignMent2Marks!/student.assignMent2OutOff!)*5) +
+                             (( student.cat1Marks!/student.cat1Marks1OutOff!)*10) +
+                               ((student.cat2Marks! /student.cat2MarksOutOff!)*10)+
+                              ((student.examMarks!/student.examMarksOutOff!)*70);
                           final grade = viewModel
                               .calculateGrade(totalMarks: totalMarks)
                               .toString();
@@ -250,7 +262,7 @@ class LecturerMyStudentsView extends StackedView<LecturerMyStudentsViewModel> {
                               unit: StudentsRegisteredUnitsModel(
                             unitCode: student.unitCode,
                             studentUid: student.studentUid,
-                            totalMarks: totalMarks,
+                            totalMarks: totalMarks.toInt(),
                             grade: grade,
                           ));
                         });

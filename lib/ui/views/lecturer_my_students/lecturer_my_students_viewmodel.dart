@@ -80,12 +80,20 @@ class LecturerMyStudentsViewModel extends BaseViewModel {
   void openEditStudentMarksSheet({
     required String unitCode,
     required String unitName,
+    required List<StudentsRegisteredUnitsModel> student,
   }) {
     _bottomSheetService.showCustomSheet(
       variant: BottomSheetType.editStudentMarks,
       isScrollControlled: true,
       description: _selectedExamModuleToEnterMarks,
-      data: unitCode,
+      data: {
+        'assignment1': student[0].assignMent1OutOff,
+        'assignment2': student[0].assignMent2OutOff,
+        'cat1': student[0].cat1Marks1OutOff,
+        'cat2': student[0].cat2MarksOutOff,
+        'exam': student[0].examMarksOutOff, 
+      },
+      title: unitCode
     );
   }
 
@@ -209,7 +217,7 @@ class LecturerMyStudentsViewModel extends BaseViewModel {
         pdfPath: pdfPath, unitName: unitName);
   }
 
-  calculateGrade({required int totalMarks}) {
+  calculateGrade({required double totalMarks}) {
     if (totalMarks >= 70 && totalMarks <= 100) {
       return "A";
     } else if (totalMarks >= 60 && totalMarks <= 69) {
