@@ -203,33 +203,6 @@ class EditStudentMarksSheetModel extends FormViewModel {
   Map<String, TextEditingController> _controllers = {};
   Map<String, TextEditingController> get controllers => _controllers;
 
-  // fetching all students and putting them in a list
-  Future<void> fetchStudents(String unitCode) async {
-    final currentUserId = firebaseAuth.currentUser!.uid;
-    setBusy(true);
-    try {
-      final querySnapshot = await firestore
-          .collection('student_registered_units')
-          .where("unitLecturer", isEqualTo: currentUserId)
-          .where("unitCode", isEqualTo: unitCode)
-          .get();
-
-      _students = querySnapshot.docs
-          .map((doc) => StudentsRegisteredUnitsModel.fromMap(doc.data()))
-          .toList();
-
-      for (var student in _students) {
-        controllers.putIfAbsent(
-            student.studentUid!, () => TextEditingController());
-      }
-    } catch (e) {
-      // Handle error
-      print('Error fetching students: $e');
-    } finally {
-      setBusy(false);
-    }
-  }
-
 // numeric
   bool isNumeric(String? value) {
     if (value!.isEmpty) {
@@ -238,61 +211,64 @@ class EditStudentMarksSheetModel extends FormViewModel {
     return double.tryParse(value) != null;
   }
 
-  /*
-  1. method for pushing the students marks to firebase
-  2. Validate if any field is empty or null 
-  3. Validate if the input is numeric and within the allowed range 
-  4. validate if the input is a number
-   */
-  Future<void> submitMarks(
-      {required String unitCode,
-      required String selectedModule,
-      required BuildContext context}) async {
+  //submit marks loop
+  Future<void> submitMarks({
+    required String unitCode,
+    required String selectedModule,
+    required int assignMent1Outof,
+    required int assignMent2Outof,
+    required int cat1Outof,
+    required int cat2Outof,
+    required int examOutof,
+    required BuildContext context,
+  }) async {
     setBusy(true);
 
+    // Validate that all controllers have been filled
+    if (controllers.isEmpty) {
+      Fluttertoast.showToast(msg: "Please Enter all the marks");
+      setBusy(false);
+      return;
+    }
+
+    // Collect all errors
+    List<String> errors = [];
     for (var entry in controllers.entries) {
-      if (controllers.entries.isEmpty ||
-          controllers.isEmpty ||
-          controllers == {}) {
-        Fluttertoast.showToast(msg: "Please Enter all  the marks");
-        setBusy(false);
-        return;
+      final text = entry.value.text;
+      if (text.isEmpty) {
+        errors.add("Please enter all the marks ");
+      } else if (!isNumeric(text)) {
+        errors.add("Invalid input. Please enter a number.");
+      } else {
+        int marks = int.parse(text);
+        if (selectedModule == 'assignMent1Marks' && marks > assignMent1Outof) {
+          errors.add("Assignment 1 marks  should not exceed $assignMent1Outof");
+        } else if (selectedModule == 'assignMent2Marks' &&
+            marks > assignMent2Outof) {
+          errors.add("Assignment 2 marks  should not exceed $assignMent2Outof");
+        } else if (selectedModule == 'cat1Marks' && marks > cat1Outof) {
+          errors.add("CAT 1 marks should not exceed $cat1Outof");
+        } else if (selectedModule == 'cat2Marks' && marks > cat2Outof) {
+          errors.add("CAT2 marks  should not exceed $cat2Outof");
+        } else if (selectedModule == 'examMarks' && marks > examOutof) {
+          errors.add("Exam marks  should not exceed $examOutof");
+        }
       }
     }
 
-    for (var entry in controllers.entries) {
-      final studentId = entry.key;
-      final text = entry.value.text;
+    // Show errors if any
+    if (errors.isNotEmpty) {
+      Fluttertoast.showToast(msg: errors.first, backgroundColor: Colors.red);
+      setBusy(false);
+      return;
+    }
 
-      if (!isNumeric(text)) {
-        Fluttertoast.showToast(msg: 'Invalid input . Please enter a number');
-        setBusy(false);
-        return;
-      }
-      /*convert the input to an interger */
-      int? marks = int.parse(text);
+    // Proceed with sending data to Firebase
+    try {
+      for (var entry in controllers.entries) {
+        final studentId = entry.key;
+        final marks = int.parse(entry.value.text);
 
-      /*validate the marks based on the selected module */
-      print('selectedModule: $selectedModule');
-      if ((selectedModule == "assignMent1Marks" ||
-              selectedModule == "assignMent2Marks") &&
-          marks > 5) {
-        Fluttertoast.showToast(msg: 'Assignment marks should not exceed 5');
-        setBusy(false);
-        return;
-      } else if ((selectedModule == 'cat1Marks' ||
-              selectedModule == 'cat2Marks') &&
-          marks > 10) {
-        Fluttertoast.showToast(msg: 'CAT marks should not exceed 10');
-        setBusy(false);
-        return;
-      } else if (selectedModule == 'examMarks' && marks > 70) {
-        Fluttertoast.showToast(msg: 'Exam marks should not exceed 70');
-        setBusy(false);
-        return;
-      }
-
-      try {
         var querySnapshot = await firestore
             .collection('student_registered_units')
             .where("studentUid", isEqualTo: studentId)
@@ -301,14 +277,14 @@ class EditStudentMarksSheetModel extends FormViewModel {
             .get();
 
         for (var doc in querySnapshot.docs) {
-          await doc.reference.update({selectedModule: marks}).then((value) {
-            Fluttertoast.showToast(msg: "Marks  saved successfully");
-            Navigator.of(context).pop();
-          });
+          await doc.reference.update({selectedModule: marks}).then((value) {});
         }
-      } catch (e) {
-        log(e.toString());
       }
+      Fluttertoast.showToast(msg: "Marks saved successfully");
+      Navigator.of(context).pop();
+    } catch (e) {
+      log(e.toString());
+      Fluttertoast.showToast(msg: "An error occurred while saving marks.");
     }
 
     setBusy(false);

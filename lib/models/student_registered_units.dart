@@ -18,6 +18,11 @@ class StudentsRegisteredUnitsModel {
   final String? studentGender;
   final int? assignMent1Marks;
   final int? assignMent2Marks;
+  final int? assignMent1OutOff;
+  final int? assignMent2OutOff;
+  final int? cat1Marks1OutOff;
+  final int? cat2MarksOutOff;
+  final int? examMarksOutOff;
   final int? cat1Marks;
   final int? cat2Marks;
   final int? examMarks;
@@ -41,6 +46,11 @@ class StudentsRegisteredUnitsModel {
     this.studentGender,
     this.assignMent1Marks,
     this.assignMent2Marks,
+    this.assignMent1OutOff,
+    this.assignMent2OutOff,
+    this.cat1Marks1OutOff,
+    this.cat2MarksOutOff,
+    this.examMarksOutOff,
     this.cat1Marks,
     this.cat2Marks,
     this.examMarks,
@@ -66,6 +76,11 @@ class StudentsRegisteredUnitsModel {
     String? studentGender,
     int? assignMent1Marks,
     int? assignMent2Marks,
+    int? assignMent1OutOff,
+    int? assignMent2OutOff,
+    int? cat1Marks1OutOff,
+    int? cat2MarksOutOff,
+    int? examMarksOutOff,
     int? cat1Marks,
     int? cat2Marks,
     int? examMarks,
@@ -90,6 +105,11 @@ class StudentsRegisteredUnitsModel {
       studentGender: studentGender ?? this.studentGender,
       assignMent1Marks: assignMent1Marks ?? this.assignMent1Marks,
       assignMent2Marks: assignMent2Marks ?? this.assignMent2Marks,
+      assignMent1OutOff: assignMent1OutOff ?? this.assignMent1OutOff,
+      assignMent2OutOff: assignMent2OutOff ?? this.assignMent2OutOff,
+      cat1Marks1OutOff: cat1Marks1OutOff ?? this.cat1Marks1OutOff,
+      cat2MarksOutOff: cat2MarksOutOff ?? this.cat2MarksOutOff,
+      examMarksOutOff: examMarksOutOff ?? this.examMarksOutOff,
       cat1Marks: cat1Marks ?? this.cat1Marks,
       cat2Marks: cat2Marks ?? this.cat2Marks,
       examMarks: examMarks ?? this.examMarks,
@@ -117,6 +137,11 @@ class StudentsRegisteredUnitsModel {
       'studentGender': studentGender,
       'assignMent1Marks': assignMent1Marks,
       'assignMent2Marks': assignMent2Marks,
+      'assignMent1OutOff': assignMent1OutOff,
+      'assignMent2OutOff': assignMent2OutOff,
+      'cat1Marks1OutOff': cat1Marks1OutOff,
+      'cat2MarksOutOff': cat2MarksOutOff,
+      'examMarksOutOff': examMarksOutOff,
       'cat1Marks': cat1Marks,
       'cat2Marks': cat2Marks,
       'examMarks': examMarks,
@@ -169,6 +194,21 @@ class StudentsRegisteredUnitsModel {
       assignMent2Marks: map['assignMent2Marks'] != null
           ? map["assignMent2Marks"] ?? 0 as int
           : null,
+      assignMent1OutOff: map['assignMent1OutOff'] != null
+          ? map["assignMent1OutOff"] ?? 0 as int
+          : null,
+      assignMent2OutOff: map['assignMent2OutOff'] != null
+          ? map["assignMent2OutOff"] ?? 0 as int
+          : null,
+      cat1Marks1OutOff: map['cat1Marks1OutOff'] != null
+          ? map["cat1Marks1OutOff"] ?? 0 as int
+          : null,
+      cat2MarksOutOff: map['cat2MarksOutOff'] != null
+          ? map["cat2MarksOutOff"] ?? 0 as int
+          : null,
+      examMarksOutOff: map['examMarksOutOff'] != null
+          ? map["examMarksOutOff"] ?? 0 as int
+          : null,
       cat1Marks: map['cat1Marks'] != null ? map["cat1Marks"] ?? 0 as int : null,
       cat2Marks: map['cat2Marks'] != null ? map["cat2Marks"] ?? 0 as int : null,
       examMarks: map['examMarks'] != null ? map["examMarks"] ?? 0 as int : null,
@@ -219,7 +259,7 @@ class StudentsRegisteredUnitsModel {
 
   @override
   String toString() {
-    return 'StudentsRegisteredUnitsModel(unitName: $unitName, unitCode: $unitCode, unitLecturer: $unitLecturer, unitDepartment: $unitDepartment, semesterStage: $semesterStage, yearOfStudent: $yearOfStudent, studentName: $studentName, studentRegNo: $studentRegNo, studentUid: $studentUid, studentEmail: $studentEmail, studentPhoneNumber: $studentPhoneNumber, studentGender: $studentGender, assignMent1Marks: $assignMent1Marks, assignMent2Marks: $assignMent2Marks, cat1Marks: $cat1Marks, cat2Marks: $cat2Marks, examMarks: $examMarks, totalMarks: $totalMarks, grade: $grade, appliedSpecialExam: $appliedSpecialExam, missingMarksMessage: $missingMarksMessage, isUnitApproved: $isUnitApproved)';
+    return 'StudentsRegisteredUnitsModel(unitName: $unitName, unitCode: $unitCode, unitLecturer: $unitLecturer, unitDepartment: $unitDepartment, semesterStage: $semesterStage, yearOfStudent: $yearOfStudent, studentName: $studentName, studentRegNo: $studentRegNo, studentUid: $studentUid, studentEmail: $studentEmail, studentPhoneNumber: $studentPhoneNumber, studentGender: $studentGender, assignMent1Marks: $assignMent1Marks, assignMent2Marks: $assignMent2Marks, assignMent1OutOff: $assignMent1OutOff, assignMent2OutOff: $assignMent2OutOff, cat1Marks1OutOff: $cat1Marks1OutOff, cat2MarksOutOff: $cat2MarksOutOff, examMarksOutOff: $examMarksOutOff, cat1Marks: $cat1Marks, cat2Marks: $cat2Marks, examMarks: $examMarks, totalMarks: $totalMarks, grade: $grade, appliedSpecialExam: $appliedSpecialExam, missingMarksMessage: $missingMarksMessage, isUnitApproved: $isUnitApproved)';
   }
 
   @override
@@ -240,6 +280,11 @@ class StudentsRegisteredUnitsModel {
         other.studentGender == studentGender &&
         other.assignMent1Marks == assignMent1Marks &&
         other.assignMent2Marks == assignMent2Marks &&
+        other.assignMent1OutOff == assignMent1OutOff &&
+        other.assignMent2OutOff == assignMent2OutOff &&
+        other.cat1Marks1OutOff == cat1Marks1OutOff &&
+        other.cat2MarksOutOff == cat2MarksOutOff &&
+        other.examMarksOutOff == examMarksOutOff &&
         other.cat1Marks == cat1Marks &&
         other.cat2Marks == cat2Marks &&
         other.examMarks == examMarks &&
@@ -266,6 +311,11 @@ class StudentsRegisteredUnitsModel {
         studentGender.hashCode ^
         assignMent1Marks.hashCode ^
         assignMent2Marks.hashCode ^
+        assignMent1OutOff.hashCode ^
+        assignMent2OutOff.hashCode ^
+        cat1Marks1OutOff.hashCode ^
+        cat2MarksOutOff.hashCode ^
+        examMarksOutOff.hashCode ^
         cat1Marks.hashCode ^
         cat2Marks.hashCode ^
         examMarks.hashCode ^

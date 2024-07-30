@@ -5,6 +5,7 @@ import 'package:examify/ui/common/app_colors.dart';
 import 'package:examify/ui/common/ui_helpers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:stacked/stacked.dart';
 
@@ -54,29 +55,65 @@ class LecturerMyStudentsView extends StackedView<LecturerMyStudentsViewModel> {
                   ],
                 ),
                 verticalSpaceSmall,
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    //search students
-                    Expanded(
-                      child: Container(
-                        color: Colors.white,
-                        height: 50,
-                        margin: const EdgeInsets.only(right: 10),
-                        child: TextField(
-                          decoration: InputDecoration(
-                            hintText: "Search students",
-                            prefixIcon: const Icon(Icons.search),
-                            suffixIcon: const Icon(Icons.mic),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(30),
+
+                //Customize unit assessment
+                StreamBuilder(
+                    stream: viewModel.getAllMyStudents(unitCode: unitCode),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        List<StudentsRegisteredUnitsModel> student =
+                            snapshot.data!;
+                        return InkWell(
+                          onTap: () {
+                            viewModel.openCustomizeAssessMentBottomSheet(
+                                unitCode: unitCode,
+                                unitName: unitName,
+                                units: StudentsRegisteredUnitsModel(
+                                  assignMent1OutOff:
+                                      student[0].assignMent1OutOff,
+                                  assignMent2OutOff:
+                                      student[0].assignMent2OutOff,
+                                  cat1Marks1OutOff: student[0].cat1Marks1OutOff,
+                                  cat2MarksOutOff: student[0].cat2MarksOutOff,
+                                  examMarksOutOff: student[0].examMarksOutOff,
+                                ));
+                          },
+                          child: Container(
+                            height: 50,
+                            width: MediaQuery.sizeOf(context).width,
+                            padding: const EdgeInsets.symmetric(horizontal: 10),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(10),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey[200]!,
+                                  blurRadius: 5,
+                                  offset: const Offset(0, 3),
+                                )
+                              ],
+                            ),
+                            child: const Center(
+                              child: Row(
+                                children: [
+                                  Text(
+                                    'Customize assessment',
+                                    style: TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.normal,
+                                    ),
+                                  ),
+                                  Spacer(),
+                                  Icon(Icons.dashboard_customize,
+                                      color: primaryColor),
+                                ],
+                              ),
                             ),
                           ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+                        );
+                      }
+                      return const SizedBox();
+                    }),
                 verticalSpaceSmall,
                 Container(
                   width: MediaQuery.sizeOf(context).width,
@@ -114,12 +151,12 @@ class LecturerMyStudentsView extends StackedView<LecturerMyStudentsViewModel> {
                               decoration: BoxDecoration(
                                   color: Colors.white,
                                   borderRadius: BorderRadius.circular(10),
-                                  boxShadow: [
+                                  boxShadow: const [
                                     BoxShadow(
-                                      color: Colors.grey.withOpacity(0.5),
+                                      color: Colors.white,
                                       spreadRadius: 1,
                                       blurRadius: 5,
-                                      offset: const Offset(0, 3),
+                                      offset: Offset(0, 3),
                                     ),
                                   ]),
                               child: DropdownButton(
@@ -139,32 +176,125 @@ class LecturerMyStudentsView extends StackedView<LecturerMyStudentsViewModel> {
                         ],
                       ),
                       verticalSpaceSmall,
-                      Center(
-                        child: InkWell(
-                          onTap: () {
-                            viewModel.openEditStudentMarksSheet(
-                              unitCode: unitCode,
-                              unitName: unitName,
-                            );
-                          },
-                          child: Container(
-                            height: 40,
-                            width: MediaQuery.sizeOf(context).width,
-                            decoration: BoxDecoration(
-                                color: primaryColor,
-                                borderRadius: BorderRadius.circular(10)),
-                            child: const Center(
-                              child: Text(
-                                "Click here to enter marks",
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 20),
-                              ),
-                            ),
-                          ),
-                        ),
-                      )
+                      StreamBuilder(
+                          stream:
+                              viewModel.getAllMyStudents(unitCode: unitCode),
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                              List<StudentsRegisteredUnitsModel> student =
+                                  snapshot.data!;
+                              return Center(
+                                child: InkWell(
+                                  onTap: () {
+                                    viewModel.openEditStudentMarksSheet(
+                                        unitCode: unitCode,
+                                        unitName: unitName,
+                                        student: snapshot.data!);
+                                  },
+                                  child: Container(
+                                    height: 40,
+                                    width: MediaQuery.sizeOf(context).width,
+                                    decoration: BoxDecoration(
+                                        color: primaryColor,
+                                        borderRadius:
+                                            BorderRadius.circular(10)),
+                                    child: const Center(
+                                      child: Text(
+                                        "Click here to enter marks",
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 20),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              );
+                            }
+                            return const SizedBox();
+                          }),
+                      verticalSpaceSmall,
+                      StreamBuilder(
+                          stream: viewModel.getAllMyStudentsWithSpeialExams(
+                              unitCode: unitCode),
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                              List<StudentsRegisteredUnitsModel> student =
+                                  snapshot.data!;
+                              return Center(
+                                child: InkWell(
+                                  onTap: () {
+                                    if (!snapshot.hasData ||
+                                        snapshot.data!.isEmpty) {
+                                      Fluttertoast.showToast(
+                                          msg:
+                                              "No students with Special exams for $unitName");
+                                    }
+                                    viewModel.openEditStudentMarksSheet(
+                                        unitCode: unitCode,
+                                        unitName: unitName,
+                                        student: snapshot.data!);
+                                  },
+                                  child: Container(
+                                    height: 40,
+                                    width: MediaQuery.sizeOf(context).width,
+                                    decoration: BoxDecoration(
+                                        color: primaryColor,
+                                        borderRadius:
+                                            BorderRadius.circular(10)),
+                                    child: const Center(
+                                      child: Text(
+                                        "Enter Special Exam Marks",
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 20),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              );
+                            }
+                            return const SizedBox();
+                          }),
+                      verticalSpaceSmall,
+                      StreamBuilder(
+                          stream: viewModel.getAllMyStudentsWithSpeialExams(
+                              unitCode: unitCode),
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                              List<StudentsRegisteredUnitsModel> student =
+                                  snapshot.data!;
+                              return Center(
+                                child: InkWell(
+                                  onTap: () {
+                                    viewModel.openEditStudentMarksSheet(
+                                        unitCode: unitCode,
+                                        unitName: unitName,
+                                        student: snapshot.data!);
+                                  },
+                                  child: Container(
+                                    height: 40,
+                                    width: MediaQuery.sizeOf(context).width,
+                                    decoration: BoxDecoration(
+                                        color: primaryColor,
+                                        borderRadius:
+                                            BorderRadius.circular(10)),
+                                    child: const Center(
+                                      child: Text(
+                                        "Enter Supplementary Exam Marks",
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 20),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              );
+                            }
+                            return const SizedBox();
+                          })
                     ],
                   ),
                 ),
@@ -187,7 +317,8 @@ class LecturerMyStudentsView extends StackedView<LecturerMyStudentsViewModel> {
 
                 SizedBox(
                   child: StreamBuilder<List<StudentsRegisteredUnitsModel>>(
-                    stream: viewModel.getAllMyStudents(unitCode: unitCode),
+                    stream: viewModel.getAllMyStudentsWithSpecialExamOrWithout(
+                        unitCode: unitCode),
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
                         return const Center(
@@ -202,11 +333,19 @@ class LecturerMyStudentsView extends StackedView<LecturerMyStudentsViewModel> {
                         );
                       } else {
                         snapshot.data!.forEach((student) async {
-                          final int totalMarks = student.assignMent1Marks! +
-                              student.assignMent2Marks! +
-                              student.cat1Marks! +
-                              student.cat2Marks! +
-                              student.examMarks!;
+                          final totalMarks = ((student.assignMent1Marks! /
+                                      student.assignMent1OutOff!) *
+                                  5) +
+                              ((student.assignMent2Marks! /
+                                      student.assignMent2OutOff!) *
+                                  5) +
+                              ((student.cat1Marks! /
+                                      student.cat1Marks1OutOff!) *
+                                  10) +
+                              ((student.cat2Marks! / student.cat2MarksOutOff!) *
+                                  10) +
+                              ((student.examMarks! / student.examMarksOutOff!) *
+                                  70);
                           final grade = viewModel
                               .calculateGrade(totalMarks: totalMarks)
                               .toString();
@@ -214,10 +353,12 @@ class LecturerMyStudentsView extends StackedView<LecturerMyStudentsViewModel> {
                               unit: StudentsRegisteredUnitsModel(
                             unitCode: student.unitCode,
                             studentUid: student.studentUid,
-                            totalMarks: totalMarks,
+                            totalMarks: totalMarks.toInt(),
                             grade: grade,
                           ));
                         });
+                        List<StudentsRegisteredUnitsModel> studentInfo =
+                            snapshot.data!;
                         return SingleChildScrollView(
                           scrollDirection: Axis.horizontal,
                           child: ConstrainedBox(
@@ -228,8 +369,8 @@ class LecturerMyStudentsView extends StackedView<LecturerMyStudentsViewModel> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 DataTable(
-                                  columns: const [
-                                    DataColumn(
+                                  columns: [
+                                    const DataColumn(
                                       label: Text(
                                         "Name",
                                         style: TextStyle(
@@ -238,7 +379,7 @@ class LecturerMyStudentsView extends StackedView<LecturerMyStudentsViewModel> {
                                             fontSize: 18),
                                       ),
                                     ),
-                                    DataColumn(
+                                    const DataColumn(
                                       label: Text(
                                         "RegNo",
                                         style: TextStyle(
@@ -249,8 +390,8 @@ class LecturerMyStudentsView extends StackedView<LecturerMyStudentsViewModel> {
                                     ),
                                     DataColumn(
                                       label: Text(
-                                        "Assignment 1",
-                                        style: TextStyle(
+                                        "Assignment1 /${studentInfo[0].assignMent1OutOff}",
+                                        style: const TextStyle(
                                             color: primaryColor,
                                             fontWeight: FontWeight.w600,
                                             fontSize: 18),
@@ -258,8 +399,8 @@ class LecturerMyStudentsView extends StackedView<LecturerMyStudentsViewModel> {
                                     ),
                                     DataColumn(
                                       label: Text(
-                                        "Assignment 2",
-                                        style: TextStyle(
+                                        "Assignment2 /${studentInfo[0].assignMent2OutOff}",
+                                        style: const TextStyle(
                                             color: primaryColor,
                                             fontWeight: FontWeight.w600,
                                             fontSize: 18),
@@ -267,8 +408,8 @@ class LecturerMyStudentsView extends StackedView<LecturerMyStudentsViewModel> {
                                     ),
                                     DataColumn(
                                       label: Text(
-                                        "Cat 1",
-                                        style: TextStyle(
+                                        "Cat1 /${studentInfo[0].cat1Marks1OutOff}",
+                                        style: const TextStyle(
                                             color: primaryColor,
                                             fontWeight: FontWeight.w600,
                                             fontSize: 18),
@@ -276,8 +417,8 @@ class LecturerMyStudentsView extends StackedView<LecturerMyStudentsViewModel> {
                                     ),
                                     DataColumn(
                                       label: Text(
-                                        "cat 2",
-                                        style: TextStyle(
+                                        "cat2 /${studentInfo[0].cat2MarksOutOff}",
+                                        style: const TextStyle(
                                             color: primaryColor,
                                             fontWeight: FontWeight.w600,
                                             fontSize: 18),
@@ -285,14 +426,14 @@ class LecturerMyStudentsView extends StackedView<LecturerMyStudentsViewModel> {
                                     ),
                                     DataColumn(
                                       label: Text(
-                                        "Exam ",
-                                        style: TextStyle(
+                                        "Exam /${studentInfo[0].examMarksOutOff}",
+                                        style: const TextStyle(
                                             color: primaryColor,
                                             fontWeight: FontWeight.w600,
                                             fontSize: 18),
                                       ),
                                     ),
-                                    DataColumn(
+                                    const DataColumn(
                                       label: Text(
                                         "Total marks",
                                         style: TextStyle(
@@ -301,7 +442,7 @@ class LecturerMyStudentsView extends StackedView<LecturerMyStudentsViewModel> {
                                             fontSize: 18),
                                       ),
                                     ),
-                                    DataColumn(
+                                    const DataColumn(
                                       label: Text(
                                         "Grade",
                                         style: TextStyle(
@@ -310,7 +451,7 @@ class LecturerMyStudentsView extends StackedView<LecturerMyStudentsViewModel> {
                                             fontSize: 18),
                                       ),
                                     ),
-                                    DataColumn(
+                                    const DataColumn(
                                       label: Text(
                                         "Action",
                                         style: TextStyle(
@@ -321,14 +462,6 @@ class LecturerMyStudentsView extends StackedView<LecturerMyStudentsViewModel> {
                                     ),
                                   ],
                                   rows: snapshot.data!.map((student) {
-                                    // final int totalMarks =
-                                    //     student.assignMent1Marks! +
-                                    //         student.assignMent2Marks! +
-                                    //         student.cat1Marks! +
-                                    //         student.cat2Marks! +
-                                    //         student.examMarks!;
-                                    // final String? grade;
-
                                     return DataRow(cells: [
                                       DataCell(
                                         Text(student.studentName!),
@@ -354,13 +487,43 @@ class LecturerMyStudentsView extends StackedView<LecturerMyStudentsViewModel> {
                                         ),
                                       ),
                                       DataCell(
-                                        Text(student.examMarks.toString()),
+                                        Text(
+                                          student.appliedSpecialExam == true
+                                              ? "Special Exam"
+                                              : student.examMarks.toString(),
+                                          style: TextStyle(
+                                              color:
+                                                  student.appliedSpecialExam ==
+                                                          true
+                                                      ? Colors.red
+                                                      : Colors.black),
+                                        ),
                                       ),
                                       DataCell(
-                                        Text(student.totalMarks.toString()),
+                                        Text(
+                                          student.appliedSpecialExam == true
+                                              ? 'Incomplete'
+                                              : student.totalMarks.toString(),
+                                          style: TextStyle(
+                                              color:
+                                                  student.appliedSpecialExam ==
+                                                          true
+                                                      ? Colors.red
+                                                      : Colors.black),
+                                        ),
                                       ),
                                       DataCell(
-                                        Text(student.grade.toString()),
+                                        Text(
+                                          student.appliedSpecialExam == true
+                                              ? 'inComplete'
+                                              : student.grade.toString(),
+                                          style: TextStyle(
+                                              color:
+                                                  student.appliedSpecialExam ==
+                                                          true
+                                                      ? Colors.red
+                                                      : Colors.black),
+                                        ),
                                       ),
                                       DataCell(
                                         MouseRegion(
@@ -385,6 +548,16 @@ class LecturerMyStudentsView extends StackedView<LecturerMyStudentsViewModel> {
                                                   cat2Marks: student.cat2Marks,
                                                   examMarks: student.examMarks,
                                                   unitCode: student.unitCode!,
+                                                  assignMent1OutOff:
+                                                      student.assignMent1OutOff,
+                                                  assignMent2OutOff:
+                                                      student.assignMent2OutOff,
+                                                  cat1MarksOutOff:
+                                                      student.cat1Marks1OutOff,
+                                                  cat2MarksOutOff:
+                                                      student.cat2MarksOutOff,
+                                                  examMarksOutOff:
+                                                      student.examMarksOutOff,
                                                 );
                                               },
                                               icon: const Icon(

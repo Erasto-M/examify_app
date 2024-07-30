@@ -76,17 +76,41 @@ class LecturerMyStudentsViewModel extends BaseViewModel {
     return _lectureDashboardService.getAllMyStudents(unitCode: unitCode);
   }
 
+  //get all who applied for Special Exams
+  Stream<List<StudentsRegisteredUnitsModel>> getAllMyStudentsWithSpeialExams({
+    required String unitCode,
+  }) {
+    return _lectureDashboardService.getAllMyStudentsWithSpecials(
+        unitCode: unitCode);
+  }
+
+  //get all with both special exam and without
+  Stream<List<StudentsRegisteredUnitsModel>>
+      getAllMyStudentsWithSpecialExamOrWithout({
+    required String unitCode,
+  }) {
+    return _lectureDashboardService. getAllMyStudentsWithBothSpecialExamAndWithout(unitCode: unitCode);
+  }
+
   // open the bottom sheet to edit the student marks
   void openEditStudentMarksSheet({
     required String unitCode,
     required String unitName,
+    required List<StudentsRegisteredUnitsModel> student,
   }) {
     _bottomSheetService.showCustomSheet(
-      variant: BottomSheetType.editStudentMarks,
-      isScrollControlled: true,
-      description: _selectedExamModuleToEnterMarks,
-      data: unitCode,
-    );
+        variant: BottomSheetType.editStudentMarks,
+        isScrollControlled: true,
+        description: _selectedExamModuleToEnterMarks,
+        data: {
+          'assignment1': student[0].assignMent1OutOff,
+          'assignment2': student[0].assignMent2OutOff,
+          'cat1': student[0].cat1Marks1OutOff,
+          'cat2': student[0].cat2MarksOutOff,
+          'exam': student[0].examMarksOutOff,
+          'student': student,
+        },
+        title: unitCode);
   }
 
   String _selectedExamModuleToEnterMarks = 'assignMent1Marks';
@@ -117,6 +141,11 @@ class LecturerMyStudentsViewModel extends BaseViewModel {
     int? cat1Marks,
     int? cat2Marks,
     int? examMarks,
+    int? assignMent1OutOff,
+    int? assignMent2OutOff,
+    int? cat1MarksOutOff,
+    int? cat2MarksOutOff,
+    int? examMarksOutOff,
   }) async {
     await _bottomSheetService.showCustomSheet(
       variant: BottomSheetType.editMarksPerStudent,
@@ -130,6 +159,11 @@ class LecturerMyStudentsViewModel extends BaseViewModel {
         "cat2Marks": cat2Marks,
         "examMarks": examMarks,
         "unitCode": unitCode,
+        "assignMent1OutOff": assignMent1OutOff,
+        "assignMent2OutOff": assignMent2OutOff,
+        "cat1MarksOutOff": cat1MarksOutOff,
+        "cat2MarksOutOff": cat2MarksOutOff,
+        "examMarksOutOff": examMarksOutOff,
       },
     );
   }
@@ -209,7 +243,7 @@ class LecturerMyStudentsViewModel extends BaseViewModel {
         pdfPath: pdfPath, unitName: unitName);
   }
 
-  calculateGrade({required int totalMarks}) {
+  calculateGrade({required double totalMarks}) {
     if (totalMarks >= 70 && totalMarks <= 100) {
       return "A";
     } else if (totalMarks >= 60 && totalMarks <= 69) {
@@ -229,5 +263,23 @@ class LecturerMyStudentsViewModel extends BaseViewModel {
   Future<void> updateTotalMarksAndGrade(
       {required StudentsRegisteredUnitsModel unit}) {
     return _lectureDashboardService.updateTotalMarksAndGrade(unit: unit);
+  }
+
+  Future openCustomizeAssessMentBottomSheet({
+    required String unitCode,
+    required String unitName,
+    required StudentsRegisteredUnitsModel units,
+  }) async {
+    await _bottomSheetService.showCustomSheet(
+        variant: BottomSheetType.customizeUnitsAssesment,
+        title: unitName,
+        description: unitCode,
+        data: {
+          'assignment1': units.assignMent1OutOff,
+          'assignment2': units.assignMent2OutOff,
+          'cat1': units.cat1Marks1OutOff,
+          'cat2': units.cat2MarksOutOff,
+          'exam': units.examMarksOutOff,
+        });
   }
 }

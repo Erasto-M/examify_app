@@ -45,6 +45,8 @@ import 'package:examify/ui/views/supplist/supplist_view.dart';
 import 'package:examify/ui/views/special_exams_list/special_exams_list_view.dart';
 import 'package:examify/ui/views/missing_marks/missing_marks_view.dart';
 import 'package:examify/ui/views/cod_special_exams/cod_special_exams_view.dart';
+import 'package:examify/ui/bottom_sheets/customize_units_assesment/customize_units_assesment_sheet.dart';
+import 'package:examify/ui/views/student_academics/student_academics_view.dart';
 // @stacked-import
 
 @StackedApp(
@@ -75,6 +77,7 @@ import 'package:examify/ui/views/cod_special_exams/cod_special_exams_view.dart';
     MaterialRoute(page: SpecialExamsListView),
     MaterialRoute(page: MissingMarksView),
     MaterialRoute(page: CodSpecialExamsView),
+    MaterialRoute(page: StudentAcademicsView),
 // @stacked-route
   ],
   dependencies: [
@@ -91,6 +94,7 @@ import 'package:examify/ui/views/cod_special_exams/cod_special_exams_view.dart';
     StackedBottomsheet(classType: EditUnitSheet),
     StackedBottomsheet(classType: EditStudentMarksSheet),
     StackedBottomsheet(classType: EditMarksPerStudentSheet),
+    StackedBottomsheet(classType: CustomizeUnitsAssesmentSheet),
 // @stacked-bottom-sheet
   ],
   dialogs: [

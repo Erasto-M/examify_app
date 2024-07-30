@@ -29,19 +29,7 @@ class PasslistView extends StackedView<PasslistViewModel> with $PasslistView {
           color: Colors.white,
           padding: const EdgeInsets.only(left: 5.0, right: 5.0),
           child:
-              // TextField(
-              //   controller: searchPasslistController,
-              //   decoration: InputDecoration(
-              //     prefixIcon: const Icon(Icons.search),
-              //     hintText: 'Search',
-              //     border: OutlineInputBorder(
-              //       borderRadius: BorderRadius.circular(10.0),
-              //     ),
-              //   ),
-              // ),
-              // const SizedBox(
-              //   height: 10,
-              // ),
+          
               StreamBuilder<List<StudentsRegisteredUnitsModel>>(
             stream: viewModel.getPassLists(
                 selectedSemesterStage: selectedSemesterStage),

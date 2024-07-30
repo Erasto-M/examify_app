@@ -1427,6 +1427,24 @@ class MockLecturerDashboardService extends _i1.Mock
         returnValue: _i7.Future<dynamic>.value(),
         returnValueForMissingStub: _i7.Future<dynamic>.value(),
       ) as _i7.Future<dynamic>);
+
+  @override
+  _i7.Future<dynamic> sendCustomizedUnitAssessMents({
+    required _i13.StudentsRegisteredUnitsModel? units,
+    required String? unitCode,
+  }) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #sendCustomizedUnitAssessMents,
+          [],
+          {
+            #units: units,
+            #unitCode: unitCode,
+          },
+        ),
+        returnValue: _i7.Future<dynamic>.value(),
+        returnValueForMissingStub: _i7.Future<dynamic>.value(),
+      ) as _i7.Future<dynamic>);
 }
 
 /// A class which mocks [StudentDashboardService].

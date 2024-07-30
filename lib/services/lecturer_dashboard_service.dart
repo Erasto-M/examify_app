@@ -43,6 +43,47 @@ class LecturerDashboardService {
           .collection('student_registered_units')
           .where("unitLecturer", isEqualTo: auth.currentUser!.uid)
           .where("unitCode", isEqualTo: unitCode)
+          .where('appliedSpecialExam', isEqualTo: false)
+          .snapshots()
+          .map((snapshot) => snapshot.docs
+              .map((doc) => StudentsRegisteredUnitsModel.fromMap(doc.data()))
+              .toList());
+    } catch (e) {
+      Fluttertoast.showToast(msg: e.toString());
+      yield [];
+    }
+  }
+
+  //get all students with Special Exams
+  Stream<List<StudentsRegisteredUnitsModel>> getAllMyStudentsWithSpecials({
+    required String unitCode,
+  }) async* {
+    try {
+      yield* firestore
+          .collection('student_registered_units')
+          .where("unitLecturer", isEqualTo: auth.currentUser!.uid)
+          .where("unitCode", isEqualTo: unitCode)
+          .where('appliedSpecialExam', isEqualTo: true)
+          .snapshots()
+          .map((snapshot) => snapshot.docs
+              .map((doc) => StudentsRegisteredUnitsModel.fromMap(doc.data()))
+              .toList());
+    } catch (e) {
+      Fluttertoast.showToast(msg: e.toString());
+      yield [];
+    }
+  }
+
+  //Fetch all Lecturers students
+  Stream<List<StudentsRegisteredUnitsModel>>
+      getAllMyStudentsWithBothSpecialExamAndWithout({
+    required String unitCode,
+  }) async* {
+    try {
+      yield* firestore
+          .collection('student_registered_units')
+          .where("unitLecturer", isEqualTo: auth.currentUser!.uid)
+          .where("unitCode", isEqualTo: unitCode)
           .snapshots()
           .map((snapshot) => snapshot.docs
               .map((doc) => StudentsRegisteredUnitsModel.fromMap(doc.data()))
@@ -156,6 +197,7 @@ class LecturerDashboardService {
       });
     } catch (e) {
       Fluttertoast.showToast(msg: e.toString());
+      print(e.toString());
       return Stream.value([]); // Return an empty stream in case of error
     }
   }
@@ -220,4 +262,37 @@ class LecturerDashboardService {
       Fluttertoast.showToast(msg: e.toString());
     }
   }
+
+  //customize units assesment
+  Future sendCustomizedUnitAssessMents({
+    required StudentsRegisteredUnitsModel units,
+    required String unitCode,
+  }) async {
+    try {
+      final currentUser = auth.currentUser;
+      if (currentUser != null) {
+        final userId = currentUser.uid;
+        final collection = await firestore
+            .collection('student_registered_units')
+            .where('unitLecturer', isEqualTo: userId)
+            .where('unitCode', isEqualTo: unitCode)
+            .get();
+        for (var doc in collection.docs) {
+          await doc.reference.update({
+            "assignMent1OutOff": units.assignMent1OutOff,
+            "assignMent2OutOff": units.assignMent2OutOff,
+            "cat1Marks1OutOff": units.cat1Marks1OutOff,
+            "cat2MarksOutOff": units.cat2MarksOutOff,
+            "examMarksOutOff": units.examMarksOutOff,
+          });
+        }
+        Fluttertoast.showToast(msg: "Assesment Updated Successfully");
+      }
+    } catch (e) {
+      Fluttertoast.showToast(msg: e.toString());
+      debugPrint(e.toString());
+    }
+  }
+
+  // fet
 }

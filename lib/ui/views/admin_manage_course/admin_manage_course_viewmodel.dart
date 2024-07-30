@@ -38,7 +38,8 @@ class AdminManageCourseViewModel extends BaseViewModel {
     );
   }
 
-  void showEditCourseBottomSheet({required AddUnitModel course, required String year}) {
+  void showEditCourseBottomSheet(
+      {required AddUnitModel course, required String year}) {
     _bottomSheetService.showCustomSheet(
       variant: BottomSheetType.editUnit,
       description: year,
@@ -51,7 +52,8 @@ class AdminManageCourseViewModel extends BaseViewModel {
   Future<bool> getRegistrationWindowStatusForSem1(String year) async {
     setBusy(true);
     try {
-      DocumentSnapshot? snapshot = await _adminService.getRegistrationWindowStatus(year);
+      DocumentSnapshot? snapshot =
+          await _adminService.getRegistrationWindowStatus(year);
       if (snapshot != null) {
         Map<String, dynamic>? data = snapshot.data() as Map<String, dynamic>?;
         if (data != null) {
@@ -72,7 +74,8 @@ class AdminManageCourseViewModel extends BaseViewModel {
   Future<bool> getRegistrationWindowStatusForSem2(String year) async {
     setBusy(true);
     try {
-      DocumentSnapshot? snapshot = await _adminService.getRegistrationWindowStatus(year);
+      DocumentSnapshot? snapshot =
+          await _adminService.getRegistrationWindowStatus(year);
       if (snapshot != null) {
         Map<String, dynamic>? data = snapshot.data() as Map<String, dynamic>?;
         if (data != null) {

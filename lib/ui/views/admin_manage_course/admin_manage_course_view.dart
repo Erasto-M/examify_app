@@ -28,7 +28,11 @@ class AdminManageCourseView extends StackedView<AdminManageCourseViewModel> {
       child: Scaffold(
         backgroundColor: Theme.of(context).colorScheme.background,
         body: viewModel.isBusy
-            ? const Center(child: SpinKitSpinningLines(color: primaryColor, size:  50,))
+            ? const Center(
+                child: SpinKitSpinningLines(
+                color: primaryColor,
+                size: 50,
+              ))
             : Container(
                 padding: const EdgeInsets.all(10),
                 child: SingleChildScrollView(

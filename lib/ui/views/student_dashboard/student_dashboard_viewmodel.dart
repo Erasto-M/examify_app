@@ -150,11 +150,23 @@ class StudentDashboardViewModel extends BaseViewModel {
                         crossAxisAlignment: pw.CrossAxisAlignment.start,
                         children: [
                           pw.SizedBox(height: 3),
+                          pw.SizedBox(height: 3),
                           pw.Center(
-                            child: pw.Text('$semesterStage Transcript',
+                            child: pw.Text(
+                                'DEDAN KIMATHI UNIVERSITY OF TECHNOLOGY',
                                 style: pw.TextStyle(
-                                  fontSize: 20,
+                                  fontSize: 18,
+                                  color: PdfColors.black,
                                   fontWeight: pw.FontWeight.bold,
+                                )),
+                          ),
+                          pw.SizedBox(height: 3),
+                          pw.Center(
+                            child: pw.Text(
+                                'PROVISIONAL UNDERGRADUATE ACADEMIC TRANSCRIPT',
+                                style: const pw.TextStyle(
+                                  fontSize: 15,
+                                  color: PdfColors.black,
                                 )),
                           ),
                           pw.SizedBox(height: 15),
@@ -170,32 +182,55 @@ class StudentDashboardViewModel extends BaseViewModel {
                                 children: [
                                   pw.SizedBox(height: 10),
                                   pw.Row(children: [
-                                    pw.SizedBox(width: 20),
-                                    pw.Text('Name: '),
-                                    pw.SizedBox(width: 20),
-                                    pw.Text(students[0].studentName!),
+                                    pw.Row(children: [
+                                      pw.SizedBox(width: 20),
+                                      pw.Text('Name: '),
+                                      pw.SizedBox(width: 20),
+                                      pw.Text(students[0].studentName!),
+                                    ]),
+                                    pw.Spacer(),
+                                    pw.Row(children: [
+                                      pw.SizedBox(width: 20),
+                                      pw.Text('RegNo: '),
+                                      pw.SizedBox(width: 20),
+                                      pw.Text(students[0].studentPhoneNumber!),
+                                      pw.SizedBox(width: 20),
+                                    ]),
                                   ]),
                                   pw.SizedBox(height: 5),
                                   pw.Row(children: [
                                     pw.SizedBox(width: 20),
-                                    pw.Text('RegNo: '),
+                                    pw.Text('School: '),
                                     pw.SizedBox(width: 20),
-                                    pw.Text(students[0].studentPhoneNumber!),
+                                    pw.Text(
+                                        'Computer Science and Information Technology'),
                                   ]),
                                   pw.SizedBox(height: 5),
                                   pw.Row(children: [
                                     pw.SizedBox(width: 20),
-                                    pw.Text('Email: '),
+                                    pw.Text('Degree: '),
                                     pw.SizedBox(width: 20),
-                                    pw.Text(students[0].studentEmail!),
+                                    pw.Text(
+                                        'Bachelor of Science in Computer Science'),
                                   ]),
                                   pw.SizedBox(height: 5),
                                   pw.Row(children: [
-                                    pw.SizedBox(width: 20),
-                                    pw.Text('Phone: '),
-                                    pw.SizedBox(width: 20),
-                                    pw.Text(students[0].studentPhoneNumber!),
+                                    pw.Row(children: [
+                                      pw.SizedBox(width: 20),
+                                      pw.Text('Academic Year: '),
+                                      pw.SizedBox(width: 20),
+                                      pw.Text('2024/2025'),
+                                    ]),
+                                    pw.Spacer(),
+                                    pw.Row(children: [
+                                      pw.SizedBox(width: 20),
+                                      pw.Text('Year of Study: '),
+                                      pw.SizedBox(width: 20),
+                                      pw.Text('${semesterStage}'),
+                                      pw.SizedBox(width: 20),
+                                    ]),
                                   ]),
+                                  pw.SizedBox(height: 5),
                                   pw.SizedBox(height: 20),
                                   pw.TableHelper.fromTextArray(
                                       border: pw.TableBorder.all(),
@@ -261,8 +296,9 @@ class StudentDashboardViewModel extends BaseViewModel {
                                       pw.SizedBox(height: 20),
                                       pw.Row(
                                         mainAxisAlignment:
-                                            pw.MainAxisAlignment.center,
+                                            pw.MainAxisAlignment.start,
                                         children: [
+                                          pw.SizedBox(width: 20),
                                           pw.Center(
                                               child:
                                                   pw.Text('Reccommendation:')),
@@ -273,6 +309,112 @@ class StudentDashboardViewModel extends BaseViewModel {
                                       ),
                                       pw.SizedBox(height: 10),
                                     ]),
+                                  ),
+                                  pw.Container(
+                                    padding: pw.EdgeInsets.only(left: 20),
+                                    decoration: pw.BoxDecoration(
+                                      border: pw.Border.all(
+                                        color: PdfColors.black,
+                                        width: 1,
+                                      ),
+                                    ),
+                                    child: pw.Column(
+                                        crossAxisAlignment:
+                                            pw.CrossAxisAlignment.start,
+                                        children: [
+                                          pw.SizedBox(height: 20),
+                                          pw.Row(children: [
+                                            pw.Column(
+                                              crossAxisAlignment:
+                                                  pw.CrossAxisAlignment.start,
+                                              children: [
+                                                pw.Text(
+                                                    'KEY TO THE GRADING SYSTEM',
+                                                    style: pw.TextStyle(
+                                                      color: PdfColors.black,
+                                                      fontWeight:
+                                                          pw.FontWeight.bold,
+                                                    )),
+                                                pw.SizedBox(width: 10),
+                                                pw.SizedBox(height: 15),
+                                                pw.Column(
+                                                    crossAxisAlignment: pw
+                                                        .CrossAxisAlignment
+                                                        .start,
+                                                    children: [
+                                                      pw.Row(children: [
+                                                        pw.Text('A: 70-100%'),
+                                                        pw.SizedBox(width: 70),
+                                                        pw.Text('Excellent'),
+                                                      ]),
+                                                      pw.Row(children: [
+                                                        pw.Text('B: 60-69%'),
+                                                        pw.SizedBox(width: 80),
+                                                        pw.Text('Good'),
+                                                      ]),
+                                                      pw.Row(children: [
+                                                        pw.Text('C: 50-59%'),
+                                                        pw.SizedBox(width: 80),
+                                                        pw.Text('Satisfactory'),
+                                                      ]),
+                                                      pw.Row(children: [
+                                                        pw.Text('D: 40-49%'),
+                                                        pw.SizedBox(width: 80),
+                                                        pw.Text('Pass'),
+                                                      ]),
+                                                      pw.Row(
+                                                        children: [
+                                                          pw.Text('E: 0-39%'),
+                                                          pw.SizedBox(
+                                                              width: 80),
+                                                          pw.Text('Fail'),
+                                                        ],
+                                                      ),
+                                                      pw.Row(
+                                                        children: [
+                                                          pw.Text('iNC'),
+                                                          pw.SizedBox(
+                                                              width: 110),
+                                                          pw.Text('incomplete'),
+                                                        ],
+                                                      ),
+                                                    ]),
+                                              ],
+                                            ),
+                                            pw.SizedBox(width: 50),
+                                            pw.Column(
+                                                crossAxisAlignment:
+                                                    pw.CrossAxisAlignment.start,
+                                                children: [
+                                                  pw.Center(
+                                                    child: pw.Text(
+                                                      'NB',
+                                                      style: pw.TextStyle(
+                                                        color: PdfColors.black,
+                                                        fontWeight:
+                                                            pw.FontWeight.bold,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  pw.SizedBox(
+                                                    child: pw.Text(
+                                                        '1 Unit Consist of 35 Lecture hours'),
+                                                  ),
+                                                  pw.Text(
+                                                      'or equivalent 3 practical of 2'),
+                                                  pw.Text(
+                                                      'tutorial hours are equivalent '),
+                                                  pw.Text('to 1 lecture hour'),
+                                                ]),
+                                          ]),
+                                          pw.SizedBox(height: 20),
+                                          pw.Text(
+                                              'Signed  ...........................................'),
+                                          pw.SizedBox(height: 10),
+                                          pw.Text(
+                                              'Dean , Computer Science and Information Technology'),
+                                          pw.SizedBox(height: 15),
+                                        ]),
                                   ),
                                 ],
                               ))

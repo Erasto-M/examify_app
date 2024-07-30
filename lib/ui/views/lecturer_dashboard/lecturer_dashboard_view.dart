@@ -26,27 +26,26 @@ class LecturerDashboardView extends StackedView<LecturerDashboardViewModel> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          automaticallyImplyLeading: false,
           elevation: 0,
+          automaticallyImplyLeading: false,
           systemOverlayStyle: SystemUiOverlayStyle.light,
           centerTitle: true,
-          title: Row(
+          title: const Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                '${greeting} , ',
-                style: const TextStyle(
+                'Dedan Kimathi University ',
+                style: TextStyle(
                   color: Colors.white,
-                  fontSize: 20,
+                  fontSize: 18,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              Flexible(
-                child: Text(
-                  viewModel.userDetails["userName"] ?? "UserName",
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 18,
-                  ),
+              Text(
+                'BSC Computer Science', // Replace with your department name
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 16,
                 ),
               ),
             ],
@@ -63,21 +62,24 @@ class LecturerDashboardView extends StackedView<LecturerDashboardViewModel> {
             ),
           ],
           bottom: PreferredSize(
-              preferredSize: const Size.fromHeight(0),
-              child: Padding(
-                padding: const EdgeInsets.only(left: 20),
-                child: Row(
-                  children: [
-                    Text(
-                      "${now.day}-${now.month}-${now.year}  ${now.hour}: ${now.minute} ${now.hour > 12 ? "PM" : "AM"}",
+            preferredSize: const Size.fromHeight(40),
+            child: Padding(
+              padding: const EdgeInsets.only(left: 20, bottom: 10),
+              child: Row(
+                children: [
+                  Flexible(
+                    child: Text(
+                      '${greeting} ${viewModel.userDetails["userName"] ?? ""}, ${now.day}-${now.month}-${now.year}  ${now.hour}: ${now.minute} ${now.hour > 12 ? "PM" : "AM"}',
                       style: const TextStyle(
                         color: Colors.white,
                         fontSize: 14,
                       ),
                     ),
-                  ],
-                ),
-              )),
+                  ),
+                ],
+              ),
+            ),
+          ),
           backgroundColor: primaryColor,
         ),
         backgroundColor: Colors.white,
@@ -97,7 +99,7 @@ class LecturerDashboardView extends StackedView<LecturerDashboardViewModel> {
                 ),
                 verticalSpaceMedium,
                 SizedBox(
-                  height: 200,
+                  height: 300,
                   child: FutureBuilder(
                     future: viewModel.fetchLecturerUnits(),
                     builder: (context, snapshot) {

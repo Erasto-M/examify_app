@@ -2,6 +2,7 @@ import 'package:examify/ui/common/app_colors.dart';
 import 'package:examify/ui/common/ui_helpers.dart';
 import 'package:examify/ui/views/academics/academics_view.dart';
 import 'package:examify/ui/views/profile/profile_view.dart';
+import 'package:examify/ui/views/student_academics/student_academics_view.dart';
 import 'package:examify/ui/views/student_dashboard/student_dashboard_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -28,7 +29,7 @@ class StudentsHomeView extends StackedView<StudentsHomeViewModel> {
           backgroundColor: Colors.white,
           body: [
             const StudentDashboardView(),
-            const AcademicsView(),
+            const StudentAcademicsView(),
             const ProfileView(),
           ][viewModel.currentIndexValue],
           bottomNavigationBar: BottomNavigationBar(
@@ -42,7 +43,7 @@ class StudentsHomeView extends StackedView<StudentsHomeViewModel> {
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.school),
-                label: 'Academics',
+                label: 'Academic Reports',
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.person),
