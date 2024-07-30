@@ -89,7 +89,15 @@ class EditStudentMarksSheet extends StackedView<EditStudentMarksSheetModel>
                       DataColumn(
                         numeric: true,
                         label: Text(
-                          request.description!,
+                          request.description! == 'assignMent1Marks'
+                              ? ("${request.description}/${request.data['assignment1']}")
+                              : request.description! == 'assignMent2Marks'
+                                  ? ("${request.description}/${request.data['assignment2']}")
+                                  : request.description! == 'cat1Marks'
+                                      ? ("${request.description}/${request.data['cat1']}")
+                                      : request.description! == 'cat2Marks'
+                                          ? ("${request.description}/${request.data['cat2']}")
+                                          : ("${request.description}/${request.data['exam']}"),
                           style: const TextStyle(
                               color: primaryColor,
                               fontWeight: FontWeight.w600,

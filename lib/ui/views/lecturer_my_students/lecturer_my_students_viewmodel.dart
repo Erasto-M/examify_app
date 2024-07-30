@@ -124,6 +124,11 @@ class LecturerMyStudentsViewModel extends BaseViewModel {
     int? cat1Marks,
     int? cat2Marks,
     int? examMarks,
+    int? assignMent1OutOff,
+    int? assignMent2OutOff,
+    int? cat1MarksOutOff,
+    int? cat2MarksOutOff,
+    int? examMarksOutOff,
   }) async {
     await _bottomSheetService.showCustomSheet(
       variant: BottomSheetType.editMarksPerStudent,
@@ -137,6 +142,11 @@ class LecturerMyStudentsViewModel extends BaseViewModel {
         "cat2Marks": cat2Marks,
         "examMarks": examMarks,
         "unitCode": unitCode,
+        "assignMent1OutOff": assignMent1OutOff,
+        "assignMent2OutOff": assignMent2OutOff,
+        "cat1MarksOutOff": cat1MarksOutOff,
+        "cat2MarksOutOff": cat2MarksOutOff,
+        "examMarksOutOff": examMarksOutOff,
       },
     );
   }

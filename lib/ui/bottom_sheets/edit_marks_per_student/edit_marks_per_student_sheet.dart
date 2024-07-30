@@ -69,7 +69,7 @@ class EditMarksPerStudentSheet
               controller: assignMent1MarksController,
               // initialValue: request.data['assignMent1Marks'].toString(),
               decoration: InputDecoration(
-                labelText: 'Assignment 1',
+                labelText: 'Assignment1 / ${request.data['assignMent1OutOff']}',
                 hintText: request.data['assignMent1Marks'].toString(),
               ),
             ),
@@ -78,7 +78,7 @@ class EditMarksPerStudentSheet
               controller: assignMent2MarksController,
               // initialValue: request.data['assignMent2Marks'].toString(),
               decoration: InputDecoration(
-                labelText: 'Assignment 2',
+                labelText: 'Assignment2 / ${request.data['assignMent2OutOff']}',
                 hintText: request.data['assignMent2Marks'].toString(),
               ),
             ),
@@ -86,7 +86,7 @@ class EditMarksPerStudentSheet
             TextFormField(
               controller: cat1MarksController,
               decoration: InputDecoration(
-                labelText: 'CAT 1',
+                labelText: 'CAT1 / ${request.data['cat1MarksOutOff']}',
                 hintText: request.data['cat1Marks'].toString(),
               ),
             ),
@@ -95,7 +95,7 @@ class EditMarksPerStudentSheet
               controller: cat2MarksController,
               // initialValue: request.data['cat2Marks'].toString(),
               decoration: InputDecoration(
-                labelText: 'CAT 2',
+                labelText: 'CAT2 / ${request.data['cat2MarksOutOff']}',
                 hintText: request.data['cat2Marks'].toString(),
               ),
             ),
@@ -105,7 +105,7 @@ class EditMarksPerStudentSheet
               controller: examMarksController,
               // initialValue: request.data['examMarks'].toString(),
               decoration: InputDecoration(
-                labelText: 'Exam',
+                labelText: 'Exam / ${request.data['examMarksOutOff']}',
                 hintText: request.data['examMarks'].toString(),
               ),
             ),
@@ -137,6 +137,7 @@ class EditMarksPerStudentSheet
                     await viewModel.updateMarks(
                       studentId: request.description!,
                       unitCode: request.data['unitCode'] as String,
+                      data: request.data,
                       student: StudentsRegisteredUnitsModel(
                         assignMent1Marks: parsedAssignMent1Marks,
                         assignMent2Marks: parsedAssignMent2Marks,
@@ -146,16 +147,14 @@ class EditMarksPerStudentSheet
                       ),
                       context: context,
                     );
-
                     // Clear the controllers
-                    assignMent1MarksController.clear();
-                    assignMent2MarksController.clear();
-                    cat1MarksController.clear();
-                    cat2MarksController.clear();
-                    examMarksController.clear();
-
-                    // Return success response
-                    completer!(SheetResponse(confirmed: true));
+                    if (!viewModel.isBusy) {
+                      assignMent1MarksController.clear();
+                      assignMent2MarksController.clear();
+                      cat1MarksController.clear();
+                      cat2MarksController.clear();
+                      examMarksController.clear();
+                    }
                   } catch (e) {
                     // Handle parsing errors
                     Fluttertoast.showToast(

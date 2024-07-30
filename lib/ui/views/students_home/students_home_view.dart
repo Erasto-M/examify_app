@@ -43,7 +43,7 @@ class StudentsHomeView extends StackedView<StudentsHomeViewModel> {
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.school),
-                label: 'Academics',
+                label: 'Academic Reports',
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.person),

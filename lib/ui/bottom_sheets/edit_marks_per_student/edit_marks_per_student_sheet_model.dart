@@ -14,6 +14,7 @@ class EditMarksPerStudentSheetModel extends FormViewModel {
     required String unitCode,
     required StudentsRegisteredUnitsModel student,
     required BuildContext context,
+    required Map<String, dynamic> data,
   }) async {
     setBusy(true);
     if (assignMent1MarksValue!.isEmpty ||
@@ -29,12 +30,40 @@ class EditMarksPerStudentSheetModel extends FormViewModel {
       Fluttertoast.showToast(msg: 'Please fill all fields');
       setBusy(false);
       return;
+    } else if (int.parse(assignMent1MarksValue!) > data['assignMent1OutOff']) {
+      Fluttertoast.showToast(
+          msg:
+              'Assignment 1 marks cannot be greater than ${data['assignMent1OutOff']}');
+      setBusy(false);
+      return;
+    } else if (int.parse(assignMent1MarksValue!) > data['assignMent2OutOff']) {
+      Fluttertoast.showToast(
+          msg:
+              'Assignment 2 marks cannot be greater than ${data['assignMent2OutOff']}');
+      setBusy(false);
+      return;
+    } else if (int.parse(cat1MarksValue!) > data['cat1MarksOutOff']) {
+      Fluttertoast.showToast(
+          msg: 'CAT 1 marks cannot be greater than ${data['cat1MarksOutOff']}');
+      setBusy(false);
+      return;
+    } else if (int.parse(cat2MarksValue!) > data['cat2MarksOutOff']) {
+      Fluttertoast.showToast(
+          msg: 'CAT 2 marks cannot be greater than ${data['cat2MarksOutOff']}');
+      setBusy(false);
+      return;
+    } else if (int.parse(examMarksValue!) > data['examMarksOutOff']) {
+      Fluttertoast.showToast(
+          msg: 'Exam marks cannot be greater than ${data['examMarksOutOff']}');
+      setBusy(false);
+      return;
+    } else {
+      await _lecturerDashboardService.updateStudentMarks(
+          studentId: studentId,
+          unitCode: unitCode,
+          student: student,
+          context: context);
+      setBusy(false);
     }
-    await _lecturerDashboardService.updateStudentMarks(
-        studentId: studentId,
-        unitCode: unitCode,
-        student: student,
-        context: context);
-    setBusy(false);
   }
 }

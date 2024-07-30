@@ -88,7 +88,7 @@ class LecturerMyStudentsView extends StackedView<LecturerMyStudentsViewModel> {
                                 BoxShadow(
                                   color: Colors.grey[200]!,
                                   blurRadius: 5,
-                                  offset: Offset(0, 3),
+                                  offset: const Offset(0, 3),
                                 )
                               ],
                             ),
@@ -273,6 +273,8 @@ class LecturerMyStudentsView extends StackedView<LecturerMyStudentsViewModel> {
                             grade: grade,
                           ));
                         });
+                        List<StudentsRegisteredUnitsModel> studentInfo =
+                            snapshot.data!;
                         return SingleChildScrollView(
                           scrollDirection: Axis.horizontal,
                           child: ConstrainedBox(
@@ -283,8 +285,8 @@ class LecturerMyStudentsView extends StackedView<LecturerMyStudentsViewModel> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 DataTable(
-                                  columns: const [
-                                    DataColumn(
+                                  columns: [
+                                    const DataColumn(
                                       label: Text(
                                         "Name",
                                         style: TextStyle(
@@ -293,7 +295,7 @@ class LecturerMyStudentsView extends StackedView<LecturerMyStudentsViewModel> {
                                             fontSize: 18),
                                       ),
                                     ),
-                                    DataColumn(
+                                    const DataColumn(
                                       label: Text(
                                         "RegNo",
                                         style: TextStyle(
@@ -304,8 +306,8 @@ class LecturerMyStudentsView extends StackedView<LecturerMyStudentsViewModel> {
                                     ),
                                     DataColumn(
                                       label: Text(
-                                        "Assignment 1",
-                                        style: TextStyle(
+                                        "Assignment1 /${studentInfo[0].assignMent1OutOff}",
+                                        style: const TextStyle(
                                             color: primaryColor,
                                             fontWeight: FontWeight.w600,
                                             fontSize: 18),
@@ -313,8 +315,8 @@ class LecturerMyStudentsView extends StackedView<LecturerMyStudentsViewModel> {
                                     ),
                                     DataColumn(
                                       label: Text(
-                                        "Assignment 2",
-                                        style: TextStyle(
+                                        "Assignment2 /${studentInfo[0].assignMent2OutOff}",
+                                        style: const TextStyle(
                                             color: primaryColor,
                                             fontWeight: FontWeight.w600,
                                             fontSize: 18),
@@ -322,8 +324,8 @@ class LecturerMyStudentsView extends StackedView<LecturerMyStudentsViewModel> {
                                     ),
                                     DataColumn(
                                       label: Text(
-                                        "Cat 1",
-                                        style: TextStyle(
+                                        "Cat1 /${studentInfo[0].cat1Marks1OutOff}",
+                                        style: const TextStyle(
                                             color: primaryColor,
                                             fontWeight: FontWeight.w600,
                                             fontSize: 18),
@@ -331,8 +333,8 @@ class LecturerMyStudentsView extends StackedView<LecturerMyStudentsViewModel> {
                                     ),
                                     DataColumn(
                                       label: Text(
-                                        "cat 2",
-                                        style: TextStyle(
+                                        "cat2 /${studentInfo[0].cat2MarksOutOff}",
+                                        style: const TextStyle(
                                             color: primaryColor,
                                             fontWeight: FontWeight.w600,
                                             fontSize: 18),
@@ -340,14 +342,14 @@ class LecturerMyStudentsView extends StackedView<LecturerMyStudentsViewModel> {
                                     ),
                                     DataColumn(
                                       label: Text(
-                                        "Exam ",
-                                        style: TextStyle(
+                                        "Exam /${studentInfo[0].examMarksOutOff}",
+                                        style: const TextStyle(
                                             color: primaryColor,
                                             fontWeight: FontWeight.w600,
                                             fontSize: 18),
                                       ),
                                     ),
-                                    DataColumn(
+                                    const DataColumn(
                                       label: Text(
                                         "Total marks",
                                         style: TextStyle(
@@ -356,7 +358,7 @@ class LecturerMyStudentsView extends StackedView<LecturerMyStudentsViewModel> {
                                             fontSize: 18),
                                       ),
                                     ),
-                                    DataColumn(
+                                    const DataColumn(
                                       label: Text(
                                         "Grade",
                                         style: TextStyle(
@@ -365,7 +367,7 @@ class LecturerMyStudentsView extends StackedView<LecturerMyStudentsViewModel> {
                                             fontSize: 18),
                                       ),
                                     ),
-                                    DataColumn(
+                                    const DataColumn(
                                       label: Text(
                                         "Action",
                                         style: TextStyle(
@@ -432,6 +434,16 @@ class LecturerMyStudentsView extends StackedView<LecturerMyStudentsViewModel> {
                                                   cat2Marks: student.cat2Marks,
                                                   examMarks: student.examMarks,
                                                   unitCode: student.unitCode!,
+                                                  assignMent1OutOff:
+                                                      student.assignMent1OutOff,
+                                                  assignMent2OutOff:
+                                                      student.assignMent2OutOff,
+                                                  cat1MarksOutOff:
+                                                      student.cat1Marks1OutOff,
+                                                  cat2MarksOutOff:
+                                                      student.cat2MarksOutOff,
+                                                  examMarksOutOff:
+                                                      student.examMarksOutOff,
                                                 );
                                               },
                                               icon: const Icon(
