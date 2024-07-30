@@ -1127,6 +1127,36 @@ class MockAdminDashboardService extends _i1.Mock
       ) as _i7.Future<dynamic>);
 
   @override
+  _i7.Future<_i3.DocumentSnapshot<Object?>?> getRegistrationWindowStatus(
+          String? year) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getRegistrationWindowStatus,
+          [year],
+        ),
+        returnValue: _i7.Future<_i3.DocumentSnapshot<Object?>?>.value(),
+        returnValueForMissingStub:
+            _i7.Future<_i3.DocumentSnapshot<Object?>?>.value(),
+      ) as _i7.Future<_i3.DocumentSnapshot<Object?>?>);
+
+  @override
+  _i7.Future<void> updateRegistrationWindowStatus(
+    bool? value,
+    String? year,
+  ) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #updateRegistrationWindowStatus,
+          [
+            value,
+            year,
+          ],
+        ),
+        returnValue: _i7.Future<void>.value(),
+        returnValueForMissingStub: _i7.Future<void>.value(),
+      ) as _i7.Future<void>);
+
+  @override
   _i7.Stream<List<_i14.SpecialExamsModel>>
       fetchSpecialExamsBasedOnSemesterStage({required String? semesterStage}) =>
           (super.noSuchMethod(

@@ -25,11 +25,30 @@ class RegisterViewModel extends FormViewModel {
   String? selectedRole;
   get selectedRoleValue => selectedRole;
 
+   String? selecteCohort;
+  get selectedCohortValue => selecteCohort;
+
   //role list
   List role = [
     'Student',
     "Lecturer",
     "ExamsCoordinator",
+  ];
+
+   //cohost list
+  List cohostList = [
+    "2020",
+    "2021",
+    "2022",
+    "2023",
+    '2024',
+    "2025",
+    "2026",
+    "2027",
+    "2028",
+    "2029",
+    "2030",
+    "2031",
   ];
   // gender drop down menu
   void selectGender(
@@ -60,7 +79,7 @@ class RegisterViewModel extends FormViewModel {
   }
 
   // select role
-  void selectRole(BuildContext context, TextEditingController roleController) {
+  void selectRole(BuildContext context, TextEditingController cohortController) {
     showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
@@ -70,6 +89,33 @@ class RegisterViewModel extends FormViewModel {
             itemCount: role.length,
             itemBuilder: (BuildContext context, int index) {
               String valueItem = role[index];
+              return ListTile(
+                title: Text(valueItem),
+                onTap: () {
+                  selectedRole = valueItem;
+                  cohortController.text = valueItem;
+                  notifyListeners();
+                  Navigator.pop(context);
+                },
+              );
+            },
+          ),
+        );
+      },
+    );
+  }
+
+    // select cohort
+  void selectCohort(BuildContext context, TextEditingController roleController) {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return Container(
+          child: ListView.builder(
+            shrinkWrap: true,
+            itemCount: cohostList.length,
+            itemBuilder: (BuildContext context, int index) {
+              String valueItem = cohostList[index];
               return ListTile(
                 title: Text(valueItem),
                 onTap: () {
@@ -132,6 +178,7 @@ class RegisterViewModel extends FormViewModel {
     required String confirmPassword,
     required String yearOfStudy,
     required String registrationNumber,
+    required String cohort,
     required String pfNumber,
   }) async {
     setBusy(true);
@@ -173,6 +220,7 @@ class RegisterViewModel extends FormViewModel {
         yearOfStudy: yearOfStudy,
         registrationNumber: registrationNumber,
         pfNumber: pfNumber,
+        cohort: cohort,
       );
       notifyListeners();
       setBusy(false);

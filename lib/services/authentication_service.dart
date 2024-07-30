@@ -30,6 +30,7 @@ class AuthenticationService {
     required String yearOfStudy,
     required String registrationNumber,
     required String pfNumber,
+    required String cohort,
   }) async {
     try {
       //register user
@@ -48,6 +49,7 @@ class AuthenticationService {
           'userId': value.user!.uid,
           "yearOfStudy": yearOfStudy,
           "registrationNumber": registrationNumber,
+          "cohort": cohort,
           "pfNumber": pfNumber,
         });
       }).then((value) {
