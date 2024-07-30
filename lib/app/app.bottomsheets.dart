@@ -22,9 +22,7 @@ enum BottomSheetType {
   editUnit,
   editStudentMarks,
   editMarksPerStudent,
-  customizeUnitsAssesment,
-  studentRegisterUnit,
-  updateProfile,
+  customizeUnitsAssesment, studentRegisterUnit, updateProfile,
 }
 
 void setupBottomSheetUi() {

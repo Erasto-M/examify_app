@@ -26,7 +26,7 @@ class _AdminStudentPerformanceDetailsViewState
   Widget build(BuildContext context) {
     return ViewModelBuilder<AdminStudentPerformanceDetailsViewModel>.reactive(
       viewModelBuilder: () => AdminStudentPerformanceDetailsViewModel(),
-      onModelReady: (viewModel) =>
+      onViewModelReady: (viewModel) =>
           viewModel.fetchStudentUnitsAndGenerateRecommendations(
               widget.semesterStage, widget.studentUid),
       builder: (context, viewModel, child) => Scaffold(

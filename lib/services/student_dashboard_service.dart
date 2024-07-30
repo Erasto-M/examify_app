@@ -147,4 +147,42 @@ class StudentDashboardService {
     } catch (e) {}
     return Stream.value([]);
   }
+
+  //mySpecial Exams
+  Stream<List<SpecialExamsModel>> getMySpecialExams(
+      {required String semesterStage}) {
+    try {
+      return db
+          .collection('SpecialEXams')
+          .where('semesterStage', isEqualTo: semesterStage)
+          .where('specialExamStatus', isEqualTo: 'Approved')
+          .where('studeUid', isEqualTo: auth.currentUser!.uid)
+          .snapshots()
+          .map((querySnapshot) {
+        return querySnapshot.docs.map((doc) {
+          return SpecialExamsModel.fromMap(doc.data() as Map<String, dynamic>);
+        }).toList();
+      });
+    } catch (e) {}
+    return Stream.value([]);
+  }
+
+  //get all my Misiing marks
+  Stream<List<StudentsRegisteredUnitsModel>> getAllMyDetails(
+      {required String semesterStage}) {
+    try {
+      return db
+          .collection('student_registered_units')
+          .where('semesterStage', isEqualTo: semesterStage)
+          .where('studentUid', isEqualTo: auth.currentUser!.uid)
+          .snapshots()
+          .map((querySnapshot) {
+        return querySnapshot.docs.map((doc) {
+          return StudentsRegisteredUnitsModel.fromMap(
+              doc.data() as Map<String, dynamic>);
+        }).toList();
+      });
+    } catch (e) {}
+    return Stream.value([]);
+  }
 }

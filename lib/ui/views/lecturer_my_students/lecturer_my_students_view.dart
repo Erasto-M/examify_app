@@ -186,10 +186,9 @@ class LecturerMyStudentsView extends StackedView<LecturerMyStudentsViewModel> {
                                 child: InkWell(
                                   onTap: () {
                                     viewModel.openEditStudentMarksSheet(
-                                      unitCode: unitCode,
-                                      unitName: unitName,
-                                      student: snapshot.data!
-                                    );
+                                        unitCode: unitCode,
+                                        unitName: unitName,
+                                        student: snapshot.data!);
                                   },
                                   child: Container(
                                     height: 40,
@@ -250,11 +249,19 @@ class LecturerMyStudentsView extends StackedView<LecturerMyStudentsViewModel> {
                         );
                       } else {
                         snapshot.data!.forEach((student) async {
-                          final  totalMarks = ((student.assignMent1Marks!/student.assignMent1OutOff!)*5) +
-                             (( student.assignMent2Marks!/student.assignMent2OutOff!)*5) +
-                             (( student.cat1Marks!/student.cat1Marks1OutOff!)*10) +
-                               ((student.cat2Marks! /student.cat2MarksOutOff!)*10)+
-                              ((student.examMarks!/student.examMarksOutOff!)*70);
+                          final totalMarks = ((student.assignMent1Marks! /
+                                      student.assignMent1OutOff!) *
+                                  5) +
+                              ((student.assignMent2Marks! /
+                                      student.assignMent2OutOff!) *
+                                  5) +
+                              ((student.cat1Marks! /
+                                      student.cat1Marks1OutOff!) *
+                                  10) +
+                              ((student.cat2Marks! / student.cat2MarksOutOff!) *
+                                  10) +
+                              ((student.examMarks! / student.examMarksOutOff!) *
+                                  70);
                           final grade = viewModel
                               .calculateGrade(totalMarks: totalMarks)
                               .toString();

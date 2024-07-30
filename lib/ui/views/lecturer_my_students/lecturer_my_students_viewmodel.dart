@@ -83,18 +83,17 @@ class LecturerMyStudentsViewModel extends BaseViewModel {
     required List<StudentsRegisteredUnitsModel> student,
   }) {
     _bottomSheetService.showCustomSheet(
-      variant: BottomSheetType.editStudentMarks,
-      isScrollControlled: true,
-      description: _selectedExamModuleToEnterMarks,
-      data: {
-        'assignment1': student[0].assignMent1OutOff,
-        'assignment2': student[0].assignMent2OutOff,
-        'cat1': student[0].cat1Marks1OutOff,
-        'cat2': student[0].cat2MarksOutOff,
-        'exam': student[0].examMarksOutOff, 
-      },
-      title: unitCode
-    );
+        variant: BottomSheetType.editStudentMarks,
+        isScrollControlled: true,
+        description: _selectedExamModuleToEnterMarks,
+        data: {
+          'assignment1': student[0].assignMent1OutOff,
+          'assignment2': student[0].assignMent2OutOff,
+          'cat1': student[0].cat1Marks1OutOff,
+          'cat2': student[0].cat2MarksOutOff,
+          'exam': student[0].examMarksOutOff,
+        },
+        title: unitCode);
   }
 
   String _selectedExamModuleToEnterMarks = 'assignMent1Marks';
@@ -245,16 +244,15 @@ class LecturerMyStudentsViewModel extends BaseViewModel {
     required StudentsRegisteredUnitsModel units,
   }) async {
     await _bottomSheetService.showCustomSheet(
-      variant: BottomSheetType.customizeUnitsAssesment,
-      title: unitName,
-      description: unitCode,
-      data: {
-        'assignment1': units.assignMent1OutOff,
-        'assignment2': units.assignMent2OutOff,
-        'cat1': units.cat1Marks1OutOff ,
-        'cat2': units.cat2MarksOutOff,
-        'exam': units.examMarksOutOff,
-      }
-    );
+        variant: BottomSheetType.customizeUnitsAssesment,
+        title: unitName,
+        description: unitCode,
+        data: {
+          'assignment1': units.assignMent1OutOff,
+          'assignment2': units.assignMent2OutOff,
+          'cat1': units.cat1Marks1OutOff,
+          'cat2': units.cat2MarksOutOff,
+          'exam': units.examMarksOutOff,
+        });
   }
 }
