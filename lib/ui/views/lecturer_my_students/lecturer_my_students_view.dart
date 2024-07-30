@@ -327,7 +327,7 @@ class LecturerMyStudentsView extends StackedView<LecturerMyStudentsViewModel> {
                             size: 70,
                           ),
                         );
-                      } else if (!snapshot.hasData) {
+                      } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
                         return const Center(
                           child: Text("No students found"),
                         );

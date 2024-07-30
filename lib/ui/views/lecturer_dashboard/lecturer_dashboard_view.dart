@@ -125,22 +125,27 @@ class LecturerDashboardView extends StackedView<LecturerDashboardViewModel> {
                                           CrossAxisAlignment.start,
                                       children: [
                                         Text(unit.unitCode),
-                                        verticalSpaceTiny,
-                                        // put text in a wrap widegt
-                                        Column(
-                                          children: [
-                                            Text(
-                                              unit.unitName,
-                                              style: const TextStyle(
-                                                fontSize: 15,
-                                                fontWeight: FontWeight.normal,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
+                                        const SizedBox(
+                                            height:
+                                                4), // Replace verticalSpaceTiny with SizedBox for spacing
                                       ],
                                     ),
-                                    const Spacer(),
+                                    const SizedBox(
+                                        width:
+                                            10), // Add some spacing between the code and the name
+                                    Expanded(
+                                      child: Text(
+                                        unit.unitName,
+                                        style: const TextStyle(
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.normal,
+                                        ),
+                                        maxLines:
+                                            null, // Allows the text to use as many lines as needed
+                                        overflow: TextOverflow
+                                            .visible, // Ensures text will continue to the next line if it overflows
+                                      ),
+                                    ),
                                     IconButton(
                                       onPressed: () {},
                                       icon: const Icon(
@@ -157,25 +162,24 @@ class LecturerDashboardView extends StackedView<LecturerDashboardViewModel> {
                                       );
                                     },
                                     child: Container(
-                                        height: 50,
-                                        width:
-                                            MediaQuery.of(context).size.width /
-                                                2,
-                                        decoration: BoxDecoration(
-                                          color: primaryColor,
-                                          borderRadius:
-                                              BorderRadius.circular(20),
-                                        ),
-                                        child: const Center(
-                                          child: Text(
-                                            'Assign marks',
-                                            style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 20,
-                                              fontWeight: FontWeight.bold,
-                                            ),
+                                      height: 50,
+                                      width:
+                                          MediaQuery.of(context).size.width / 2,
+                                      decoration: BoxDecoration(
+                                        color: primaryColor,
+                                        borderRadius: BorderRadius.circular(20),
+                                      ),
+                                      child: const Center(
+                                        child: Text(
+                                          'Assign marks',
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold,
                                           ),
-                                        )),
+                                        ),
+                                      ),
+                                    ),
                                   ),
                                 ),
                               ),
