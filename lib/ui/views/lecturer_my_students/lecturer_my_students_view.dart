@@ -5,6 +5,7 @@ import 'package:examify/ui/common/app_colors.dart';
 import 'package:examify/ui/common/ui_helpers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:stacked/stacked.dart';
 
@@ -211,6 +212,88 @@ class LecturerMyStudentsView extends StackedView<LecturerMyStudentsViewModel> {
                               );
                             }
                             return const SizedBox();
+                          }),
+                      verticalSpaceSmall,
+                      StreamBuilder(
+                          stream: viewModel.getAllMyStudentsWithSpeialExams(
+                              unitCode: unitCode),
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                              List<StudentsRegisteredUnitsModel> student =
+                                  snapshot.data!;
+                              return Center(
+                                child: InkWell(
+                                  onTap: () {
+                                    if (!snapshot.hasData ||
+                                        snapshot.data!.isEmpty) {
+                                      Fluttertoast.showToast(
+                                          msg:
+                                              "No students with Special exams for $unitName");
+                                    }
+                                    viewModel.openEditStudentMarksSheet(
+                                        unitCode: unitCode,
+                                        unitName: unitName,
+                                        student: snapshot.data!);
+                                  },
+                                  child: Container(
+                                    height: 40,
+                                    width: MediaQuery.sizeOf(context).width,
+                                    decoration: BoxDecoration(
+                                        color: primaryColor,
+                                        borderRadius:
+                                            BorderRadius.circular(10)),
+                                    child: const Center(
+                                      child: Text(
+                                        "Enter Special Exam Marks",
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 20),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              );
+                            }
+                            return const SizedBox();
+                          }),
+                      verticalSpaceSmall,
+                      StreamBuilder(
+                          stream: viewModel.getAllMyStudentsWithSpeialExams(
+                              unitCode: unitCode),
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                              List<StudentsRegisteredUnitsModel> student =
+                                  snapshot.data!;
+                              return Center(
+                                child: InkWell(
+                                  onTap: () {
+                                    viewModel.openEditStudentMarksSheet(
+                                        unitCode: unitCode,
+                                        unitName: unitName,
+                                        student: snapshot.data!);
+                                  },
+                                  child: Container(
+                                    height: 40,
+                                    width: MediaQuery.sizeOf(context).width,
+                                    decoration: BoxDecoration(
+                                        color: primaryColor,
+                                        borderRadius:
+                                            BorderRadius.circular(10)),
+                                    child: const Center(
+                                      child: Text(
+                                        "Enter Supplementary Exam Marks",
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 20),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              );
+                            }
+                            return const SizedBox();
                           })
                     ],
                   ),
@@ -234,7 +317,8 @@ class LecturerMyStudentsView extends StackedView<LecturerMyStudentsViewModel> {
 
                 SizedBox(
                   child: StreamBuilder<List<StudentsRegisteredUnitsModel>>(
-                    stream: viewModel.getAllMyStudents(unitCode: unitCode),
+                    stream: viewModel.getAllMyStudentsWithSpecialExamOrWithout(
+                        unitCode: unitCode),
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
                         return const Center(
@@ -403,13 +487,43 @@ class LecturerMyStudentsView extends StackedView<LecturerMyStudentsViewModel> {
                                         ),
                                       ),
                                       DataCell(
-                                        Text(student.examMarks.toString()),
+                                        Text(
+                                          student.appliedSpecialExam == true
+                                              ? "Special Exam"
+                                              : student.examMarks.toString(),
+                                          style: TextStyle(
+                                              color:
+                                                  student.appliedSpecialExam ==
+                                                          true
+                                                      ? Colors.red
+                                                      : Colors.black),
+                                        ),
                                       ),
                                       DataCell(
-                                        Text(student.totalMarks.toString()),
+                                        Text(
+                                          student.appliedSpecialExam == true
+                                              ? 'Incomplete'
+                                              : student.totalMarks.toString(),
+                                          style: TextStyle(
+                                              color:
+                                                  student.appliedSpecialExam ==
+                                                          true
+                                                      ? Colors.red
+                                                      : Colors.black),
+                                        ),
                                       ),
                                       DataCell(
-                                        Text(student.grade.toString()),
+                                        Text(
+                                          student.appliedSpecialExam == true
+                                              ? 'inComplete'
+                                              : student.grade.toString(),
+                                          style: TextStyle(
+                                              color:
+                                                  student.appliedSpecialExam ==
+                                                          true
+                                                      ? Colors.red
+                                                      : Colors.black),
+                                        ),
                                       ),
                                       DataCell(
                                         MouseRegion(

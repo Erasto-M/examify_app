@@ -203,33 +203,6 @@ class EditStudentMarksSheetModel extends FormViewModel {
   Map<String, TextEditingController> _controllers = {};
   Map<String, TextEditingController> get controllers => _controllers;
 
-  // fetching all students and putting them in a list
-  Future<void> fetchStudents(String unitCode) async {
-    final currentUserId = firebaseAuth.currentUser!.uid;
-    setBusy(true);
-    try {
-      final querySnapshot = await firestore
-          .collection('student_registered_units')
-          .where("unitLecturer", isEqualTo: currentUserId)
-          .where("unitCode", isEqualTo: unitCode)
-          .get();
-
-      _students = querySnapshot.docs
-          .map((doc) => StudentsRegisteredUnitsModel.fromMap(doc.data()))
-          .toList();
-
-      for (var student in _students) {
-        controllers.putIfAbsent(
-            student.studentUid!, () => TextEditingController());
-      }
-    } catch (e) {
-      // Handle error
-      print('Error fetching students: $e');
-    } finally {
-      setBusy(false);
-    }
-  }
-
 // numeric
   bool isNumeric(String? value) {
     if (value!.isEmpty) {
@@ -238,12 +211,7 @@ class EditStudentMarksSheetModel extends FormViewModel {
     return double.tryParse(value) != null;
   }
 
-  /*
-  1. method for pushing the students marks to firebase
-  2. Validate if any field is empty or null 
-  3. Validate if the input is numeric and within the allowed range 
-  4. validate if the input is a number
-   */
+  //submit marks loop
   Future<void> submitMarks({
     required String unitCode,
     required String selectedModule,
@@ -274,21 +242,16 @@ class EditStudentMarksSheetModel extends FormViewModel {
       } else {
         int marks = int.parse(text);
         if (selectedModule == 'assignMent1Marks' && marks > assignMent1Outof) {
-          errors.add(
-              "Assignment 1 marks for $selectedModule should not exceed $assignMent1Outof");
+          errors.add("Assignment 1 marks  should not exceed $assignMent1Outof");
         } else if (selectedModule == 'assignMent2Marks' &&
             marks > assignMent2Outof) {
-          errors.add(
-              "Assignment 2 marks for $selectedModule should not exceed $assignMent2Outof");
+          errors.add("Assignment 2 marks  should not exceed $assignMent2Outof");
         } else if (selectedModule == 'cat1Marks' && marks > cat1Outof) {
-          errors.add(
-              "CAT 1 marks for $selectedModule should not exceed $cat1Outof");
+          errors.add("CAT 1 marks should not exceed $cat1Outof");
         } else if (selectedModule == 'cat2Marks' && marks > cat2Outof) {
-          errors.add(
-              "CAT 2 marks for $selectedModule should not exceed $cat2Outof");
+          errors.add("CAT2 marks  should not exceed $cat2Outof");
         } else if (selectedModule == 'examMarks' && marks > examOutof) {
-          errors.add(
-              "Exam marks for $selectedModule should not exceed $examOutof");
+          errors.add("Exam marks  should not exceed $examOutof");
         }
       }
     }

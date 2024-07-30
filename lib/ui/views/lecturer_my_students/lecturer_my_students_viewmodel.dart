@@ -76,6 +76,22 @@ class LecturerMyStudentsViewModel extends BaseViewModel {
     return _lectureDashboardService.getAllMyStudents(unitCode: unitCode);
   }
 
+  //get all who applied for Special Exams
+  Stream<List<StudentsRegisteredUnitsModel>> getAllMyStudentsWithSpeialExams({
+    required String unitCode,
+  }) {
+    return _lectureDashboardService.getAllMyStudentsWithSpecials(
+        unitCode: unitCode);
+  }
+
+  //get all with both special exam and without
+  Stream<List<StudentsRegisteredUnitsModel>>
+      getAllMyStudentsWithSpecialExamOrWithout({
+    required String unitCode,
+  }) {
+    return _lectureDashboardService. getAllMyStudentsWithBothSpecialExamAndWithout(unitCode: unitCode);
+  }
+
   // open the bottom sheet to edit the student marks
   void openEditStudentMarksSheet({
     required String unitCode,
@@ -92,6 +108,7 @@ class LecturerMyStudentsViewModel extends BaseViewModel {
           'cat1': student[0].cat1Marks1OutOff,
           'cat2': student[0].cat2MarksOutOff,
           'exam': student[0].examMarksOutOff,
+          'student': student,
         },
         title: unitCode);
   }

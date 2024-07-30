@@ -35,6 +35,7 @@ class EditStudentMarksSheet extends StackedView<EditStudentMarksSheetModel>
     EditStudentMarksSheetModel viewModel,
     Widget? child,
   ) {
+    List<StudentsRegisteredUnitsModel> student = request.data['student'];
     return SafeArea(
       child: SingleChildScrollView(
         child: Container(
@@ -90,14 +91,14 @@ class EditStudentMarksSheet extends StackedView<EditStudentMarksSheetModel>
                         numeric: true,
                         label: Text(
                           request.description! == 'assignMent1Marks'
-                              ? ("${request.description}/${request.data['assignment1']}")
+                              ? ("${request.description} /${request.data['assignment1']}")
                               : request.description! == 'assignMent2Marks'
-                                  ? ("${request.description}/${request.data['assignment2']}")
+                                  ? ("${request.description} /${request.data['assignment2']}")
                                   : request.description! == 'cat1Marks'
-                                      ? ("${request.description}/${request.data['cat1']}")
+                                      ? ("${request.description} /${request.data['cat1']}")
                                       : request.description! == 'cat2Marks'
-                                          ? ("${request.description}/${request.data['cat2']}")
-                                          : ("${request.description}/${request.data['exam']}"),
+                                          ? ("${request.description} /${request.data['cat2']}")
+                                          : ("${request.description} r/${request.data['exam']}"),
                           style: const TextStyle(
                               color: primaryColor,
                               fontWeight: FontWeight.w600,
@@ -105,7 +106,7 @@ class EditStudentMarksSheet extends StackedView<EditStudentMarksSheetModel>
                         ),
                       ),
                     ],
-                    rows: viewModel.studentsList.map((student) {
+                    rows: student.map((student) {
                       final controller = viewModel.controllers.putIfAbsent(
                         student.studentUid!,
                         () => TextEditingController(),
@@ -181,7 +182,6 @@ class EditStudentMarksSheet extends StackedView<EditStudentMarksSheetModel>
   @override
   void onViewModelReady(EditStudentMarksSheetModel viewModel) {
     syncFormWithViewModel(viewModel);
-    viewModel.fetchStudents(request.title!);
     super.onViewModelReady(viewModel);
   }
 }

@@ -43,6 +43,47 @@ class LecturerDashboardService {
           .collection('student_registered_units')
           .where("unitLecturer", isEqualTo: auth.currentUser!.uid)
           .where("unitCode", isEqualTo: unitCode)
+          .where('appliedSpecialExam', isEqualTo: false)
+          .snapshots()
+          .map((snapshot) => snapshot.docs
+              .map((doc) => StudentsRegisteredUnitsModel.fromMap(doc.data()))
+              .toList());
+    } catch (e) {
+      Fluttertoast.showToast(msg: e.toString());
+      yield [];
+    }
+  }
+
+  //get all students with Special Exams
+  Stream<List<StudentsRegisteredUnitsModel>> getAllMyStudentsWithSpecials({
+    required String unitCode,
+  }) async* {
+    try {
+      yield* firestore
+          .collection('student_registered_units')
+          .where("unitLecturer", isEqualTo: auth.currentUser!.uid)
+          .where("unitCode", isEqualTo: unitCode)
+          .where('appliedSpecialExam', isEqualTo: true)
+          .snapshots()
+          .map((snapshot) => snapshot.docs
+              .map((doc) => StudentsRegisteredUnitsModel.fromMap(doc.data()))
+              .toList());
+    } catch (e) {
+      Fluttertoast.showToast(msg: e.toString());
+      yield [];
+    }
+  }
+
+  //Fetch all Lecturers students
+  Stream<List<StudentsRegisteredUnitsModel>>
+      getAllMyStudentsWithBothSpecialExamAndWithout({
+    required String unitCode,
+  }) async* {
+    try {
+      yield* firestore
+          .collection('student_registered_units')
+          .where("unitLecturer", isEqualTo: auth.currentUser!.uid)
+          .where("unitCode", isEqualTo: unitCode)
           .snapshots()
           .map((snapshot) => snapshot.docs
               .map((doc) => StudentsRegisteredUnitsModel.fromMap(doc.data()))
