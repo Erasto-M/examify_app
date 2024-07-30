@@ -17,6 +17,7 @@ import 'register_viewmodel.dart';
   FormTextField(name: "Gender"),
   FormTextField(name: "Role"),
   FormTextField(name: "Registration Number"),
+  FormTextField(name: "Cohort"),
   FormTextField(name: "PF Number"),
   FormTextField(name: "Password"),
   FormTextField(name: "Year of study"),
@@ -56,7 +57,7 @@ class RegisterView extends StackedView<RegisterViewModel> with $RegisterView {
                 Container(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                  height: MediaQuery.of(context).size.height / 1.13,
+                  height: MediaQuery.of(context).size.height / 1.00,
                   width: MediaQuery.of(context).size.width,
                   decoration: const BoxDecoration(
                       color: Colors.white,
@@ -200,6 +201,31 @@ class RegisterView extends StackedView<RegisterViewModel> with $RegisterView {
                                 TextFormField(
                                   validator: (value) {
                                     if (value!.isEmpty || value == '') {
+                                      return "Cohort is required";
+                                    }
+                                    return '';
+                                  },
+                                  controller: cohortController,
+                                  readOnly: true,
+                                  onTap: () {
+                                    viewModel.selectCohort(
+                                        context, cohortController);
+                                  },
+                                  decoration: InputDecoration(
+                                      hintText: "Cohort",
+                                      suffixIcon:
+                                          const Icon(Icons.arrow_drop_down),
+                                      prefixIcon:
+                                          const Icon(Icons.calendar_today),
+                                      border: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10))),
+                                ),
+                              verticalSpaceTiny,
+                              if (roleController.text == 'Student')
+                                TextFormField(
+                                  validator: (value) {
+                                    if (value!.isEmpty || value == '') {
                                       return "Registration number is required";
                                     }
                                     return '';
@@ -294,6 +320,7 @@ class RegisterView extends StackedView<RegisterViewModel> with $RegisterView {
                                             registrationNumber:
                                                 registrationNumberController
                                                     .text,
+                                            cohort: cohortController.text,
                                             pfNumber: pFNumberController.text);
                                       },
                                       child: Container(
