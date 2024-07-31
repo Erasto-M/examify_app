@@ -86,8 +86,9 @@ class CodApproveUnitsView extends StackedView<CodApproveUnitsViewModel> {
                         'Registration No: ${studentUnits.first.studentRegNo ?? 'N/A'}',
                       ),
                       const SizedBox(height: 10),
-                      Text(
-                        'Units:',
+                      const Text(
+                        'Units:', 
+                        style: TextStyle(fontWeight: FontWeight.bold),
                       ),
                       ...studentUnits.map((unit) => Padding(
                         padding: const EdgeInsets.symmetric(vertical: 5.0),
