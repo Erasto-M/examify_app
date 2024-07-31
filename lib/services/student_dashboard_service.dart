@@ -185,4 +185,13 @@ class StudentDashboardService {
     } catch (e) {}
     return Stream.value([]);
   }
+
+  //check whether units registration is closed or not
+  Stream<DocumentSnapshot<Map<String, dynamic>>>?
+      getUnitRegistrationWindowStatus() {
+    return db
+        .collection('unit_registration_availability')
+        .doc('2sz1qRL20HBQsnkXMfIG')
+        .snapshots();
+  }
 }

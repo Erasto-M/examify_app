@@ -40,10 +40,6 @@ class StudentsWithSpecialExamsSheetModel extends BaseViewModel {
   Future<void> submitMarks({
     required String unitCode,
     required String selectedModule,
-    required int assignMent1Outof,
-    required int assignMent2Outof,
-    required int cat1Outof,
-    required int cat2Outof,
     required int examOutof,
     required BuildContext context,
   }) async {
@@ -66,16 +62,7 @@ class StudentsWithSpecialExamsSheetModel extends BaseViewModel {
         errors.add("Invalid input. Please enter a number.");
       } else {
         int marks = int.parse(text);
-        if (selectedModule == 'assignMent1Marks' && marks > assignMent1Outof) {
-          errors.add("Assignment 1 marks  should not exceed $assignMent1Outof");
-        } else if (selectedModule == 'assignMent2Marks' &&
-            marks > assignMent2Outof) {
-          errors.add("Assignment 2 marks  should not exceed $assignMent2Outof");
-        } else if (selectedModule == 'cat1Marks' && marks > cat1Outof) {
-          errors.add("CAT 1 marks should not exceed $cat1Outof");
-        } else if (selectedModule == 'cat2Marks' && marks > cat2Outof) {
-          errors.add("CAT2 marks  should not exceed $cat2Outof");
-        } else if (selectedModule == 'examMarks' && marks > examOutof) {
+        if (selectedModule == 'examMarks' && marks > examOutof) {
           errors.add("Exam marks  should not exceed $examOutof");
         }
       }

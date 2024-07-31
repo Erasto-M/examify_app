@@ -24,7 +24,7 @@ class StudentsWithSpecialExamsSheet
     StudentsWithSpecialExamsSheetModel viewModel,
     Widget? child,
   ) {
-      List<StudentsRegisteredUnitsModel> student = request.data['student'];
+    List<StudentsRegisteredUnitsModel> student = request.data['student'];
     return SafeArea(
       child: SingleChildScrollView(
         child: Container(
@@ -79,15 +79,7 @@ class StudentsWithSpecialExamsSheet
                       DataColumn(
                         numeric: true,
                         label: Text(
-                          request.description! == 'assignMent1Marks'
-                              ? ("${request.description} /${request.data['assignment1']}")
-                              : request.description! == 'assignMent2Marks'
-                                  ? ("${request.description} /${request.data['assignment2']}")
-                                  : request.description! == 'cat1Marks'
-                                      ? ("${request.description} /${request.data['cat1']}")
-                                      : request.description! == 'cat2Marks'
-                                          ? ("${request.description} /${request.data['cat2']}")
-                                          : ("${request.description} r/${request.data['exam']}"),
+                          ("${request.description} /${request.data['exam']}"),
                           style: const TextStyle(
                               color: primaryColor,
                               fontWeight: FontWeight.w600,
@@ -122,14 +114,9 @@ class StudentsWithSpecialExamsSheet
               Center(
                 child: InkWell(
                   onTap: () {
-                    debugPrint("This is the data ${request.data}");
                     viewModel.submitMarks(
                       unitCode: request.title!,
                       selectedModule: request.description!,
-                      assignMent1Outof: request.data['assignment1'],
-                      assignMent2Outof: request.data['assignment2'],
-                      cat1Outof: request.data['cat1'],
-                      cat2Outof: request.data['cat2'],
                       examOutof: request.data['exam'],
                       context: context,
                     );
