@@ -149,27 +149,40 @@ class ApplySpecialExamView extends StackedView<ApplySpecialExamViewModel>
                                   Text("No Units found for selected semester"),
                             );
                           } else {
-                            return ListView.builder(
-                                itemCount: snapshot.data!.length,
-                                itemBuilder: (context, index) {
-                                  StudentsRegisteredUnitsModel units =
-                                      snapshot.data![index];
-                                  return snapshot.data!.isEmpty
-                                      ? const Center(
-                                          child: Text(
-                                              "No Units found for this semester"),
-                                        )
-                                      : CheckboxListTile(
-                                          title: Text(units.unitCode!),
-                                          subtitle: Text(units.unitName!),
-                                          value: viewModel
-                                              .isUnitSelected(units.unitCode!),
-                                          onChanged: (value) {
-                                            viewModel.updateSelectedUnits(
-                                                value!, units);
-                                          },
-                                        );
-                                });
+                            final snapShotData = snapshot.data!;
+                            return (snapShotData.any(
+                                    (unit) => unit.isUnitApproved == false))
+                                ? const Center(
+                                    child: Text(
+                                      "Registered units waiting approval",
+                                      style: TextStyle(
+                                        color: Colors.red,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 18,
+                                      ),
+                                    ),
+                                  )
+                                : ListView.builder(
+                                    itemCount: snapshot.data!.length,
+                                    itemBuilder: (context, index) {
+                                      StudentsRegisteredUnitsModel units =
+                                          snapshot.data![index];
+                                      return snapshot.data!.isEmpty
+                                          ? const Center(
+                                              child: Text(
+                                                  "No Units found for this semester"),
+                                            )
+                                          : CheckboxListTile(
+                                              title: Text(units.unitCode!),
+                                              subtitle: Text(units.unitName!),
+                                              value: viewModel.isUnitSelected(
+                                                  units.unitCode!),
+                                              onChanged: (value) {
+                                                viewModel.updateSelectedUnits(
+                                                    value!, units);
+                                              },
+                                            );
+                                    });
                           }
                         }),
                   ),

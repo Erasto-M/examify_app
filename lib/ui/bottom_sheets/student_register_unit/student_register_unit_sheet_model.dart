@@ -64,6 +64,7 @@ class StudentRegisterUnitSheetModel extends BaseViewModel {
         isUnitApproved: false,
         semesterStage: unit.semesterStage,
         cohort: userDetails['cohort'],
+        unitDepartment: 'BSC Computer Science',
       );
     }).toList();
 

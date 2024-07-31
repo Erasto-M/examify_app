@@ -99,7 +99,7 @@ class LecturerDashboardView extends StackedView<LecturerDashboardViewModel> {
                 ),
                 verticalSpaceMedium,
                 SizedBox(
-                  height: 300,
+                  height: 400,
                   child: FutureBuilder(
                     future: viewModel.fetchLecturerUnits(),
                     builder: (context, snapshot) {
@@ -118,39 +118,32 @@ class LecturerDashboardView extends StackedView<LecturerDashboardViewModel> {
                             return Card(
                               color: Colors.white,
                               child: ListTile(
-                                title: Row(
+                                title: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                    Text(unit.unitDepartment!),
+
+                                    Row(
                                       children: [
                                         Text(unit.unitCode),
-                                        const SizedBox(
-                                            height:
-                                                4), // Replace verticalSpaceTiny with SizedBox for spacing
+                                        const SizedBox(width: 10),
+                                        Flexible(
+                                          child: Text(
+                                            unit.unitName,
+                                            style: const TextStyle(
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.normal,
+                                            ),
+                                            maxLines:
+                                                null, // Allows the text to use as many lines as needed
+                                            overflow: TextOverflow
+                                                .visible, // Ensures text will continue to the next line if it overflows
+                                          ),
+                                        ),
                                       ],
                                     ),
-                                    const SizedBox(
-                                        width:
-                                            10), // Add some spacing between the code and the name
-                                    Expanded(
-                                      child: Text(
-                                        unit.unitName,
-                                        style: const TextStyle(
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.normal,
-                                        ),
-                                        maxLines:
-                                            null, // Allows the text to use as many lines as needed
-                                        overflow: TextOverflow
-                                            .visible, // Ensures text will continue to the next line if it overflows
-                                      ),
-                                    ),
-                                    IconButton(
-                                      onPressed: () {},
-                                      icon: const Icon(
-                                          Icons.arrow_drop_up_outlined),
-                                    ),
+
+                                    // Add some spacing between the code and the name
                                   ],
                                 ),
                                 subtitle: Center(
@@ -217,7 +210,8 @@ class LecturerDashboardView extends StackedView<LecturerDashboardViewModel> {
                           return Center(
                             child: Text(snapshot.error.toString()),
                           );
-                        } else if (!snapshot.hasData) {
+                        } else if (!snapshot.hasData ||
+                            snapshot.data!.isEmpty) {
                           return const Center(
                             child: Text('No Specials'),
                           );
