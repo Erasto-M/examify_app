@@ -64,7 +64,6 @@ class StudentDashboardService {
           .collection("student_registered_units")
           .where("studentUid", isEqualTo: auth.currentUser!.uid)
           .where("semesterStage", isEqualTo: semesterStage)
-          .where('isUnitApproved', isEqualTo: true)
           .snapshots()
           .map((querySnapshot) {
         print("Number of units fetched: ${querySnapshot.docs.length}");
@@ -83,7 +82,6 @@ class StudentDashboardService {
       {required String semesterStage}) {
     try {
       print("Fetching All My Units");
-
       String baseYear = semesterStage.substring(0, 2);
       List<String> stagesToInclude = [
         "${baseYear}S1",
@@ -94,7 +92,6 @@ class StudentDashboardService {
           .collection("student_registered_units")
           .where("studentUid", isEqualTo: auth.currentUser!.uid)
           .where("semesterStage", whereIn: stagesToInclude)
-          .where('isUnitApproved', isEqualTo: true)
           .snapshots()
           .map((querySnapshot) {
         print("Number of units fetched: ${querySnapshot.docs.length}");

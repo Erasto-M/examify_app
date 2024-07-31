@@ -179,6 +179,7 @@ class StudentDashboardView extends StackedView<StudentDashboardViewModel> {
                             );
                           } else {
                             final snapshotData = snapshot.data;
+                           
                             double meanScore =
                                 viewModel.calculateMeanScore(snapshot.data!);
                             String meanGrade =
@@ -189,6 +190,17 @@ class StudentDashboardView extends StackedView<StudentDashboardViewModel> {
                                 ? const Center(
                                     child: Text("No Units found"),
                                   )
+                                : snapshotData!
+                                .any((unit) => unit.isUnitApproved == false)? const Center(
+                                child: Text(
+                                  "Registered units waiting approval",
+                                  style: TextStyle(
+                                    color: Colors.red,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 18,
+                                  ),
+                                ),
+                              )
                                 : Column(
                                     children: [
                                       SingleChildScrollView(
