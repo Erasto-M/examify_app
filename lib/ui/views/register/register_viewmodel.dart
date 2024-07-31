@@ -25,7 +25,7 @@ class RegisterViewModel extends FormViewModel {
   String? selectedRole;
   get selectedRoleValue => selectedRole;
 
-   String? selecteCohort;
+  String? selecteCohort;
   get selectedCohortValue => selecteCohort;
 
   //role list
@@ -35,7 +35,7 @@ class RegisterViewModel extends FormViewModel {
     "ExamsCoordinator",
   ];
 
-   //cohost list
+  //cohost list
   List cohostList = [
     "2020",
     "2021",
@@ -79,7 +79,8 @@ class RegisterViewModel extends FormViewModel {
   }
 
   // select role
-  void selectRole(BuildContext context, TextEditingController cohortController) {
+  void selectRole(
+      BuildContext context, TextEditingController cohortController) {
     showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
@@ -105,8 +106,9 @@ class RegisterViewModel extends FormViewModel {
     );
   }
 
-    // select cohort
-  void selectCohort(BuildContext context, TextEditingController roleController) {
+  // select cohort
+  void selectCohort(
+      BuildContext context, TextEditingController roleController) {
     showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {

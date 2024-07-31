@@ -57,7 +57,9 @@ class StudentRegisterUnitSheetModel extends BaseViewModel {
         unitName: unit.unitName,
         unitLecturer: unit.unitLecturerId,
         appliedSpecialExam: false,
+        isUnitApproved: false,
         semesterStage: unit.semesterStage,
+        cohort: userDetails['cohort'],
       );
     }).toList();
 

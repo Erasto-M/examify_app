@@ -47,4 +47,8 @@ class AdminPanelViewModel extends BaseViewModel {
     userDetails = await _authenticationService.getCurrentUserDetails();
     notifyListeners();
   }
+
+  void navigateToApproveStudentUnits() {
+    _navigationService.navigateToCodApproveUnitsView();
+  }
 }

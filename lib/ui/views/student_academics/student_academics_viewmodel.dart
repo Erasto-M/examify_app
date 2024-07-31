@@ -59,8 +59,8 @@ class StudentAcademicsViewModel extends BaseViewModel {
   Stream<List<StudentsRegisteredUnitsModel>> getPassLists({
     required String selectedSemesterStage,
   }) {
-    return _StudentDashBoardService
-        .getAllMyDetails(semesterStage: selectedSemesterStage)
+    return _StudentDashBoardService.getAllMyDetails(
+            semesterStage: selectedSemesterStage)
         .map((studentUnits) {
       final passList = <String, StudentsRegisteredUnitsModel>{};
 
@@ -96,8 +96,8 @@ class StudentAcademicsViewModel extends BaseViewModel {
   Stream<Map<String, List<StudentsRegisteredUnitsModel>>> getSuppList({
     required String semesterStage,
   }) {
-    return _StudentDashBoardService
-        .getAllMyDetails(semesterStage: semesterStage)
+    return _StudentDashBoardService.getAllMyDetails(
+            semesterStage: semesterStage)
         .map((studentUnits) {
       final suppList = <String, List<StudentsRegisteredUnitsModel>>{};
 
@@ -134,8 +134,8 @@ class StudentAcademicsViewModel extends BaseViewModel {
   Stream<Map<String, List<SpecialExamsModel>>> getSpecialsExam({
     required String semesterStage,
   }) {
-    return _StudentDashBoardService
-        .getMySpecialExams(semesterStage: semesterStage)
+    return _StudentDashBoardService.getMySpecialExams(
+            semesterStage: semesterStage)
         .map((studentUnits) {
       final specialList = <String, List<SpecialExamsModel>>{};
 
@@ -159,8 +159,8 @@ class StudentAcademicsViewModel extends BaseViewModel {
   Stream<Map<String, List<StudentsRegisteredUnitsModel>>> getMissingMarksList({
     required String semesterStage,
   }) {
-    return _StudentDashBoardService
-        .getAllMyDetails(semesterStage: semesterStage)
+    return _StudentDashBoardService.getAllMyDetails(
+            semesterStage: semesterStage)
         .map((studentUnits) {
       final Map<String, List<StudentsRegisteredUnitsModel>> missingMarksList =
           {};

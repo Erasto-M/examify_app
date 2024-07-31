@@ -330,4 +330,27 @@ class AdminDashboardService {
       Fluttertoast.showToast(msg: e.toString());
     }
   }
+
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
+  Stream<List<StudentsRegisteredUnitsModel>> getUnitsForApproval(String semester) {
+    return _firestore.collection('student_registered_units')
+      .where('semesterStage', isEqualTo: semester)
+      .where('isUnitApproved', isEqualTo: null)
+      .snapshots()
+      .map((snapshot) => snapshot.docs.map((doc) => StudentsRegisteredUnitsModel.fromMap(doc.data())).toList());
+  }
+
+  Future<void> approveUnitsForStudent(String studentUid) async {
+    final QuerySnapshot snapshot = await _firestore.collection('units')
+      .where('studentUid', isEqualTo: studentUid)
+      .where('isUnitApproved', isEqualTo: false)
+      .get();
+
+    final batch = _firestore.batch();
+    for (final doc in snapshot.docs) {
+      batch.update(doc.reference, {'isUnitApproved': true});
+    }
+    await batch.commit();
+  }
 }

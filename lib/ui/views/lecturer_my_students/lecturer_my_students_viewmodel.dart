@@ -89,7 +89,8 @@ class LecturerMyStudentsViewModel extends BaseViewModel {
       getAllMyStudentsWithSpecialExamOrWithout({
     required String unitCode,
   }) {
-    return _lectureDashboardService. getAllMyStudentsWithBothSpecialExamAndWithout(unitCode: unitCode);
+    return _lectureDashboardService
+        .getAllMyStudentsWithBothSpecialExamAndWithout(unitCode: unitCode);
   }
 
   // open the bottom sheet to edit the student marks
