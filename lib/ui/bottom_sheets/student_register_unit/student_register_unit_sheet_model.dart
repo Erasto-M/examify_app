@@ -56,6 +56,7 @@ class StudentRegisterUnitSheetModel extends BaseViewModel {
         studentName: userDetails['userName'],
         studentEmail: userDetails['email'],
         studentPhoneNumber: userDetails['phoneNumber'],
+        studentRegNo: userDetails['studentRegNo'],
         unitCode: unit.unitCode,
         unitName: unit.unitName,
         unitLecturer: unit.unitLecturerId,
