@@ -5,7 +5,7 @@ import 'package:stacked/stacked.dart';
 
 class CodApproveUnitsViewModel extends BaseViewModel {
   final _adminService = locator<AdminDashboardService>();
-   String _selectedSemester = 'Y1S1';
+  String _selectedSemester = 'Y1S1';
   final List<String> _semesters = [
     'Y1S1',
     'Y1S2',
@@ -20,16 +20,18 @@ class CodApproveUnitsViewModel extends BaseViewModel {
   String get getselectedSemester => _selectedSemester;
   List<String> get semesters => _semesters;
 
-   void setSelectedSemester(String semester) {
+  void setSelectedSemester(String semester) {
     _selectedSemester = semester;
     notifyListeners();
   }
 
-   Stream<List<StudentsRegisteredUnitsModel>> get unitsStream => _adminService.getUnitsForApproval(_selectedSemester);
+  Stream<List<StudentsRegisteredUnitsModel>> get unitsStream =>
+      _adminService.getUnitsForApproval(_selectedSemester);
 
-  Future<void> approveUnitsForStudent(String studentUid) async {
+  Future<void> approveUnitsForStudent(List<String> unitCodes, String studentId) async {
+ print("unitcodes ${unitCodes}");
     setBusy(true);
-    await _adminService.approveUnitsForStudent(studentUid);
+    await _adminService.approveUnitsForStudent(unitCodes, studentId);
     setBusy(false);
   }
 }
