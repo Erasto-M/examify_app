@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:examify/app/app.bottomsheets.dart';
 import 'package:examify/app/app.locator.dart';
 import 'package:examify/models/addUnit.dart';
@@ -100,7 +103,26 @@ class StudentRegisterUnitSheetModel extends BaseViewModel {
     'Y4S1',
     'Y4S2',
   ];
+
+
+  Future<Map<String, bool>> fetchSemesterStageStatus() async {
+    DocumentSnapshot<Map<String, dynamic>> snapshot = 
+        await _studentDashboardService.getUnitRegistrationWindowStatus()!.first;
+
+    // Casting data to Map<String, bool>
+    Map<String, bool> semesterStatuses = 
+        Map<String, bool>.from(snapshot.data() ?? {});
+    
+    return semesterStatuses;
+  }
+
+  // Method to check if the selected semester stage is open
+  Future<bool> isSelectedSemesterStageOpen({required String selectedSemester}) async {
+    Map<String, bool> semesterStatuses = await fetchSemesterStageStatus();
+    return semesterStatuses[selectedSemester] ?? false;
+  }
 }
+ 
 
 class SelectedUnitsNotifier extends ChangeNotifier {
   SelectedUnitsNotifier();

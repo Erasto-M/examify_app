@@ -117,70 +117,93 @@ class StudentRegisterUnitSheet
                                   'You have Already Registered Units for this semester stage'),
                             )
                           : Expanded(
-                              child: StreamBuilder<List<AddUnitModel>>(
-                              stream: viewModel.registerUnits(
-                                semesterStage:
-                                    viewModel.getSelectedSemesterStage,
-                              ),
-                              builder: (context, snapshot) {
-                                if (snapshot.connectionState ==
-                                    ConnectionState.waiting) {
-                                  return const SpinKitSpinningLines(
-                                    color: primaryColor,
-                                    size: 80,
-                                  );
-                                } else if (snapshot.hasError) {
-                                  return const Text('Error');
-                                } else if (!snapshot.hasData ||
-                                    snapshot.data!.isEmpty) {
-                                  return const Text('No units available');
-                                } else {
-                                  return ListView.builder(
-                                      itemCount: snapshot.data!.length,
-                                      itemBuilder: (context, index) {
-                                        final AddUnitModel unit =
-                                            snapshot.data![index];
-                                        unitName = unit.unitName;
-                                        unitCode = unit.unitCode;
-                                        return Card(
-                                          elevation: 4,
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                            side: const BorderSide(
-                                                color: Colors.white),
-                                          ),
-                                          color: Colors.white,
-                                          child: Container(
-                                            decoration: BoxDecoration(
-                                              border: Border.all(
-                                                  width: 1,
-                                                  color: Colors.grey[200]!),
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
-                                              color: Colors.white,
-                                            ),
-                                            child: CheckboxListTile(
-                                              title: Text(unitName!),
-                                              subtitle: Text(unitCode!),
-                                              value: selectedUnitsNotifier
-                                                  .isUnitsSelected(
-                                                      unit.unitId!),
-                                              onChanged: (value) {
-                                                selectedUnitsNotifier
-                                                    .updateUnitSelection(
-                                                        value!, unit);
+                              child: FutureBuilder(
+                                  future: viewModel.isSelectedSemesterStageOpen(
+                                      selectedSemester:
+                                          '${viewModel.getSelectedSemesterStage}_opened'),
+                                  builder: (context, snapshot) {
+                                    if (snapshot.hasData &&
+                                        snapshot.data == true) {
+                                      return Expanded(
+                                          child:
+                                              StreamBuilder<List<AddUnitModel>>(
+                                        stream: viewModel.registerUnits(
+                                          semesterStage: viewModel
+                                              .getSelectedSemesterStage,
+                                        ),
+                                        builder: (context, snapshot) {
+                                          if (snapshot.connectionState ==
+                                              ConnectionState.waiting) {
+                                            return const SpinKitSpinningLines(
+                                              color: primaryColor,
+                                              size: 80,
+                                            );
+                                          } else if (snapshot.hasError) {
+                                            return const Text('Error');
+                                          } else if (!snapshot.hasData ||
+                                              snapshot.data!.isEmpty) {
+                                            return const Text(
+                                                'No units available');
+                                          } else {
+                                            return ListView.builder(
+                                                itemCount:
+                                                    snapshot.data!.length,
+                                                itemBuilder: (context, index) {
+                                                  final AddUnitModel unit =
+                                                      snapshot.data![index];
+                                                  unitName = unit.unitName;
+                                                  unitCode = unit.unitCode;
+                                                  return Card(
+                                                    elevation: 4,
+                                                    shape:
+                                                        RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10),
+                                                      side: const BorderSide(
+                                                          color: Colors.white),
+                                                    ),
+                                                    color: Colors.white,
+                                                    child: Container(
+                                                      decoration: BoxDecoration(
+                                                        border: Border.all(
+                                                            width: 1,
+                                                            color: Colors
+                                                                .grey[200]!),
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(10),
+                                                        color: Colors.white,
+                                                      ),
+                                                      child: CheckboxListTile(
+                                                        title: Text(unitName!),
+                                                        subtitle:
+                                                            Text(unitCode!),
+                                                        value: selectedUnitsNotifier
+                                                            .isUnitsSelected(
+                                                                unit.unitId!),
+                                                        onChanged: (value) {
+                                                          selectedUnitsNotifier
+                                                              .updateUnitSelection(
+                                                                  value!, unit);
 
-                                                selectedUnitsNotifier
-                                                    .notifyListenersBatch();
-                                              },
-                                            ),
-                                          ),
-                                        );
-                                      });
-                                }
-                              },
-                            )),
+                                                          selectedUnitsNotifier
+                                                              .notifyListenersBatch();
+                                                        },
+                                                      ),
+                                                    ),
+                                                  );
+                                                });
+                                          }
+                                        },
+                                      ));
+                                    } else {
+                                      return const Center(
+                                        child: Text(
+                                            'Unit registration window is closed'),
+                                      );
+                                    }
+                                  })),
                   verticalSpaceSmall,
                   Center(
                     child: InkWell(

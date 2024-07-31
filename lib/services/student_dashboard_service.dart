@@ -64,6 +64,7 @@ class StudentDashboardService {
           .collection("student_registered_units")
           .where("studentUid", isEqualTo: auth.currentUser!.uid)
           .where("semesterStage", isEqualTo: semesterStage)
+          .where('isUnitApproved', isEqualTo: true)
           .snapshots()
           .map((querySnapshot) {
         print("Number of units fetched: ${querySnapshot.docs.length}");
@@ -93,6 +94,7 @@ class StudentDashboardService {
           .collection("student_registered_units")
           .where("studentUid", isEqualTo: auth.currentUser!.uid)
           .where("semesterStage", whereIn: stagesToInclude)
+          .where('isUnitApproved', isEqualTo: true)
           .snapshots()
           .map((querySnapshot) {
         print("Number of units fetched: ${querySnapshot.docs.length}");
@@ -184,5 +186,14 @@ class StudentDashboardService {
       });
     } catch (e) {}
     return Stream.value([]);
+  }
+
+  //check whether units registration is closed or not
+  Stream<DocumentSnapshot<Map<String, dynamic>>>?
+      getUnitRegistrationWindowStatus() {
+    return db
+        .collection('unit_registration_availability')
+        .doc('2sz1qRL20HBQsnkXMfIG')
+        .snapshots();
   }
 }

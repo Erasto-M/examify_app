@@ -22,11 +22,13 @@ class ProfileItem extends StackedView<ProfileItemModel> {
         const SizedBox(
           width: 10,
         ),
-        Text(
-          itemName,
-          style: const TextStyle(
-            fontSize: 15,
-            fontWeight: FontWeight.normal,
+        Flexible(
+          child: Text(
+            itemName,
+            style: const TextStyle(
+              fontSize: 15,
+              fontWeight: FontWeight.normal,
+            ),
           ),
         ),
       ],
