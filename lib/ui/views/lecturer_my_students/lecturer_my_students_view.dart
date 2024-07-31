@@ -186,6 +186,12 @@ class LecturerMyStudentsView extends StackedView<LecturerMyStudentsViewModel> {
                               return Center(
                                 child: InkWell(
                                   onTap: () {
+                                    if (snapshot.data!.isEmpty ||
+                                        !snapshot.hasData) {
+                                      Fluttertoast.showToast(
+                                          msg:
+                                              "No students found for $unitName");
+                                    }
                                     viewModel.openEditStudentMarksSheet(
                                         unitCode: unitCode,
                                         unitName: unitName,
@@ -230,7 +236,7 @@ class LecturerMyStudentsView extends StackedView<LecturerMyStudentsViewModel> {
                                           msg:
                                               "No students with Special exams for $unitName");
                                     }
-                                    viewModel.openEditStudentMarksSheet(
+                                    viewModel.openBottomSheetForSpecialExams(
                                         unitCode: unitCode,
                                         unitName: unitName,
                                         student: snapshot.data!);

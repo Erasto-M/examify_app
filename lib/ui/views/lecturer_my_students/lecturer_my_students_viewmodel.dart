@@ -89,7 +89,8 @@ class LecturerMyStudentsViewModel extends BaseViewModel {
       getAllMyStudentsWithSpecialExamOrWithout({
     required String unitCode,
   }) {
-    return _lectureDashboardService. getAllMyStudentsWithBothSpecialExamAndWithout(unitCode: unitCode);
+    return _lectureDashboardService
+        .getAllMyStudentsWithBothSpecialExamAndWithout(unitCode: unitCode);
   }
 
   // open the bottom sheet to edit the student marks
@@ -107,6 +108,22 @@ class LecturerMyStudentsViewModel extends BaseViewModel {
           'assignment2': student[0].assignMent2OutOff,
           'cat1': student[0].cat1Marks1OutOff,
           'cat2': student[0].cat2MarksOutOff,
+          'exam': student[0].examMarksOutOff,
+          'student': student,
+        },
+        title: unitCode);
+  }
+  //open bottom sheet for students with special exams
+   void openBottomSheetForSpecialExams({
+    required String unitCode,
+    required String unitName,
+    required List<StudentsRegisteredUnitsModel> student,
+  }) {
+    _bottomSheetService.showCustomSheet(
+        variant: BottomSheetType.studentsWithSpecialExams,
+        isScrollControlled: true,
+        description: 'examMarks',
+        data: {
           'exam': student[0].examMarksOutOff,
           'student': student,
         },

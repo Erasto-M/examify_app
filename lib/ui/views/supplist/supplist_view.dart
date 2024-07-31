@@ -27,8 +27,7 @@ class SupplistView extends StackedView<SupplistViewModel> {
         child: Container(
           color: Colors.white,
           padding: const EdgeInsets.only(left: 5.0, right: 5.0),
-          child:
-              StreamBuilder<Map<String, List<StudentsRegisteredUnitsModel>>>(
+          child: StreamBuilder<Map<String, List<StudentsRegisteredUnitsModel>>>(
             stream: viewModel.getSuppList(semesterStage: semesterStage),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
@@ -42,7 +41,7 @@ class SupplistView extends StackedView<SupplistViewModel> {
                 return Center(
                   child: Text(snapshot.error.toString()),
                 );
-              } else if (!snapshot.hasData) {
+              } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
                 return const Center(
                   child: Text("No students found"),
                 );

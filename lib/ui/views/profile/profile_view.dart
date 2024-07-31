@@ -90,7 +90,9 @@ class ProfileView extends StackedView<ProfileViewModel> {
                       ),
                       verticalSpaceSmall,
                       InkWell(
-                        onTap: () {},
+                        onTap: () {
+                      
+                        },
                         child: ProfileItem(
                           itemName:
                               'Phone: ${userDetails['phoneNumber'] ?? ""}',

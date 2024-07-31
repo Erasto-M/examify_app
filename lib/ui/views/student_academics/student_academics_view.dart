@@ -128,8 +128,9 @@ class StudentAcademicsView extends StackedView<StudentAcademicsViewModel> {
                                   size: 50,
                                 ),
                                 Center(
-                                  child: Text('😢 We are Sorry you have not Passed',
-                                      style:  TextStyle(
+                                  child: Text(
+                                      '😢 We are Sorry you have not Passed',
+                                      style: TextStyle(
                                           color: Colors.black, fontSize: 16)),
                                 ),
                               ],
@@ -311,9 +312,9 @@ class StudentAcademicsView extends StackedView<StudentAcademicsViewModel> {
                                         Text(
                                           "😊  You have not Applied for any Special Exams",
                                           style: TextStyle(
-                                              color: Colors.black,
-                                              fontSize: 16,
-                                              ),
+                                            color: Colors.black,
+                                            fontSize: 16,
+                                          ),
                                         ),
                                       ],
                                     ),
@@ -397,22 +398,24 @@ class StudentAcademicsView extends StackedView<StudentAcademicsViewModel> {
                                   } else if (!snapshot.hasData ||
                                       snapshot.data!.isEmpty) {
                                     return const Center(
-                                      child:
-                                          Column(
-                                            mainAxisAlignment: MainAxisAlignment.center,
-                                            crossAxisAlignment: CrossAxisAlignment.center,
-                                            children: [
-                                              Icon(
-                                                Icons.all_inbox_sharp,
-                                                color: primaryColor,
-                                                size: 50,
-                                              ),
-                                               SizedBox(
-                                                height: 20,
-                                              ),
-                                              Text("🎉 Congratulations!. You don't have any missing marks"),
-                                            ],
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: [
+                                          Icon(
+                                            Icons.all_inbox_sharp,
+                                            color: primaryColor,
+                                            size: 50,
                                           ),
+                                          SizedBox(
+                                            height: 20,
+                                          ),
+                                          Text(
+                                              "🎉 Congratulations!. You don't have any missing marks"),
+                                        ],
+                                      ),
                                     );
                                   } else {
                                     final Map<String,

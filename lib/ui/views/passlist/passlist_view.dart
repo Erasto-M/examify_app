@@ -28,9 +28,7 @@ class PasslistView extends StackedView<PasslistViewModel> with $PasslistView {
         child: Container(
           color: Colors.white,
           padding: const EdgeInsets.only(left: 5.0, right: 5.0),
-          child:
-          
-              StreamBuilder<List<StudentsRegisteredUnitsModel>>(
+          child: StreamBuilder<List<StudentsRegisteredUnitsModel>>(
             stream: viewModel.getPassLists(
                 selectedSemesterStage: selectedSemesterStage),
             builder: (context, snapshot) {
@@ -45,7 +43,7 @@ class PasslistView extends StackedView<PasslistViewModel> with $PasslistView {
                 return Center(
                   child: Text(snapshot.error.toString()),
                 );
-              } else if (!snapshot.hasData) {
+              } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
                 return const Center(
                   child: Text("No students found"),
                 );
