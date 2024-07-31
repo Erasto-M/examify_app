@@ -47,6 +47,7 @@ import 'package:examify/ui/views/missing_marks/missing_marks_view.dart';
 import 'package:examify/ui/views/cod_special_exams/cod_special_exams_view.dart';
 import 'package:examify/ui/bottom_sheets/customize_units_assesment/customize_units_assesment_sheet.dart';
 import 'package:examify/ui/views/student_academics/student_academics_view.dart';
+import 'package:examify/ui/views/cod_approve_units/cod_approve_units_view.dart';
 import 'package:examify/ui/bottom_sheets/students_with_special_exams/students_with_special_exams_sheet.dart';
 // @stacked-import
 
@@ -79,6 +80,7 @@ import 'package:examify/ui/bottom_sheets/students_with_special_exams/students_wi
     MaterialRoute(page: MissingMarksView),
     MaterialRoute(page: CodSpecialExamsView),
     MaterialRoute(page: StudentAcademicsView),
+    MaterialRoute(page: CodApproveUnitsView),
 // @stacked-route
   ],
   dependencies: [
