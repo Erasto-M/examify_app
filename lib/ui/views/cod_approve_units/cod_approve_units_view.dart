@@ -97,7 +97,8 @@ class CodApproveUnitsView extends StackedView<CodApproveUnitsViewModel> {
                       const SizedBox(height: 10),
                       ElevatedButton(
                         onPressed: () async {
-                          await viewModel.approveUnitsForStudent(studentUid);
+                           final unitCodes = studentUnits.map((unit) => unit.unitCode!).toList();
+                          await viewModel.approveUnitsForStudent(unitCodes, studentUid);
                         },
                         child: const Text('Approve All Units'),
                       ),
