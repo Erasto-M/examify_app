@@ -42,7 +42,7 @@ class SpecialExamsListView extends StackedView<SpecialExamsListViewModel> {
                 return Center(
                   child: Text(snapshot.error.toString()),
                 );
-              } else if (!snapshot.hasData) {
+              } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
                 return const Center(
                   child: Text("No students found"),
                 );

@@ -113,6 +113,22 @@ class LecturerMyStudentsViewModel extends BaseViewModel {
         },
         title: unitCode);
   }
+  //open bottom sheet for students with special exams
+   void openBottomSheetForSpecialExams({
+    required String unitCode,
+    required String unitName,
+    required List<StudentsRegisteredUnitsModel> student,
+  }) {
+    _bottomSheetService.showCustomSheet(
+        variant: BottomSheetType.studentsWithSpecialExams,
+        isScrollControlled: true,
+        description: 'examMarks',
+        data: {
+          'exam': student[0].examMarksOutOff,
+          'student': student,
+        },
+        title: unitCode);
+  }
 
   String _selectedExamModuleToEnterMarks = 'assignMent1Marks';
   String get selectedExamModuleToEnterMarks => _selectedExamModuleToEnterMarks;

@@ -15,6 +15,7 @@ import '../ui/bottom_sheets/edit_marks_per_student/edit_marks_per_student_sheet.
 import '../ui/bottom_sheets/edit_student_marks/edit_student_marks_sheet.dart';
 import '../ui/bottom_sheets/edit_unit/edit_unit_sheet.dart';
 import '../ui/bottom_sheets/notice/notice_sheet.dart';
+import '../ui/bottom_sheets/students_with_special_exams/students_with_special_exams_sheet.dart';
 
 enum BottomSheetType {
   notice,
@@ -22,7 +23,8 @@ enum BottomSheetType {
   editUnit,
   editStudentMarks,
   editMarksPerStudent,
-  customizeUnitsAssesment, studentRegisterUnit, updateProfile,
+  customizeUnitsAssesment,
+  studentsWithSpecialExams, studentRegisterUnit, updateProfile,
 }
 
 void setupBottomSheetUi() {
@@ -41,6 +43,8 @@ void setupBottomSheetUi() {
         EditMarksPerStudentSheet(request: request, completer: completer),
     BottomSheetType.customizeUnitsAssesment: (context, request, completer) =>
         CustomizeUnitsAssesmentSheet(request: request, completer: completer),
+    BottomSheetType.studentsWithSpecialExams: (context, request, completer) =>
+        StudentsWithSpecialExamsSheet(request: request, completer: completer),
     BottomSheetType.studentRegisterUnit: (context, request, completer) =>
         StudentRegisterUnitSheet(request: request, completer: completer),
     BottomSheetType.updateProfile: (context, request, completer) =>

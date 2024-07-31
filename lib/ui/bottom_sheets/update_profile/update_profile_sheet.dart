@@ -67,29 +67,29 @@ class UpdateProfileSheet extends StackedView<UpdateProfileSheetModel>
             ),
           ],
           verticalSpaceMedium,
-          TextFormField(
-            validator: (value) {
-              if (value!.isEmpty || value == '') {
-                return 'Please enter your username';
-              }
-              return null;
-            },
-            controller: updateUserNameController,
-            decoration: InputDecoration(
-              prefixIcon: const Icon(Icons.person),
-              hintText: "${userDetails["userName"]}",
-              border: const OutlineInputBorder(
-                borderRadius: BorderRadius.all(
-                  Radius.circular(10),
-                ),
-              ),
-            ),
-          ),
-          verticalSpaceTiny,
           Form(
               key: formKey,
               child: Column(
                 children: [
+                  TextFormField(
+                    validator: (value) {
+                      if (value!.isEmpty || value == '') {
+                        return 'Please enter your username';
+                      }
+                      return null;
+                    },
+                    controller: updateUserNameController,
+                    decoration: InputDecoration(
+                      prefixIcon: const Icon(Icons.person),
+                      hintText: "${userDetails["userName"]}",
+                      border: const OutlineInputBorder(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(10),
+                        ),
+                      ),
+                    ),
+                  ),
+                  verticalSpaceTiny,
                   TextFormField(
                     validator: (value) {
                       if (value!.isEmpty || value == '') {
@@ -119,9 +119,6 @@ class UpdateProfileSheet extends StackedView<UpdateProfileSheetModel>
                         return 'Please enter a valid phone number';
                       } else if (value.contains(RegExp(r'[a-zA-Z]'))) {
                         return 'Please enter a valid phone number';
-                      } else if (value.contains(
-                          RegExp(r'[!@#<>?":_`~;[\]\\|=+)(*&^%0-9-]'))) {
-                        return 'Please enter a valid phone number';
                       }
                       return null;
                     },
@@ -137,28 +134,6 @@ class UpdateProfileSheet extends StackedView<UpdateProfileSheetModel>
                     ),
                   ),
                   verticalSpaceTiny,
-                  // TextFormField(
-                  //   validator: (value) {
-                  //     if (value!.isEmpty || value == '') {
-                  //       return 'Please enter your role';
-                  //     }
-                  //     return null;
-                  //   },
-                  //   controller: updateRoleController,
-                  //   readOnly: true,
-                  //   onTap: () {
-                  //     viewModel.selectRole(context, updateRoleController);
-                  //   },
-                  //   decoration: InputDecoration(
-                  //       prefixIcon: const Icon(Icons.work),
-                  //       suffixIcon: const Icon(Icons.arrow_drop_down),
-                  //       hintText: '${userDetails["role"]}',
-                  //       border: const OutlineInputBorder(
-                  //         borderRadius: BorderRadius.all(
-                  //           Radius.circular(10),
-                  //         ),
-                  //       )),
-                  // ),
                   verticalSpaceMedium,
                   viewModel.isBusy
                       ? const SpinKitSpinningLines(
@@ -168,13 +143,20 @@ class UpdateProfileSheet extends StackedView<UpdateProfileSheetModel>
                       : InkWell(
                           onTap: () {
                             if (formKey.currentState!.validate()) {
-                              return;
+                              viewModel.updateUserProfile(
+                                userName: updateUserNameController.text,
+                                email: updateEmailController.text,
+                                phoneNumber: updatePhoneNumberController.text,
+                                
+                              );
+                              if (!viewModel.isBusy) {
+                                completer!(SheetResponse(confirmed: true));
+                                updateUserNameController.clear();
+                                updateEmailController.clear();
+                                updatePhoneNumberController.clear();
+                              }
+                              
                             }
-                            viewModel.updateUserProfile(
-                              userName: updateUserNameController.text,
-                              email: updateEmailController.text,
-                              phoneNumber: updatePhoneNumberController.text,
-                            );
                           },
                           child: Container(
                             width: MediaQuery.of(context).size.width,

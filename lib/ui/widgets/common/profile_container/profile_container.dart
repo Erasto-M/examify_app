@@ -37,7 +37,7 @@ class ProfileContainer extends StackedView<ProfileContainerModel> {
                     backgroundImage: AssetImage('Assets/Images/man1.jpeg'),
                   ),
                   const SizedBox(
-                    width: 20,
+                    width: 15,
                   ),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -55,7 +55,7 @@ class ProfileContainer extends StackedView<ProfileContainerModel> {
                         email,
                         style: const TextStyle(
                           color: Colors.white,
-                          fontSize: 12,
+                          fontSize: 10,
                         ),
                       ),
                     ],
