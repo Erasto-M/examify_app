@@ -333,24 +333,51 @@ class AdminDashboardService {
 
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  Stream<List<StudentsRegisteredUnitsModel>> getUnitsForApproval(String semester) {
-    return _firestore.collection('student_registered_units')
-      .where('semesterStage', isEqualTo: semester)
-      .where('isUnitApproved', isEqualTo: null)
-      .snapshots()
-      .map((snapshot) => snapshot.docs.map((doc) => StudentsRegisteredUnitsModel.fromMap(doc.data())).toList());
+  Stream<List<StudentsRegisteredUnitsModel>> getUnitsForApproval(
+      String semester) {
+    return _firestore
+        .collection('student_registered_units')
+        .where('semesterStage', isEqualTo: semester)
+        .where('isUnitApproved', isEqualTo: false)
+        .snapshots()
+        .map((snapshot) => snapshot.docs
+            .map((doc) => StudentsRegisteredUnitsModel.fromMap(doc.data()))
+            .toList());
   }
 
-  Future<void> approveUnitsForStudent(String studentUid) async {
-    final QuerySnapshot snapshot = await _firestore.collection('units')
-      .where('studentUid', isEqualTo: studentUid)
-      .where('isUnitApproved', isEqualTo: false)
-      .get();
-
+  Future<void> approveUnitsForStudent(
+      List<String> unitCodes, String studentId) async {
     final batch = _firestore.batch();
-    for (final doc in snapshot.docs) {
-      batch.update(doc.reference, {'isUnitApproved': true});
+
+    try {
+      for (final unitCode in unitCodes) {
+        print(
+            "Fetching documents for unitCode: $unitCode and studentId: $studentId");
+
+        // Query to get the specific unit documents for the student
+        final unitQuerySnapshot = await _firestore
+            .collection('student_registered_units')
+            .where('studentUid', isEqualTo: studentId)
+            .where('unitCode', isEqualTo: unitCode)
+            .where('isUnitApproved', isEqualTo: false)
+            .get();
+
+        if (unitQuerySnapshot.docs.isEmpty) {
+          print(
+              "No documents found for unitCode: $unitCode and studentId: $studentId");
+        } else {
+          for (final doc in unitQuerySnapshot.docs) {
+            print("Updating document with ID: ${doc.id}");
+            batch.update(doc.reference, {'isUnitApproved': true});
+          }
+        }
+      }
+
+      // Commit the batch
+      await batch.commit();
+      print('Successfully approved units for student $studentId');
+    } catch (e) {
+      print('Failed to approve units for student $studentId: $e');
     }
-    await batch.commit();
   }
 }

@@ -99,6 +99,7 @@ class CodApproveUnitsView extends StackedView<CodApproveUnitsViewModel> {
                             child: Text(unit.unitName ?? 'Unknown Unit'),
                           )),
                       const SizedBox(height: 10),
+
                       (studentUnits.any((unit) => unit.isUnitApproved == false))
                           ? ElevatedButton(
                               onPressed: () async {
@@ -123,6 +124,7 @@ class CodApproveUnitsView extends StackedView<CodApproveUnitsViewModel> {
                                     fontWeight: FontWeight.bold),
                               ),
                             ),
+
                     ],
                   ),
                 ),
