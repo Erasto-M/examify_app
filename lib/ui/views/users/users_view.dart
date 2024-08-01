@@ -21,7 +21,7 @@ class UsersView extends StackedView<UsersViewModel> {
 
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Theme.of(context).colorScheme.background,
+        backgroundColor: Colors.white,
         body: Container(
           padding: const EdgeInsets.all(10),
           child: SingleChildScrollView(
@@ -42,15 +42,19 @@ class UsersView extends StackedView<UsersViewModel> {
                     ),
                     Text(
                       user,
-                      style: Theme.of(context).textTheme.bodyLarge,
+                      style: const  TextStyle(color: primaryColor, fontSize: 20, fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(width: 50),
                   ],
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
+                const Padding(
+                  padding: EdgeInsets.all(8.0),
                   child: Text("Users",
-                      style: Theme.of(context).textTheme.titleLarge),
+                      style: TextStyle(
+                        color: primaryColor,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      )),
                 ),
                 ListView(
                     shrinkWrap: true,
@@ -58,9 +62,18 @@ class UsersView extends StackedView<UsersViewModel> {
                     children: users.map((user) {
                       return Container(
                         padding: const EdgeInsets.all(10.0),
+                        margin: const EdgeInsets.only(bottom: 2),
                         decoration: BoxDecoration(
                           border: Border.all(color: Colors.black12),
-                          color: Colors.white70,
+                          color: Colors.white,
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.9),
+                              spreadRadius: 1,
+                              blurRadius: 2,
+                              offset: const Offset(0, 2),
+                            )
+                          ],
                           borderRadius: BorderRadius.circular(10),
                         ),
                         child: Column(
@@ -97,19 +110,27 @@ class UsersView extends StackedView<UsersViewModel> {
                               children: [
                                 ElevatedButton(
                                   onPressed: () {
-                                    // viewModel.email(
-                                    //   email: user.email??'example@gmail.com',
-                                    // );
+                                    viewModel.email(
+                                      email: user.email??'example@gmail.com',
+                                    );
                                   },
-                                  child: const Text('Email'),
+                                    style: ElevatedButton.styleFrom(
+                                    backgroundColor: Colors.white,
+                                    elevation: 5,
+                                  ),
+                                  child: const Text('Email', style: TextStyle(color: primaryColor),),
                                 ),
                                 horizontalSpaceMedium,
                                 ElevatedButton(
                                   onPressed: () {
-                                    // viewModel.call(
-                                    //     phoneNumber: user.phoneNumber??'1234567890');
+                                    viewModel.call(
+                                        phoneNumber: user.phoneNumber??'1234567890');
                                   },
-                                  child: const Text('Call'),
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: Colors.white,
+                                    elevation: 5,
+                                  ),
+                                  child: const Text('Call', style: TextStyle(color: primaryColor),),
                                 ),
                               ],
                             ),

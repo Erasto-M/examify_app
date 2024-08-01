@@ -26,7 +26,7 @@ class AdminManageCourseView extends StackedView<AdminManageCourseViewModel> {
 
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Theme.of(context).colorScheme.background,
+        backgroundColor: Colors.white,
         body: viewModel.isBusy
             ? const Center(
                 child: SpinKitSpinningLines(
@@ -53,7 +53,11 @@ class AdminManageCourseView extends StackedView<AdminManageCourseViewModel> {
                           ),
                           Text(
                             year,
-                            style: Theme.of(context).textTheme.bodyLarge,
+                            style: const TextStyle(
+                              color: primaryColor,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                           const SizedBox(width: 50),
                         ],
@@ -62,13 +66,16 @@ class AdminManageCourseView extends StackedView<AdminManageCourseViewModel> {
                         padding: const EdgeInsets.all(8.0),
                         child: Column(
                           children: [
-                            Text("Semester One",
-                                style: Theme.of(context).textTheme.titleLarge),
+                            const Text("Semester One",
+                                style:TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),  
                             Row(
                               children: [
                                 Text(viewModel.isRegistrationWindowS1Open
                                     ? "Close registration window"
-                                    : "Open registration window"),
+                                    : "Open registration window", style: const TextStyle(
+                                      color: primaryColor,
+                                      fontSize: 15, fontWeight: FontWeight.bold
+                                    ),),
                                 horizontalSpaceLarge,
                                 Switch(
                                   value: viewModel.isRegistrationWindowS1Open,
@@ -88,9 +95,18 @@ class AdminManageCourseView extends StackedView<AdminManageCourseViewModel> {
                         children: semesterOneCourses.map((course) {
                           return Container(
                             padding: const EdgeInsets.all(10.0),
+                            margin: const EdgeInsets.only(bottom: 2),
                             decoration: BoxDecoration(
                               border: Border.all(color: Colors.black12),
-                              color: Colors.white70,
+                              color: Colors.white,
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.white.withOpacity(0.9),
+                                  spreadRadius: 1,
+                                  blurRadius: 2,
+                                  offset: const Offset(0, 2),
+                                )
+                              ],
                               borderRadius: BorderRadius.circular(10),
                             ),
                             child: Column(
@@ -98,7 +114,7 @@ class AdminManageCourseView extends StackedView<AdminManageCourseViewModel> {
                               children: [
                                 Text(
                                   "Name: ${course.unitName}",
-                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                  style: const TextStyle(fontWeight: FontWeight.bold),
                                 ),
                                 verticalSpaceSmall,
                                 Text("Code: ${course.unitCode}"),
@@ -113,6 +129,9 @@ class AdminManageCourseView extends StackedView<AdminManageCourseViewModel> {
                                           year: year,
                                         );
                                       },
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor: Colors.white,
+                                      ),
                                       child: const Text('Edit'),
                                     ),
                                     horizontalSpaceMedium,
@@ -120,7 +139,12 @@ class AdminManageCourseView extends StackedView<AdminManageCourseViewModel> {
                                       onPressed: () {
                                         // viewModel.deleteCourse(course: course);
                                       },
-                                      child: const Text('Delete'),
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor: Colors.white,
+                                      ),
+                                      child: const Text('Delete', style: TextStyle(
+                                        color: Colors.red
+                                      ),),
                                     ),
                                   ],
                                 ),
@@ -133,13 +157,17 @@ class AdminManageCourseView extends StackedView<AdminManageCourseViewModel> {
                         padding: const EdgeInsets.all(8.0),
                         child: Column(
                           children: [
-                            Text("Semester Two",
-                                style: Theme.of(context).textTheme.titleLarge),
+                            const Text("Semester Two",
+                                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
                             Row(
                               children: [
                                 Text(viewModel.isRegistrationWindowS1Open
                                     ? "Close registration window"
-                                    : "Open registration window"),
+                                    : "Open registration window", 
+                                    style: const TextStyle(
+                                      color: primaryColor,
+                                      fontSize: 15, fontWeight: FontWeight.bold)
+                                    ),
                                 horizontalSpaceLarge,
                                 Switch(
                                   value: viewModel.isRegistrationWindowS2Open,
@@ -169,7 +197,7 @@ class AdminManageCourseView extends StackedView<AdminManageCourseViewModel> {
                               children: [
                                 Text(
                                   "Name: ${course.unitName}",
-                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                  style: const TextStyle(fontWeight: FontWeight.bold),
                                 ),
                                 verticalSpaceSmall,
                                 Text("Code: ${course.unitCode}"),
@@ -184,14 +212,20 @@ class AdminManageCourseView extends StackedView<AdminManageCourseViewModel> {
                                           year: year,
                                         );
                                       },
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor: Colors.white,
+                                      ),
                                       child: const Text('Edit'),
                                     ),
                                     horizontalSpaceMedium,
                                     ElevatedButton(
                                       onPressed: () {
-                                        // viewModel.deleteCourse(course: course);
+                                        //viewModel.deleteCourse(course: course);
                                       },
-                                      child: const Text('Delete'),
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor: Colors.white,
+                                      ),
+                                      child: const Text('Delete', style: TextStyle(color: Colors.red),),
                                     ),
                                   ],
                                 ),
@@ -205,10 +239,12 @@ class AdminManageCourseView extends StackedView<AdminManageCourseViewModel> {
                 ),
               ),
         floatingActionButton: FloatingActionButton(
+          backgroundColor: primaryColor,
           onPressed: () {
             viewModel.showAddUnitBottomSheet(year: year);
           },
-          child: const Icon(Icons.add),
+          
+          child: const Icon(Icons.add, color: Colors.white,size: 30,),
         ),
       ),
     );

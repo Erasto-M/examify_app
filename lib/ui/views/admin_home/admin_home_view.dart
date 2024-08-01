@@ -23,13 +23,14 @@ class AdminHomeView extends StackedView<AdminHomeViewModel> {
       statusBarBrightness: Brightness.light,
     ));
     return Scaffold(
-        backgroundColor: Theme.of(context).colorScheme.surface,
+        backgroundColor: Colors.white,
         body: [
           const AdminPanelView(),
           const AcademicsView(),
           const ProfileView(),
         ][viewModel.currentIndex],
         bottomNavigationBar: BottomNavigationBar(
+          backgroundColor: Colors.white,
           currentIndex: viewModel.currentIndex,
           onTap: viewModel.updateCurrentView,
           items: const [

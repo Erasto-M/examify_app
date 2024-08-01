@@ -179,7 +179,7 @@ class StudentDashboardView extends StackedView<StudentDashboardViewModel> {
                             );
                           } else {
                             final snapshotData = snapshot.data;
-                           
+
                             double meanScore =
                                 viewModel.calculateMeanScore(snapshot.data!);
                             String meanGrade =
@@ -190,266 +190,302 @@ class StudentDashboardView extends StackedView<StudentDashboardViewModel> {
                                 ? const Center(
                                     child: Text("No Units found"),
                                   )
-                                : snapshotData!
-                                .any((unit) => unit.isUnitApproved == false)? const Center(
-                                child: Text(
-                                  "Registered units waiting approval",
-                                  style: TextStyle(
-                                    color: Colors.red,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 18,
-                                  ),
-                                ),
-                              )
-                                : Column(
-                                    children: [
-                                      SingleChildScrollView(
-                                        scrollDirection: Axis.horizontal,
-                                        child: ConstrainedBox(
-                                          constraints: BoxConstraints(
-                                            minWidth: MediaQuery.of(context)
-                                                .size
-                                                .width,
-                                          ),
-                                          child: DataTable(
-                                            columns: const [
-                                              DataColumn(
-                                                label: Text(
-                                                  "Unit Code",
-                                                  style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      fontSize: 18),
-                                                ),
-                                              ),
-                                              DataColumn(
-                                                label: Text(
-                                                  "Unit Name",
-                                                  style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      fontSize: 18),
-                                                ),
-                                              ),
-                                              DataColumn(
-                                                label: Text(
-                                                  "Assignment 1",
-                                                  style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      fontSize: 18),
-                                                ),
-                                              ),
-                                              DataColumn(
-                                                label: Text(
-                                                  "Assignment 2",
-                                                  style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      fontSize: 18),
-                                                ),
-                                              ),
-                                              DataColumn(
-                                                label: Text(
-                                                  "Cat 1",
-                                                  style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      fontSize: 18),
-                                                ),
-                                              ),
-                                              DataColumn(
-                                                label: Text(
-                                                  "cat 2",
-                                                  style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      fontSize: 18),
-                                                ),
-                                              ),
-                                              DataColumn(
-                                                label: Text(
-                                                  "Exam ",
-                                                  style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      fontSize: 18),
-                                                ),
-                                              ),
-                                              DataColumn(
-                                                label: Text(
-                                                  "Total marks",
-                                                  style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      fontSize: 18),
-                                                ),
-                                              ),
-                                              DataColumn(
-                                                label: Text(
-                                                  "Grade",
-                                                  style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      fontSize: 18),
-                                                ),
-                                              ),
-                                            ],
-                                            rows: snapshot.data!.map((units) {
-                                              return DataRow(cells: [
-                                                DataCell(Text(units.unitCode!)),
-                                                DataCell(Text(units.unitName!)),
-                                                DataCell(
-                                                  Text(
-                                                    units.assignMent1Marks
-                                                        .toString(),
-                                                  ),
-                                                ),
-                                                DataCell(
-                                                  Text(
-                                                    units.assignMent2Marks
-                                                        .toString(),
-                                                  ),
-                                                ),
-                                                DataCell(
-                                                  Text(
-                                                    units.cat1Marks.toString(),
-                                                  ),
-                                                ),
-                                                DataCell(
-                                                  Text(
-                                                    units.cat2Marks.toString(),
-                                                  ),
-                                                ),
-                                                DataCell(
-                                                  Text(
-                                                    units.appliedSpecialExam ==
-                                                            true
-                                                        ? 'special Exam'
-                                                        : units.examMarks
-                                                            .toString(),
-                                                  ),
-                                                ),
-                                                DataCell(
-                                                  units.appliedSpecialExam ==
-                                                          true
-                                                      ? const Text(
-                                                          'NA',
-                                                        )
-                                                      : Text(
-                                                          units.totalMarks
-                                                              .toString(),
-                                                        ),
-                                                ),
-                                                DataCell(
-                                                  units.appliedSpecialExam ==
-                                                          true
-                                                      ? const Text(
-                                                          'Incomplete',
-                                                          style: TextStyle(
-                                                              color:
-                                                                  Colors.red),
-                                                        )
-                                                      : Text(
-                                                          units.grade ?? 'NA',
-                                                        ),
-                                                ),
-                                              ]);
-                                            }).toList(),
+                                : snapshotData!.any(
+                                        (unit) => unit.isUnitApproved == false)
+                                    ? const Center(
+                                        child: Text(
+                                          "Registered units waiting approval",
+                                          style: TextStyle(
+                                            color: Colors.red,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 18,
                                           ),
                                         ),
-                                      ),
-                                      verticalSpaceSmall,
-                                      if (!viewModel
-                                          .hasSpecialExams(snapshot.data!)) ...[
-                                        Row(
-                                          children: [
-                                            Text(
-                                              'Mean Score: $meanScore ',
-                                              style: const TextStyle(
-                                                  fontWeight: FontWeight.bold),
-                                            ),
-                                            const Spacer(),
-                                            Text(
-                                              'MeanGrade: $meanGrade',
-                                              style: const TextStyle(
-                                                fontWeight: FontWeight.bold,
+                                      )
+                                    : Column(
+                                        children: [
+                                          SingleChildScrollView(
+                                            scrollDirection: Axis.horizontal,
+                                            child: ConstrainedBox(
+                                              constraints: BoxConstraints(
+                                                minWidth: MediaQuery.of(context)
+                                                    .size
+                                                    .width,
                                               ),
-                                            )
-                                          ],
-                                        ),
-                                        verticalSpaceSmall,
-                                        Row(
-                                          children: [
-                                            const Text(
-                                              'Reccomendation: ',
-                                              style: TextStyle(
-                                                fontWeight: FontWeight.bold,
+                                              child: DataTable(
+                                                columns: const [
+                                                  DataColumn(
+                                                    label: Text(
+                                                      "Unit Code",
+                                                      style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          fontSize: 18),
+                                                    ),
+                                                  ),
+                                                  DataColumn(
+                                                    label: Text(
+                                                      "Unit Name",
+                                                      style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          fontSize: 18),
+                                                    ),
+                                                  ),
+                                                  DataColumn(
+                                                    label: Text(
+                                                      "Assignment 1",
+                                                      style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          fontSize: 18),
+                                                    ),
+                                                  ),
+                                                  DataColumn(
+                                                    label: Text(
+                                                      "Assignment 2",
+                                                      style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          fontSize: 18),
+                                                    ),
+                                                  ),
+                                                  DataColumn(
+                                                    label: Text(
+                                                      "Cat 1",
+                                                      style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          fontSize: 18),
+                                                    ),
+                                                  ),
+                                                  DataColumn(
+                                                    label: Text(
+                                                      "cat 2",
+                                                      style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          fontSize: 18),
+                                                    ),
+                                                  ),
+                                                  DataColumn(
+                                                    label: Text(
+                                                      "Exam ",
+                                                      style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          fontSize: 18),
+                                                    ),
+                                                  ),
+                                                  DataColumn(
+                                                    label: Text(
+                                                      "Total marks",
+                                                      style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          fontSize: 18),
+                                                    ),
+                                                  ),
+                                                  DataColumn(
+                                                    label: Text(
+                                                      "Grade",
+                                                      style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          fontSize: 18),
+                                                    ),
+                                                  ),
+                                                ],
+                                                rows:
+                                                    snapshot.data!.map((units) {
+                                                  return DataRow(cells: [
+                                                    DataCell(
+                                                        Text(units.unitCode!)),
+                                                    DataCell(
+                                                        Text(units.unitName!)),
+                                                    DataCell(
+                                                      Text(
+                                                        units.assignMent1Marks ==
+                                                                null
+                                                            ? 'No marks'
+                                                            : units
+                                                                .assignMent1Marks
+                                                                .toString(),
+                                                      ),
+                                                    ),
+                                                    DataCell(
+                                                      Text(units.assignMent2Marks ==
+                                                              null
+                                                          ? 'No marks'
+                                                          : units
+                                                              .assignMent2Marks
+                                                              .toString()),
+                                                    ),
+                                                    DataCell(
+                                                      Text(
+                                                        units.cat1Marks == null
+                                                            ? 'No marks'
+                                                            : units.cat1Marks
+                                                                .toString(),
+                                                      ),
+                                                    ),
+                                                    DataCell(
+                                                      Text(
+                                                        units.cat2Marks == null
+                                                            ? 'No marks'
+                                                            : units.cat2Marks
+                                                                .toString(),
+                                                      ),
+                                                    ),
+                                                    DataCell(
+                                                      Text(
+                                                        units.examMarks == null
+                                                            ? 'No marks'
+                                                            : units.appliedSpecialExam ==
+                                                                    true
+                                                                ? 'special Exam'
+                                                                : units
+                                                                    .examMarks
+                                                                    .toString(),
+                                                      ),
+                                                    ),
+                                                    DataCell(
+                                                      units.totalMarks == null
+                                                          ? const Text(
+                                                              'No marks',
+                                                            )
+                                                          :
+                                                      units.appliedSpecialExam ==
+                                                              true
+                                                          ? const Text(
+                                                              'NA',
+                                                            )
+                                                          : Text(
+                                                              units.totalMarks
+                                                                  .toString(),
+                                                            ),
+                                                    ),
+                                                    DataCell(
+                                                      units.appliedSpecialExam ==
+                                                              true
+                                                          ? const Text(
+                                                              'Incomplete',
+                                                              style: TextStyle(
+                                                                  color: Colors
+                                                                      .red),
+                                                            )
+                                                          : Text(
+                                                              units.grade ??
+                                                                  'NA',
+                                                            ),
+                                                    ),
+                                                  ]);
+                                                }).toList(),
                                               ),
                                             ),
-                                            Text(recommendation)
+                                          ),
+                                          verticalSpaceSmall,
+                                          if (!viewModel.hasSpecialExams(
+                                              snapshot.data!)) ...[
+                                            meanScore == 0
+                                                ? const SizedBox()
+                                                : Row(
+                                                    children: [
+                                                      Text(
+                                                        'Mean Score: $meanScore ',
+                                                        style: const TextStyle(
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .bold),
+                                                      ),
+                                                      const Spacer(),
+                                                      Text(
+                                                        'MeanGrade: $meanGrade',
+                                                        style: const TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                        ),
+                                                      )
+                                                    ],
+                                                  ),
+                                            verticalSpaceSmall,
+                                            meanScore == 0
+                                                ? const SizedBox()
+                                                : Row(
+                                                    children: [
+                                                      const Text(
+                                                        'Reccomendation: ',
+                                                        style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                        ),
+                                                      ),
+                                                      Text(recommendation)
+                                                    ],
+                                                  ),
                                           ],
-                                        ),
-                                      ],
-                                      verticalSpaceTiny,
-                                      verticalSpaceSmall,
-                                      const SizedBox(
-                                        child: Row(
-                                          children: [
-                                            Text(
-                                              "Transcripts",
-                                              style: TextStyle(
-                                                fontSize: 20,
+                                          verticalSpaceTiny,
+                                          verticalSpaceSmall,
+                                          const SizedBox(
+                                            child: Row(
+                                              children: [
+                                                Text(
+                                                  "Transcripts",
+                                                  style: TextStyle(
+                                                    fontSize: 20,
+                                                    color: primaryColor,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          verticalSpaceSmall,
+                                          InkWell(
+                                            onTap: () async {
+                                              var transcript = await viewModel
+                                                  .generateTrancript(
+                                                students: snapshot.data!,
+                                                semesterStage: viewModel
+                                                    .getSelectedSemesterStageForCourses,
+                                                meanGrade: meanGrade,
+                                                meanScore: meanScore,
+                                                recommendation: recommendation,
+                                              );
+                                              final output =
+                                                  await getTemporaryDirectory();
+                                              final file = File(
+                                                  '${output.path}/transcript.pdf');
+                                              await file.writeAsBytes(
+                                                  await transcript.save());
+                                              viewModel.setPdfPath(file.path);
+                                              viewModel
+                                                  .navigateToTrancscriptView();
+                                            },
+                                            child: Container(
+                                              height: 50,
+                                              width: MediaQuery.of(context)
+                                                  .size
+                                                  .width,
+                                              decoration: BoxDecoration(
                                                 color: primaryColor,
-                                                fontWeight: FontWeight.bold,
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                              ),
+                                              child: Center(
+                                                child: Text(
+                                                  'Click here to view ${viewModel.getSelectedSemesterStageForCourses} Transcipt',
+                                                  style: const TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 16,
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                ),
                                               ),
                                             ),
-                                          ],
-                                        ),
-                                      ),
-                                      verticalSpaceSmall,
-                                      InkWell(
-                                        onTap: () async {
-                                          var transcript =
-                                              await viewModel.generateTrancript(
-                                            students: snapshot.data!,
-                                            semesterStage: viewModel
-                                                .getSelectedSemesterStageForCourses,
-                                            meanGrade: meanGrade,
-                                            meanScore: meanScore,
-                                            recommendation: recommendation,
-                                          );
-                                          final output =
-                                              await getTemporaryDirectory();
-                                          final file = File(
-                                              '${output.path}/transcript.pdf');
-                                          await file.writeAsBytes(
-                                              await transcript.save());
-                                          viewModel.setPdfPath(file.path);
-                                          viewModel.navigateToTrancscriptView();
-                                        },
-                                        child: Container(
-                                          height: 50,
-                                          width:
-                                              MediaQuery.of(context).size.width,
-                                          decoration: BoxDecoration(
-                                            color: primaryColor,
-                                            borderRadius:
-                                                BorderRadius.circular(10),
                                           ),
-                                          child: Center(
-                                            child: Text(
-                                              'Click here to view ${viewModel.getSelectedSemesterStageForCourses} Transcipt',
-                                              style: const TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.bold),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  );
+                                        ],
+                                      );
                           }
                         }),
               ),

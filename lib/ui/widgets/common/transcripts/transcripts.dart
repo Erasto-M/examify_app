@@ -20,13 +20,21 @@ class Transcripts extends StackedView<TranscriptsModel> {
         viewModel.navigateToTranscriptDetails(yearName: yearName);
       },
       child: Container(
-        height: 70,
+        height: 60,
         width: MediaQuery.of(context).size.height,
         padding: const EdgeInsets.all(10.0),
         decoration: BoxDecoration(
-            border: Border.all(color: Colors.black12, width: 1),
             color: Colors.white,
-            borderRadius: BorderRadius.circular(10)),
+             border: Border.all(color: Colors.black12, width: 0.6),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.white.withOpacity(0.9),
+                spreadRadius: 1,
+                blurRadius: 2,
+                offset: const Offset(0, 3),
+              )
+            ],
+            borderRadius: BorderRadius.circular(5)),
         child: Center(
           child: Row(
             children: [

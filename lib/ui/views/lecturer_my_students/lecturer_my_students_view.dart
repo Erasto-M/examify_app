@@ -47,10 +47,12 @@ class LecturerMyStudentsView extends StackedView<LecturerMyStudentsViewModel> {
                           Icons.arrow_back_ios,
                           color: primaryColor,
                         )),
-                    Text(
-                      unitName,
-                      style: const TextStyle(
-                          fontSize: 20, fontWeight: FontWeight.bold),
+                    Flexible(
+                      child: Text(
+                        unitName,
+                        style: const TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.bold),
+                      ),
                     ),
                   ],
                 ),
@@ -65,6 +67,9 @@ class LecturerMyStudentsView extends StackedView<LecturerMyStudentsViewModel> {
                             snapshot.data!;
                         return InkWell(
                           onTap: () {
+                            if(!snapshot.hasData||snapshot.data!.isEmpty){
+                              Fluttertoast.showToast(msg: "No students found for $unitName");
+                            }
                             viewModel.openCustomizeAssessMentBottomSheet(
                                 unitCode: unitCode,
                                 unitName: unitName,
@@ -306,7 +311,7 @@ class LecturerMyStudentsView extends StackedView<LecturerMyStudentsViewModel> {
                 ),
                 verticalSpaceSmall,
                 const Divider(
-                  thickness: 1,
+                  thickness: 0.5,
                   color: Colors.grey,
                 ),
                 const Text(

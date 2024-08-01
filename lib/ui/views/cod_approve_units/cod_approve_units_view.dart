@@ -37,12 +37,14 @@ class CodApproveUnitsView extends StackedView<CodApproveUnitsViewModel> {
               style: const TextStyle(color: Colors.white),
               dropdownColor: primaryColor,
               icon: Icon(Icons.arrow_drop_down, color: Colors.white),
-              items: viewModel.semesters.map<DropdownMenuItem<String>>((String value) {
+              items: viewModel.semesters
+                  .map<DropdownMenuItem<String>>((String value) {
                 return DropdownMenuItem<String>(
                   value: value,
                   child: Text(
                     value,
-                    style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                    style: const TextStyle(
+                        color: Colors.white, fontWeight: FontWeight.bold),
                   ),
                 );
               }).toList(),
@@ -72,6 +74,7 @@ class CodApproveUnitsView extends StackedView<CodApproveUnitsViewModel> {
 
               return Card(
                 margin: const EdgeInsets.all(10.0),
+                color: Colors.white,
                 child: Padding(
                   padding: const EdgeInsets.all(10.0),
                   child: Column(
@@ -79,7 +82,8 @@ class CodApproveUnitsView extends StackedView<CodApproveUnitsViewModel> {
                     children: [
                       Text(
                         studentUnits.first.studentName ?? 'Unknown',
-                        style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                        style: const TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.bold),
                       ),
                       const SizedBox(height: 10),
                       Text(
@@ -87,21 +91,40 @@ class CodApproveUnitsView extends StackedView<CodApproveUnitsViewModel> {
                       ),
                       const SizedBox(height: 10),
                       const Text(
-                        'Units:', 
+                        'Units:',
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
                       ...studentUnits.map((unit) => Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 5.0),
-                        child: Text(unit.unitName ?? 'Unknown Unit'),
-                      )),
+                            padding: const EdgeInsets.symmetric(vertical: 5.0),
+                            child: Text(unit.unitName ?? 'Unknown Unit'),
+                          )),
                       const SizedBox(height: 10),
-                      ElevatedButton(
-                        onPressed: () async {
-                           final unitCodes = studentUnits.map((unit) => unit.unitCode!).toList();
-                          await viewModel.approveUnitsForStudent(unitCodes, studentUid);
-                        },
-                        child: const Text('Approve All Units'),
-                      ),
+
+                      (studentUnits.any((unit) => unit.isUnitApproved == false))
+                          ? ElevatedButton(
+                              onPressed: () async {
+                                await viewModel
+                                    .approveUnitsForStudent(studentUid);
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: primaryColor,
+                              ),
+                              child: const Text(
+                                'Approve All Units',
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            )
+                          : const Center(
+                              child: Text(
+                                'All units approved',
+                                style: TextStyle(
+                                    color: Colors.green,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ),
+
                     ],
                   ),
                 ),
@@ -117,7 +140,8 @@ class CodApproveUnitsView extends StackedView<CodApproveUnitsViewModel> {
   CodApproveUnitsViewModel viewModelBuilder(BuildContext context) =>
       CodApproveUnitsViewModel();
 
-  Map<String, List<StudentsRegisteredUnitsModel>> groupByStudent(List<StudentsRegisteredUnitsModel> units) {
+  Map<String, List<StudentsRegisteredUnitsModel>> groupByStudent(
+      List<StudentsRegisteredUnitsModel> units) {
     final Map<String, List<StudentsRegisteredUnitsModel>> studentUnits = {};
     for (final unit in units) {
       if (unit.studentUid != null) {
