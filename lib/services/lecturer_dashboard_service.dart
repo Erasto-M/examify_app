@@ -294,5 +294,24 @@ class LecturerDashboardService {
     }
   }
 
-  // fet
+  // get a specific student  by id and unitCode
+  Stream<List<StudentsRegisteredUnitsModel>> getAStudentByIdAndUnitCode({
+    required String unitCode,
+    required String studentId,
+  }) async* {
+    try {
+      yield* firestore
+          .collection('student_registered_units')
+          .where("unitLecturer", isEqualTo: auth.currentUser!.uid)
+          .where("unitCode", isEqualTo: unitCode)
+          .where('appliedSpecialExam', isEqualTo: false).where('studentUid', isEqualTo: studentId)
+          .snapshots()
+          .map((snapshot) => snapshot.docs
+              .map((doc) => StudentsRegisteredUnitsModel.fromMap(doc.data()))
+              .toList());
+    } catch (e) {
+      Fluttertoast.showToast(msg: e.toString());
+      yield [];
+    }
+  }
 }
