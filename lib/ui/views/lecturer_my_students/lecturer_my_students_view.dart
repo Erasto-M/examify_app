@@ -311,7 +311,7 @@ class LecturerMyStudentsView extends StackedView<LecturerMyStudentsViewModel> {
                 ),
                 verticalSpaceSmall,
                 const Divider(
-                  thickness: 1,
+                  thickness: 0.5,
                   color: Colors.grey,
                 ),
                 const Text(

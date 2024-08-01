@@ -85,6 +85,7 @@ class AdminPanelView extends StackedView<AdminPanelViewModel> {
         ),
         body: SingleChildScrollView(
           child: Container(
+            color: Colors.white,
             padding: const EdgeInsets.only(left: 10.0, right: 10.0, top: 10),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -114,18 +115,18 @@ class AdminPanelView extends StackedView<AdminPanelViewModel> {
                     viewModel.navigateToApproveStudentUnits();
                   },
                   child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+                    padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
                     width: MediaQuery.of(context).size.width,
                     decoration: BoxDecoration(
-                      color: primaryColor,
-                      borderRadius: BorderRadius.circular(20),
+                      border: Border.all(color: primaryColor, width: 0.1),
+                      borderRadius: BorderRadius.circular(5),
                     ),
                     child: const Center(
                       child: Text('Approve Student Units',
                           style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 20,
-                          )),
+                              color: primaryColor,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold)),
                     ),
                   ),
                 ),
@@ -140,30 +141,52 @@ class AdminPanelView extends StackedView<AdminPanelViewModel> {
                 verticalSpaceTiny,
                 SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      ElevatedButton(
-                        onPressed: () {
-                          viewModel.navigateToRegisterNewUser();
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: primaryColor,
-                          foregroundColor:
-                              Colors.white, // Set background color to green
-                          elevation: 0,
-                          fixedSize: const Size(150, 60),
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            viewModel.navigateToRegisterNewUser();
+                          },
+                          child: Container(
+                            height: 60,
+                            width: MediaQuery.of(context).size.height / 5,
+                            padding: const EdgeInsets.all(5.0),
+                            decoration: BoxDecoration(
+                              border: Border.all(color: Colors.black12, width: 1),
+                              color: primaryColor,
+                              boxShadow: const [
+                                BoxShadow(
+                                  color: Colors.white,
+                                  spreadRadius: 1,
+                                  blurRadius: 2,
+                                  offset: Offset(0, 2),
+                                )
+                              ],
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: const Center(child: 
+                               Text(
+                              "Register New",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),)
+                          ),
                         ),
-                        child: const Text("Register New"),
-                      ),
-                      horizontalSpaceTiny,
-                      const Users(user: 'Students'),
-                      horizontalSpaceTiny,
-                      const Users(user: 'Lecturers'),
-                    ],
+                        horizontalSpaceTiny,
+                        const Users(user: 'Students'),
+                        horizontalSpaceTiny,
+                        const Users(user: 'Lecturers'),
+                      ],
+                    ),
                   ),
                 ),
                 verticalSpaceSmall,
+
                 const Text(
                   'Student Performance',
                   style: TextStyle(
@@ -195,11 +218,12 @@ class AdminPanelView extends StackedView<AdminPanelViewModel> {
                     viewModel.navigateToManageSpecialExams();
                   },
                   child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 30, vertical: 10),
                     width: MediaQuery.of(context).size.width,
                     decoration: BoxDecoration(
                       color: primaryColor,
-                      borderRadius: BorderRadius.circular(20),
+                      borderRadius: BorderRadius.circular(5),
                     ),
                     child: const Center(
                       child: Text('Manage special exams',

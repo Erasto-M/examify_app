@@ -207,7 +207,28 @@ class CodSpecialExamsView extends StackedView<CodSpecialExamsViewModel> {
                                                 ),
                                               ),
                                       )
-                                    : const SizedBox(),
+                                    : statuses[0] == 'Lecturer Approved' ? Container(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 30, vertical: 10),
+                                        decoration: BoxDecoration(
+                                          color: primaryColor,
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                        ),
+                                        child: viewModel.isStudentLoading(
+                                                studentId: studentUid)
+                                            ? const CircularProgressIndicator(
+                                                color: Colors.white,
+                                              )
+                                            : const Text(
+                                                'Approve',
+                                                style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 15,
+                                                ),
+                                              ),
+                                      ):
+                                    const SizedBox(),
                               ),
                             ),
                           ],

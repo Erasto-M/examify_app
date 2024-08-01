@@ -17,12 +17,20 @@ class Users extends StackedView<UsersModel> {
         viewModel.navigateToUserDetails(user: user);
       },
       child: Container(
-        height: 70,
+        height: 60,
         width: MediaQuery.of(context).size.height / 5,
         padding: const EdgeInsets.all(10.0),
         decoration: BoxDecoration(
             border: Border.all(color: Colors.black12, width: 1),
             color: Colors.white,
+            boxShadow: [
+              BoxShadow(
+                color: Colors.white.withOpacity(0.9),
+                spreadRadius: 1,
+                blurRadius: 2,
+                offset: const Offset(0, 2),
+              )
+            ],
             borderRadius: BorderRadius.circular(10)),
         child: Center(
           child: Text(
