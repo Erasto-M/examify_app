@@ -317,65 +317,67 @@ class LecturerDashboardView extends StackedView<LecturerDashboardViewModel> {
                                                     ),
                                                   ],
                                                 ),
-                                               (studentUnits1
-                                                                        .assignMent1Marks ==
-                                                                    null ||
-                                                                studentUnits1
-                                                                        .assignMent2Marks ==
-                                                                    null ||
-                                                                studentUnits1
-                                                                        .cat1Marks ==
-                                                                    null ||
-                                                                studentUnits1
-                                                                        .cat2Marks ==
-                                                                    null)? Row(
-                                                  children: [
-                                                    const Text(
-                                                      "Eligible? ",
-                                                      style: TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          color: Colors.black),
-                                                    ),
-                                                    const SizedBox(
-                                                      width: 5,
-                                                    ),
-                                                    Flexible(
-                                                      child: Text(
-                                                        (studentUnits1
-                                                                        .assignMent1Marks ==
-                                                                    null ||
-                                                                studentUnits1
-                                                                        .assignMent2Marks ==
-                                                                    null ||
-                                                                studentUnits1
-                                                                        .cat1Marks ==
-                                                                    null ||
-                                                                studentUnits1
-                                                                        .cat2Marks ==
-                                                                    null)
-                                                            ? "No!! "
-                                                            : "Yes ",
-                                                        style: TextStyle(
-                                                            color: (studentUnits1.assignMent1Marks == null ||
-                                                                    studentUnits1
-                                                                            .assignMent2Marks ==
-                                                                        null ||
-                                                                    studentUnits1
-                                                                            .cat1Marks ==
-                                                                        null ||
-                                                                    studentUnits1
-                                                                            .cat2Marks ==
-                                                                        null)
-                                                                ? Colors.red
-                                                                : primaryColor,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold),
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ) : const SizedBox(),
+                                                (studentUnits1
+                                                                .assignMent1Marks ==
+                                                            null ||
+                                                        studentUnits1
+                                                                .assignMent2Marks ==
+                                                            null ||
+                                                        studentUnits1
+                                                                .cat1Marks ==
+                                                            null ||
+                                                        studentUnits1
+                                                                .cat2Marks ==
+                                                            null)
+                                                    ? Row(
+                                                        children: [
+                                                          const Text(
+                                                            "Eligible? ",
+                                                            style: TextStyle(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                                color: Colors
+                                                                    .black),
+                                                          ),
+                                                          const SizedBox(
+                                                            width: 5,
+                                                          ),
+                                                          Flexible(
+                                                            child: Text(
+                                                              (studentUnits1
+                                                                              .assignMent1Marks ==
+                                                                          null ||
+                                                                      studentUnits1
+                                                                              .assignMent2Marks ==
+                                                                          null ||
+                                                                      studentUnits1
+                                                                              .cat1Marks ==
+                                                                          null ||
+                                                                      studentUnits1
+                                                                              .cat2Marks ==
+                                                                          null)
+                                                                  ? "No!! "
+                                                                  : "Yes ",
+                                                              style: TextStyle(
+                                                                  color: (studentUnits1.assignMent1Marks == null ||
+                                                                          studentUnits1.assignMent2Marks ==
+                                                                              null ||
+                                                                          studentUnits1.cat1Marks ==
+                                                                              null ||
+                                                                          studentUnits1.cat2Marks ==
+                                                                              null)
+                                                                      ? Colors
+                                                                          .red
+                                                                      : primaryColor,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      )
+                                                    : const SizedBox(),
                                                 verticalSpaceSmall,
                                                 (studentUnits1
                                                                 .assignMent1Marks ==

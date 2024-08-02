@@ -5,6 +5,7 @@ import 'package:examify/models/usersModel.dart';
 import 'package:examify/ui/views/lecturer_home/lecturer_home_view.dart';
 import 'package:examify/ui/views/login/login_view.dart';
 import 'package:examify/ui/views/students_home/students_home_view.dart';
+import 'package:examify/ui/views/support_team/support_team_view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -112,11 +113,10 @@ class AuthenticationService {
             debugPrint("Logging to the IT tean");
             Navigator.of(context).pushReplacement(
               MaterialPageRoute(
-                builder: (context) => const AdminHomeView(),
+                builder: (context) => const SupportTeamView(),
               ),
             );
-          }
-          else if (value.data()!['role'] == 'ExamsCoordinator') {
+          } else if (value.data()!['role'] == 'ExamsCoordinator') {
             debugPrint("Logging to the ExamsCoordinator");
             Navigator.of(context).pushReplacement(
               MaterialPageRoute(

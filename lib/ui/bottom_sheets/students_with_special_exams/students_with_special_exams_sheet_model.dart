@@ -89,9 +89,10 @@ class StudentsWithSpecialExamsSheetModel extends BaseViewModel {
             .get();
 
         for (var doc in querySnapshot.docs) {
-          await doc.reference
-              .update({selectedModule: marks, 'appliedSpecialExam': false}).then(
-                  (value) {});
+          await doc.reference.update({
+            selectedModule: marks,
+            'appliedSpecialExam': false
+          }).then((value) {});
         }
       }
       Fluttertoast.showToast(msg: "Marks saved successfully");

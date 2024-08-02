@@ -354,16 +354,16 @@ class StudentDashboardView extends StackedView<StudentDashboardViewModel> {
                                                           ? const Text(
                                                               'No marks',
                                                             )
-                                                          :
-                                                      units.appliedSpecialExam ==
-                                                              true
-                                                          ? const Text(
-                                                              'NA',
-                                                            )
-                                                          : Text(
-                                                              units.totalMarks
-                                                                  .toString(),
-                                                            ),
+                                                          : units.appliedSpecialExam ==
+                                                                  true
+                                                              ? const Text(
+                                                                  'NA',
+                                                                )
+                                                              : Text(
+                                                                  units
+                                                                      .totalMarks
+                                                                      .toString(),
+                                                                ),
                                                     ),
                                                     DataCell(
                                                       units.appliedSpecialExam ==
