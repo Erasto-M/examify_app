@@ -35,6 +35,30 @@ class AdminStudentPerformanceViewModel extends BaseViewModel {
   String selectedUnitCode = 'CCS 1105';
   String get getSelectedUnitCode => selectedSem;
 
+
+  String _selectedCohort = '2024';
+  final List<String> _cohorts = [
+    "2020",
+    "2021",
+    "2022",
+    "2023",
+    "2024",
+    "2025",
+    "2026",
+    "2027",
+    "2028",
+    "2029",
+    "2030"
+  ];
+
+   String get getSelectedCohort => _selectedCohort;
+  List<String> get cohorts => _cohorts;
+
+  void setSelectedCohort(String cohort) {
+    _selectedCohort = cohort;
+    notifyListeners();
+  }
+
   void setSelectedUnitCode(String value) {
     selectedUnitCode = value;
     notifyListeners();
@@ -110,7 +134,8 @@ class AdminStudentPerformanceViewModel extends BaseViewModel {
     return _adminDashboardService.fetchStudentsAccordingToYearStream(
         yearName: currentYearName,
         semesterStage: semesterStage,
-        unitCode: selectedUnitCode);
+        unitCode: selectedUnitCode,
+        cohort: _selectedCohort);
   }
 
   Stream<List<Map<String, dynamic>>> getConsolidatedMarksheets(

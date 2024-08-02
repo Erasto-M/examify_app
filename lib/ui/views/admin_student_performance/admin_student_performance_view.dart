@@ -84,6 +84,43 @@ class AdminStudentPerformanceView
                       },
                       child: Text("${currentYearName}S2"),
                     ),
+                    Container(
+                        margin: const EdgeInsets.only(right: 10),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 15, vertical: 5),
+                        height: 40,
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(10),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.5),
+                                spreadRadius: 1,
+                                blurRadius: 5,
+                                offset: const Offset(0, 3),
+                              ),
+                            ]),
+                        child: DropdownButton(
+                          value: viewModel.selectedUnitToGetMarks.isNotEmpty
+                              ? viewModel.selectedUnitToGetMarks
+                              : null,
+                          hint: const Text("Select cohort"),
+                          items: viewModel.cohorts
+                              .map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(
+                                value,
+                                style: const TextStyle(
+                                    color: primaryColor,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            );
+                          }).toList(),
+                          onChanged: (newValue) {
+                            viewModel.setSelectedCohort(newValue.toString());
+                          },
+                        )),
                   ],
                 ),
                 verticalSpaceSmall,
@@ -154,7 +191,7 @@ class AdminStudentPerformanceView
                     },
                   ),
                 ),
-          
+
                 verticalSpaceSmall,
                 Container(
                   width: MediaQuery.sizeOf(context).width,
@@ -194,9 +231,10 @@ class AdminStudentPerformanceView
                                     ),
                                   ]),
                               child: DropdownButton(
-                                value: viewModel.selectedUnitToGetMarks.isNotEmpty
-                                    ? viewModel.selectedUnitToGetMarks
-                                    : null,
+                                value:
+                                    viewModel.selectedUnitToGetMarks.isNotEmpty
+                                        ? viewModel.selectedUnitToGetMarks
+                                        : null,
                                 hint: const Text("Select Unit"),
                                 items: viewModel.unitsPerSelectedSemester
                                         .map((AddUnitModel unit) =>
