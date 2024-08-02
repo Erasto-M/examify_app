@@ -25,7 +25,7 @@ class Transcripts extends StackedView<TranscriptsModel> {
         padding: const EdgeInsets.all(10.0),
         decoration: BoxDecoration(
             color: Colors.white,
-             border: Border.all(color: Colors.black12, width: 0.6),
+            border: Border.all(color: Colors.black12, width: 0.6),
             boxShadow: [
               BoxShadow(
                 color: Colors.white.withOpacity(0.9),

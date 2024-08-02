@@ -1191,6 +1191,37 @@ class MockAdminDashboardService extends _i1.Mock
         returnValue: _i7.Future<void>.value(),
         returnValueForMissingStub: _i7.Future<void>.value(),
       ) as _i7.Future<void>);
+
+  @override
+  _i7.Stream<List<_i13.StudentsRegisteredUnitsModel>> getUnitsForApproval(
+          String? semester) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getUnitsForApproval,
+          [semester],
+        ),
+        returnValue:
+            _i7.Stream<List<_i13.StudentsRegisteredUnitsModel>>.empty(),
+        returnValueForMissingStub:
+            _i7.Stream<List<_i13.StudentsRegisteredUnitsModel>>.empty(),
+      ) as _i7.Stream<List<_i13.StudentsRegisteredUnitsModel>>);
+
+  @override
+  _i7.Future<void> approveUnitsForStudent(
+    List<String>? unitCodes,
+    String? studentId,
+  ) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #approveUnitsForStudent,
+          [
+            unitCodes,
+            studentId,
+          ],
+        ),
+        returnValue: _i7.Future<void>.value(),
+        returnValueForMissingStub: _i7.Future<void>.value(),
+      ) as _i7.Future<void>);
 }
 
 /// A class which mocks [LecturerDashboardService].
@@ -1478,6 +1509,27 @@ class MockLecturerDashboardService extends _i1.Mock
         returnValue: _i7.Future<dynamic>.value(),
         returnValueForMissingStub: _i7.Future<dynamic>.value(),
       ) as _i7.Future<dynamic>);
+
+  @override
+  _i7.Stream<List<_i13.StudentsRegisteredUnitsModel>>
+      getAStudentByIdAndUnitCode({
+    required String? unitCode,
+    required String? studentId,
+  }) =>
+          (super.noSuchMethod(
+            Invocation.method(
+              #getAStudentByIdAndUnitCode,
+              [],
+              {
+                #unitCode: unitCode,
+                #studentId: studentId,
+              },
+            ),
+            returnValue:
+                _i7.Stream<List<_i13.StudentsRegisteredUnitsModel>>.empty(),
+            returnValueForMissingStub:
+                _i7.Stream<List<_i13.StudentsRegisteredUnitsModel>>.empty(),
+          ) as _i7.Stream<List<_i13.StudentsRegisteredUnitsModel>>);
 }
 
 /// A class which mocks [StudentDashboardService].

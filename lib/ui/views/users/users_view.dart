@@ -42,7 +42,10 @@ class UsersView extends StackedView<UsersViewModel> {
                     ),
                     Text(
                       user,
-                      style: const  TextStyle(color: primaryColor, fontSize: 20, fontWeight: FontWeight.bold),
+                      style: const TextStyle(
+                          color: primaryColor,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(width: 50),
                   ],
@@ -111,26 +114,33 @@ class UsersView extends StackedView<UsersViewModel> {
                                 ElevatedButton(
                                   onPressed: () {
                                     viewModel.email(
-                                      email: user.email??'example@gmail.com',
+                                      email: user.email ?? 'example@gmail.com',
                                     );
-                                  },
-                                    style: ElevatedButton.styleFrom(
-                                    backgroundColor: Colors.white,
-                                    elevation: 5,
-                                  ),
-                                  child: const Text('Email', style: TextStyle(color: primaryColor),),
-                                ),
-                                horizontalSpaceMedium,
-                                ElevatedButton(
-                                  onPressed: () {
-                                    viewModel.call(
-                                        phoneNumber: user.phoneNumber??'1234567890');
                                   },
                                   style: ElevatedButton.styleFrom(
                                     backgroundColor: Colors.white,
                                     elevation: 5,
                                   ),
-                                  child: const Text('Call', style: TextStyle(color: primaryColor),),
+                                  child: const Text(
+                                    'Email',
+                                    style: TextStyle(color: primaryColor),
+                                  ),
+                                ),
+                                horizontalSpaceMedium,
+                                ElevatedButton(
+                                  onPressed: () {
+                                    viewModel.call(
+                                        phoneNumber:
+                                            user.phoneNumber ?? '1234567890');
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: Colors.white,
+                                    elevation: 5,
+                                  ),
+                                  child: const Text(
+                                    'Call',
+                                    style: TextStyle(color: primaryColor),
+                                  ),
                                 ),
                               ],
                             ),

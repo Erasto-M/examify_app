@@ -113,8 +113,9 @@ class LecturerMyStudentsViewModel extends BaseViewModel {
         },
         title: unitCode);
   }
+
   //open bottom sheet for students with special exams
-   void openBottomSheetForSpecialExams({
+  void openBottomSheetForSpecialExams({
     required String unitCode,
     required String unitName,
     required List<StudentsRegisteredUnitsModel> student,

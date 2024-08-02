@@ -350,11 +350,14 @@ class LecturerDashboardView extends StackedView<LecturerDashboardViewModel> {
                                                     ),
                                                   ],
                                                 ),
+
                                                 ...studentUnits1
                                                     .map((studentUnits1) {
                                                   return Column(
                                                     children: [
-                                                        (studentUnits1
+
+                                                (studentUnits1
+
                                                                 .assignMent1Marks ==
                                                             null ||
                                                         studentUnits1

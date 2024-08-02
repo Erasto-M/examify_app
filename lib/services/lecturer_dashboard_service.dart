@@ -304,7 +304,8 @@ class LecturerDashboardService {
           .collection('student_registered_units')
           .where("unitLecturer", isEqualTo: auth.currentUser!.uid)
           .where("unitCode", isEqualTo: unitCode)
-          .where('appliedSpecialExam', isEqualTo: false).where('studentUid', isEqualTo: studentId)
+          .where('appliedSpecialExam', isEqualTo: false)
+          .where('studentUid', isEqualTo: studentId)
           .snapshots()
           .map((snapshot) => snapshot.docs
               .map((doc) => StudentsRegisteredUnitsModel.fromMap(doc.data()))
