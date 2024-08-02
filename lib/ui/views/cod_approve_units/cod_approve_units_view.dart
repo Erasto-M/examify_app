@@ -99,22 +99,29 @@ class CodApproveUnitsView extends StackedView<CodApproveUnitsViewModel> {
                             child: Text(unit.unitName ?? 'Unknown Unit'),
                           )),
                       const SizedBox(height: 10),
-
                       (studentUnits.any((unit) => unit.isUnitApproved == false))
                           ? ElevatedButton(
                               onPressed: () async {
-                                await viewModel
-                                    .approveUnitsForStudent(studentUid);
+                                final unitCodes = studentUnits
+                                    .map((unit) => unit.unitCode!)
+                                    .toList();
+                                await viewModel.approveUnitsForStudent(
+                                    unitCodes, studentUid);
                               },
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: primaryColor,
                               ),
-                              child: const Text(
-                                'Approve All Units',
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold),
-                              ),
+                              child: viewModel.isBusy
+                                  ? const CircularProgressIndicator(
+                                      valueColor: AlwaysStoppedAnimation<Color>(
+                                          Colors.white),
+                                    )
+                                  : const Text(
+                                      'Approve All Units',
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold),
+                                    ),
                             )
                           : const Center(
                               child: Text(
@@ -124,7 +131,6 @@ class CodApproveUnitsView extends StackedView<CodApproveUnitsViewModel> {
                                     fontWeight: FontWeight.bold),
                               ),
                             ),
-
                     ],
                   ),
                 ),
