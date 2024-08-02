@@ -300,4 +300,6 @@ class LecturerMyStudentsViewModel extends BaseViewModel {
           'exam': units.examMarksOutOff,
         });
   }
+
+  //delete stude
 }

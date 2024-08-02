@@ -272,15 +272,15 @@ class StudentDashboardView extends StackedView<StudentDashboardViewModel> {
                                                           fontSize: 18),
                                                     ),
                                                   ),
-                                                  DataColumn(
-                                                    label: Text(
-                                                      "Exam ",
-                                                      style: TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          fontSize: 18),
-                                                    ),
-                                                  ),
+                                                  // DataColumn(
+                                                  //   label: Text(
+                                                  //     "Exam ",
+                                                  //     style: TextStyle(
+                                                  //         fontWeight:
+                                                  //             FontWeight.bold,
+                                                  //         fontSize: 18),
+                                                  //   ),
+                                                  // ),
                                                   DataColumn(
                                                     label: Text(
                                                       "Total marks",
@@ -341,18 +341,18 @@ class StudentDashboardView extends StackedView<StudentDashboardViewModel> {
                                                                 .toString(),
                                                       ),
                                                     ),
-                                                    DataCell(
-                                                      Text(
-                                                        units.examMarks == null
-                                                            ? 'No marks'
-                                                            : units.appliedSpecialExam ==
-                                                                    true
-                                                                ? 'special Exam'
-                                                                : units
-                                                                    .examMarks
-                                                                    .toString(),
-                                                      ),
-                                                    ),
+                                                    // DataCell(
+                                                    //   Text(
+                                                    //     units.examMarks == null
+                                                    //         ? 'No marks'
+                                                    //         : units.appliedSpecialExam ==
+                                                    //                 true
+                                                    //             ? 'special Exam'
+                                                    //             : units
+                                                    //                 .examMarks
+                                                    //                 .toString(),
+                                                    //   ),
+                                                    // ),
                                                     DataCell(
                                                       units.totalMarks == null
                                                           ? const Text(
