@@ -22,7 +22,7 @@ class SupportTeamView extends StackedView<SupportTeamViewModel> {
         actions: [
           IconButton(
             onPressed: () {
-             
+              viewModel.logout(context);
             },
             icon: const Icon(Icons.logout),
           ),
