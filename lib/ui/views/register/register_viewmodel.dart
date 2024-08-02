@@ -182,6 +182,7 @@ class RegisterViewModel extends FormViewModel {
     required String registrationNumber,
     required String cohort,
     required String pfNumber,
+    required BuildContext context,
   }) async {
     setBusy(true);
     if (passwordValue != confirmPasswordValue) {
@@ -223,8 +224,11 @@ class RegisterViewModel extends FormViewModel {
         registrationNumber: registrationNumber,
         pfNumber: pfNumber,
         cohort: cohort,
+        context: context
       );
+    
       notifyListeners();
+
       setBusy(false);
     }
   }

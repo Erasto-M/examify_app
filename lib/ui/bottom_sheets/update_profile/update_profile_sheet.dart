@@ -147,7 +147,6 @@ class UpdateProfileSheet extends StackedView<UpdateProfileSheetModel>
                                 userName: updateUserNameController.text,
                                 email: updateEmailController.text,
                                 phoneNumber: updatePhoneNumberController.text,
-                                
                               );
                               if (!viewModel.isBusy) {
                                 completer!(SheetResponse(confirmed: true));
@@ -155,7 +154,6 @@ class UpdateProfileSheet extends StackedView<UpdateProfileSheetModel>
                                 updateEmailController.clear();
                                 updatePhoneNumberController.clear();
                               }
-                              
                             }
                           },
                           child: Container(

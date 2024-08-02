@@ -28,8 +28,9 @@ class CodApproveUnitsViewModel extends BaseViewModel {
   Stream<List<StudentsRegisteredUnitsModel>> get unitsStream =>
       _adminService.getUnitsForApproval(_selectedSemester);
 
-  Future<void> approveUnitsForStudent(List<String> unitCodes, String studentId) async {
- print("unitcodes ${unitCodes}");
+  Future<void> approveUnitsForStudent(
+      List<String> unitCodes, String studentId) async {
+    print("unitcodes ${unitCodes}");
     setBusy(true);
     await _adminService.approveUnitsForStudent(unitCodes, studentId);
     setBusy(false);

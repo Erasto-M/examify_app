@@ -471,7 +471,4 @@ class StudentDashboardViewModel extends BaseViewModel {
   bool hasSpecialExams(List<StudentsRegisteredUnitsModel> units) {
     return units.any((unit) => unit.appliedSpecialExam == true);
   }
-
-  
-  
 }

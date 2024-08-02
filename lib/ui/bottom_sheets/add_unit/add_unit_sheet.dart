@@ -165,7 +165,6 @@ class AddUnitSheet extends StackedView<AddUnitSheetModel> with $AddUnitSheet {
                       completer!(SheetResponse(confirmed: true));
                       unitCodeController.clear();
                       unitNameController.clear();
-                      
                     }
                   },
                   child: Container(

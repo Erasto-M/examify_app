@@ -5,6 +5,7 @@ import 'package:examify/models/usersModel.dart';
 import 'package:examify/ui/views/lecturer_home/lecturer_home_view.dart';
 import 'package:examify/ui/views/login/login_view.dart';
 import 'package:examify/ui/views/students_home/students_home_view.dart';
+import 'package:examify/ui/views/support_team/support_team_view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -31,6 +32,7 @@ class AuthenticationService {
     required String registrationNumber,
     required String pfNumber,
     required String cohort,
+    required BuildContext context,
   }) async {
     try {
       //register user
@@ -57,8 +59,7 @@ class AuthenticationService {
         firebaseAuth.currentUser!.sendEmailVerification();
         Fluttertoast.showToast(
             msg: 'Account created successfully, verification email sent');
-      }).then((value) {
-        _navigationService.navigateToAdminHomeView();
+            Navigator.pop(context);
       });
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
@@ -106,6 +107,13 @@ class AuthenticationService {
             Navigator.of(context).pushReplacement(
               MaterialPageRoute(
                 builder: (context) => const AdminHomeView(),
+              ),
+            );
+          } else if (value.data()!['role'] == 'IT') {
+            debugPrint("Logging to the IT tean");
+            Navigator.of(context).pushReplacement(
+              MaterialPageRoute(
+                builder: (context) => const SupportTeamView(),
               ),
             );
           } else if (value.data()!['role'] == 'ExamsCoordinator') {
@@ -197,11 +205,11 @@ class AuthenticationService {
                     builder: (context) => const AdminHomeView(),
                   ),
                 );
-              } else if (value.data()!['role'] == 'COD') {
-                debugPrint("Logging to the admin");
+              } else if (value.data()!['role'] == 'IT') {
+                debugPrint("Logging to the IT");
                 Navigator.of(context).pushReplacement(
                   MaterialPageRoute(
-                    builder: (context) => const AdminHomeView(),
+                    builder: (context) => const SupportTeamView(),
                   ),
                 );
               } else if (value.data()!['role'] == 'ExamsCoordinator') {
