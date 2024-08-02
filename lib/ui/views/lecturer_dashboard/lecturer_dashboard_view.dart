@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:rxdart/streams.dart';
 import 'package:stacked/stacked.dart';
 
 import 'lecturer_dashboard_viewmodel.dart';
@@ -217,20 +218,35 @@ class LecturerDashboardView extends StackedView<LecturerDashboardViewModel> {
                           );
                         } else {
                           List<SpecialExamsModel> specials = snapshot.data!;
+                          List<Stream<List<StudentsRegisteredUnitsModel>>>
+                              studentsStream = [];
+                          for (var special in specials) {
+                            studentsStream
+                                .add(viewModel.getStudentByIdAndUnitCode(
+                              studentId: special.studeUid!,
+                              unitCode: special.unitCode!,
+                            ));
+                          }
                           return StreamBuilder(
-                              stream: viewModel.getStudentByIdAndUnitCode(
-                                  studentId: specials[0].studeUid!,
-                                  unitCode: specials[0].unitCode!),
+                              stream: CombineLatestStream.list(studentsStream),
                               builder: (context, snapshot1) {
                                 if (snapshot1.hasData) {
-                                  List<StudentsRegisteredUnitsModel>
-                                      studentUnits = snapshot1.data;
+                                  List<List<StudentsRegisteredUnitsModel>>?
+                                      student = snapshot1.data;
+                                  if (student!.length != specials.length) {
+                                    return const Center(
+                                      child: Text('Length Mismatch'),
+                                    );
+                                  }
                                   return ListView.builder(
                                       itemCount: specials.length,
                                       itemBuilder: (context, index) {
+                                        final studentUnits1 = student[index];
+                                        if (studentUnits1.isEmpty) {
+                                          return const SizedBox();
+                                        }
                                         final units = specials[index];
-                                        final studentUnits1 =
-                                            studentUnits[index];
+
                                         return Card(
                                           color: Colors.white,
                                           child: ListTile(
@@ -248,6 +264,23 @@ class LecturerDashboardView extends StackedView<LecturerDashboardViewModel> {
                                                 const SizedBox(
                                                   height: 5,
                                                 ),
+                                                 units.specialExamStatus ==
+                                                        'Approved'
+                                                    ? Row(
+                                                        children: [
+                                                          Text(
+                                                            units.unitCode!,
+                                                            style:
+                                                                const TextStyle(),
+                                                          ),
+                                                          const SizedBox(
+                                                            width: 10,
+                                                          ),
+                                                          Flexible(
+                                                              child: Text(units
+                                                                  .unitName!)),
+                                                        ],
+                                                      ) :
                                                 units.specialExamStatus ==
                                                         'Lecturer Approved'
                                                     ? Row(
@@ -307,7 +340,7 @@ class LecturerDashboardView extends StackedView<LecturerDashboardViewModel> {
                                                       units.specialExamStatus!,
                                                       style: TextStyle(
                                                           color: units.specialExamStatus ==
-                                                                  'Lecturer Approved'
+                                                                  'Lecturer Approved' || units.specialExamStatus == 'Approved'
                                                               ? primaryColor
                                                               : units.specialExamStatus ==
                                                                       'pending'
@@ -317,7 +350,14 @@ class LecturerDashboardView extends StackedView<LecturerDashboardViewModel> {
                                                     ),
                                                   ],
                                                 ),
+
+                                                ...studentUnits1
+                                                    .map((studentUnits1) {
+                                                  return Column(
+                                                    children: [
+
                                                 (studentUnits1
+
                                                                 .assignMent1Marks ==
                                                             null ||
                                                         studentUnits1
@@ -486,13 +526,17 @@ class LecturerDashboardView extends StackedView<LecturerDashboardViewModel> {
                                                                         ),
                                                                 ),
                                                               ),
+                                              
+                                                    ],
+                                                  );
+                                                })
                                               ],
                                             ),
                                           ),
                                         );
                                       });
                                 } else {
-                                  return Center(
+                                  return const Center(
                                     child: Text('Student Details Not found'),
                                   );
                                 }

@@ -176,7 +176,8 @@ class AdminDashboardService {
           final units = studentData['units'] as List<Map<String, dynamic>>;
           final totalMarks = units.fold(
               0, (sum1, unit) => sum1 + (unit['marks'] as int? ?? 0));
-          final meanMarks = units.isNotEmpty ? totalMarks / units.length : 0;
+          final meanMark = units.isNotEmpty ? totalMarks / units.length : 0;
+          final meanMarks = double.parse(meanMark.toStringAsFixed(2));
           final grade = meanMarks >= 70
               ? 'A'
               : meanMarks >= 60
