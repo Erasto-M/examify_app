@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:examify/models/special_exams_model.dart';
+import 'package:examify/models/user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
@@ -114,11 +115,13 @@ class AdminDashboardService {
   Stream<List<StudentsRegisteredUnitsModel>> fetchStudentsAccordingToYearStream(
       {required String yearName,
       required String semesterStage,
-      required String unitCode}) async* {
+      required String unitCode,
+      required String cohort}) async* {
     try {
       yield* db
           .collection('student_registered_units')
           .where('unitCode', isEqualTo: unitCode)
+          .where('cohort', isEqualTo: cohort)
           .where('semesterStage', isEqualTo: semesterStage)
           .snapshots()
           .map((snapshot) => snapshot.docs
