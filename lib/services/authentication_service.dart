@@ -108,7 +108,15 @@ class AuthenticationService {
                 builder: (context) => const AdminHomeView(),
               ),
             );
-          } else if (value.data()!['role'] == 'ExamsCoordinator') {
+          } else if (value.data()!['role'] == 'IT') {
+            debugPrint("Logging to the IT tean");
+            Navigator.of(context).pushReplacement(
+              MaterialPageRoute(
+                builder: (context) => const AdminHomeView(),
+              ),
+            );
+          }
+          else if (value.data()!['role'] == 'ExamsCoordinator') {
             debugPrint("Logging to the ExamsCoordinator");
             Navigator.of(context).pushReplacement(
               MaterialPageRoute(
