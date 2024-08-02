@@ -178,19 +178,23 @@ class StudentDashboardView extends StackedView<StudentDashboardViewModel> {
                               child: Text("No Units found"),
                             );
                           } else {
-                            final snapshotData = snapshot.data;
+                            List<StudentsRegisteredUnitsModel> snapshotData =
+                                snapshot.data!;
 
                             double meanScore =
                                 viewModel.calculateMeanScore(snapshot.data!);
                             String meanGrade =
                                 viewModel.calculateMeanGrade(meanScore);
                             String recommendation =
-                                viewModel.getRecommendation(meanGrade);
+                                snapshotData.any((unit) => unit.grade == 'E')
+                                    ? 'Fail'
+                                    : viewModel.getRecommendation(meanGrade);
+
                             return snapshot.data!.isEmpty
                                 ? const Center(
                                     child: Text("No Units found"),
                                   )
-                                : snapshotData!.any(
+                                : snapshotData.any(
                                         (unit) => unit.isUnitApproved == false)
                                     ? const Center(
                                         child: Text(
@@ -354,16 +358,16 @@ class StudentDashboardView extends StackedView<StudentDashboardViewModel> {
                                                           ? const Text(
                                                               'No marks',
                                                             )
-                                                          :
-                                                      units.appliedSpecialExam ==
-                                                              true
-                                                          ? const Text(
-                                                              'NA',
-                                                            )
-                                                          : Text(
-                                                              units.totalMarks
-                                                                  .toString(),
-                                                            ),
+                                                          : units.appliedSpecialExam ==
+                                                                  true
+                                                              ? const Text(
+                                                                  'NA',
+                                                                )
+                                                              : Text(
+                                                                  units
+                                                                      .totalMarks
+                                                                      .toString(),
+                                                                ),
                                                     ),
                                                     DataCell(
                                                       units.appliedSpecialExam ==
@@ -420,7 +424,11 @@ class StudentDashboardView extends StackedView<StudentDashboardViewModel> {
                                                               FontWeight.bold,
                                                         ),
                                                       ),
-                                                      Text(recommendation)
+                                                      snapshotData.any((unit) =>
+                                                              unit.grade == 'E')
+                                                          ? const Text('Fail')
+                                                          : Text(
+                                                              recommendation),
                                                     ],
                                                   ),
                                           ],
@@ -443,8 +451,8 @@ class StudentDashboardView extends StackedView<StudentDashboardViewModel> {
                                           verticalSpaceSmall,
                                           InkWell(
                                             onTap: () async {
-                                              var transcript = await viewModel
-                                                  .generateTrancript(
+                                              var transcript =  viewModel
+                                                  .generateTranscript(
                                                 students: snapshot.data!,
                                                 semesterStage: viewModel
                                                     .getSelectedSemesterStageForCourses,

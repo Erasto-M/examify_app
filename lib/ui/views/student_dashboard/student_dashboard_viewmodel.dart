@@ -125,308 +125,215 @@ class StudentDashboardViewModel extends BaseViewModel {
   }
 
   //Generate Trancripts
-  pw.Document generateTrancript(
+  pw.Document generateTranscript(
       {required List<StudentsRegisteredUnitsModel> students,
       required String semesterStage,
       required String meanGrade,
       required String recommendation,
       required double meanScore}) {
     final transcript = pw.Document();
-    transcript.addPage(
-      pw.Page(
-        build: (pw.Context context) {
-          return pw.Column(
-              crossAxisAlignment: pw.CrossAxisAlignment.start,
-              children: [
-                pw.Container(
-                    decoration: pw.BoxDecoration(
-                      border: pw.Border.all(
-                        color: PdfColors.black,
-                        width: 1,
-                      ),
-                      color: PdfColors.white,
-                    ),
-                    child: pw.Column(
-                        crossAxisAlignment: pw.CrossAxisAlignment.start,
-                        children: [
-                          pw.SizedBox(height: 3),
-                          pw.SizedBox(height: 3),
-                          pw.Center(
-                            child: pw.Text(
-                                'DEDAN KIMATHI UNIVERSITY OF TECHNOLOGY',
-                                style: pw.TextStyle(
-                                  fontSize: 18,
-                                  color: PdfColors.black,
-                                  fontWeight: pw.FontWeight.bold,
-                                )),
-                          ),
-                          pw.SizedBox(height: 3),
-                          pw.Center(
-                            child: pw.Text(
-                                'PROVISIONAL UNDERGRADUATE ACADEMIC TRANSCRIPT',
-                                style: const pw.TextStyle(
-                                  fontSize: 15,
-                                  color: PdfColors.black,
-                                )),
-                          ),
-                          pw.SizedBox(height: 15),
-                          pw.Container(
-                              decoration: pw.BoxDecoration(
-                                border: pw.Border.all(
-                                  color: PdfColors.black,
-                                  width: 1,
-                                ),
-                              ),
-                              child: pw.Column(
-                                crossAxisAlignment: pw.CrossAxisAlignment.start,
-                                children: [
-                                  pw.SizedBox(height: 10),
-                                  pw.Row(children: [
-                                    pw.Row(children: [
-                                      pw.SizedBox(width: 20),
-                                      pw.Text('Name: '),
-                                      pw.SizedBox(width: 20),
-                                      pw.Text(students[0].studentName!),
-                                    ]),
-                                    pw.Spacer(),
-                                    pw.Row(children: [
-                                      pw.SizedBox(width: 20),
-                                      pw.Text('RegNo: '),
-                                      pw.SizedBox(width: 20),
-                                      pw.Text(students[0].studentPhoneNumber!),
-                                      pw.SizedBox(width: 20),
-                                    ]),
-                                  ]),
-                                  pw.SizedBox(height: 5),
-                                  pw.Row(children: [
-                                    pw.SizedBox(width: 20),
-                                    pw.Text('School: '),
-                                    pw.SizedBox(width: 20),
-                                    pw.Text(
-                                        'Computer Science and Information Technology'),
-                                  ]),
-                                  pw.SizedBox(height: 5),
-                                  pw.Row(children: [
-                                    pw.SizedBox(width: 20),
-                                    pw.Text('Degree: '),
-                                    pw.SizedBox(width: 20),
-                                    pw.Text(
-                                        'Bachelor of Science in Computer Science'),
-                                  ]),
-                                  pw.SizedBox(height: 5),
-                                  pw.Row(children: [
-                                    pw.Row(children: [
-                                      pw.SizedBox(width: 20),
-                                      pw.Text('Academic Year: '),
-                                      pw.SizedBox(width: 20),
-                                      pw.Text('2024/2025'),
-                                    ]),
-                                    pw.Spacer(),
-                                    pw.Row(children: [
-                                      pw.SizedBox(width: 20),
-                                      pw.Text('Year of Study: '),
-                                      pw.SizedBox(width: 20),
-                                      pw.Text('${semesterStage}'),
-                                      pw.SizedBox(width: 20),
-                                    ]),
-                                  ]),
-                                  pw.SizedBox(height: 5),
-                                  pw.SizedBox(height: 20),
-                                  pw.TableHelper.fromTextArray(
-                                      border: pw.TableBorder.all(),
-                                      cellHeight: 20,
-                                      cellStyle: const pw.TextStyle(
-                                        fontSize: 14,
-                                      ),
-                                      headerStyle: pw.TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: pw.FontWeight.bold,
-                                          color: PdfColors.black),
-                                      headers: [
-                                        'UnitsCode',
-                                        'UnitName',
-                                        'TotalMarks',
-                                        'Grade',
-                                      ],
-                                      data: students.map((student) {
-                                        return [
-                                          student.unitCode,
-                                          student.unitName,
-                                          student.totalMarks.toString(),
-                                          student.grade,
-                                        ];
-                                      }).toList()),
-                                  pw.Container(
-                                    decoration: pw.BoxDecoration(
-                                      border: pw.Border.all(
-                                        color: PdfColors.black,
-                                        width: 1,
-                                      ),
-                                    ),
-                                    child: pw.Column(children: [
-                                      pw.SizedBox(height: 20),
-                                      pw.Row(
-                                        mainAxisAlignment:
-                                            pw.MainAxisAlignment.center,
-                                        children: [
-                                          pw.Center(
-                                              child: pw.Text('MeanScore:')),
-                                          pw.SizedBox(width: 10),
-                                          pw.Center(
-                                              child: pw.Text(
-                                                  meanScore.toString())),
-                                          pw.SizedBox(width: 10),
-                                          pw.Center(
-                                              child: pw.Text('MeanGrade:')),
-                                          pw.SizedBox(width: 10),
-                                          pw.Center(child: pw.Text(meanGrade)),
-                                        ],
-                                      ),
-                                      pw.SizedBox(height: 10),
-                                    ]),
-                                  ),
-                                  pw.Container(
-                                    decoration: pw.BoxDecoration(
-                                      border: pw.Border.all(
-                                        color: PdfColors.black,
-                                        width: 1,
-                                      ),
-                                    ),
-                                    child: pw.Column(children: [
-                                      pw.SizedBox(height: 20),
-                                      pw.Row(
-                                        mainAxisAlignment:
-                                            pw.MainAxisAlignment.start,
-                                        children: [
-                                          pw.SizedBox(width: 20),
-                                          pw.Center(
-                                              child:
-                                                  pw.Text('Reccommendation:')),
-                                          pw.SizedBox(width: 10),
-                                          pw.Center(
-                                              child: pw.Text(recommendation)),
-                                        ],
-                                      ),
-                                      pw.SizedBox(height: 10),
-                                    ]),
-                                  ),
-                                  pw.Container(
-                                    padding: pw.EdgeInsets.only(left: 20),
-                                    decoration: pw.BoxDecoration(
-                                      border: pw.Border.all(
-                                        color: PdfColors.black,
-                                        width: 1,
-                                      ),
-                                    ),
-                                    child: pw.Column(
-                                        crossAxisAlignment:
-                                            pw.CrossAxisAlignment.start,
-                                        children: [
-                                          pw.SizedBox(height: 20),
-                                          pw.Row(children: [
-                                            pw.Column(
-                                              crossAxisAlignment:
-                                                  pw.CrossAxisAlignment.start,
-                                              children: [
-                                                pw.Text(
-                                                    'KEY TO THE GRADING SYSTEM',
-                                                    style: pw.TextStyle(
-                                                      color: PdfColors.black,
-                                                      fontWeight:
-                                                          pw.FontWeight.bold,
-                                                    )),
-                                                pw.SizedBox(width: 10),
-                                                pw.SizedBox(height: 15),
-                                                pw.Column(
-                                                    crossAxisAlignment: pw
-                                                        .CrossAxisAlignment
-                                                        .start,
-                                                    children: [
-                                                      pw.Row(children: [
-                                                        pw.Text('A: 70-100%'),
-                                                        pw.SizedBox(width: 70),
-                                                        pw.Text('Excellent'),
-                                                      ]),
-                                                      pw.Row(children: [
-                                                        pw.Text('B: 60-69%'),
-                                                        pw.SizedBox(width: 80),
-                                                        pw.Text('Good'),
-                                                      ]),
-                                                      pw.Row(children: [
-                                                        pw.Text('C: 50-59%'),
-                                                        pw.SizedBox(width: 80),
-                                                        pw.Text('Satisfactory'),
-                                                      ]),
-                                                      pw.Row(children: [
-                                                        pw.Text('D: 40-49%'),
-                                                        pw.SizedBox(width: 80),
-                                                        pw.Text('Pass'),
-                                                      ]),
-                                                      pw.Row(
-                                                        children: [
-                                                          pw.Text('E: 0-39%'),
-                                                          pw.SizedBox(
-                                                              width: 80),
-                                                          pw.Text('Fail'),
-                                                        ],
-                                                      ),
-                                                      pw.Row(
-                                                        children: [
-                                                          pw.Text('iNC'),
-                                                          pw.SizedBox(
-                                                              width: 110),
-                                                          pw.Text('incomplete'),
-                                                        ],
-                                                      ),
-                                                    ]),
-                                              ],
-                                            ),
-                                            pw.SizedBox(width: 50),
-                                            pw.Column(
-                                                crossAxisAlignment:
-                                                    pw.CrossAxisAlignment.start,
-                                                children: [
-                                                  pw.Center(
-                                                    child: pw.Text(
-                                                      'NB',
-                                                      style: pw.TextStyle(
-                                                        color: PdfColors.black,
-                                                        fontWeight:
-                                                            pw.FontWeight.bold,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  pw.SizedBox(
-                                                    child: pw.Text(
-                                                        '1 Unit Consist of 35 Lecture hours'),
-                                                  ),
-                                                  pw.Text(
-                                                      'or equivalent 3 practical of 2'),
-                                                  pw.Text(
-                                                      'tutorial hours are equivalent '),
-                                                  pw.Text('to 1 lecture hour'),
-                                                ]),
-                                          ]),
-                                          pw.SizedBox(height: 20),
-                                          pw.Text(
-                                              'Signed  ...........................................'),
-                                          pw.SizedBox(height: 10),
-                                          pw.Text(
-                                              'Dean , Computer Science and Information Technology'),
-                                          pw.SizedBox(height: 15),
-                                        ]),
-                                  ),
-                                ],
-                              ))
-                        ])),
-              ]);
-        },
-      ),
-    );
+
+   transcript.addPage(
+  pw.MultiPage(
+    build: (pw.Context context) {
+      return [
+        pw.Container(
+          decoration: pw.BoxDecoration(
+            border: pw.Border.all(color: PdfColors.black, width: 1),
+            color: PdfColors.white,
+          ),
+          child: pw.Column(
+            crossAxisAlignment: pw.CrossAxisAlignment.start,
+            children: [
+              pw.SizedBox(height: 3),
+              pw.Center(
+                child: pw.Text(
+                  'DEDAN KIMATHI UNIVERSITY OF TECHNOLOGY',
+                  style: pw.TextStyle(
+                    fontSize: 18,
+                    color: PdfColors.black,
+                    fontWeight: pw.FontWeight.bold,
+                  ),
+                ),
+              ),
+              pw.SizedBox(height: 3),
+              pw.Center(
+                child: pw.Text(
+                  'PROVISIONAL UNDERGRADUATE ACADEMIC TRANSCRIPT',
+                  style: const pw.TextStyle(
+                    fontSize: 15,
+                    color: PdfColors.black,
+                  ),
+                ),
+              ),
+              _buildStudentInfoSection(students, semesterStage),
+
+              pw.NewPage(), // Force page break before table
+              _buildUnitsTable(students),
+
+              pw.NewPage(), // Force page break before grading system
+              _buildMeanAndRecommendationSection(
+                  meanScore, meanGrade, recommendation),
+              _buildGradingSystemSection(),
+            ],
+          ),
+        ),
+      ];
+    },
+  ),
+);
+
     return transcript;
   }
 
-  //navigate to Trancript view
+  pw.Widget _buildStudentInfoSection(
+      List<StudentsRegisteredUnitsModel> students, String semesterStage) {
+    return pw.Container(
+      decoration: pw.BoxDecoration(
+        border: pw.Border.all(color: PdfColors.black, width: 1),
+      ),
+      child: pw.Padding(
+        padding: pw.EdgeInsets.all(10),
+        child: pw.Column(
+          crossAxisAlignment: pw.CrossAxisAlignment.start,
+          children: [
+            pw.Row(children: [
+              pw.Text('Name: ${students[0].studentName!}'),
+              pw.Spacer(),
+              pw.Text('RegNo: ${students[0].studentPhoneNumber!}'),
+            ]),
+            pw.SizedBox(height: 5),
+            pw.Text('School: Computer Science and Information Technology'),
+            pw.SizedBox(height: 5),
+            pw.Text('Degree: Bachelor of Science in Computer Science'),
+            pw.SizedBox(height: 5),
+            pw.Row(children: [
+              pw.Text('Academic Year: 2024/2025'),
+              pw.Spacer(),
+              pw.Text('Year of Study: $semesterStage'),
+            ]),
+          ],
+        ),
+      ),
+    );
+  }
+
+  pw.Widget _buildUnitsTable(List<StudentsRegisteredUnitsModel> students) {
+    return pw.TableHelper.fromTextArray(
+      border: pw.TableBorder.all(),
+      cellHeight: 20,
+      cellStyle: const pw.TextStyle(fontSize: 14),
+      headerStyle: pw.TextStyle(
+        fontSize: 16,
+        fontWeight: pw.FontWeight.bold,
+        color: PdfColors.black,
+      ),
+      headers: ['UnitsCode', 'UnitName', 'TotalMarks', 'Grade'],
+      data: students.map((student) {
+        return [
+          student.unitCode,
+          student.unitName,
+          student.totalMarks.toString(),
+          student.grade,
+        ];
+      }).toList(),
+    );
+  }
+
+  pw.Widget _buildMeanAndRecommendationSection(
+      double meanScore, String meanGrade, String recommendation) {
+    return pw.Container(
+      decoration: pw.BoxDecoration(
+        border: pw.Border.all(color: PdfColors.black, width: 1),
+      ),
+      child: pw.Padding(
+        padding: pw.EdgeInsets.all(10),
+        child: pw.Column(
+          children: [
+            pw.Row(
+              mainAxisAlignment: pw.MainAxisAlignment.center,
+              children: [
+                pw.Text('MeanScore: $meanScore'),
+                pw.SizedBox(width: 10),
+                pw.Text('MeanGrade: $meanGrade'),
+              ],
+            ),
+            pw.SizedBox(height: 10),
+            pw.Row(
+              children: [
+                pw.Text('Recommendation: $recommendation'),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+ pw.Widget _buildGradingSystemSection() {
+  return pw.Container(
+    padding: pw.EdgeInsets.all(10),
+    decoration: pw.BoxDecoration(
+      border: pw.Border.all(color: PdfColors.black, width: 1),
+    ),
+    child: pw.Column(
+      crossAxisAlignment: pw.CrossAxisAlignment.start,
+      children: [
+        pw.Text(
+          'KEY TO THE GRADING SYSTEM',
+          style: pw.TextStyle(
+            color: PdfColors.black,
+            fontWeight: pw.FontWeight.bold,
+          ),
+        ),
+        pw.SizedBox(height: 15),
+        pw.Column(
+          crossAxisAlignment: pw.CrossAxisAlignment.start,
+          children: [
+            pw.Row(children: [
+              pw.Text('A: 70-100%'),
+              pw.SizedBox(width: 70),
+              pw.Text('Excellent'),
+            ]),
+            pw.Row(children: [
+              pw.Text('B: 60-69%'),
+              pw.SizedBox(width: 80),
+              pw.Text('Good'),
+            ]),
+            pw.Row(children: [
+              pw.Text('C: 50-59%'),
+              pw.SizedBox(width: 80),
+              pw.Text('Satisfactory'),
+            ]),
+            pw.Row(children: [
+              pw.Text('D: 40-49%'),
+              pw.SizedBox(width: 80),
+              pw.Text('Pass'),
+            ]),
+            pw.Row(children: [
+              pw.Text('E: 0-39%'),
+              pw.SizedBox(width: 80),
+              pw.Text('Fail'),
+            ]),
+            pw.Row(children: [
+              pw.Text('iNC'),
+              pw.SizedBox(width: 110),
+              pw.Text('Incomplete'),
+            ]),
+          ],
+        ),
+        pw.SizedBox(height: 20),
+        pw.Text('Each full unit takes 35 hours of study time.'),
+        pw.SizedBox(height: 20),
+        pw.Text('Signed  ...........................................'),
+        pw.SizedBox(height: 10),
+        pw.Text('Dean , Computer Science and Information Technology'),
+      ],
+    ),
+  );
+}
+
+//navigate to Trancript view
   void navigateToTrancscriptView() async {
     await _navigationService.navigateToMyTrancriptsView(
       transcriptPath: transcriptPath,
@@ -450,7 +357,8 @@ class StudentDashboardViewModel extends BaseViewModel {
   double calculateMeanScore(List<StudentsRegisteredUnitsModel> units) {
     double totalMarks =
         units.fold(0, (sum, unit) => sum + (unit.totalMarks ?? 0));
-    return totalMarks / units.length;
+    double meanScore = totalMarks / units.length;
+    return double.parse(meanScore.toStringAsFixed(2));
   }
 
   String calculateMeanGrade(double meanScore) {
@@ -471,7 +379,4 @@ class StudentDashboardViewModel extends BaseViewModel {
   bool hasSpecialExams(List<StudentsRegisteredUnitsModel> units) {
     return units.any((unit) => unit.appliedSpecialExam == true);
   }
-
-  
-  
 }
