@@ -315,4 +315,21 @@ class LecturerDashboardService {
       yield [];
     }
   }
+
+  Future deleteStudentFromSpecialAfeterEnteringMArks(
+      {required String studentId, required String unitCode}) async {
+    try {
+      final collection = await firestore
+          .collection('SpecialEXams')
+          .where('studeUid', isEqualTo: studentId)
+          .where('unitLecturer', isEqualTo: auth.currentUser!.uid)
+          .where('unitCode', isEqualTo: unitCode)
+          .get();
+      for (var doc in collection.docs) {
+        await doc.reference.delete();
+      }
+    } catch (e) {
+      Fluttertoast.showToast(msg: e.toString());
+    }
+  }
 }

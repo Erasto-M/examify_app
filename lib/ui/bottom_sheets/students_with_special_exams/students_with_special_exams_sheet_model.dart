@@ -92,7 +92,11 @@ class StudentsWithSpecialExamsSheetModel extends BaseViewModel {
           await doc.reference.update({
             selectedModule: marks,
             'appliedSpecialExam': false
-          }).then((value) {});
+          }).then((value) {
+            _lectureDashboardService
+                .deleteStudentFromSpecialAfeterEnteringMArks(
+                    studentId: studentId, unitCode: unitCode);
+          });
         }
       }
       Fluttertoast.showToast(msg: "Marks saved successfully");

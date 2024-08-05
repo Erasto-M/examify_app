@@ -28,6 +28,7 @@ class StudentsRegisteredUnitsModel {
   final int? examMarks;
   final int? totalMarks;
   final String? grade;
+  final String? recommendation;
   final bool? appliedSpecialExam;
   final double? meanMarks;
   final String? meanGrade;
@@ -59,6 +60,7 @@ class StudentsRegisteredUnitsModel {
     this.examMarks,
     this.totalMarks,
     this.grade,
+    this.recommendation,
     this.appliedSpecialExam,
     this.meanMarks,
     this.meanGrade,
@@ -92,6 +94,7 @@ class StudentsRegisteredUnitsModel {
     int? examMarks,
     int? totalMarks,
     String? grade,
+    String? recommendation,
     bool? appliedSpecialExam,
     double? meanMarks,
     String? meanGrade,
@@ -124,6 +127,7 @@ class StudentsRegisteredUnitsModel {
       examMarks: examMarks ?? this.examMarks,
       totalMarks: totalMarks ?? this.totalMarks,
       grade: grade ?? this.grade,
+      recommendation: recommendation ?? this.recommendation,
       appliedSpecialExam: appliedSpecialExam ?? this.appliedSpecialExam,
       meanMarks: meanMarks ?? this.meanMarks,
       meanGrade: meanGrade ?? this.meanGrade,
@@ -159,6 +163,7 @@ class StudentsRegisteredUnitsModel {
       'examMarks': examMarks,
       'totalMarks': totalMarks,
       'grade': grade,
+      'recommendation': recommendation,
       'appliedSpecialExam': appliedSpecialExam,
       'meanMarks': meanMarks,
       'meanGrade': meanGrade,
@@ -194,6 +199,7 @@ class StudentsRegisteredUnitsModel {
       examMarks: map['examMarks'] != null ? map["examMarks"] ?? 0 as int : null,
       totalMarks: map['totalMarks'] != null ? map["totalMarks"] ?? 0 as int : null,
       grade: map['grade'] != null ? map["grade"] ?? '' as String : null,
+      recommendation: map['recommendation'] != null ? map["recommendation"] ?? '' as String : null,
       appliedSpecialExam: map['appliedSpecialExam'] != null ? map["appliedSpecialExam"] ?? false as bool : null,
       meanMarks: map['meanMarks'] != null ? map["meanMarks"] ?? 0.0 as double : null,
       meanGrade: map['meanGrade'] != null ? map["meanGrade"] ?? '' as String : null,
@@ -235,7 +241,7 @@ class StudentsRegisteredUnitsModel {
 
   @override
   String toString() {
-    return 'StudentsRegisteredUnitsModel(unitName: $unitName, unitCode: $unitCode, unitLecturer: $unitLecturer, unitDepartment: $unitDepartment, semesterStage: $semesterStage, yearOfStudent: $yearOfStudent, studentName: $studentName, studentRegNo: $studentRegNo, studentUid: $studentUid, studentEmail: $studentEmail, studentPhoneNumber: $studentPhoneNumber, studentGender: $studentGender, assignMent1Marks: $assignMent1Marks, assignMent2Marks: $assignMent2Marks, assignMent1OutOff: $assignMent1OutOff, assignMent2OutOff: $assignMent2OutOff, cat1Marks1OutOff: $cat1Marks1OutOff, cat2MarksOutOff: $cat2MarksOutOff, examMarksOutOff: $examMarksOutOff, cat1Marks: $cat1Marks, cat2Marks: $cat2Marks, examMarks: $examMarks, totalMarks: $totalMarks, grade: $grade, appliedSpecialExam: $appliedSpecialExam, meanMarks: $meanMarks, meanGrade: $meanGrade, missingMarksMessage: $missingMarksMessage, isUnitApproved: $isUnitApproved, cohort: $cohort)';
+    return 'StudentsRegisteredUnitsModel(unitName: $unitName, unitCode: $unitCode, unitLecturer: $unitLecturer, unitDepartment: $unitDepartment, semesterStage: $semesterStage, yearOfStudent: $yearOfStudent, studentName: $studentName, studentRegNo: $studentRegNo, studentUid: $studentUid, studentEmail: $studentEmail, studentPhoneNumber: $studentPhoneNumber, studentGender: $studentGender, assignMent1Marks: $assignMent1Marks, assignMent2Marks: $assignMent2Marks, assignMent1OutOff: $assignMent1OutOff, assignMent2OutOff: $assignMent2OutOff, cat1Marks1OutOff: $cat1Marks1OutOff, cat2MarksOutOff: $cat2MarksOutOff, examMarksOutOff: $examMarksOutOff, cat1Marks: $cat1Marks, cat2Marks: $cat2Marks, examMarks: $examMarks, totalMarks: $totalMarks, grade: $grade, recommendation: $recommendation, appliedSpecialExam: $appliedSpecialExam, meanMarks: $meanMarks, meanGrade: $meanGrade, missingMarksMessage: $missingMarksMessage, isUnitApproved: $isUnitApproved, cohort: $cohort)';
   }
 
   @override
@@ -267,6 +273,7 @@ class StudentsRegisteredUnitsModel {
       other.examMarks == examMarks &&
       other.totalMarks == totalMarks &&
       other.grade == grade &&
+      other.recommendation == recommendation &&
       other.appliedSpecialExam == appliedSpecialExam &&
       other.meanMarks == meanMarks &&
       other.meanGrade == meanGrade &&
@@ -301,6 +308,7 @@ class StudentsRegisteredUnitsModel {
       examMarks.hashCode ^
       totalMarks.hashCode ^
       grade.hashCode ^
+      recommendation.hashCode ^
       appliedSpecialExam.hashCode ^
       meanMarks.hashCode ^
       meanGrade.hashCode ^

@@ -101,10 +101,10 @@ class AdminStudentPerformanceView
                               ),
                             ]),
                         child: DropdownButton(
-                          value: viewModel.selectedUnitToGetMarks.isNotEmpty
-                              ? viewModel.selectedUnitToGetMarks
+                          value: viewModel.getSelectedCohort.isNotEmpty
+                              ? viewModel.getSelectedCohort
                               : null,
-                          hint: const Text("Select cohort"),
+                          hint: const Text("Select Cohort"),
                           items: viewModel.cohorts
                               .map<DropdownMenuItem<String>>((String value) {
                             return DropdownMenuItem<String>(
@@ -149,7 +149,7 @@ class AdminStudentPerformanceView
                         final students = snapshot.data!;
                         return InkWell(
                           onTap: () async {
-                            var transcript = await viewModel.generateTranscript(
+                            var transcript =  viewModel.generateConsolidatedNMarkSheet(
                               students: students,
                               semesterStage: viewModel.getSelectedSem,
                             );
