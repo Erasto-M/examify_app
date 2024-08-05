@@ -28,7 +28,7 @@ class SupportTeamView extends StackedView<SupportTeamViewModel> {
           ),
         ],
         foregroundColor: Colors.white,
-        automaticallyImplyLeading: false ,
+        automaticallyImplyLeading: false,
         centerTitle: true,
         backgroundColor: primaryColor,
       ),

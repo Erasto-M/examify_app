@@ -133,7 +133,7 @@ class AdminDashboardService {
     }
   }
 
- Stream<List<Map<String, dynamic>>> fetchConsolidatedMarksheets({
+  Stream<List<Map<String, dynamic>>> fetchConsolidatedMarksheets({
     required String semesterStage,
   }) async* {
     try {
@@ -202,7 +202,7 @@ class AdminDashboardService {
       yield [];
     }
   }
- 
+
   Future<DocumentSnapshot?> getReportsAvailabilityStatus() async {
     try {
       return await FirebaseFirestore.instance
@@ -386,7 +386,7 @@ class AdminDashboardService {
   }
 
   //get Graduation List(evaluation of Results from first year)
-   Stream<List<Map<String, dynamic>>> getGraduationList({
+  Stream<List<Map<String, dynamic>>> getGraduationList({
     required String cohort,
   }) async* {
     try {
@@ -455,6 +455,7 @@ class AdminDashboardService {
       yield [];
     }
   }
+
   // GraduationList 2
   Stream<List<StudentsRegisteredUnitsModel>> fetchGraduationList(
       {required String cohort}) {
@@ -468,10 +469,8 @@ class AdminDashboardService {
           return StudentsRegisteredUnitsModel.fromMap(
               doc.data() as Map<String, dynamic>);
         }).toList();
-        
       });
     } catch (e) {}
     return Stream.value([]);
   }
-
 }

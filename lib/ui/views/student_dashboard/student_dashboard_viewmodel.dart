@@ -133,55 +133,55 @@ class StudentDashboardViewModel extends BaseViewModel {
       required double meanScore}) {
     final transcript = pw.Document();
 
-   transcript.addPage(
-  pw.MultiPage(
-    build: (pw.Context context) {
-      return [
-        pw.Container(
-          decoration: pw.BoxDecoration(
-            border: pw.Border.all(color: PdfColors.black, width: 1),
-            color: PdfColors.white,
-          ),
-          child: pw.Column(
-            crossAxisAlignment: pw.CrossAxisAlignment.start,
-            children: [
-              pw.SizedBox(height: 3),
-              pw.Center(
-                child: pw.Text(
-                  'DEDAN KIMATHI UNIVERSITY OF TECHNOLOGY',
-                  style: pw.TextStyle(
-                    fontSize: 18,
-                    color: PdfColors.black,
-                    fontWeight: pw.FontWeight.bold,
-                  ),
-                ),
+    transcript.addPage(
+      pw.MultiPage(
+        build: (pw.Context context) {
+          return [
+            pw.Container(
+              decoration: pw.BoxDecoration(
+                border: pw.Border.all(color: PdfColors.black, width: 1),
+                color: PdfColors.white,
               ),
-              pw.SizedBox(height: 3),
-              pw.Center(
-                child: pw.Text(
-                  'PROVISIONAL UNDERGRADUATE ACADEMIC TRANSCRIPT',
-                  style: const pw.TextStyle(
-                    fontSize: 15,
-                    color: PdfColors.black,
+              child: pw.Column(
+                crossAxisAlignment: pw.CrossAxisAlignment.start,
+                children: [
+                  pw.SizedBox(height: 3),
+                  pw.Center(
+                    child: pw.Text(
+                      'DEDAN KIMATHI UNIVERSITY OF TECHNOLOGY',
+                      style: pw.TextStyle(
+                        fontSize: 18,
+                        color: PdfColors.black,
+                        fontWeight: pw.FontWeight.bold,
+                      ),
+                    ),
                   ),
-                ),
+                  pw.SizedBox(height: 3),
+                  pw.Center(
+                    child: pw.Text(
+                      'PROVISIONAL UNDERGRADUATE ACADEMIC TRANSCRIPT',
+                      style: const pw.TextStyle(
+                        fontSize: 15,
+                        color: PdfColors.black,
+                      ),
+                    ),
+                  ),
+                  _buildStudentInfoSection(students, semesterStage),
+
+                  pw.NewPage(), // Force page break before table
+                  _buildUnitsTable(students),
+
+                  pw.NewPage(), // Force page break before grading system
+                  _buildMeanAndRecommendationSection(
+                      meanScore, meanGrade, recommendation),
+                  _buildGradingSystemSection(),
+                ],
               ),
-              _buildStudentInfoSection(students, semesterStage),
-
-              pw.NewPage(), // Force page break before table
-              _buildUnitsTable(students),
-
-              pw.NewPage(), // Force page break before grading system
-              _buildMeanAndRecommendationSection(
-                  meanScore, meanGrade, recommendation),
-              _buildGradingSystemSection(),
-            ],
-          ),
-        ),
-      ];
-    },
-  ),
-);
+            ),
+          ];
+        },
+      ),
+    );
 
     return transcript;
   }
@@ -270,68 +270,68 @@ class StudentDashboardViewModel extends BaseViewModel {
     );
   }
 
- pw.Widget _buildGradingSystemSection() {
-  return pw.Container(
-    padding: pw.EdgeInsets.all(10),
-    decoration: pw.BoxDecoration(
-      border: pw.Border.all(color: PdfColors.black, width: 1),
-    ),
-    child: pw.Column(
-      crossAxisAlignment: pw.CrossAxisAlignment.start,
-      children: [
-        pw.Text(
-          'KEY TO THE GRADING SYSTEM',
-          style: pw.TextStyle(
-            color: PdfColors.black,
-            fontWeight: pw.FontWeight.bold,
+  pw.Widget _buildGradingSystemSection() {
+    return pw.Container(
+      padding: pw.EdgeInsets.all(10),
+      decoration: pw.BoxDecoration(
+        border: pw.Border.all(color: PdfColors.black, width: 1),
+      ),
+      child: pw.Column(
+        crossAxisAlignment: pw.CrossAxisAlignment.start,
+        children: [
+          pw.Text(
+            'KEY TO THE GRADING SYSTEM',
+            style: pw.TextStyle(
+              color: PdfColors.black,
+              fontWeight: pw.FontWeight.bold,
+            ),
           ),
-        ),
-        pw.SizedBox(height: 15),
-        pw.Column(
-          crossAxisAlignment: pw.CrossAxisAlignment.start,
-          children: [
-            pw.Row(children: [
-              pw.Text('A: 70-100%'),
-              pw.SizedBox(width: 70),
-              pw.Text('Excellent'),
-            ]),
-            pw.Row(children: [
-              pw.Text('B: 60-69%'),
-              pw.SizedBox(width: 80),
-              pw.Text('Good'),
-            ]),
-            pw.Row(children: [
-              pw.Text('C: 50-59%'),
-              pw.SizedBox(width: 80),
-              pw.Text('Satisfactory'),
-            ]),
-            pw.Row(children: [
-              pw.Text('D: 40-49%'),
-              pw.SizedBox(width: 80),
-              pw.Text('Pass'),
-            ]),
-            pw.Row(children: [
-              pw.Text('E: 0-39%'),
-              pw.SizedBox(width: 80),
-              pw.Text('Fail'),
-            ]),
-            pw.Row(children: [
-              pw.Text('iNC'),
-              pw.SizedBox(width: 110),
-              pw.Text('Incomplete'),
-            ]),
-          ],
-        ),
-        pw.SizedBox(height: 20),
-        pw.Text('Each full unit takes 35 hours of study time.'),
-        pw.SizedBox(height: 20),
-        pw.Text('Signed  ...........................................'),
-        pw.SizedBox(height: 10),
-        pw.Text('Dean , Computer Science and Information Technology'),
-      ],
-    ),
-  );
-}
+          pw.SizedBox(height: 15),
+          pw.Column(
+            crossAxisAlignment: pw.CrossAxisAlignment.start,
+            children: [
+              pw.Row(children: [
+                pw.Text('A: 70-100%'),
+                pw.SizedBox(width: 70),
+                pw.Text('Excellent'),
+              ]),
+              pw.Row(children: [
+                pw.Text('B: 60-69%'),
+                pw.SizedBox(width: 80),
+                pw.Text('Good'),
+              ]),
+              pw.Row(children: [
+                pw.Text('C: 50-59%'),
+                pw.SizedBox(width: 80),
+                pw.Text('Satisfactory'),
+              ]),
+              pw.Row(children: [
+                pw.Text('D: 40-49%'),
+                pw.SizedBox(width: 80),
+                pw.Text('Pass'),
+              ]),
+              pw.Row(children: [
+                pw.Text('E: 0-39%'),
+                pw.SizedBox(width: 80),
+                pw.Text('Fail'),
+              ]),
+              pw.Row(children: [
+                pw.Text('iNC'),
+                pw.SizedBox(width: 110),
+                pw.Text('Incomplete'),
+              ]),
+            ],
+          ),
+          pw.SizedBox(height: 20),
+          pw.Text('Each full unit takes 35 hours of study time.'),
+          pw.SizedBox(height: 20),
+          pw.Text('Signed  ...........................................'),
+          pw.SizedBox(height: 10),
+          pw.Text('Dean , Computer Science and Information Technology'),
+        ],
+      ),
+    );
+  }
 
 //navigate to Trancript view
   void navigateToTrancscriptView() async {

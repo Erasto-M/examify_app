@@ -60,124 +60,124 @@ class AdminPanelViewModel extends BaseViewModel {
 
   //Generate Graduation List
 
+  pw.Document generateGraduationList({
+    required List<StudentsRegisteredUnitsModel> students,
+    required String cohort,
+  }) {
+    final transcript = pw.Document();
 
-pw.Document generateGraduationList({
-  required List<StudentsRegisteredUnitsModel> students,
-  required String cohort,
-}) {
-  final transcript = pw.Document();
-
-  // Headers for the table
-  final headers = [
-    'Reg No',
-    'Name',
-    'Mean Grade',
-  ];
-
-  // Data rows for each student
-  final data = students.map((student) {
-    return [
-      student.studentRegNo,
-      student.studentName,
-      student.meanGrade,
+    // Headers for the table
+    final headers = [
+      'Reg No',
+      'Name',
+      'Mean Grade',
     ];
-  }).toList();
 
-  // Create PDF content
-  transcript.addPage(
-    pw.MultiPage(
-      build: (pw.Context context) {
-        return [
-          pw.Container(
-            decoration: pw.BoxDecoration(
-              border: pw.Border.all(
-                color: PdfColors.black,
-                width: 1,
+    // Data rows for each student
+    final data = students.map((student) {
+      return [
+        student.studentRegNo,
+        student.studentName,
+        student.meanGrade,
+      ];
+    }).toList();
+
+    // Create PDF content
+    transcript.addPage(
+      pw.MultiPage(
+        build: (pw.Context context) {
+          return [
+            pw.Container(
+              decoration: pw.BoxDecoration(
+                border: pw.Border.all(
+                  color: PdfColors.black,
+                  width: 1,
+                ),
+                color: PdfColors.white,
               ),
-              color: PdfColors.white,
-            ),
-            child: pw.Column(
-              crossAxisAlignment: pw.CrossAxisAlignment.start,
-              children: [
-                pw.SizedBox(height: 3),
-                pw.Center(
-                  child: pw.Text(
-                    'Dedan Kimathi University of Technology',
-                    style: pw.TextStyle(
-                      fontSize: 20,
-                      color: PdfColors.green,
-                      fontWeight: pw.FontWeight.bold,
+              child: pw.Column(
+                crossAxisAlignment: pw.CrossAxisAlignment.start,
+                children: [
+                  pw.SizedBox(height: 3),
+                  pw.Center(
+                    child: pw.Text(
+                      'Dedan Kimathi University of Technology',
+                      style: pw.TextStyle(
+                        fontSize: 20,
+                        color: PdfColors.green,
+                        fontWeight: pw.FontWeight.bold,
+                      ),
                     ),
                   ),
-                ),
-                pw.SizedBox(height: 3),
-                pw.Center(
-                  child: pw.Text(
-                    'BSC Computer Science',
-                    style: pw.TextStyle(
-                      fontSize: 20,
-                      color: PdfColors.green,
-                      fontWeight: pw.FontWeight.bold,
+                  pw.SizedBox(height: 3),
+                  pw.Center(
+                    child: pw.Text(
+                      'BSC Computer Science',
+                      style: pw.TextStyle(
+                        fontSize: 20,
+                        color: PdfColors.green,
+                        fontWeight: pw.FontWeight.bold,
+                      ),
                     ),
                   ),
-                ),
-                pw.SizedBox(height: 3),
-                pw.Center(
-                  child: pw.Text(
-                    '$cohort Graduation List',
-                    style: pw.TextStyle(
-                      fontSize: 20,
-                      color: PdfColors.green,
-                      fontWeight: pw.FontWeight.bold,
+                  pw.SizedBox(height: 3),
+                  pw.Center(
+                    child: pw.Text(
+                      '$cohort Graduation List',
+                      style: pw.TextStyle(
+                        fontSize: 20,
+                        color: PdfColors.green,
+                        fontWeight: pw.FontWeight.bold,
+                      ),
                     ),
                   ),
-                ),
-                pw.SizedBox(height: 15),
-                pw.Table(
-                  border: pw.TableBorder.all(),
-                  columnWidths: {
-                    0: const pw.FixedColumnWidth(100),
-                    1: const pw.FixedColumnWidth(100),
-                    2: const pw.FixedColumnWidth(100),
-                    3: const pw.FixedColumnWidth(100),
-                  },
-                  children: [
-                    // Table headers
-                    pw.TableRow(
-                      children: headers
-                          .map((header) => pw.Padding(
-                                padding: const pw.EdgeInsets.all(8),
-                                child: pw.Text(
-                                  header,
-                                  style: pw.TextStyle(
-                                    fontWeight: pw.FontWeight.bold,
+                  pw.SizedBox(height: 15),
+                  pw.Table(
+                    border: pw.TableBorder.all(),
+                    columnWidths: {
+                      0: const pw.FixedColumnWidth(100),
+                      1: const pw.FixedColumnWidth(100),
+                      2: const pw.FixedColumnWidth(100),
+                      3: const pw.FixedColumnWidth(100),
+                    },
+                    children: [
+                      // Table headers
+                      pw.TableRow(
+                        children: headers
+                            .map((header) => pw.Padding(
+                                  padding: const pw.EdgeInsets.all(8),
+                                  child: pw.Text(
+                                    header,
+                                    style: pw.TextStyle(
+                                      fontWeight: pw.FontWeight.bold,
+                                    ),
                                   ),
-                                ),
-                              ))
-                          .toList(),
-                    ),
-                    // Table rows
-                    ...data.map((row) => pw.TableRow(
-                          children: row
-                              .map((cell) => pw.Padding(
-                                    padding: const pw.EdgeInsets.all(8),
-                                    child: pw.Text(cell.toString()),
-                                  ))
-                              .toList(),
-                        )),
-                  ],
-                ),
-              ],
+                                ))
+                            .toList(),
+                      ),
+                      // Table rows
+                      ...data.map((row) => pw.TableRow(
+                            children: row
+                                .map((cell) => pw.Padding(
+                                      padding: const pw.EdgeInsets.all(8),
+                                      child: pw.Text(cell.toString()),
+                                    ))
+                                .toList(),
+                          )),
+                    ],
+                  ),
+                ],
+              ),
             ),
-          ),
-        ];
-      },
-    ),
-  );
+          ];
+        },
+      ),
+    );
 
-  return transcript;
-}
-String? transcriptPath;
+    return transcript;
+  }
+
+  String? transcriptPath;
   late PDFViewController pdfViewController;
   int? pageCount;
   int? currentPage;
@@ -222,7 +222,7 @@ String? transcriptPath;
           excludedStudents.add(unit.studentUid!);
         }
       }
- print('excludedStudents: $excludedStudents');
+      print('excludedStudents: $excludedStudents');
       // Filter out students who are in the excluded list
       for (var unit in studentUnits) {
         if (!excludedStudents.contains(unit.studentUid)) {
@@ -267,4 +267,3 @@ String? transcriptPath;
     });
   }
 }
-

@@ -324,20 +324,19 @@ class RegisterView extends StackedView<RegisterViewModel> with $RegisterView {
                                             pfNumber: pFNumberController.text,
                                             context: context);
 
-                                            if (!viewModel.isBusy) {
-                                              emailController.clear();
-                                              nameController.clear();
-                                              roleController.clear();
-                                              phoneNumberController.clear();
-                                              genderController.clear();
-                                              yearOfStudyController.clear();
-                                              passwordController.clear();
-                                              confirmPasswordController.clear();
-                                              registrationNumberController.clear();
-                                              cohortController.clear();
-                                              pFNumberController.clear();
-
-                                            }
+                                        if (!viewModel.isBusy) {
+                                          emailController.clear();
+                                          nameController.clear();
+                                          roleController.clear();
+                                          phoneNumberController.clear();
+                                          genderController.clear();
+                                          yearOfStudyController.clear();
+                                          passwordController.clear();
+                                          confirmPasswordController.clear();
+                                          registrationNumberController.clear();
+                                          cohortController.clear();
+                                          pFNumberController.clear();
+                                        }
                                       },
                                       child: Container(
                                         width:

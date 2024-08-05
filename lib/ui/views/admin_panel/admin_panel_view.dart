@@ -215,8 +215,7 @@ class AdminPanelView extends StackedView<AdminPanelViewModel> {
                         stream: viewModel.getGraduationList(cohort: '2024'),
                         builder: (context, snapShot) {
                           if (snapShot.hasData) {
-                            final  students =
-                                snapShot.data!;
+                            final students = snapShot.data!;
                             return GestureDetector(
                               onTap: () async {
                                 var transcript =

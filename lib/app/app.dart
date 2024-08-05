@@ -50,6 +50,7 @@ import 'package:examify/ui/views/student_academics/student_academics_view.dart';
 import 'package:examify/ui/views/cod_approve_units/cod_approve_units_view.dart';
 import 'package:examify/ui/bottom_sheets/students_with_special_exams/students_with_special_exams_sheet.dart';
 import 'package:examify/ui/views/support_team/support_team_view.dart';
+import 'package:examify/ui/bottom_sheets/add_supp_exam_marks/add_supp_exam_marks_sheet.dart';
 // @stacked-import
 
 @StackedApp(
@@ -101,6 +102,7 @@ import 'package:examify/ui/views/support_team/support_team_view.dart';
     StackedBottomsheet(classType: EditMarksPerStudentSheet),
     StackedBottomsheet(classType: CustomizeUnitsAssesmentSheet),
     StackedBottomsheet(classType: StudentsWithSpecialExamsSheet),
+    StackedBottomsheet(classType: AddSuppExamMarksSheet),
 // @stacked-bottom-sheet
   ],
   dialogs: [
