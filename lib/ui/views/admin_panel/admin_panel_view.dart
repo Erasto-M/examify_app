@@ -1,7 +1,11 @@
+import 'dart:io';
+
+import 'package:examify/models/student_registered_units.dart';
 import 'package:examify/ui/common/app_colors.dart';
 import 'package:examify/ui/common/ui_helpers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:stacked/stacked.dart';
 
 import '../../widgets/common/manage_courses/manage_courses.dart';
@@ -207,32 +211,56 @@ class AdminPanelView extends StackedView<AdminPanelViewModel> {
                     verticalSpaceTiny,
                     const Transcripts(yearName: 'Year four'),
                     verticalSpaceTiny,
-                    GestureDetector(
-                      onTap: (){
-                        //viewModel.navigateToTranscriptDetails();
-                      },
-                      child: Container(
-                        height: 60,
-                        width: MediaQuery.of(context).size.height,
-                        padding: const EdgeInsets.all(10.0),
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            border: Border.all(color: Colors.black12, width: 0.6),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.white.withOpacity(0.9),
-                                spreadRadius: 1,
-                                blurRadius: 2,
-                                offset: const Offset(0, 3),
-                              )
-                            ],
-                            borderRadius: BorderRadius.circular(5)),
-                            child: const Center(child: Text('View Graduation List', style: TextStyle(
-                              fontWeight: FontWeight.w600,
-                              fontSize: 20,
-                            ),)),
-                      ),
-                    )
+                    StreamBuilder(
+                        stream: viewModel.getGraduationList(cohort: '2024'),
+                        builder: (context, snapShot) {
+                          if (snapShot.hasData) {
+                            final  students =
+                                snapShot.data!;
+                            return GestureDetector(
+                              onTap: () async {
+                                var transcript =
+                                    await viewModel.generateGraduationList(
+                                        students: students, cohort: '2024');
+                                final output = await getTemporaryDirectory();
+                                final file =
+                                    File('${output.path}/transcript.pdf');
+                                await file
+                                    .writeAsBytes(await transcript.save());
+                                viewModel.setPdfPath(file.path);
+                                viewModel.navigateToGraduationListView();
+                              },
+                              child: Container(
+                                height: 60,
+                                width: MediaQuery.of(context).size.height,
+                                padding: const EdgeInsets.all(10.0),
+                                decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    border: Border.all(
+                                        color: Colors.black12, width: 0.6),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.white.withOpacity(0.9),
+                                        spreadRadius: 1,
+                                        blurRadius: 2,
+                                        offset: const Offset(0, 3),
+                                      )
+                                    ],
+                                    borderRadius: BorderRadius.circular(5)),
+                                child: const Center(
+                                    child: Text(
+                                  'View Graduation List',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 20,
+                                  ),
+                                )),
+                              ),
+                            );
+                          } else {
+                            return const SizedBox();
+                          }
+                        })
                   ],
                 ),
                 verticalSpaceMedium,
