@@ -71,7 +71,6 @@ pw.Document generateGraduationList({
   final headers = [
     'Reg No',
     'Name',
-    // 'Mean Score',
     'Mean Grade',
   ];
 
@@ -80,7 +79,6 @@ pw.Document generateGraduationList({
     return [
       student.studentRegNo,
       student.studentName,
-      // student.meanMarks,
       student.meanGrade,
     ];
   }).toList();
@@ -224,13 +222,14 @@ String? transcriptPath;
           excludedStudents.add(unit.studentUid!);
         }
       }
-
+ print('excludedStudents: $excludedStudents');
       // Filter out students who are in the excluded list
       for (var unit in studentUnits) {
         if (!excludedStudents.contains(unit.studentUid)) {
           graduationList.putIfAbsent(unit.studentUid!, () => []).add(unit);
         }
       }
+      print('graduationList: $graduationList');
       final graduationClassifications = <StudentsRegisteredUnitsModel>[];
       //calculate the mean marks , mean grade , and classify  the students
       graduationList.forEach((studentUid, units) {
@@ -247,9 +246,9 @@ String? transcriptPath;
         if (meanMarks >= 70 && meanMarks <= 100) {
           meangrade = 'First Class Honors';
         } else if (meanMarks >= 60) {
-          meangrade = 'Second Class Upper';
+          meangrade = 'Second Class Honors. Upper Division';
         } else if (meanMarks >= 50) {
-          meangrade = 'Second Class Lower';
+          meangrade = 'Second Class Honors. Lower Division';
         } else if (meanMarks >= 40) {
           meangrade = 'Pass';
         } else {
