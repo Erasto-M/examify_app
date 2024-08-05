@@ -271,7 +271,7 @@ class LecturerMyStudentsView extends StackedView<LecturerMyStudentsViewModel> {
                           }),
                       verticalSpaceSmall,
                       StreamBuilder(
-                          stream: viewModel.getAllMyStudentsWithSpeialExams(
+                          stream: viewModel.getLecturerStudentsWithSupp(
                               unitCode: unitCode),
                           builder: (context, snapshot) {
                             if (snapshot.hasData) {
@@ -280,7 +280,7 @@ class LecturerMyStudentsView extends StackedView<LecturerMyStudentsViewModel> {
                               return Center(
                                 child: InkWell(
                                   onTap: () {
-                                    viewModel.openEditStudentMarksSheet(
+                                    viewModel.openEditStudentMarksSheetForSupp(
                                         unitCode: unitCode,
                                         unitName: unitName,
                                         student: snapshot.data!);
@@ -304,8 +304,9 @@ class LecturerMyStudentsView extends StackedView<LecturerMyStudentsViewModel> {
                                   ),
                                 ),
                               );
+                            }else{
+                            return const Text("No supp list");
                             }
-                            return const SizedBox();
                           })
                     ],
                   ),

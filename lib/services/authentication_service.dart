@@ -59,7 +59,7 @@ class AuthenticationService {
         firebaseAuth.currentUser!.sendEmailVerification();
         Fluttertoast.showToast(
             msg: 'Account created successfully, verification email sent');
-            Navigator.pop(context);
+        Navigator.pop(context);
       });
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {

@@ -451,8 +451,8 @@ class StudentDashboardView extends StackedView<StudentDashboardViewModel> {
                                           verticalSpaceSmall,
                                           InkWell(
                                             onTap: () async {
-                                              var transcript =  viewModel
-                                                  .generateTranscript(
+                                              var transcript =
+                                                  viewModel.generateTranscript(
                                                 students: snapshot.data!,
                                                 semesterStage: viewModel
                                                     .getSelectedSemesterStageForCourses,

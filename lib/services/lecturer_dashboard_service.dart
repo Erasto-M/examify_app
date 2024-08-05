@@ -14,6 +14,7 @@ class LecturerDashboardService {
   List<AddUnitModel> unitCodes = [];
   List<AddUnitModel> unitNames = [];
   String? lecturerName;
+
   //method to fetch units of the lecturer
   Future<List<AddUnitModel>> fetchLecturerUnits() async {
     List<AddUnitModel> units = [];
@@ -64,6 +65,26 @@ class LecturerDashboardService {
           .where("unitLecturer", isEqualTo: auth.currentUser!.uid)
           .where("unitCode", isEqualTo: unitCode)
           .where('appliedSpecialExam', isEqualTo: true)
+          .snapshots()
+          .map((snapshot) => snapshot.docs
+              .map((doc) => StudentsRegisteredUnitsModel.fromMap(doc.data()))
+              .toList());
+    } catch (e) {
+      Fluttertoast.showToast(msg: e.toString());
+      yield [];
+    }
+  }
+
+  //get all students with Special Exams
+  Stream<List<StudentsRegisteredUnitsModel>> getStudentsWithSupps({
+    required String unitCode,
+  }) async* {
+    try {
+      yield* firestore
+          .collection('student_registered_units')
+          .where("unitLecturer", isEqualTo: auth.currentUser!.uid)
+          .where("unitCode", isEqualTo: unitCode)
+          .where("grade", isEqualTo: 'E')
           .snapshots()
           .map((snapshot) => snapshot.docs
               .map((doc) => StudentsRegisteredUnitsModel.fromMap(doc.data()))
