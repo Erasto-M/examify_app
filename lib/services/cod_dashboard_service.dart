@@ -133,7 +133,7 @@ class AdminDashboardService {
     }
   }
 
-  Stream<List<Map<String, dynamic>>> fetchConsolidatedMarksheets({
+ Stream<List<Map<String, dynamic>>> fetchConsolidatedMarksheets({
     required String semesterStage,
   }) async* {
     try {
@@ -202,7 +202,7 @@ class AdminDashboardService {
       yield [];
     }
   }
-
+ 
   Future<DocumentSnapshot?> getReportsAvailabilityStatus() async {
     try {
       return await FirebaseFirestore.instance
@@ -384,4 +384,93 @@ class AdminDashboardService {
       print('Failed to approve units for student $studentId: $e');
     }
   }
+
+  //get Graduation List(evaluation of Results from first year)
+   Stream<List<Map<String, dynamic>>> getGraduationList({
+    required String cohort,
+  }) async* {
+    try {
+      final studentsStream = db
+          .collection('student_registered_units')
+          .where('cohort', isEqualTo: cohort)
+          .snapshots()
+          .map((snapshot) => snapshot.docs
+              .map((doc) => StudentsRegisteredUnitsModel.fromMap(doc.data()))
+              .toList());
+
+      await for (var students in studentsStream) {
+        final Map<String, Map<String, dynamic>> studentMap = {};
+
+        for (var student in students) {
+          final studentUid = student.studentUid;
+
+          if (studentMap.containsKey(studentUid)) {
+            studentMap[studentUid]!['units'].add({
+              'unitName': student.unitName,
+              'unitCode': student.unitCode,
+              'marks': student.totalMarks,
+              'grade': student.grade,
+            });
+          } else {
+            studentMap[studentUid!] = {
+              'studentName': student.studentName,
+              'studentRegNumber': student.studentRegNo,
+              'studentUid': studentUid,
+              'units': [
+                {
+                  'unitName': student.unitName,
+                  'unitCode': student.unitCode,
+                  'marks': student.totalMarks,
+                  'grade': student.grade,
+                }
+              ],
+            };
+          }
+        }
+
+        for (var studentData in studentMap.values) {
+          final units = studentData['units'] as List<Map<String, dynamic>>;
+          final totalMarks = units.fold(
+              0, (sum1, unit) => sum1 + (unit['marks'] as int? ?? 0));
+          final meanMark = units.isNotEmpty ? totalMarks / units.length : 0;
+          final meanMarks = double.parse(meanMark.toStringAsFixed(2));
+          final grade = meanMarks >= 70
+              ? 'A'
+              : meanMarks >= 60
+                  ? 'B'
+                  : meanMarks >= 50
+                      ? 'C'
+                      : meanMarks >= 40
+                          ? 'D'
+                          : 'E';
+          studentData['totalMarks'] = totalMarks;
+          studentData['meanMarks'] = meanMarks;
+          studentData['grade'] = grade;
+        }
+
+        yield studentMap.values.toList();
+      }
+    } catch (e) {
+      Fluttertoast.showToast(msg: e.toString());
+      yield [];
+    }
+  }
+  // GraduationList 2
+  Stream<List<StudentsRegisteredUnitsModel>> fetchGraduationList(
+      {required String cohort}) {
+    try {
+      return db
+          .collection('student_registered_units')
+          .where('cohort', isEqualTo: cohort)
+          .snapshots()
+          .map((querySnapshot) {
+        return querySnapshot.docs.map((doc) {
+          return StudentsRegisteredUnitsModel.fromMap(
+              doc.data() as Map<String, dynamic>);
+        }).toList();
+      });
+    } catch (e) {}
+    return Stream.value([]);
+  }
+
 }

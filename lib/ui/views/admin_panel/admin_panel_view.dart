@@ -197,15 +197,42 @@ class AdminPanelView extends StackedView<AdminPanelViewModel> {
                   ),
                 ),
                 verticalSpaceTiny,
-                const Column(
+                Column(
                   children: [
-                    Transcripts(yearName: 'Year one'),
+                    const Transcripts(yearName: 'Year one'),
                     verticalSpaceTiny,
-                    Transcripts(yearName: 'Year two'),
+                    const Transcripts(yearName: 'Year two'),
                     verticalSpaceTiny,
-                    Transcripts(yearName: 'Year three'),
+                    const Transcripts(yearName: 'Year three'),
                     verticalSpaceTiny,
-                    Transcripts(yearName: 'Year four'),
+                    const Transcripts(yearName: 'Year four'),
+                    verticalSpaceTiny,
+                    GestureDetector(
+                      onTap: (){
+                        //viewModel.navigateToTranscriptDetails();
+                      },
+                      child: Container(
+                        height: 60,
+                        width: MediaQuery.of(context).size.height,
+                        padding: const EdgeInsets.all(10.0),
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            border: Border.all(color: Colors.black12, width: 0.6),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.white.withOpacity(0.9),
+                                spreadRadius: 1,
+                                blurRadius: 2,
+                                offset: const Offset(0, 3),
+                              )
+                            ],
+                            borderRadius: BorderRadius.circular(5)),
+                            child: const Center(child: Text('View Graduation List', style: TextStyle(
+                              fontWeight: FontWeight.w600,
+                              fontSize: 20,
+                            ),)),
+                      ),
+                    )
                   ],
                 ),
                 verticalSpaceMedium,

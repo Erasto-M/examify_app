@@ -43,7 +43,7 @@ class StudentRegisterUnitSheetModel extends BaseViewModel {
     final SelectedUnitsNotifier selectedUnitsNotifier =
         Provider.of<SelectedUnitsNotifier>(context, listen: false);
     setBusy(true);
-    if (selectedUnitsNotifier.selectedUnitsList.length < 5) {
+    if (selectedUnitsNotifier.selectedUnitsList.length < 2) {
       Fluttertoast.showToast(
           msg: "Choose Atleast 5 Units for the current semester");
       setBusy(false);
