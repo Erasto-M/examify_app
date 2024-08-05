@@ -21,7 +21,7 @@ class Transcripts extends StackedView<TranscriptsModel> {
       },
       child: Container(
         height: 60,
-        width: MediaQuery.of(context).size.height,
+        width: MediaQuery.of(context).size.width,
         padding: const EdgeInsets.all(10.0),
         decoration: BoxDecoration(
             color: Colors.white,
