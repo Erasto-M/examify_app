@@ -59,8 +59,8 @@ class AdminStudentPerformanceViewModel extends BaseViewModel {
     notifyListeners();
   }
 
-  void setSelectedUnitCode(String value) {
-    selectedUnitCode = value;
+  void setSelectedUnitCode(unitCode) {
+    selectedUnitCode = unitCode;
     notifyListeners();
   }
 
@@ -153,7 +153,7 @@ class AdminStudentPerformanceViewModel extends BaseViewModel {
 
   //Generate consolidated markSheets
 
-  pw.Document generateTranscript({
+  pw.Document generateConsolidatedNMarkSheet({
   required List<Map<String, dynamic>> students,
   required String semesterStage,
 }) {
@@ -173,6 +173,7 @@ class AdminStudentPerformanceViewModel extends BaseViewModel {
     ...unitNames,
     'MeanScore',
     'MeanGrade',
+    'Recommendation',
   ];
 
   final data = students.map((student) {
@@ -180,7 +181,7 @@ class AdminStudentPerformanceViewModel extends BaseViewModel {
     final Map<String, dynamic> unitGrades = {};
 
     for (var unit in studentUnits) {
-      unitGrades[unit['unitCode']] = unit['grade'];
+      unitGrades[unit['unitCode']] = unit['marks'];
     }
 
     final unitMarks = unitNames
@@ -193,6 +194,7 @@ class AdminStudentPerformanceViewModel extends BaseViewModel {
       ...unitMarks,
       student['meanMarks'].toString(),
       student['grade'].toString(),
+      student['recommendation'],
     ];
   }).toList();
 

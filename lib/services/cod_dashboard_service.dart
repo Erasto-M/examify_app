@@ -133,7 +133,7 @@ class AdminDashboardService {
     }
   }
 
- Stream<List<Map<String, dynamic>>> fetchConsolidatedMarksheets({
+  Stream<List<Map<String, dynamic>>> fetchConsolidatedMarksheets({
     required String semesterStage,
   }) async* {
     try {
@@ -157,6 +157,7 @@ class AdminDashboardService {
               'unitCode': student.unitCode,
               'marks': student.totalMarks,
               'grade': student.grade,
+              'recommendation': student.recommendation,
             });
           } else {
             studentMap[studentUid!] = {
@@ -169,6 +170,7 @@ class AdminDashboardService {
                   'unitCode': student.unitCode,
                   'marks': student.totalMarks,
                   'grade': student.grade,
+                  'recommendation': student.recommendation,
                 }
               ],
             };
@@ -177,8 +179,33 @@ class AdminDashboardService {
 
         for (var studentData in studentMap.values) {
           final units = studentData['units'] as List<Map<String, dynamic>>;
-          final totalMarks = units.fold(
-              0, (sum1, unit) => sum1 + (unit['marks'] as int? ?? 0));
+
+          bool hasMissingMarks = false;
+          bool hasFailingGrade = false;
+
+          // Check each unit for missing marks or failing grade
+          for (var unit in units) {
+            if (unit['marks'] == null) {
+              hasMissingMarks = true;
+              break;
+            }
+            if (unit['grade'] == 'E') {
+              hasFailingGrade = true;
+            }
+          }
+
+          // Determine the recommendation based on conditions
+          if (hasMissingMarks) {
+            studentData['recommendation'] = 'Missing Marks';
+          } else if (hasFailingGrade) {
+            studentData['recommendation'] = 'Fail';
+          } else {
+            studentData['recommendation'] = 'Pass';
+          }
+
+          // You can also calculate and store totalMarks and meanMarks if needed
+          final totalMarks =
+              units.fold(0, (sum, unit) => sum + (unit['marks'] as int? ?? 0));
           final meanMark = units.isNotEmpty ? totalMarks / units.length : 0;
           final meanMarks = double.parse(meanMark.toStringAsFixed(2));
           final grade = meanMarks >= 70
@@ -190,9 +217,11 @@ class AdminDashboardService {
                       : meanMarks >= 40
                           ? 'D'
                           : 'E';
+
+          studentData['grade'] = grade;
+
           studentData['totalMarks'] = totalMarks;
           studentData['meanMarks'] = meanMarks;
-          studentData['grade'] = grade;
         }
 
         yield studentMap.values.toList();
@@ -202,7 +231,7 @@ class AdminDashboardService {
       yield [];
     }
   }
- 
+
   Future<DocumentSnapshot?> getReportsAvailabilityStatus() async {
     try {
       return await FirebaseFirestore.instance
@@ -386,7 +415,7 @@ class AdminDashboardService {
   }
 
   //get Graduation List(evaluation of Results from first year)
-   Stream<List<Map<String, dynamic>>> getGraduationList({
+  Stream<List<Map<String, dynamic>>> getGraduationList({
     required String cohort,
   }) async* {
     try {
@@ -455,6 +484,7 @@ class AdminDashboardService {
       yield [];
     }
   }
+
   // GraduationList 2
   Stream<List<StudentsRegisteredUnitsModel>> fetchGraduationList(
       {required String cohort}) {
@@ -468,10 +498,8 @@ class AdminDashboardService {
           return StudentsRegisteredUnitsModel.fromMap(
               doc.data() as Map<String, dynamic>);
         }).toList();
-        
       });
     } catch (e) {}
     return Stream.value([]);
   }
-
 }
