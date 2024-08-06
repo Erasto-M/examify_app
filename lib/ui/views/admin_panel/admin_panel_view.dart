@@ -211,8 +211,49 @@ class AdminPanelView extends StackedView<AdminPanelViewModel> {
                     verticalSpaceTiny,
                     const Transcripts(yearName: 'Year four'),
                     verticalSpaceTiny,
+                    Row(children: [
+                      const Text(
+                        "Select Cohort: ",
+                        style: TextStyle(
+                          color: primaryColor,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
+                        ),
+                      ),
+                      Spacer(),
+                      Container(
+                          margin: const EdgeInsets.only(right: 10),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 15, vertical: 5),
+                          height: 40,
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(10),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey.withOpacity(0.5),
+                                  spreadRadius: 1,
+                                  blurRadius: 5,
+                                  offset: const Offset(0, 3),
+                                ),
+                              ]),
+                          child: DropdownButton(
+                            value: viewModel.selectedCohort,
+                            items: viewModel.cohortList
+                                .map((String semester) => DropdownMenuItem(
+                                      value: semester,
+                                      child: Text(semester),
+                                    ))
+                                .toList(),
+                            onChanged: (newValue) {
+                              viewModel.setSelectedCohort(newValue.toString());
+                            },
+                          ))
+                    ]),
+                    verticalSpaceSmall,
                     StreamBuilder(
-                        stream: viewModel.getGraduationList(cohort: '2024'),
+                        stream: viewModel.getGraduationList(
+                            cohort: viewModel.selectedCohort!),
                         builder: (context, snapShot) {
                           if (snapShot.hasData) {
                             final students = snapShot.data!;
@@ -220,14 +261,16 @@ class AdminPanelView extends StackedView<AdminPanelViewModel> {
                               onTap: () async {
                                 var transcript =
                                     await viewModel.generateGraduationList(
-                                        students: students, cohort: '2024');
+                                        students: students,
+                                        cohort: viewModel.selectedCohort!);
                                 final output = await getTemporaryDirectory();
                                 final file =
                                     File('${output.path}/transcript.pdf');
                                 await file
                                     .writeAsBytes(await transcript.save());
                                 viewModel.setPdfPath(file.path);
-                                viewModel.navigateToGraduationListView();
+                                viewModel.navigateToGraduationListView(
+                                    cohort: viewModel.selectedCohort!);
                               },
                               child: Container(
                                 height: 60,
@@ -256,8 +299,11 @@ class AdminPanelView extends StackedView<AdminPanelViewModel> {
                                 )),
                               ),
                             );
+                          } else if (!snapShot.hasData ||
+                              snapShot.data!.isEmpty) {
+                            return const  Text("No Students For this Cohort");
                           } else {
-                            return const SizedBox();
+                            return SizedBox();
                           }
                         })
                   ],

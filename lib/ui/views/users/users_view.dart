@@ -82,6 +82,40 @@ class UsersView extends StackedView<UsersViewModel> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
+                            StreamBuilder(
+                                stream: viewModel
+                                    .getEditingEnabledorDisabled(user.userId!),
+                                builder: (context, snapshot) {
+                                  if (snapshot.hasData &&
+                                      snapshot.data!.exists) {
+                                    bool isEnabled =
+                                        snapshot.data!['isEditingEnabled'] ??
+                                            false;
+                                    return Row(
+                                      children: [
+                                        Text(
+                                          isEnabled
+                                              ? "Marks editing enabled"
+                                              : "Marks Editing disabled",
+                                          style: const TextStyle(
+                                              color: primaryColor,
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        horizontalSpaceLarge,
+                                        Switch(
+                                          value: isEnabled,
+                                          onChanged: (bool value) {
+                                            viewModel.disableOrEnableEditing(
+                                                value, user.userId!);
+                                          },
+                                        ),
+                                      ],
+                                    );
+                                  }
+                                  return SizedBox();
+                                }),
+
                             Text(
                               "Name: ${user.userName}",
                               style: Theme.of(context).textTheme.titleLarge,

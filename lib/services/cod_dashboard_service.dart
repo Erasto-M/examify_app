@@ -285,6 +285,24 @@ class AdminDashboardService {
     }
   }
 
+  //is Editing Enabled or disabled
+ Stream<DocumentSnapshot> getEditingEnabledOrDisabled(String lecId) {
+  return db.collection('Marks_Editing_window').doc(lecId).snapshots().handleError((error) {
+    print('Error fetching document: $error');
+  });
+}
+  //disable or Enable marks Editing
+  Future<void> disableOrEnableEditing(bool value, String lecId) async {
+    try {
+      await db.collection('Marks_Editing_window').doc(lecId).set({
+        'isEditingEnabled': value,
+      }, SetOptions(merge: true));
+      print('Successfully updated');
+    } catch (error) {
+      print('Failed to update: $error');
+    }
+  }
+
   //fetch all Special Exams for a Selected Semester Stage
   Stream<List<SpecialExamsModel>> fetchSpecialExamsBasedOnSemesterStage(
       {required String semesterStage}) async* {

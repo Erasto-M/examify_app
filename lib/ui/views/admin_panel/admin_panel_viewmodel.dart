@@ -1,5 +1,6 @@
 import 'package:examify/app/app.router.dart';
 import 'package:examify/models/student_registered_units.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
@@ -68,14 +69,16 @@ class AdminPanelViewModel extends BaseViewModel {
 
     // Headers for the table
     final headers = [
+      'No',
       'Reg No',
       'Name',
-      'Mean Grade',
+      'Qualifications',
     ];
 
     // Data rows for each student
     final data = students.map((student) {
       return [
+        students.indexOf(student) + 1,
         student.studentRegNo,
         student.studentName,
         student.meanGrade,
@@ -88,6 +91,7 @@ class AdminPanelViewModel extends BaseViewModel {
         build: (pw.Context context) {
           return [
             pw.Container(
+             
               decoration: pw.BoxDecoration(
                 border: pw.Border.all(
                   color: PdfColors.black,
@@ -123,7 +127,7 @@ class AdminPanelViewModel extends BaseViewModel {
                   pw.SizedBox(height: 3),
                   pw.Center(
                     child: pw.Text(
-                      '$cohort Graduation List',
+                      'Class of $cohort Graduation List',
                       style: pw.TextStyle(
                         fontSize: 20,
                         color: PdfColors.green,
@@ -131,11 +135,23 @@ class AdminPanelViewModel extends BaseViewModel {
                       ),
                     ),
                   ),
+                  pw.SizedBox(height: 3),
+                 pw.Padding(padding:const pw.EdgeInsets.only(left: 10, right: 10) ,
+                 child:  pw.Center(
+                    child: pw.Text(
+                      'The following students have successfully completed their four-year'
+                      'program. We hereby confirm their eligibility for graduation.',
+                      style: const pw.TextStyle(
+                        fontSize: 20,
+                      ),
+                    ),
+                  ),
+                 ),
                   pw.SizedBox(height: 15),
                   pw.Table(
                     border: pw.TableBorder.all(),
                     columnWidths: {
-                      0: const pw.FixedColumnWidth(100),
+                      0: const pw.FixedColumnWidth(30),
                       1: const pw.FixedColumnWidth(100),
                       2: const pw.FixedColumnWidth(100),
                       3: const pw.FixedColumnWidth(100),
@@ -191,10 +207,10 @@ class AdminPanelViewModel extends BaseViewModel {
   }
 
   //navigate to Graduation List view
-  void navigateToGraduationListView() async {
+  void navigateToGraduationListView({required String cohort}) async {
     await _navigationService.navigateToMyTrancriptsView(
       transcriptPath: transcriptPath,
-      nameForAppBar: "Graduation List Class of 2024",
+      nameForAppBar: "Graduating  Class of $cohort",
     );
   }
 
@@ -262,8 +278,34 @@ class AdminPanelViewModel extends BaseViewModel {
             studentName: studentName!,
             studentRegNo: regNo!));
       });
+      graduationClassifications
+          .sort((a, b) => b.meanMarks!.compareTo(a.meanMarks!));
 
       return graduationClassifications;
     });
   }
+
+  String _selectedCohort = '2024';
+  String? get selectedCohort => _selectedCohort;
+  //set selected cohort
+  void setSelectedCohort(value) {
+    _selectedCohort = value;
+    notifyListeners();
+  }
+
+  //cohost list
+  List<String> cohortList = [
+    "2020",
+    "2021",
+    "2022",
+    "2023",
+    '2024',
+    "2025",
+    "2026",
+    "2027",
+    "2028",
+    "2029",
+    "2030",
+    "2031",
+  ];
 }
