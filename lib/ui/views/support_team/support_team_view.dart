@@ -2,6 +2,7 @@ import 'package:examify/ui/common/app_colors.dart';
 import 'package:examify/ui/common/ui_helpers.dart';
 import 'package:examify/ui/widgets/common/users/users.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:stacked/stacked.dart';
 
 import 'support_team_viewmodel.dart';
@@ -15,6 +16,11 @@ class SupportTeamView extends StackedView<SupportTeamViewModel> {
     SupportTeamViewModel viewModel,
     Widget? child,
   ) {
+    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+      statusBarColor: primaryColor,
+      statusBarIconBrightness: Brightness.light,
+      statusBarBrightness: Brightness.light,
+    ));
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.background,
       appBar: AppBar(
