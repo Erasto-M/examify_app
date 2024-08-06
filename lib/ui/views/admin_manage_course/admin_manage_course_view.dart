@@ -142,7 +142,8 @@ class AdminManageCourseView extends StackedView<AdminManageCourseViewModel> {
                                     horizontalSpaceMedium,
                                     ElevatedButton(
                                       onPressed: () {
-                                        // viewModel.deleteCourse(course: course);
+                                        viewModel.deleteUnits(
+                                            unitCode: course.unitCode);
                                       },
                                       style: ElevatedButton.styleFrom(
                                         backgroundColor: Colors.white,
@@ -229,7 +230,8 @@ class AdminManageCourseView extends StackedView<AdminManageCourseViewModel> {
                                     horizontalSpaceMedium,
                                     ElevatedButton(
                                       onPressed: () {
-                                        //viewModel.deleteCourse(course: course);
+                                        viewModel.deleteUnits(
+                                            unitCode: course.unitCode);
                                       },
                                       style: ElevatedButton.styleFrom(
                                         backgroundColor: Colors.white,

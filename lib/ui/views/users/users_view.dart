@@ -137,10 +137,6 @@ class UsersView extends StackedView<UsersViewModel> {
                               style: Theme.of(context).textTheme.bodySmall,
                             ),
                             verticalSpaceSmall,
-                            Text(
-                              "User ID: ${user.userId}",
-                              style: Theme.of(context).textTheme.bodySmall,
-                            ),
                             //row to have buttons to either email and call user
                             Row(
                               mainAxisSize: MainAxisSize.min,

@@ -46,6 +46,8 @@ class MissingMarksView extends StackedView<MissingMarksViewModel> {
                     height: MediaQuery.of(context).size.height,
                     child: ListView.builder(
                       shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      
                       itemCount: studentsMap.length,
                       itemBuilder: (context, index) {
                         final studentUid = studentsMap.keys.elementAt(index);

@@ -53,6 +53,7 @@ class SpecialExamsListView extends StackedView<SpecialExamsListViewModel> {
                   child: ListView.builder(
                       shrinkWrap: true,
                       itemCount: studentsMap.length,
+                      physics: const NeverScrollableScrollPhysics(),
                       itemBuilder: (context, index) {
                         final studentUid = studentsMap.keys.elementAt(index);
                         final studentUnits = studentsMap[studentUid]!;

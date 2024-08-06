@@ -60,6 +60,22 @@ class AdminDashboardService {
     } finally {}
   }
 
+  //Delete Unit
+  Future<void> deleteUnit({required String unitcode}) async {
+    try {
+      QuerySnapshot querySnapshot = await db
+          .collection('units')
+          .where('unitCode', isEqualTo: unitcode)
+          .get();
+      for (QueryDocumentSnapshot doc in querySnapshot.docs) {
+        return await db.collection('units').doc(doc.id).delete();
+      }
+      Fluttertoast.showToast(msg: 'Units Deleted Successfully');
+    } catch (e) {
+      Fluttertoast.showToast(msg: 'Error while deleting unit');
+    }
+  }
+
   Stream<List<StudentsRegisteredUnitsModel>> getStudentUnits(
       String semesterStage, String studentUid) {
     return db
@@ -286,11 +302,16 @@ class AdminDashboardService {
   }
 
   //is Editing Enabled or disabled
- Stream<DocumentSnapshot> getEditingEnabledOrDisabled(String lecId) {
-  return db.collection('Marks_Editing_window').doc(lecId).snapshots().handleError((error) {
-    print('Error fetching document: $error');
-  });
-}
+  Stream<DocumentSnapshot> getEditingEnabledOrDisabled(String lecId) {
+    return db
+        .collection('Marks_Editing_window')
+        .doc(lecId)
+        .snapshots()
+        .handleError((error) {
+      print('Error fetching document: $error');
+    });
+  }
+
   //disable or Enable marks Editing
   Future<void> disableOrEnableEditing(bool value, String lecId) async {
     try {
