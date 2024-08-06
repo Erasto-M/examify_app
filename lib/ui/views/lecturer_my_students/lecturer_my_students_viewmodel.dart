@@ -84,6 +84,14 @@ class LecturerMyStudentsViewModel extends BaseViewModel {
         unitCode: unitCode);
   }
 
+  //get all who has supp
+  Stream<List<StudentsRegisteredUnitsModel>> getLecturerStudentsWithSupp({
+    required String unitCode,
+  }) {
+    return _lectureDashboardService.getStudentsWithSupps(
+        unitCode: unitCode);
+  }
+
   //get all with both special exam and without
   Stream<List<StudentsRegisteredUnitsModel>>
       getAllMyStudentsWithSpecialExamOrWithout({
@@ -116,6 +124,23 @@ class LecturerMyStudentsViewModel extends BaseViewModel {
 
   //open bottom sheet for students with special exams
   void openBottomSheetForSpecialExams({
+    required String unitCode,
+    required String unitName,
+    required List<StudentsRegisteredUnitsModel> student,
+  }) {
+    _bottomSheetService.showCustomSheet(
+        variant: BottomSheetType.studentsWithSpecialExams,
+        isScrollControlled: true,
+        description: 'examMarks',
+        data: {
+          'exam': student[0].examMarksOutOff,
+          'student': student,
+        },
+        title: unitCode);
+  }
+
+  //open bottom sheet for students with supps exams
+  void openEditStudentMarksSheetForSupp({
     required String unitCode,
     required String unitName,
     required List<StudentsRegisteredUnitsModel> student,

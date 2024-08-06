@@ -763,6 +763,7 @@ class MockAuthenticationService extends _i1.Mock
     required String? registrationNumber,
     required String? pfNumber,
     required String? cohort,
+    required _i6.BuildContext? context,
   }) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -779,6 +780,7 @@ class MockAuthenticationService extends _i1.Mock
             #registrationNumber: registrationNumber,
             #pfNumber: pfNumber,
             #cohort: cohort,
+            #context: context,
           },
         ),
         returnValue: _i7.Future<void>.value(),
@@ -1068,6 +1070,7 @@ class MockAdminDashboardService extends _i1.Mock
     required String? yearName,
     required String? semesterStage,
     required String? unitCode,
+    required String? cohort,
   }) =>
           (super.noSuchMethod(
             Invocation.method(
@@ -1077,6 +1080,7 @@ class MockAdminDashboardService extends _i1.Mock
                 #yearName: yearName,
                 #semesterStage: semesterStage,
                 #unitCode: unitCode,
+                #cohort: cohort,
               },
             ),
             returnValue:
@@ -1222,6 +1226,35 @@ class MockAdminDashboardService extends _i1.Mock
         returnValue: _i7.Future<void>.value(),
         returnValueForMissingStub: _i7.Future<void>.value(),
       ) as _i7.Future<void>);
+
+  @override
+  _i7.Stream<List<Map<String, dynamic>>> getGraduationList(
+          {required String? cohort}) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getGraduationList,
+          [],
+          {#cohort: cohort},
+        ),
+        returnValue: _i7.Stream<List<Map<String, dynamic>>>.empty(),
+        returnValueForMissingStub:
+            _i7.Stream<List<Map<String, dynamic>>>.empty(),
+      ) as _i7.Stream<List<Map<String, dynamic>>>);
+
+  @override
+  _i7.Stream<List<_i13.StudentsRegisteredUnitsModel>> fetchGraduationList(
+          {required String? cohort}) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #fetchGraduationList,
+          [],
+          {#cohort: cohort},
+        ),
+        returnValue:
+            _i7.Stream<List<_i13.StudentsRegisteredUnitsModel>>.empty(),
+        returnValueForMissingStub:
+            _i7.Stream<List<_i13.StudentsRegisteredUnitsModel>>.empty(),
+      ) as _i7.Stream<List<_i13.StudentsRegisteredUnitsModel>>);
 }
 
 /// A class which mocks [LecturerDashboardService].

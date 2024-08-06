@@ -264,7 +264,7 @@ class LecturerDashboardView extends StackedView<LecturerDashboardViewModel> {
                                                 const SizedBox(
                                                   height: 5,
                                                 ),
-                                                 units.specialExamStatus ==
+                                                units.specialExamStatus ==
                                                         'Approved'
                                                     ? Row(
                                                         children: [
@@ -280,37 +280,38 @@ class LecturerDashboardView extends StackedView<LecturerDashboardViewModel> {
                                                               child: Text(units
                                                                   .unitName!)),
                                                         ],
-                                                      ) :
-                                                units.specialExamStatus ==
-                                                        'Lecturer Approved'
-                                                    ? Row(
-                                                        children: [
-                                                          Text(
-                                                            units.unitCode!,
-                                                            style:
-                                                                const TextStyle(),
-                                                          ),
-                                                          const SizedBox(
-                                                            width: 10,
-                                                          ),
-                                                          Flexible(
-                                                              child: Text(units
-                                                                  .unitName!)),
-                                                        ],
                                                       )
-                                                    : Column(
-                                                        children: [
-                                                          Text(
-                                                            units.unitCode!,
-                                                            style:
-                                                                const TextStyle(),
+                                                    : units.specialExamStatus ==
+                                                            'Lecturer Approved'
+                                                        ? Row(
+                                                            children: [
+                                                              Text(
+                                                                units.unitCode!,
+                                                                style:
+                                                                    const TextStyle(),
+                                                              ),
+                                                              const SizedBox(
+                                                                width: 10,
+                                                              ),
+                                                              Flexible(
+                                                                  child: Text(units
+                                                                      .unitName!)),
+                                                            ],
+                                                          )
+                                                        : Column(
+                                                            children: [
+                                                              Text(
+                                                                units.unitCode!,
+                                                                style:
+                                                                    const TextStyle(),
+                                                              ),
+                                                              const SizedBox(
+                                                                width: 5,
+                                                              ),
+                                                              Text(units
+                                                                  .unitName!),
+                                                            ],
                                                           ),
-                                                          const SizedBox(
-                                                            width: 5,
-                                                          ),
-                                                          Text(units.unitName!),
-                                                        ],
-                                                      ),
                                                 const SizedBox(
                                                   height: 5,
                                                 ),
@@ -340,7 +341,9 @@ class LecturerDashboardView extends StackedView<LecturerDashboardViewModel> {
                                                       units.specialExamStatus!,
                                                       style: TextStyle(
                                                           color: units.specialExamStatus ==
-                                                                  'Lecturer Approved' || units.specialExamStatus == 'Approved'
+                                                                      'Lecturer Approved' ||
+                                                                  units.specialExamStatus ==
+                                                                      'Approved'
                                                               ? primaryColor
                                                               : units.specialExamStatus ==
                                                                       'pending'
@@ -350,183 +353,157 @@ class LecturerDashboardView extends StackedView<LecturerDashboardViewModel> {
                                                     ),
                                                   ],
                                                 ),
-
                                                 ...studentUnits1
                                                     .map((studentUnits1) {
                                                   return Column(
                                                     children: [
-
-                                                (studentUnits1
-
-                                                                .assignMent1Marks ==
-                                                            null ||
-                                                        studentUnits1
-                                                                .assignMent2Marks ==
-                                                            null ||
-                                                        studentUnits1
-                                                                .cat1Marks ==
-                                                            null ||
-                                                        studentUnits1
-                                                                .cat2Marks ==
-                                                            null)
-                                                    ? Row(
-                                                        children: [
-                                                          const Text(
-                                                            "Eligible? ",
-                                                            style: TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold,
-                                                                color: Colors
-                                                                    .black),
-                                                          ),
-                                                          const SizedBox(
-                                                            width: 5,
-                                                          ),
-                                                          Flexible(
-                                                            child: Text(
-                                                              (studentUnits1
-                                                                              .assignMent1Marks ==
-                                                                          null ||
-                                                                      studentUnits1
-                                                                              .assignMent2Marks ==
-                                                                          null ||
-                                                                      studentUnits1
-                                                                              .cat1Marks ==
-                                                                          null ||
-                                                                      studentUnits1
-                                                                              .cat2Marks ==
-                                                                          null)
-                                                                  ? "No!! "
-                                                                  : "Yes ",
-                                                              style: TextStyle(
-                                                                  color: (studentUnits1.assignMent1Marks == null ||
-                                                                          studentUnits1.assignMent2Marks ==
-                                                                              null ||
-                                                                          studentUnits1.cat1Marks ==
-                                                                              null ||
-                                                                          studentUnits1.cat2Marks ==
-                                                                              null)
-                                                                      ? Colors
-                                                                          .red
-                                                                      : primaryColor,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold),
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      )
-                                                    : const SizedBox(),
-                                                verticalSpaceSmall,
-                                                (studentUnits1
-                                                                .assignMent1Marks ==
-                                                            null ||
-                                                        studentUnits1
-                                                                .assignMent2Marks ==
-                                                            null ||
-                                                        studentUnits1
-                                                                .cat1Marks ==
-                                                            null ||
-                                                        studentUnits1
-                                                                .cat2Marks ==
-                                                            null)
-                                                    ? Container(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .all(10),
-                                                        decoration:
-                                                            BoxDecoration(
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            10),
-                                                                color: units.specialExamStatus ==
-                                                                        'Lecturer Approved'
-                                                                    ? primaryColor
-                                                                    : units.specialExamStatus ==
-                                                                            'pending'
-                                                                        ? Colors
-                                                                            .red
-                                                                        : Colors
-                                                                            .orange),
-                                                        child: units.specialExamStatus ==
-                                                                'pending'
-                                                            ? viewModel.isBusy
-                                                                ? const CircularProgressIndicator(
-                                                                    color: Colors
-                                                                        .white,
-                                                                  )
-                                                                : const Text(
-                                                                    'Enter cats & assignments inorder to approve',
-                                                                    style:
-                                                                        TextStyle(
+                                                      (studentUnits1
+                                                                      .assignMent1Marks ==
+                                                                  null ||
+                                                              studentUnits1
+                                                                      .assignMent2Marks ==
+                                                                  null ||
+                                                              studentUnits1
+                                                                      .cat1Marks ==
+                                                                  null ||
+                                                              studentUnits1
+                                                                      .cat2Marks ==
+                                                                  null)
+                                                          ? Row(
+                                                              children: [
+                                                                const Text(
+                                                                  "Eligible? ",
+                                                                  style: TextStyle(
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .bold,
                                                                       color: Colors
-                                                                          .white,
-                                                                    ),
-                                                                  )
-                                                            : const Text(
-                                                                'Rejected',
-                                                                style:
-                                                                    TextStyle(
-                                                                  color: Colors
-                                                                      .white,
+                                                                          .black),
                                                                 ),
-                                                              ),
-                                                      )
-                                                    : units.specialExamStatus ==
-                                                            'Lecturer Approved'
-                                                        ? const SizedBox()
-                                                        : units.specialExamStatus ==
-                                                                'Approved'
-                                                            ? const SizedBox()
-                                                            : InkWell(
-                                                                onTap: () {
-                                                                  viewModel
-                                                                      .approveSpecialExam(
-                                                                    unitCode: units
-                                                                        .unitCode,
-                                                                    studentId: units
-                                                                        .studeUid,
-                                                                  );
-                                                                },
-                                                                child:
-                                                                    Container(
-                                                                  padding:
-                                                                      const EdgeInsets
-                                                                          .all(
-                                                                          10),
-                                                                  decoration: BoxDecoration(
-                                                                      borderRadius: BorderRadius.circular(10),
-                                                                      color: units.specialExamStatus == 'Lecturer Approved'
-                                                                          ? primaryColor
-                                                                          : units.specialExamStatus == 'pending'
-                                                                              ? Colors.orange
-                                                                              : Colors.red),
-                                                                  child: units.specialExamStatus ==
-                                                                          'pending'
-                                                                      ? viewModel
-                                                                              .isBusy
-                                                                          ? const CircularProgressIndicator(
-                                                                              color: Colors.white,
-                                                                            )
-                                                                          : const Text(
-                                                                              'click to Approve',
-                                                                              style: TextStyle(
-                                                                                color: Colors.white,
-                                                                              ),
-                                                                            )
+                                                                const SizedBox(
+                                                                  width: 5,
+                                                                ),
+                                                                Flexible(
+                                                                  child: Text(
+                                                                    (studentUnits1.assignMent1Marks == null ||
+                                                                            studentUnits1.assignMent2Marks ==
+                                                                                null ||
+                                                                            studentUnits1.cat1Marks ==
+                                                                                null ||
+                                                                            studentUnits1.cat2Marks ==
+                                                                                null)
+                                                                        ? "No!! "
+                                                                        : "Yes ",
+                                                                    style: TextStyle(
+                                                                        color: (studentUnits1.assignMent1Marks == null || studentUnits1.assignMent2Marks == null || studentUnits1.cat1Marks == null || studentUnits1.cat2Marks == null)
+                                                                            ? Colors
+                                                                                .red
+                                                                            : primaryColor,
+                                                                        fontWeight:
+                                                                            FontWeight.bold),
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            )
+                                                          : const SizedBox(),
+                                                      verticalSpaceSmall,
+                                                      (studentUnits1
+                                                                      .assignMent1Marks ==
+                                                                  null ||
+                                                              studentUnits1
+                                                                      .assignMent2Marks ==
+                                                                  null ||
+                                                              studentUnits1
+                                                                      .cat1Marks ==
+                                                                  null ||
+                                                              studentUnits1
+                                                                      .cat2Marks ==
+                                                                  null)
+                                                          ? Container(
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                      .all(10),
+                                                              decoration: BoxDecoration(
+                                                                  borderRadius: BorderRadius.circular(10),
+                                                                  color: units.specialExamStatus == 'Lecturer Approved'
+                                                                      ? primaryColor
+                                                                      : units.specialExamStatus == 'pending'
+                                                                          ? Colors.red
+                                                                          : Colors.orange),
+                                                              child: units.specialExamStatus ==
+                                                                      'pending'
+                                                                  ? viewModel
+                                                                          .isBusy
+                                                                      ? const CircularProgressIndicator(
+                                                                          color:
+                                                                              Colors.white,
+                                                                        )
                                                                       : const Text(
-                                                                          'Rejected',
+                                                                          'Enter cats & assignments inorder to approve',
                                                                           style:
                                                                               TextStyle(
                                                                             color:
                                                                                 Colors.white,
                                                                           ),
-                                                                        ),
-                                                                ),
-                                                              ),
-                                              
+                                                                        )
+                                                                  : const Text(
+                                                                      'Rejected',
+                                                                      style:
+                                                                          TextStyle(
+                                                                        color: Colors
+                                                                            .white,
+                                                                      ),
+                                                                    ),
+                                                            )
+                                                          : units.specialExamStatus ==
+                                                                  'Lecturer Approved'
+                                                              ? const SizedBox()
+                                                              : units.specialExamStatus ==
+                                                                      'Approved'
+                                                                  ? const SizedBox()
+                                                                  : InkWell(
+                                                                      onTap:
+                                                                          () {
+                                                                        viewModel
+                                                                            .approveSpecialExam(
+                                                                          unitCode:
+                                                                              units.unitCode,
+                                                                          studentId:
+                                                                              units.studeUid,
+                                                                        );
+                                                                      },
+                                                                      child:
+                                                                          Container(
+                                                                        padding: const EdgeInsets
+                                                                            .all(
+                                                                            10),
+                                                                        decoration: BoxDecoration(
+                                                                            borderRadius: BorderRadius.circular(10),
+                                                                            color: units.specialExamStatus == 'Lecturer Approved'
+                                                                                ? primaryColor
+                                                                                : units.specialExamStatus == 'pending'
+                                                                                    ? Colors.orange
+                                                                                    : Colors.red),
+                                                                        child: units.specialExamStatus ==
+                                                                                'pending'
+                                                                            ? viewModel.isBusy
+                                                                                ? const CircularProgressIndicator(
+                                                                                    color: Colors.white,
+                                                                                  )
+                                                                                : const Text(
+                                                                                    'click to Approve',
+                                                                                    style: TextStyle(
+                                                                                      color: Colors.white,
+                                                                                    ),
+                                                                                  )
+                                                                            : const Text(
+                                                                                'Rejected',
+                                                                                style: TextStyle(
+                                                                                  color: Colors.white,
+                                                                                ),
+                                                                              ),
+                                                                      ),
+                                                                    ),
                                                     ],
                                                   );
                                                 })
