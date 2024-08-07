@@ -29,6 +29,7 @@ class UsersView extends StackedView<UsersViewModel> {
               color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
         ),
         actions: [
+
             Padding(
               padding: const EdgeInsets.only(right: 30),
               child: DropdownButton<String>(
@@ -108,6 +109,7 @@ class UsersView extends StackedView<UsersViewModel> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
+
                             Text(
                               "Name: ${user.userName}",
                               style: Theme.of(context).textTheme.titleLarge,

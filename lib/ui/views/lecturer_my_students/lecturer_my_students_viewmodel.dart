@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:examify/app/app.bottomsheets.dart';
 import 'package:examify/app/app.locator.dart';
 import 'package:examify/app/app.router.dart';
@@ -325,5 +326,8 @@ class LecturerMyStudentsViewModel extends BaseViewModel {
         });
   }
 
-  //delete stude
+  //Lecturers marks editing status
+  Stream<DocumentSnapshot> getMarksEditingStatus() {
+    return _lectureDashboardService.getLecturerMarksEditingStatus();
+  }
 }

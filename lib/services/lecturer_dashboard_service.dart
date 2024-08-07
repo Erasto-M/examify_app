@@ -354,4 +354,9 @@ class LecturerDashboardService {
       Fluttertoast.showToast(msg: e.toString());
     }
   }
+
+  //getting lecturer marks editing enable of dissabled
+  Stream<DocumentSnapshot> getLecturerMarksEditingStatus() {
+    return firestore.collection('Marks_Editing_window').doc(auth.currentUser!.uid).snapshots();
+  }
 }

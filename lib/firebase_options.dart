@@ -50,19 +50,20 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyCBoXEaBxSvdI2ReUANWcgodPHH-EOxOc8',
-    appId: '1:206210119091:web:c100890e8cfc6a57ae47c6',
-    messagingSenderId: '206210119091',
-    projectId: 'examify-app-75f38',
-    authDomain: 'examify-app-75f38.firebaseapp.com',
-    storageBucket: 'examify-app-75f38.appspot.com',
+    apiKey: 'AIzaSyCQuns2j68WGN9ZCelAq5cIx7VgHOkhh6I',
+    appId: '1:423576344653:web:c41cb9763fa1496a562404',
+    messagingSenderId: '423576344653',
+    projectId: 'examify-2',
+    authDomain: 'examify-2.firebaseapp.com',
+    storageBucket: 'examify-2.appspot.com',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyBm-akmKbKY_nGflsvEcclXW23ktzQjw1g',
-    appId: '1:206210119091:android:ffe554bbe92233bdae47c6',
-    messagingSenderId: '206210119091',
-    projectId: 'examify-app-75f38',
-    storageBucket: 'examify-app-75f38.appspot.com',
+    apiKey: 'AIzaSyDfZsFecrL3S1lufgbH0CNPEU-bNOvLZuw',
+    appId: '1:423576344653:android:41ac8b6b7faf3aaf562404',
+    messagingSenderId: '423576344653',
+    projectId: 'examify-2',
+    storageBucket: 'examify-2.appspot.com',
   );
+
 }

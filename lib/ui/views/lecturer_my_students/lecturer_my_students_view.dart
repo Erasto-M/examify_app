@@ -372,7 +372,12 @@ class LecturerMyStudentsView extends StackedView<LecturerMyStudentsViewModel> {
                         });
                         List<StudentsRegisteredUnitsModel> studentInfo =
                             snapshot.data!;
-                        return SingleChildScrollView(
+                        return StreamBuilder(
+                            stream: viewModel.getMarksEditingStatus(),
+                            builder: (context, status) {
+                              final editingStatus = status.data;
+                              if(status.hasData){
+                                return SingleChildScrollView(
                           scrollDirection: Axis.horizontal,
                           child: ConstrainedBox(
                             constraints: BoxConstraints(
@@ -539,7 +544,7 @@ class LecturerMyStudentsView extends StackedView<LecturerMyStudentsViewModel> {
                                         ),
                                       ),
                                       DataCell(
-                                        MouseRegion(
+                                        editingStatus!.get('isEditingEnabled') == true ? const SizedBox():   MouseRegion(
                                           cursor: SystemMouseCursors.click,
                                           child: Tooltip(
                                             message:
@@ -579,6 +584,7 @@ class LecturerMyStudentsView extends StackedView<LecturerMyStudentsViewModel> {
                                             ),
                                           ),
                                         ),
+                                      
                                       ),
                                     ]);
                                   }).toList(),
@@ -634,6 +640,11 @@ class LecturerMyStudentsView extends StackedView<LecturerMyStudentsViewModel> {
                           ),
                         );
                         //
+                      
+                              } else{
+                                return SizedBox();
+                              }
+                            });
                       }
                     },
                   ),
