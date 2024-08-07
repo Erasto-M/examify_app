@@ -311,7 +311,7 @@ class StudentDashboardView extends StackedView<StudentDashboardViewModel> {
                                                       Text(
                                                         units.assignMent1Marks ==
                                                                 null
-                                                            ? 'No marks'
+                                                            ? 'NA'
                                                             : units
                                                                 .assignMent1Marks
                                                                 .toString(),
@@ -320,7 +320,7 @@ class StudentDashboardView extends StackedView<StudentDashboardViewModel> {
                                                     DataCell(
                                                       Text(units.assignMent2Marks ==
                                                               null
-                                                          ? 'No marks'
+                                                          ? 'NA'
                                                           : units
                                                               .assignMent2Marks
                                                               .toString()),
@@ -328,7 +328,7 @@ class StudentDashboardView extends StackedView<StudentDashboardViewModel> {
                                                     DataCell(
                                                       Text(
                                                         units.cat1Marks == null
-                                                            ? 'No marks'
+                                                            ? 'NA'
                                                             : units.cat1Marks
                                                                 .toString(),
                                                       ),
@@ -336,7 +336,7 @@ class StudentDashboardView extends StackedView<StudentDashboardViewModel> {
                                                     DataCell(
                                                       Text(
                                                         units.cat2Marks == null
-                                                            ? 'No marks'
+                                                            ? 'NA'
                                                             : units.cat2Marks
                                                                 .toString(),
                                                       ),
@@ -356,7 +356,7 @@ class StudentDashboardView extends StackedView<StudentDashboardViewModel> {
                                                     DataCell(
                                                       units.totalMarks == null
                                                           ? const Text(
-                                                              'No marks',
+                                                              'NA',
                                                             )
                                                           : units.appliedSpecialExam ==
                                                                   true
