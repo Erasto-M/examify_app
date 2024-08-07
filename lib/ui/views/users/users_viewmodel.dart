@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:examify/app/app.dart';
 import 'package:examify/app/app.locator.dart';
 import 'package:examify/models/usersModel.dart';
 import 'package:examify/services/authentication_service.dart';
@@ -13,9 +14,31 @@ class UsersViewModel extends BaseViewModel {
   List<AppUser> usersList = [];
   get users => usersList;
 
-  Future<void> fetchUsers(String user) async {
-    usersList = await _authService.fetchUsers(user);
+  String _selectedCohort = '2024';
+  final List<String> _cohorts = [
+    "2020",
+    "2021",
+    "2022",
+    "2023",
+    "2024",
+    "2025",
+    "2026",
+    "2027",
+    "2028",
+    "2029",
+    "2030"
+  ];
+
+  String get getSelectedCohort => _selectedCohort;
+  List<String> get cohorts => _cohorts;
+
+  void setSelectedCohort(String cohort) {
+    _selectedCohort = cohort;
     notifyListeners();
+  }
+
+  Stream<List<AppUser>> getUsers(String user) {
+     return _authService.fetchUsers(user, _selectedCohort);
   }
 
   void email({required String email}) async {

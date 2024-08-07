@@ -10,6 +10,7 @@ import '../models/student_registered_units.dart';
 class AdminDashboardService {
   FirebaseFirestore db = FirebaseFirestore.instance;
   FirebaseAuth auth = FirebaseAuth.instance;
+
   Future<AddUnitModel?> addUnit({
     required AddUnitModel addUnitModel,
   }) async {
@@ -406,10 +407,11 @@ class AdminDashboardService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   Stream<List<StudentsRegisteredUnitsModel>> getUnitsForApproval(
-      String semester) {
+      String semester, String cohort) {
     return _firestore
         .collection('student_registered_units')
         .where('semesterStage', isEqualTo: semester)
+        .where('cohort', isEqualTo: cohort)
         .where('isUnitApproved', isEqualTo: false)
         .snapshots()
         .map((snapshot) => snapshot.docs

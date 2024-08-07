@@ -294,21 +294,24 @@ class AuthenticationService {
   }
 
   //fetch users based on user type
-  Future<List<AppUser>> fetchUsers(String user) async {
+  Stream<List<AppUser>> fetchUsers(String user, String selectedCohort) {
     String role = (user == 'Lecturers') ? 'Lecturer' : 'Student';
-    List<AppUser> users = [];
+    String cohort = (user == 'Lecturers') ? '' : selectedCohort;
     try {
-      QuerySnapshot querySnapshot = await firestore
+      return firestore
           .collection('users')
           .where('role', isEqualTo: role)
-          .get();
-      querySnapshot.docs.forEach((element) {
-        users.add(AppUser.fromMap(element.data() as Map<String, dynamic>));
-      });
+          .where('cohort', isEqualTo: cohort)
+          .snapshots()
+        .map((querySnapshots){
+          return querySnapshots.docs.map((doc) {
+           return AppUser.fromMap(doc.data() as Map<String, dynamic>);
+          }).toList();
+        });
     } catch (e) {
       Fluttertoast.showToast(msg: e.toString());
     }
-    return users;
+    return Stream.value([]);
   }
 
   //fetch users based on user type

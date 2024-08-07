@@ -13,56 +13,83 @@ class UsersView extends StackedView<UsersViewModel> {
 
   @override
   Widget builder(
-    BuildContext context,
-    UsersViewModel viewModel,
-    Widget? child,
-  ) {
-    List<AppUser> users = viewModel.users;
-
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: Colors.white,
-        body: Container(
-          padding: const EdgeInsets.all(10),
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    IconButton(
-                      icon: const Icon(
-                        Icons.arrow_back,
-                        color: primaryColor,
-                      ),
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                    ),
-                    Text(
-                      user,
+      BuildContext context,
+      UsersViewModel viewModel,
+      Widget? child,
+      ) {
+    return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        automaticallyImplyLeading: true,
+        iconTheme: const IconThemeData(color: Colors.white),
+        backgroundColor: primaryColor,
+        title: Text(
+          user,
+          style: const TextStyle(
+              color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
+        ),
+        actions: [
+          if (user == "Students")
+            Padding(
+              padding: const EdgeInsets.only(right: 30),
+              child: DropdownButton<String>(
+                value: viewModel.getSelectedCohort,
+                onChanged: (String? newValue) {
+                  if (newValue != null) {
+                    viewModel.setSelectedCohort(newValue);
+                  }
+                },
+                style: const TextStyle(color: Colors.white),
+                dropdownColor: primaryColor,
+                icon: const Icon(Icons.arrow_drop_down, color: Colors.white),
+                items: viewModel.cohorts
+                    .map<DropdownMenuItem<String>>((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(
+                      value,
                       style: const TextStyle(
-                          color: primaryColor,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold),
+                          color: Colors.white, fontWeight: FontWeight.bold),
                     ),
-                    const SizedBox(width: 50),
-                  ],
+                  );
+                }).toList(),
+              ),
+            ),
+        ],
+      ),
+      body: Container(
+        padding: const EdgeInsets.all(10),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Text(
+                "Users",
+                style: TextStyle(
+                  color: primaryColor,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
                 ),
-                const Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Text("Users",
-                      style: TextStyle(
-                        color: primaryColor,
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      )),
-                ),
-                ListView(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    children: users.map((user) {
+              ),
+            ),
+            Expanded(
+              child: StreamBuilder<List<AppUser>>(
+                stream: viewModel.getUsers(this.user),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const SizedBox();
+                  } else if (snapshot.hasError) {
+                    return const Center(child: Text("Error loading users"));
+                  } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                    return const Center(child: Text("No users found"));
+                  }
+
+                  List<AppUser> users = snapshot.data!;
+                  return ListView.builder(
+                    itemCount: users.length,
+                    itemBuilder: (context, index) {
+                      AppUser user = users[index];
                       return Container(
                         padding: const EdgeInsets.all(10.0),
                         margin: const EdgeInsets.only(bottom: 2),
@@ -82,15 +109,12 @@ class UsersView extends StackedView<UsersViewModel> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            StreamBuilder(
-                                stream: viewModel
-                                    .getEditingEnabledorDisabled(user.userId!),
+                            if (this.user == "Lecturers")
+                              StreamBuilder(
+                                stream: viewModel.getEditingEnabledorDisabled(user.userId!),
                                 builder: (context, snapshot) {
-                                  if (snapshot.hasData &&
-                                      snapshot.data!.exists) {
-                                    bool isEnabled =
-                                        snapshot.data!['isEditingEnabled'] ??
-                                            false;
+                                  if (snapshot.hasData && snapshot.data!.exists) {
+                                    bool isEnabled = snapshot.data!['isEditingEnabled'] ?? false;
                                     return Row(
                                       children: [
                                         Text(
@@ -106,22 +130,20 @@ class UsersView extends StackedView<UsersViewModel> {
                                         Switch(
                                           value: isEnabled,
                                           onChanged: (bool value) {
-                                            viewModel.disableOrEnableEditing(
-                                                value, user.userId!);
+                                            viewModel.disableOrEnableEditing(value, user.userId!);
                                           },
                                         ),
                                       ],
                                     );
                                   }
-                                  return SizedBox();
-                                }),
-
+                                  return const SizedBox();
+                                },
+                              ),
                             Text(
                               "Name: ${user.userName}",
                               style: Theme.of(context).textTheme.titleLarge,
                             ),
                             verticalSpaceSmall,
-                            // all other fields
                             Text(
                               "Email: ${user.email}",
                               style: Theme.of(context).textTheme.bodySmall,
@@ -137,7 +159,6 @@ class UsersView extends StackedView<UsersViewModel> {
                               style: Theme.of(context).textTheme.bodySmall,
                             ),
                             verticalSpaceSmall,
-                            //row to have buttons to either email and call user
                             Row(
                               mainAxisSize: MainAxisSize.min,
                               children: [
@@ -160,8 +181,8 @@ class UsersView extends StackedView<UsersViewModel> {
                                 ElevatedButton(
                                   onPressed: () {
                                     viewModel.call(
-                                        phoneNumber:
-                                            user.phoneNumber ?? '1234567890');
+                                      phoneNumber: user.phoneNumber ?? '1234567890',
+                                    );
                                   },
                                   style: ElevatedButton.styleFrom(
                                     backgroundColor: Colors.white,
@@ -177,10 +198,12 @@ class UsersView extends StackedView<UsersViewModel> {
                           ],
                         ),
                       );
-                    }).toList()),
-              ],
+                    },
+                  );
+                },
+              ),
             ),
-          ),
+          ],
         ),
       ),
     );
@@ -188,12 +211,12 @@ class UsersView extends StackedView<UsersViewModel> {
 
   @override
   UsersViewModel viewModelBuilder(
-    BuildContext context,
-  ) =>
+      BuildContext context,
+      ) =>
       UsersViewModel();
+
   @override
   void onViewModelReady(UsersViewModel viewModel) {
-    viewModel.fetchUsers(user);
     super.onViewModelReady(viewModel);
   }
 }

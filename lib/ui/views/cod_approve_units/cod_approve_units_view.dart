@@ -50,6 +50,31 @@ class CodApproveUnitsView extends StackedView<CodApproveUnitsViewModel> {
               }).toList(),
             ),
           ),
+          Padding(
+            padding: const EdgeInsets.only(right: 30),
+            child: DropdownButton<String>(
+              value: viewModel.getSelectedCohort,
+              onChanged: (String? newValue) {
+                if (newValue != null) {
+                  viewModel.setSelectedCohort(newValue);
+                }
+              },
+              style: const TextStyle(color: Colors.white),
+              dropdownColor: primaryColor,
+              icon: Icon(Icons.arrow_drop_down, color: Colors.white),
+              items: viewModel.cohorts
+                  .map<DropdownMenuItem<String>>((String value) {
+                return DropdownMenuItem<String>(
+                  value: value,
+                  child: Text(
+                    value,
+                    style: const TextStyle(
+                        color: Colors.white, fontWeight: FontWeight.bold),
+                  ),
+                );
+              }).toList(),
+            ),
+          ),
         ],
       ),
       body: StreamBuilder<List<StudentsRegisteredUnitsModel>>(
