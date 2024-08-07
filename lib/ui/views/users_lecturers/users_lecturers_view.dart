@@ -92,8 +92,8 @@ class UsersLecturersView extends StackedView<UsersLecturersViewModel> {
                                       children: [
                                         Text(
                                           isEnabled
-                                              ? "Marks editing enabled"
-                                              : "Marks Editing disabled",
+                                              ? "Marks editing disabled"
+                                              : "Marks editing enabled",
                                           style: const TextStyle(
                                               color: primaryColor,
                                               fontSize: 15,
