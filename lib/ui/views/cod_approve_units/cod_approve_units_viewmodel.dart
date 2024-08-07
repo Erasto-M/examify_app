@@ -20,7 +20,6 @@ class CodApproveUnitsViewModel extends BaseViewModel {
   String get getselectedSemester => _selectedSemester;
   List<String> get semesters => _semesters;
 
-
   String _selectedCohort = '2024';
   final List<String> _cohorts = [
     "2020",
@@ -43,7 +42,6 @@ class CodApproveUnitsViewModel extends BaseViewModel {
     _selectedCohort = cohort;
     notifyListeners();
   }
-
 
   void setSelectedSemester(String semester) {
     _selectedSemester = semester;

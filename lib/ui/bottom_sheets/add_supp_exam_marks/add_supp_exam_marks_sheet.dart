@@ -20,10 +20,10 @@ class AddSuppExamMarksSheet extends StackedView<AddSuppExamMarksSheetModel> {
 
   @override
   Widget builder(
-      BuildContext context,
-      AddSuppExamMarksSheetModel viewModel,
-      Widget? child,
-      ) {
+    BuildContext context,
+    AddSuppExamMarksSheetModel viewModel,
+    Widget? child,
+  ) {
     List<StudentsRegisteredUnitsModel> student = request.data['student'];
     return SafeArea(
       child: SingleChildScrollView(
@@ -90,7 +90,7 @@ class AddSuppExamMarksSheet extends StackedView<AddSuppExamMarksSheetModel> {
                     rows: student.map((student) {
                       final controller = viewModel.controllers.putIfAbsent(
                         student.studentUid!,
-                            () => TextEditingController(),
+                        () => TextEditingController(),
                       );
                       return DataRow(cells: [
                         DataCell(Text(student.studentName!)),
@@ -131,16 +131,16 @@ class AddSuppExamMarksSheet extends StackedView<AddSuppExamMarksSheetModel> {
                     child: Center(
                       child: viewModel.isBusy
                           ? const SpinKitSpinningLines(
-                        color: Colors.white,
-                        size: 30,
-                      )
+                              color: Colors.white,
+                              size: 30,
+                            )
                           : const Text(
-                        "Save Marks",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold),
-                      ),
+                              "Save Marks",
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold),
+                            ),
                     ),
                   ),
                 ),
@@ -151,6 +151,7 @@ class AddSuppExamMarksSheet extends StackedView<AddSuppExamMarksSheetModel> {
       ),
     );
   }
+
   @override
   AddSuppExamMarksSheetModel viewModelBuilder(BuildContext context) =>
       AddSuppExamMarksSheetModel();

@@ -304,8 +304,8 @@ class LecturerMyStudentsView extends StackedView<LecturerMyStudentsViewModel> {
                                   ),
                                 ),
                               );
-                            }else{
-                            return const Text("No supp list");
+                            } else {
+                              return const Text("No supp list");
                             }
                           })
                     ],

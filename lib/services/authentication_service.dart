@@ -293,25 +293,40 @@ class AuthenticationService {
     return lecturers;
   }
 
-  //fetch users based on user type
-  Stream<List<AppUser>> fetchUsers(String user, String selectedCohort) {
-    String role = (user == 'Lecturers') ? 'Lecturer' : 'Student';
-    String cohort = (user == 'Lecturers') ? '' : selectedCohort;
+  //fetch students
+  Stream<List<AppUser>> adminGetStudents(String selectedCohort) {
     try {
       return firestore
           .collection('users')
-          .where('role', isEqualTo: role)
-          .where('cohort', isEqualTo: cohort)
+          .where('role', isEqualTo: "Student")
+          .where('cohort', isEqualTo: selectedCohort)
           .snapshots()
-        .map((querySnapshots){
-          return querySnapshots.docs.map((doc) {
-           return AppUser.fromMap(doc.data() as Map<String, dynamic>);
-          }).toList();
-        });
+          .map((querySnapshots) {
+        return querySnapshots.docs.map((doc) {
+          return AppUser.fromMap(doc.data() as Map<String, dynamic>);
+        }).toList();
+      });
     } catch (e) {
       Fluttertoast.showToast(msg: e.toString());
     }
     return Stream.value([]);
+  }
+
+  //fetch lecs
+  Future<List<AppUser>> adminGetLecturers() async {
+    List<AppUser> users = [];
+    try {
+      QuerySnapshot querySnapshot = await firestore
+          .collection('users')
+          .where('role', isEqualTo: "Lecturer")
+          .get();
+      querySnapshot.docs.forEach((element) {
+        users.add(AppUser.fromMap(element.data() as Map<String, dynamic>));
+      });
+    } catch (e) {
+      Fluttertoast.showToast(msg: e.toString());
+    }
+    return users;
   }
 
   //fetch users based on user type

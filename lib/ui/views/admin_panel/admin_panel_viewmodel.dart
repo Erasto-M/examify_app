@@ -48,6 +48,15 @@ class AdminPanelViewModel extends BaseViewModel {
     }
   }
 
+  void navigateToStudents({required String user}) {
+    _navigationService.navigateToUsersView(user: user);
+  }
+
+  void navigateToLecturers() {
+    _navigationService.navigateToUsersLecturersView();
+  }
+
+
   Map<String, dynamic> userDetails = {};
   Map<String, dynamic> get user => userDetails;
   Future getCurrentUserDetails() async {
@@ -91,7 +100,6 @@ class AdminPanelViewModel extends BaseViewModel {
         build: (pw.Context context) {
           return [
             pw.Container(
-             
               decoration: pw.BoxDecoration(
                 border: pw.Border.all(
                   color: PdfColors.black,
@@ -136,17 +144,18 @@ class AdminPanelViewModel extends BaseViewModel {
                     ),
                   ),
                   pw.SizedBox(height: 3),
-                 pw.Padding(padding:const pw.EdgeInsets.only(left: 10, right: 10) ,
-                 child:  pw.Center(
-                    child: pw.Text(
-                      'The following students have successfully completed their four-year'
-                      'program. We hereby confirm their eligibility for graduation.',
-                      style: const pw.TextStyle(
-                        fontSize: 20,
+                  pw.Padding(
+                    padding: const pw.EdgeInsets.only(left: 10, right: 10),
+                    child: pw.Center(
+                      child: pw.Text(
+                        'The following students have successfully completed their four-year'
+                        'program. We hereby confirm their eligibility for graduation.',
+                        style: const pw.TextStyle(
+                          fontSize: 20,
+                        ),
                       ),
                     ),
                   ),
-                 ),
                   pw.SizedBox(height: 15),
                   pw.Table(
                     border: pw.TableBorder.all(),
