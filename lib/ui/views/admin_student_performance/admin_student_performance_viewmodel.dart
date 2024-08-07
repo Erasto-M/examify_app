@@ -32,7 +32,7 @@ class AdminStudentPerformanceViewModel extends BaseViewModel {
   String selectedSem = '';
   String get getSelectedSem => selectedSem;
 
-  String selectedUnitCode = 'CCS 1105';
+  String selectedUnitCode = '';
   String get getSelectedUnitCode => selectedSem;
 
   String _selectedCohort = '2024';
@@ -58,11 +58,6 @@ class AdminStudentPerformanceViewModel extends BaseViewModel {
     notifyListeners();
   }
 
-  void setSelectedUnitCode(unitCode) {
-    selectedUnitCode = unitCode;
-    notifyListeners();
-  }
-
   String _selectedUnitToViewMarks = '';
   String get selectedUnitToGetMarks => _selectedUnitToViewMarks;
 
@@ -74,6 +69,9 @@ class AdminStudentPerformanceViewModel extends BaseViewModel {
         .fetchUnits(semesterStage: selectedSem)
         .listen((units) {
       _unitsPerSelectedSemester = units;
+if (units.isNotEmpty) {
+        setSelectedUnitCode(units[0].unitCode);
+      }
       notifyListeners();
     });
   }
@@ -83,6 +81,11 @@ class AdminStudentPerformanceViewModel extends BaseViewModel {
     fetchUnits();
     notifyListeners();
   }
+  void setSelectedUnitCode(unitCode) {
+    selectedUnitCode = unitCode;
+    notifyListeners();
+  }
+
 
   void setInitSemValue(String yearName) {
     String currentSem = yearName.endsWith("one")

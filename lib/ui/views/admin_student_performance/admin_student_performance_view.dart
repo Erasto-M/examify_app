@@ -216,15 +216,15 @@ class AdminStudentPerformanceView
                                 child: DropdownButton<String>(
                                   isExpanded: true,
                                   value: viewModel
-                                          .selectedUnitToGetMarks.isNotEmpty
-                                      ? viewModel.selectedUnitToGetMarks
+                                          .selectedUnitCode.isNotEmpty
+                                      ? viewModel.selectedUnitCode
                                       : null,
                                   hint: Flexible(
                                       child: const Text("Please select unit")),
                                   items: viewModel.unitsPerSelectedSemester
                                           ?.map((unit) {
                                         return DropdownMenuItem<String>(
-                                          value: unit.unitName,
+                                          value: unit.unitCode,
                                           child: Flexible(
                                             child: Text(
                                               unit.unitName,
@@ -414,6 +414,7 @@ class AdminStudentPerformanceView
   @override
   void onViewModelReady(AdminStudentPerformanceViewModel viewModel) {
     viewModel.setInitSemValue(yearName);
+    viewModel.fetchUnits();
     super.onViewModelReady(viewModel);
   }
 }
