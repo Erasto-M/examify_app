@@ -149,7 +149,8 @@ class AdminStudentPerformanceView
                         final students = snapshot.data!;
                         return InkWell(
                           onTap: () async {
-                            var transcript =  viewModel.generateConsolidatedNMarkSheet(
+                            var transcript =
+                                viewModel.generateConsolidatedNMarkSheet(
                               students: students,
                               semesterStage: viewModel.getSelectedSem,
                             );

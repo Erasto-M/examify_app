@@ -35,7 +35,6 @@ class AdminStudentPerformanceViewModel extends BaseViewModel {
   String selectedUnitCode = 'CCS 1105';
   String get getSelectedUnitCode => selectedSem;
 
-
   String _selectedCohort = '2024';
   final List<String> _cohorts = [
     "2020",
@@ -51,7 +50,7 @@ class AdminStudentPerformanceViewModel extends BaseViewModel {
     "2030"
   ];
 
-   String get getSelectedCohort => _selectedCohort;
+  String get getSelectedCohort => _selectedCohort;
   List<String> get cohorts => _cohorts;
 
   void setSelectedCohort(String cohort) {
@@ -154,141 +153,146 @@ class AdminStudentPerformanceViewModel extends BaseViewModel {
   //Generate consolidated markSheets
 
   pw.Document generateConsolidatedNMarkSheet({
-  required List<Map<String, dynamic>> students,
-  required String semesterStage,
-}) {
-  final transcript = pw.Document();
+    required List<Map<String, dynamic>> students,
+    required String semesterStage,
+  }) {
+    final transcript = pw.Document();
 
-  // Collect all unique unit names for headers
-  final Set<String> unitNames = {};
-  for (var student in students) {
-    for (var unit in student['units']) {
-      unitNames.add(unit['unitCode']);
+    // Collect all unique unit names for headers
+    final Set<String> unitNames = {};
+    for (var student in students) {
+      for (var unit in student['units']) {
+        unitNames.add(unit['unitCode']);
+      }
     }
+
+    final headers = [
+      'Reg No',
+      // 'Name',
+      ...unitNames,
+      'MeanScore',
+      'MeanGrade',
+      'Recommendation',
+    ];
+
+    final data = students.map((student) {
+      final studentUnits = student['units'] as List<Map<String, dynamic>>;
+      final Map<String, dynamic> unitGrades = {};
+
+      for (var unit in studentUnits) {
+        unitGrades[unit['unitCode']] = unit['marks'];
+      }
+
+      final unitMarks = unitNames
+          .map((unitName) => unitGrades[unitName]?.toString() ?? 'null')
+          .toList();
+
+      return [
+        student['studentRegNumber'],
+        // student['studentName'],
+        ...unitMarks,
+        student['meanMarks'].toString(),
+        student['grade'].toString(),
+        student['recommendation'],
+      ];
+    }).toList();
+
+    transcript.addPage(
+      pw.MultiPage(
+        build: (pw.Context context) {
+          return [
+            pw.Container(
+              decoration: pw.BoxDecoration(
+                border: pw.Border.all(
+                  color: PdfColors.black,
+                  width: 1,
+                ),
+                color: PdfColors.white,
+              ),
+              child: pw.Column(
+                crossAxisAlignment: pw.CrossAxisAlignment.start,
+                children: [
+                  pw.SizedBox(height: 3),
+                  pw.Center(
+                    child: pw.Text(
+                      'Dedan Kimathi University of Technology',
+                      style: pw.TextStyle(
+                        fontSize: 20,
+                        color: PdfColors.green,
+                        fontWeight: pw.FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  pw.SizedBox(height: 3),
+                  pw.Center(
+                    child: pw.Text(
+                      'BSC Computer Science',
+                      style: pw.TextStyle(
+                        fontSize: 20,
+                        color: PdfColors.green,
+                        fontWeight: pw.FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  pw.SizedBox(height: 3),
+                  pw.Center(
+                    child: pw.Text(
+                      '$semesterStage Consolidated Mark Sheet',
+                      style: pw.TextStyle(
+                        fontSize: 20,
+                        color: PdfColors.green,
+                        fontWeight: pw.FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  pw.SizedBox(height: 3),
+                  pw.SizedBox(height: 15),
+                  pw.Table(
+                    border: pw.TableBorder.all(),
+                    columnWidths: {
+                      0: const pw.FixedColumnWidth(100),
+                      1: const pw.FixedColumnWidth(50),
+                      for (int i = 2; i < headers.length - 2; i++)
+                        i: const pw.FixedColumnWidth(50),
+                      headers.length - 2: const pw.FixedColumnWidth(100),
+                      headers.length - 1: const pw.FixedColumnWidth(100),
+                    },
+                    children: [
+                      pw.TableRow(
+                        children: headers
+                            .map((header) => pw.Padding(
+                                  padding: const pw.EdgeInsets.all(8),
+                                  child: pw.Text(
+                                    header,
+                                    style: pw.TextStyle(
+                                      fontWeight: pw.FontWeight.bold,
+                                    ),
+                                  ),
+                                ))
+                            .toList(),
+                      ),
+                      ...data.map((row) => pw.TableRow(
+                            children: row
+                                .map((cell) => pw.Padding(
+                                      padding: const pw.EdgeInsets.all(8),
+                                      child: pw.Text(cell.toString()),
+                                    ))
+                                .toList(),
+                          )),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ];
+        },
+      ),
+    );
+
+    return transcript;
   }
 
-  final headers = [
-    'Reg No',
-   // 'Name',
-    ...unitNames,
-    'MeanScore',
-    'MeanGrade',
-    'Recommendation',
-  ];
-
-  final data = students.map((student) {
-    final studentUnits = student['units'] as List<Map<String, dynamic>>;
-    final Map<String, dynamic> unitGrades = {};
-
-    for (var unit in studentUnits) {
-      unitGrades[unit['unitCode']] = unit['marks'];
-    }
-
-    final unitMarks = unitNames
-        .map((unitName) => unitGrades[unitName]?.toString() ?? 'null')
-        .toList();
-
-    return [
-      student['studentRegNumber'],
-     // student['studentName'],
-      ...unitMarks,
-      student['meanMarks'].toString(),
-      student['grade'].toString(),
-      student['recommendation'],
-    ];
-  }).toList();
-
-  transcript.addPage(
-    pw.MultiPage(
-      build: (pw.Context context) {
-        return [
-          pw.Container(
-            decoration: pw.BoxDecoration(
-              border: pw.Border.all(
-                color: PdfColors.black,
-                width: 1,
-              ),
-              color: PdfColors.white,
-            ),
-            child: pw.Column(
-              crossAxisAlignment: pw.CrossAxisAlignment.start,
-              children: [
-                pw.SizedBox(height: 3),
-                pw.Center(
-                  child: pw.Text(
-                    'Dedan Kimathi University of Technology',
-                    style: pw.TextStyle(
-                      fontSize: 20,
-                      color: PdfColors.green,
-                      fontWeight: pw.FontWeight.bold,
-                    ),
-                  ),
-                ),
-                pw.SizedBox(height: 3),
-                pw.Center(
-                  child: pw.Text(
-                    'BSC Computer Science',
-                    style: pw.TextStyle(
-                      fontSize: 20,
-                      color: PdfColors.green,
-                      fontWeight: pw.FontWeight.bold,
-                    ),
-                  ),
-                ),
-                pw.SizedBox(height: 3),
-                pw.Center(
-                  child: pw.Text(
-                    '$semesterStage Consolidated Mark Sheet',
-                    style: pw.TextStyle(
-                      fontSize: 20,
-                      color: PdfColors.green,
-                      fontWeight: pw.FontWeight.bold,
-                    ),
-                  ),
-                ),
-                pw.SizedBox(height: 3),
-                pw.SizedBox(height: 15),
-                pw.Table(
-                  border: pw.TableBorder.all(),
-                  columnWidths: {
-                    0: const pw.FixedColumnWidth(100),
-                    1: const pw.FixedColumnWidth(50),
-                    for (int i = 2; i < headers.length - 2; i++)
-                      i: const pw.FixedColumnWidth(50),
-                    headers.length - 2: const pw.FixedColumnWidth(100),
-                    headers.length - 1: const pw.FixedColumnWidth(100),
-                  },
-                  children: [
-                    pw.TableRow(
-                      children: headers.map((header) => pw.Padding(
-                        padding: const pw.EdgeInsets.all(8),
-                        child: pw.Text(
-                          header,
-                          style: pw.TextStyle(
-                            fontWeight: pw.FontWeight.bold,
-                          ),
-                        ),
-                      )).toList(),
-                    ),
-                    ...data.map((row) => pw.TableRow(
-                      children: row.map((cell) => pw.Padding(
-                        padding: const pw.EdgeInsets.all(8),
-                        child: pw.Text(cell.toString()),
-                      )).toList(),
-                    )),
-                  ],
-                ),
-              ],
-            ),
-          ),
-        ];
-      },
-    ),
-  );
-
-  return transcript;
-}
-String? transcriptPath;
+  String? transcriptPath;
   late PDFViewController pdfViewController;
   int? pageCount;
   int? currentPage;

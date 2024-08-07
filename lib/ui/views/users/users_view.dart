@@ -13,10 +13,10 @@ class UsersView extends StackedView<UsersViewModel> {
 
   @override
   Widget builder(
-      BuildContext context,
-      UsersViewModel viewModel,
-      Widget? child,
-      ) {
+    BuildContext context,
+    UsersViewModel viewModel,
+    Widget? child,
+  ) {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -29,7 +29,6 @@ class UsersView extends StackedView<UsersViewModel> {
               color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
         ),
         actions: [
-          if (user == "Students")
             Padding(
               padding: const EdgeInsets.only(right: 30),
               child: DropdownButton<String>(
@@ -75,7 +74,7 @@ class UsersView extends StackedView<UsersViewModel> {
             ),
             Expanded(
               child: StreamBuilder<List<AppUser>>(
-                stream: viewModel.getUsers(this.user),
+                stream: viewModel.getUsers(),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return const SizedBox();
@@ -109,36 +108,6 @@ class UsersView extends StackedView<UsersViewModel> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            if (this.user == "Lecturers")
-                              StreamBuilder(
-                                stream: viewModel.getEditingEnabledorDisabled(user.userId!),
-                                builder: (context, snapshot) {
-                                  if (snapshot.hasData && snapshot.data!.exists) {
-                                    bool isEnabled = snapshot.data!['isEditingEnabled'] ?? false;
-                                    return Row(
-                                      children: [
-                                        Text(
-                                          isEnabled
-                                              ? "Marks editing enabled"
-                                              : "Marks Editing disabled",
-                                          style: const TextStyle(
-                                              color: primaryColor,
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                        horizontalSpaceLarge,
-                                        Switch(
-                                          value: isEnabled,
-                                          onChanged: (bool value) {
-                                            viewModel.disableOrEnableEditing(value, user.userId!);
-                                          },
-                                        ),
-                                      ],
-                                    );
-                                  }
-                                  return const SizedBox();
-                                },
-                              ),
                             Text(
                               "Name: ${user.userName}",
                               style: Theme.of(context).textTheme.titleLarge,
@@ -181,7 +150,8 @@ class UsersView extends StackedView<UsersViewModel> {
                                 ElevatedButton(
                                   onPressed: () {
                                     viewModel.call(
-                                      phoneNumber: user.phoneNumber ?? '1234567890',
+                                      phoneNumber:
+                                          user.phoneNumber ?? '1234567890',
                                     );
                                   },
                                   style: ElevatedButton.styleFrom(
@@ -211,8 +181,8 @@ class UsersView extends StackedView<UsersViewModel> {
 
   @override
   UsersViewModel viewModelBuilder(
-      BuildContext context,
-      ) =>
+    BuildContext context,
+  ) =>
       UsersViewModel();
 
   @override

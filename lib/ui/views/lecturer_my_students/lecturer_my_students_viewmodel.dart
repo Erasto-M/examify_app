@@ -88,8 +88,7 @@ class LecturerMyStudentsViewModel extends BaseViewModel {
   Stream<List<StudentsRegisteredUnitsModel>> getLecturerStudentsWithSupp({
     required String unitCode,
   }) {
-    return _lectureDashboardService.getStudentsWithSupps(
-        unitCode: unitCode);
+    return _lectureDashboardService.getStudentsWithSupps(unitCode: unitCode);
   }
 
   //get all with both special exam and without

@@ -12,11 +12,7 @@ class Users extends StackedView<UsersModel> {
     UsersModel viewModel,
     Widget? child,
   ) {
-    return GestureDetector(
-      onTap: () {
-        viewModel.navigateToUserDetails(user: user);
-      },
-      child: Container(
+      return Container(
         height: 60,
         width: MediaQuery.of(context).size.height / 5,
         padding: const EdgeInsets.all(10.0),
@@ -41,8 +37,7 @@ class Users extends StackedView<UsersModel> {
             ),
           ),
         ),
-      ),
-    );
+      );
   }
 
   @override
