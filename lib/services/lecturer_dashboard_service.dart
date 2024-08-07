@@ -115,14 +115,15 @@ class LecturerDashboardService {
     }
   }
 
-  Stream<List<StudentsRegisteredUnitsModel>> getStudentsBasedOnUnitAndYear({
-    required String unitCode,
-    required String semesterStage,
-  }) async* {
+  Stream<List<StudentsRegisteredUnitsModel>> getStudentsBasedOnUnitAndYear(
+      {required String unitCode,
+      required String semesterStage,
+      required String cohort}) async* {
     try {
       yield* firestore
           .collection('student_registered_units')
           .where("unitCode", isEqualTo: unitCode)
+          .where('cohort', isEqualTo: cohort)
           .where("semesterStage", isEqualTo: semesterStage)
           .snapshots()
           .map((snapshot) => snapshot.docs

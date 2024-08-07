@@ -24,7 +24,34 @@ class EcAccessMarksSheetsView
       child: SafeArea(
         child: Scaffold(
           appBar: AppBar(
-            title: const Text('Access Marks Sheets'),
+            title: const Text('Access Marks Sheets', style: TextStyle(fontSize: 14)),
+            actions: [
+              Padding(
+                padding: const EdgeInsets.only(right: 30),
+                child: DropdownButton<String>(
+                  value: viewModel.getSelectedCohort,
+                  onChanged: (String? newValue) {
+                    if (newValue != null) {
+                      viewModel.setSelectedCohort(newValue);
+                    }
+                  },
+                  style: const TextStyle(color: Colors.white),
+                  dropdownColor: Colors.white,
+                  icon: const Icon(Icons.arrow_drop_down, color: primaryColor),
+                  items: viewModel.cohorts
+                      .map<DropdownMenuItem<String>>((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(
+                        value,
+                        style: const TextStyle(
+                            color: primaryColor, fontWeight: FontWeight.bold),
+                      ),
+                    );
+                  }).toList(),
+                ),
+              ),
+            ],
             bottom: TabBar(
               isScrollable: true,
               tabs: viewModel.years.map((year) {
