@@ -57,6 +57,29 @@ class EcAccessMarksSheetsViewModel extends BaseViewModel {
     notifyListeners();
   }
 
+  String _selectedCohort = '2024';
+  final List<String> _cohorts = [
+    "2020",
+    "2021",
+    "2022",
+    "2023",
+    "2024",
+    "2025",
+    "2026",
+    "2027",
+    "2028",
+    "2029",
+    "2030"
+  ];
+
+  String get getSelectedCohort => _selectedCohort;
+  List<String> get cohorts => _cohorts;
+
+  void setSelectedCohort(String cohort) {
+    _selectedCohort = cohort;
+    notifyListeners();
+  }
+
   Stream<List<AddUnitModel>> fetchUnitsBasedOnYear() {
     return _lectureDashboardService.fetchUnits(
         semesterStage: _selectedSemester);
@@ -73,6 +96,7 @@ class EcAccessMarksSheetsViewModel extends BaseViewModel {
     return _lectureDashboardService.getStudentsBasedOnUnitAndYear(
       unitCode: unitCode,
       semesterStage: _selectedSemester,
+      cohort: _selectedCohort,
     );
   }
 
