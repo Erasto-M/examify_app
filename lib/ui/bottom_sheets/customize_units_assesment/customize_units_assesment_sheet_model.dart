@@ -19,6 +19,7 @@ class CustomizeUnitsAssesmentSheetModel extends FormViewModel {
       unitCode: unitCode,
     );
     setBusy(false);
+    notifyListeners();
   }
 
   // navigate back

@@ -1,44 +1,21 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:examify/app/app.dart';
-import 'package:examify/app/app.locator.dart';
-import 'package:examify/models/usersModel.dart';
-import 'package:examify/services/authentication_service.dart';
-import 'package:examify/services/cod_dashboard_service.dart';
-import 'package:examify/ui/widgets/common/users/users.dart';
 import 'package:stacked/stacked.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class UsersViewModel extends BaseViewModel {
+import '../../../app/app.locator.dart';
+import '../../../models/usersModel.dart';
+import '../../../services/authentication_service.dart';
+import '../../../services/cod_dashboard_service.dart';
+
+class UsersLecturersViewModel extends BaseViewModel {
   final _authService = locator<AuthenticationService>();
   final _adminDashboardService = locator<AdminDashboardService>();
   List<AppUser> usersList = [];
   get users => usersList;
 
-  String _selectedCohort = '2024';
-  final List<String> _cohorts = [
-    "2020",
-    "2021",
-    "2022",
-    "2023",
-    "2024",
-    "2025",
-    "2026",
-    "2027",
-    "2028",
-    "2029",
-    "2030"
-  ];
-
-  String get getSelectedCohort => _selectedCohort;
-  List<String> get cohorts => _cohorts;
-
-  void setSelectedCohort(String cohort) {
-    _selectedCohort = cohort;
+  Future<void> getLecturers() async {
+    usersList = await _authService.adminGetLecturers();
     notifyListeners();
-  }
-
-  Stream<List<AppUser>> getUsers() {
-    return _authService.adminGetStudents(_selectedCohort);
   }
 
   void email({required String email}) async {
@@ -84,7 +61,7 @@ class UsersViewModel extends BaseViewModel {
   Stream<DocumentSnapshot>? getEditingEnabledorDisabled(String lecId) {
     try {
       Stream<DocumentSnapshot> snapshotStream =
-          _adminDashboardService.getEditingEnabledOrDisabled(lecId);
+      _adminDashboardService.getEditingEnabledOrDisabled(lecId);
 
       snapshotStream.listen((snapshot) async {
         if (snapshot.exists) {

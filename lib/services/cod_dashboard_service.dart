@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:examify/models/special_exams_model.dart';
+import 'package:examify/models/user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
@@ -9,6 +10,7 @@ import '../models/student_registered_units.dart';
 class AdminDashboardService {
   FirebaseFirestore db = FirebaseFirestore.instance;
   FirebaseAuth auth = FirebaseAuth.instance;
+
   Future<AddUnitModel?> addUnit({
     required AddUnitModel addUnitModel,
   }) async {
@@ -57,6 +59,22 @@ class AdminDashboardService {
     } catch (e) {
       // Handle error
     } finally {}
+  }
+
+  //Delete Unit
+  Future<void> deleteUnit({required String unitcode}) async {
+    try {
+      QuerySnapshot querySnapshot = await db
+          .collection('units')
+          .where('unitCode', isEqualTo: unitcode)
+          .get();
+      for (QueryDocumentSnapshot doc in querySnapshot.docs) {
+        return await db.collection('units').doc(doc.id).delete();
+      }
+      Fluttertoast.showToast(msg: 'Units Deleted Successfully');
+    } catch (e) {
+      Fluttertoast.showToast(msg: 'Error while deleting unit');
+    }
   }
 
   Stream<List<StudentsRegisteredUnitsModel>> getStudentUnits(
@@ -114,11 +132,13 @@ class AdminDashboardService {
   Stream<List<StudentsRegisteredUnitsModel>> fetchStudentsAccordingToYearStream(
       {required String yearName,
       required String semesterStage,
-      required String unitCode}) async* {
+      required String unitCode,
+      required String cohort}) async* {
     try {
       yield* db
           .collection('student_registered_units')
           .where('unitCode', isEqualTo: unitCode)
+          .where('cohort', isEqualTo: cohort)
           .where('semesterStage', isEqualTo: semesterStage)
           .snapshots()
           .map((snapshot) => snapshot.docs
@@ -154,6 +174,7 @@ class AdminDashboardService {
               'unitCode': student.unitCode,
               'marks': student.totalMarks,
               'grade': student.grade,
+              'recommendation': student.recommendation,
             });
           } else {
             studentMap[studentUid!] = {
@@ -166,6 +187,7 @@ class AdminDashboardService {
                   'unitCode': student.unitCode,
                   'marks': student.totalMarks,
                   'grade': student.grade,
+                  'recommendation': student.recommendation,
                 }
               ],
             };
@@ -174,9 +196,35 @@ class AdminDashboardService {
 
         for (var studentData in studentMap.values) {
           final units = studentData['units'] as List<Map<String, dynamic>>;
-          final totalMarks = units.fold(
-              0, (sum1, unit) => sum1 + (unit['marks'] as int? ?? 0));
-          final meanMarks = units.isNotEmpty ? totalMarks / units.length : 0;
+
+          bool hasMissingMarks = false;
+          bool hasFailingGrade = false;
+
+          // Check each unit for missing marks or failing grade
+          for (var unit in units) {
+            if (unit['marks'] == null) {
+              hasMissingMarks = true;
+              break;
+            }
+            if (unit['grade'] == 'E') {
+              hasFailingGrade = true;
+            }
+          }
+
+          // Determine the recommendation based on conditions
+          if (hasMissingMarks) {
+            studentData['recommendation'] = 'Missing Marks';
+          } else if (hasFailingGrade) {
+            studentData['recommendation'] = 'Fail';
+          } else {
+            studentData['recommendation'] = 'Pass';
+          }
+
+          // You can also calculate and store totalMarks and meanMarks if needed
+          final totalMarks =
+              units.fold(0, (sum, unit) => sum + (unit['marks'] as int? ?? 0));
+          final meanMark = units.isNotEmpty ? totalMarks / units.length : 0;
+          final meanMarks = double.parse(meanMark.toStringAsFixed(2));
           final grade = meanMarks >= 70
               ? 'A'
               : meanMarks >= 60
@@ -186,9 +234,11 @@ class AdminDashboardService {
                       : meanMarks >= 40
                           ? 'D'
                           : 'E';
+
+          studentData['grade'] = grade;
+
           studentData['totalMarks'] = totalMarks;
           studentData['meanMarks'] = meanMarks;
-          studentData['grade'] = grade;
         }
 
         yield studentMap.values.toList();
@@ -246,6 +296,29 @@ class AdminDashboardService {
           .update({
         '${year}_opened': value,
       });
+      print('Successfully updated');
+    } catch (error) {
+      print('Failed to update: $error');
+    }
+  }
+
+  //is Editing Enabled or disabled
+  Stream<DocumentSnapshot> getEditingEnabledOrDisabled(String lecId) {
+    return db
+        .collection('Marks_Editing_window')
+        .doc(lecId)
+        .snapshots()
+        .handleError((error) {
+      print('Error fetching document: $error');
+    });
+  }
+
+  //disable or Enable marks Editing
+  Future<void> disableOrEnableEditing(bool value, String lecId) async {
+    try {
+      await db.collection('Marks_Editing_window').doc(lecId).set({
+        'isEditingEnabled': value,
+      }, SetOptions(merge: true));
       print('Successfully updated');
     } catch (error) {
       print('Failed to update: $error');
@@ -333,24 +406,141 @@ class AdminDashboardService {
 
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  Stream<List<StudentsRegisteredUnitsModel>> getUnitsForApproval(String semester) {
-    return _firestore.collection('student_registered_units')
-      .where('semesterStage', isEqualTo: semester)
-      .where('isUnitApproved', isEqualTo: null)
-      .snapshots()
-      .map((snapshot) => snapshot.docs.map((doc) => StudentsRegisteredUnitsModel.fromMap(doc.data())).toList());
+  Stream<List<StudentsRegisteredUnitsModel>> getUnitsForApproval(
+      String semester, String cohort) {
+    return _firestore
+        .collection('student_registered_units')
+        .where('semesterStage', isEqualTo: semester)
+        .where('cohort', isEqualTo: cohort)
+        .where('isUnitApproved', isEqualTo: false)
+        .snapshots()
+        .map((snapshot) => snapshot.docs
+            .map((doc) => StudentsRegisteredUnitsModel.fromMap(doc.data()))
+            .toList());
   }
 
-  Future<void> approveUnitsForStudent(String studentUid) async {
-    final QuerySnapshot snapshot = await _firestore.collection('units')
-      .where('studentUid', isEqualTo: studentUid)
-      .where('isUnitApproved', isEqualTo: false)
-      .get();
-
+  Future<void> approveUnitsForStudent(
+      List<String> unitCodes, String studentId) async {
     final batch = _firestore.batch();
-    for (final doc in snapshot.docs) {
-      batch.update(doc.reference, {'isUnitApproved': true});
+
+    try {
+      for (final unitCode in unitCodes) {
+        print(
+            "Fetching documents for unitCode: $unitCode and studentId: $studentId");
+
+        // Query to get the specific unit documents for the student
+        final unitQuerySnapshot = await _firestore
+            .collection('student_registered_units')
+            .where('studentUid', isEqualTo: studentId)
+            .where('unitCode', isEqualTo: unitCode)
+            .where('isUnitApproved', isEqualTo: false)
+            .get();
+
+        if (unitQuerySnapshot.docs.isEmpty) {
+          print(
+              "No documents found for unitCode: $unitCode and studentId: $studentId");
+        } else {
+          for (final doc in unitQuerySnapshot.docs) {
+            print("Updating document with ID: ${doc.id}");
+            batch.update(doc.reference, {'isUnitApproved': true});
+          }
+        }
+      }
+
+      // Commit the batch
+      await batch.commit();
+      print('Successfully approved units for student $studentId');
+    } catch (e) {
+      print('Failed to approve units for student $studentId: $e');
     }
-    await batch.commit();
+  }
+
+  //get Graduation List(evaluation of Results from first year)
+  Stream<List<Map<String, dynamic>>> getGraduationList({
+    required String cohort,
+  }) async* {
+    try {
+      final studentsStream = db
+          .collection('student_registered_units')
+          .where('cohort', isEqualTo: cohort)
+          .snapshots()
+          .map((snapshot) => snapshot.docs
+              .map((doc) => StudentsRegisteredUnitsModel.fromMap(doc.data()))
+              .toList());
+
+      await for (var students in studentsStream) {
+        final Map<String, Map<String, dynamic>> studentMap = {};
+
+        for (var student in students) {
+          final studentUid = student.studentUid;
+
+          if (studentMap.containsKey(studentUid)) {
+            studentMap[studentUid]!['units'].add({
+              'unitName': student.unitName,
+              'unitCode': student.unitCode,
+              'marks': student.totalMarks,
+              'grade': student.grade,
+            });
+          } else {
+            studentMap[studentUid!] = {
+              'studentName': student.studentName,
+              'studentRegNumber': student.studentRegNo,
+              'studentUid': studentUid,
+              'units': [
+                {
+                  'unitName': student.unitName,
+                  'unitCode': student.unitCode,
+                  'marks': student.totalMarks,
+                  'grade': student.grade,
+                }
+              ],
+            };
+          }
+        }
+
+        for (var studentData in studentMap.values) {
+          final units = studentData['units'] as List<Map<String, dynamic>>;
+          final totalMarks = units.fold(
+              0, (sum1, unit) => sum1 + (unit['marks'] as int? ?? 0));
+          final meanMark = units.isNotEmpty ? totalMarks / units.length : 0;
+          final meanMarks = double.parse(meanMark.toStringAsFixed(2));
+          final grade = meanMarks >= 70
+              ? 'A'
+              : meanMarks >= 60
+                  ? 'B'
+                  : meanMarks >= 50
+                      ? 'C'
+                      : meanMarks >= 40
+                          ? 'D'
+                          : 'E';
+          studentData['totalMarks'] = totalMarks;
+          studentData['meanMarks'] = meanMarks;
+          studentData['grade'] = grade;
+        }
+
+        yield studentMap.values.toList();
+      }
+    } catch (e) {
+      Fluttertoast.showToast(msg: e.toString());
+      yield [];
+    }
+  }
+
+  // GraduationList 2
+  Stream<List<StudentsRegisteredUnitsModel>> fetchGraduationList(
+      {required String cohort}) {
+    try {
+      return db
+          .collection('student_registered_units')
+          .where('cohort', isEqualTo: cohort)
+          .snapshots()
+          .map((querySnapshot) {
+        return querySnapshot.docs.map((doc) {
+          return StudentsRegisteredUnitsModel.fromMap(
+              doc.data() as Map<String, dynamic>);
+        }).toList();
+      });
+    } catch (e) {}
+    return Stream.value([]);
   }
 }

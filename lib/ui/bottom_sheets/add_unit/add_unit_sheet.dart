@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:examify/ui/common/app_colors.dart';
 import 'package:examify/ui/common/ui_helpers.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked/stacked_annotations.dart';
 import 'package:stacked_services/stacked_services.dart';
@@ -140,6 +141,16 @@ class AddUnitSheet extends StackedView<AddUnitSheetModel> with $AddUnitSheet {
                 )
               : InkWell(
                   onTap: () {
+                    if (unitNameController.text.isEmpty ||
+                        unitNameController == '' ||
+                        unitCodeController.text.isEmpty ||
+                        unitCodeController == '' ||
+                        viewModel.getSelectedLecName.isEmpty ||
+                        viewModel.getSelectedLecName == null ||
+                        viewModel.getSelectedSemester!.isEmpty ||
+                        viewModel.getSelectedSemester == null) {
+                      Fluttertoast.showToast(msg: "All fields are required");
+                    }
                     final units = AddUnitModel(
                         unitName: unitNameController.text,
                         unitCode: unitCodeController.text,
@@ -150,22 +161,35 @@ class AddUnitSheet extends StackedView<AddUnitSheetModel> with $AddUnitSheet {
                         year: "${request.description}");
 
                     viewModel.addUnit(addUnitModel: units);
+                    if (!viewModel.isBusy) {
+                      completer!(SheetResponse(confirmed: true));
+                      unitCodeController.clear();
+                      unitNameController.clear();
+                    }
                   },
                   child: Container(
+                    height: 40,
                     width: MediaQuery.of(context).size.width,
                     decoration: BoxDecoration(
                       color: primaryColor,
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    child: const Center(
-                        child: Text(
-                      'Add Unit',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    )),
+                    child: viewModel.isBusy
+                        ? const Center(
+                            child: CircularProgressIndicator(
+                              valueColor:
+                                  AlwaysStoppedAnimation<Color>(Colors.white),
+                            ),
+                          )
+                        : const Center(
+                            child: Text(
+                            'Add Unit',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          )),
                   ),
                 ),
           verticalSpaceMedium,

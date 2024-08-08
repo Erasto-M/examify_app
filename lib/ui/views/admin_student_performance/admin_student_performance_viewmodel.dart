@@ -32,11 +32,29 @@ class AdminStudentPerformanceViewModel extends BaseViewModel {
   String selectedSem = '';
   String get getSelectedSem => selectedSem;
 
-  String selectedUnitCode = 'CCS 1105';
+  String selectedUnitCode = '';
   String get getSelectedUnitCode => selectedSem;
 
-  void setSelectedUnitCode(String value) {
-    selectedUnitCode = value;
+  String _selectedCohort = '2024';
+  final List<String> _cohorts = [
+    "2020",
+    "2021",
+    "2022",
+    "2023",
+    "2024",
+    "2025",
+    "2026",
+    "2027",
+    "2028",
+    "2029",
+    "2030"
+  ];
+
+  String get getSelectedCohort => _selectedCohort;
+  List<String> get cohorts => _cohorts;
+
+  void setSelectedCohort(String cohort) {
+    _selectedCohort = cohort;
     notifyListeners();
   }
 
@@ -51,6 +69,9 @@ class AdminStudentPerformanceViewModel extends BaseViewModel {
         .fetchUnits(semesterStage: selectedSem)
         .listen((units) {
       _unitsPerSelectedSemester = units;
+if (units.isNotEmpty) {
+        setSelectedUnitCode(units[0].unitCode);
+      }
       notifyListeners();
     });
   }
@@ -60,6 +81,11 @@ class AdminStudentPerformanceViewModel extends BaseViewModel {
     fetchUnits();
     notifyListeners();
   }
+  void setSelectedUnitCode(unitCode) {
+    selectedUnitCode = unitCode;
+    notifyListeners();
+  }
+
 
   void setInitSemValue(String yearName) {
     String currentSem = yearName.endsWith("one")
@@ -110,7 +136,8 @@ class AdminStudentPerformanceViewModel extends BaseViewModel {
     return _adminDashboardService.fetchStudentsAccordingToYearStream(
         yearName: currentYearName,
         semesterStage: semesterStage,
-        unitCode: selectedUnitCode);
+        unitCode: selectedUnitCode,
+        cohort: _selectedCohort);
   }
 
   Stream<List<Map<String, dynamic>>> getConsolidatedMarksheets(
@@ -128,7 +155,7 @@ class AdminStudentPerformanceViewModel extends BaseViewModel {
 
   //Generate consolidated markSheets
 
-  pw.Document generateTranscript({
+  pw.Document generateConsolidatedNMarkSheet({
     required List<Map<String, dynamic>> students,
     required String semesterStage,
   }) {
@@ -144,10 +171,11 @@ class AdminStudentPerformanceViewModel extends BaseViewModel {
 
     final headers = [
       'Reg No',
-      ' Name',
+      // 'Name',
       ...unitNames,
       'MeanScore',
       'MeanGrade',
+      'Recommendation',
     ];
 
     final data = students.map((student) {
@@ -155,7 +183,7 @@ class AdminStudentPerformanceViewModel extends BaseViewModel {
       final Map<String, dynamic> unitGrades = {};
 
       for (var unit in studentUnits) {
-        unitGrades[unit['unitCode']] = unit['grade'];
+        unitGrades[unit['unitCode']] = unit['marks'];
       }
 
       final unitMarks = unitNames
@@ -164,100 +192,102 @@ class AdminStudentPerformanceViewModel extends BaseViewModel {
 
       return [
         student['studentRegNumber'],
-        student['studentName'],
+        // student['studentName'],
         ...unitMarks,
         student['meanMarks'].toString(),
         student['grade'].toString(),
+        student['recommendation'],
       ];
     }).toList();
 
     transcript.addPage(
-      pw.Page(
+      pw.MultiPage(
         build: (pw.Context context) {
-          return pw.Column(
-            crossAxisAlignment: pw.CrossAxisAlignment.start,
-            children: [
-              pw.Container(
-                decoration: pw.BoxDecoration(
-                  border: pw.Border.all(
-                    color: PdfColors.black,
-                    width: 1,
-                  ),
-                  color: PdfColors.white,
+          return [
+            pw.Container(
+              decoration: pw.BoxDecoration(
+                border: pw.Border.all(
+                  color: PdfColors.black,
+                  width: 1,
                 ),
-                child: pw.Column(
-                  crossAxisAlignment: pw.CrossAxisAlignment.start,
-                  children: [
-                    pw.SizedBox(height: 3),
-                    pw.Center(
-                      child: pw.Text(
-                        'Dedan Kimathi University of Technology',
-                        style: pw.TextStyle(
-                          fontSize: 20,
-                          color: PdfColors.green,
-                          fontWeight: pw.FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                    pw.SizedBox(height: 3),
-                    pw.Center(
-                      child: pw.Text(
-                        'BSC Computer Science',
-                        style: pw.TextStyle(
-                          fontSize: 20,
-                          color: PdfColors.green,
-                          fontWeight: pw.FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                    pw.SizedBox(height: 3),
-                    pw.Center(
-                      child: pw.Text(
-                        '$semesterStage Consolidated Mark Sheet',
-                        style: pw.TextStyle(
-                          fontSize: 20,
-                          color: PdfColors.green,
-                          fontWeight: pw.FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                    pw.SizedBox(height: 3),
-                    pw.SizedBox(height: 15),
-                    pw.Container(
-                      decoration: pw.BoxDecoration(
-                        border: pw.Border.all(
-                          color: PdfColors.black,
-                          width: 1,
-                        ),
-                      ),
-                      child: pw.TableHelper.fromTextArray(
-                        border: pw.TableBorder.all(),
-                        cellHeight: 20,
-                        cellStyle: const pw.TextStyle(
-                          fontSize: 14,
-                        ),
-                        headerStyle: pw.TextStyle(
-                          fontSize: 15,
-                          fontWeight: pw.FontWeight.bold,
-                          color: PdfColors.black,
-                        ),
-                        headers: headers,
-                        data: data,
-                        columnWidths: {
-                          0: const pw.FixedColumnWidth(150),
-                          1: const pw.FixedColumnWidth(150),
-                          for (int i = 2; i < headers.length - 2; i++)
-                            i: const pw.FixedColumnWidth(150),
-                          headers.length - 2: const pw.FixedColumnWidth(150),
-                          headers.length - 1: const pw.FixedColumnWidth(150),
-                        },
-                      ),
-                    ),
-                  ],
-                ),
+                color: PdfColors.white,
               ),
-            ],
-          );
+              child: pw.Column(
+                crossAxisAlignment: pw.CrossAxisAlignment.start,
+                children: [
+                  pw.SizedBox(height: 3),
+                  pw.Center(
+                    child: pw.Text(
+                      'Dedan Kimathi University of Technology',
+                      style: pw.TextStyle(
+                        fontSize: 20,
+                        color: PdfColors.green,
+                        fontWeight: pw.FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  pw.SizedBox(height: 3),
+                  pw.Center(
+                    child: pw.Text(
+                      'BSC Computer Science',
+                      style: pw.TextStyle(
+                        fontSize: 20,
+                        color: PdfColors.green,
+                        fontWeight: pw.FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  pw.SizedBox(height: 3),
+                  pw.Center(
+                    child: pw.Text(
+                      '$semesterStage Consolidated Mark Sheet',
+                      style: pw.TextStyle(
+                        fontSize: 20,
+                        color: PdfColors.green,
+                        fontWeight: pw.FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  pw.SizedBox(height: 3),
+                  pw.SizedBox(height: 15),
+                  pw.Table(
+                    border: pw.TableBorder.all(),
+                    columnWidths: {
+                      0: const pw.FixedColumnWidth(100),
+                      1: const pw.FixedColumnWidth(50),
+                      for (int i = 2; i < headers.length - 2; i++)
+                        i: const pw.FixedColumnWidth(50),
+                      headers.length - 2: const pw.FixedColumnWidth(100),
+                      headers.length - 1: const pw.FixedColumnWidth(100),
+                    },
+                    children: [
+                      pw.TableRow(
+                        children: headers
+                            .map((header) => pw.Padding(
+                                  padding: const pw.EdgeInsets.all(8),
+                                  child: pw.Text(
+                                    header,
+                                    style: pw.TextStyle(
+                                      fontWeight: pw.FontWeight.bold,
+                                    ),
+                                  ),
+                                ))
+                            .toList(),
+                      ),
+                      ...data.map((row) => pw.TableRow(
+                            children: row
+                                .map((cell) => pw.Padding(
+                                      padding: const pw.EdgeInsets.all(8),
+                                      child: pw.Text(cell.toString()),
+                                    ))
+                                .toList(),
+                          )),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ];
         },
       ),
     );

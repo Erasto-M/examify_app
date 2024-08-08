@@ -12,7 +12,7 @@ class AddUnitModel {
   String year;
 
 //<editor-fold desc="Data Methods">
-   AddUnitModel({
+  AddUnitModel({
     this.unitId = "",
     required this.unitName,
     required this.unitCode,
@@ -66,7 +66,8 @@ class AddUnitModel {
       unitLecturerName: (map["unitLecturerName"] ?? '') as String,
       unitLecturerId: (map["unitLecturerId"] ?? '') as String,
       semesterStage: (map["semesterStage"] ?? '') as String,
-      unitDepartment: (map["unitDepartment"] ?? 'BSC Computer Science') as String,
+      unitDepartment:
+          (map["unitDepartment"] ?? 'BSC Computer Science') as String,
       year: (map["year"] ?? '') as String,
     );
   }
@@ -79,32 +80,32 @@ class AddUnitModel {
 
   String toJson() => json.encode(toMap());
 
-  factory AddUnitModel.fromJson(String source) => AddUnitModel.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory AddUnitModel.fromJson(String source) =>
+      AddUnitModel.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
   bool operator ==(covariant AddUnitModel other) {
     if (identical(this, other)) return true;
-  
-    return 
-      other.unitId == unitId &&
-      other.unitName == unitName &&
-      other.unitCode == unitCode &&
-      other.unitLecturerName == unitLecturerName &&
-      other.unitLecturerId == unitLecturerId &&
-      other.semesterStage == semesterStage &&
-      other.unitDepartment == unitDepartment &&
-      other.year == year;
+
+    return other.unitId == unitId &&
+        other.unitName == unitName &&
+        other.unitCode == unitCode &&
+        other.unitLecturerName == unitLecturerName &&
+        other.unitLecturerId == unitLecturerId &&
+        other.semesterStage == semesterStage &&
+        other.unitDepartment == unitDepartment &&
+        other.year == year;
   }
 
   @override
   int get hashCode {
     return unitId.hashCode ^
-      unitName.hashCode ^
-      unitCode.hashCode ^
-      unitLecturerName.hashCode ^
-      unitLecturerId.hashCode ^
-      semesterStage.hashCode ^
-      unitDepartment.hashCode ^
-      year.hashCode;
+        unitName.hashCode ^
+        unitCode.hashCode ^
+        unitLecturerName.hashCode ^
+        unitLecturerId.hashCode ^
+        semesterStage.hashCode ^
+        unitDepartment.hashCode ^
+        year.hashCode;
   }
 }

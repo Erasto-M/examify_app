@@ -1,29 +1,18 @@
-import 'package:examify/models/student_registered_units.dart';
-import 'package:examify/ui/bottom_sheets/edit_student_marks/edit_student_marks_sheet.form.dart';
+import 'package:flutter/material.dart';
 import 'package:examify/ui/common/app_colors.dart';
 import 'package:examify/ui/common/ui_helpers.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:stacked/stacked.dart';
-import 'package:stacked/stacked_annotations.dart';
 import 'package:stacked_services/stacked_services.dart';
 
-import 'edit_student_marks_sheet_model.dart';
+import '../../../models/student_registered_units.dart';
+import '../students_with_special_exams/students_with_special_exams_sheet_model.dart';
+import 'add_supp_exam_marks_sheet_model.dart';
 
-@FormView(
-  fields: [
-    FormTextField(name: 'assignment1'),
-    FormTextField(name: 'assignment2'),
-    FormTextField(name: 'cat1'),
-    FormTextField(name: 'cat2'),
-    FormTextField(name: 'examMarks'),
-  ],
-)
-class EditStudentMarksSheet extends StackedView<EditStudentMarksSheetModel>
-    with $EditStudentMarksSheet {
+class AddSuppExamMarksSheet extends StackedView<AddSuppExamMarksSheetModel> {
   final Function(SheetResponse response)? completer;
   final SheetRequest request;
-  const EditStudentMarksSheet({
+  const AddSuppExamMarksSheet({
     Key? key,
     required this.completer,
     required this.request,
@@ -32,7 +21,7 @@ class EditStudentMarksSheet extends StackedView<EditStudentMarksSheetModel>
   @override
   Widget builder(
     BuildContext context,
-    EditStudentMarksSheetModel viewModel,
+    AddSuppExamMarksSheetModel viewModel,
     Widget? child,
   ) {
     List<StudentsRegisteredUnitsModel> student = request.data['student'];
@@ -63,7 +52,7 @@ class EditStudentMarksSheet extends StackedView<EditStudentMarksSheetModel>
               if (request.description != null) ...[
                 verticalSpaceTiny,
                 Text(
-                  'If Marks Missing Click the X to remove the student from List',
+                  request.description!,
                   style: const TextStyle(fontSize: 14, color: kcMediumGrey),
                   maxLines: 3,
                   softWrap: true,
@@ -90,34 +79,21 @@ class EditStudentMarksSheet extends StackedView<EditStudentMarksSheetModel>
                       DataColumn(
                         numeric: true,
                         label: Text(
-                          request.description! == 'assignMent1Marks'
-                              ? ("${request.description} /${request.data['assignment1']}")
-                              : request.description! == 'assignMent2Marks'
-                                  ? ("${request.description} /${request.data['assignment2']}")
-                                  : request.description! == 'cat1Marks'
-                                      ? ("${request.description} /${request.data['cat1']}")
-                                      : request.description! == 'cat2Marks'
-                                          ? ("${request.description} /${request.data['cat2']}")
-                                          : ("${request.description} r/${request.data['exam']}"),
+                          ("${request.description} /${request.data['exam']}"),
                           style: const TextStyle(
                               color: primaryColor,
                               fontWeight: FontWeight.w600,
                               fontSize: 18),
                         ),
                       ),
-                      DataColumn(
-                          label: const Text(
-                        'Remove Student',
-                        style: TextStyle(color: primaryColor),
-                      ))
                     ],
-                    rows: student.map((stude) {
+                    rows: student.map((student) {
                       final controller = viewModel.controllers.putIfAbsent(
-                        stude.studentUid!,
+                        student.studentUid!,
                         () => TextEditingController(),
                       );
                       return DataRow(cells: [
-                        DataCell(Text(stude.studentName!)),
+                        DataCell(Text(student.studentName!)),
                         DataCell(
                           SizedBox(
                             width: 70,
@@ -129,16 +105,6 @@ class EditStudentMarksSheet extends StackedView<EditStudentMarksSheetModel>
                             ),
                           ),
                         ),
-                        DataCell(TextButton(
-                            onPressed: () {
-                              student.removeWhere(
-                                  (s) => s.studentUid == stude.studentUid);
-                              // Remove the associated controller from the map
-                              viewModel.controllers.remove(stude.studentUid);
-                              // Notify listeners to update the UI
-                              viewModel.notifyListeners();
-                            },
-                            child: Text('X')))
                       ]);
                     }).toList(),
                   ),
@@ -148,16 +114,10 @@ class EditStudentMarksSheet extends StackedView<EditStudentMarksSheetModel>
               Center(
                 child: InkWell(
                   onTap: () {
-                    debugPrint("This is the data ${request.data}");
                     viewModel.submitMarks(
                       unitCode: request.title!,
                       selectedModule: request.description!,
-                      assignMent1Outof: request.data['assignment1'],
-                      assignMent2Outof: request.data['assignment2'],
-                      cat1Outof: request.data['cat1'],
-                      cat2Outof: request.data['cat2'],
                       examOutof: request.data['exam'],
-                      remainingStudents: student,
                       context: context,
                     );
                   },
@@ -193,11 +153,6 @@ class EditStudentMarksSheet extends StackedView<EditStudentMarksSheetModel>
   }
 
   @override
-  EditStudentMarksSheetModel viewModelBuilder(BuildContext context) =>
-      EditStudentMarksSheetModel();
-  @override
-  void onViewModelReady(EditStudentMarksSheetModel viewModel) {
-    syncFormWithViewModel(viewModel);
-    super.onViewModelReady(viewModel);
-  }
+  AddSuppExamMarksSheetModel viewModelBuilder(BuildContext context) =>
+      AddSuppExamMarksSheetModel();
 }

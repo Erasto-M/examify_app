@@ -5,7 +5,7 @@ import 'package:stacked/stacked.dart';
 
 class CodApproveUnitsViewModel extends BaseViewModel {
   final _adminService = locator<AdminDashboardService>();
-   String _selectedSemester = 'Y1S1';
+  String _selectedSemester = 'Y1S1';
   final List<String> _semesters = [
     'Y1S1',
     'Y1S2',
@@ -20,16 +20,42 @@ class CodApproveUnitsViewModel extends BaseViewModel {
   String get getselectedSemester => _selectedSemester;
   List<String> get semesters => _semesters;
 
-   void setSelectedSemester(String semester) {
+  String _selectedCohort = '2024';
+  final List<String> _cohorts = [
+    "2020",
+    "2021",
+    "2022",
+    "2023",
+    "2024",
+    "2025",
+    "2026",
+    "2027",
+    "2028",
+    "2029",
+    "2030"
+  ];
+
+  String get getSelectedCohort => _selectedCohort;
+  List<String> get cohorts => _cohorts;
+
+  void setSelectedCohort(String cohort) {
+    _selectedCohort = cohort;
+    notifyListeners();
+  }
+
+  void setSelectedSemester(String semester) {
     _selectedSemester = semester;
     notifyListeners();
   }
 
-   Stream<List<StudentsRegisteredUnitsModel>> get unitsStream => _adminService.getUnitsForApproval(_selectedSemester);
+  Stream<List<StudentsRegisteredUnitsModel>> get unitsStream =>
+      _adminService.getUnitsForApproval(_selectedSemester, _selectedCohort);
 
-  Future<void> approveUnitsForStudent(String studentUid) async {
+  Future<void> approveUnitsForStudent(
+      List<String> unitCodes, String studentId) async {
+    print("unitcodes ${unitCodes}");
     setBusy(true);
-    await _adminService.approveUnitsForStudent(studentUid);
+    await _adminService.approveUnitsForStudent(unitCodes, studentId);
     setBusy(false);
   }
 }

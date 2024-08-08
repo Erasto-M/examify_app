@@ -43,7 +43,7 @@ class StudentRegisterUnitSheetModel extends BaseViewModel {
     final SelectedUnitsNotifier selectedUnitsNotifier =
         Provider.of<SelectedUnitsNotifier>(context, listen: false);
     setBusy(true);
-    if (selectedUnitsNotifier.selectedUnitsList.length < 5) {
+    if (selectedUnitsNotifier.selectedUnitsList.length < 2) {
       Fluttertoast.showToast(
           msg: "Choose Atleast 5 Units for the current semester");
       setBusy(false);
@@ -106,25 +106,24 @@ class StudentRegisterUnitSheetModel extends BaseViewModel {
     'Y4S2',
   ];
 
-
   Future<Map<String, bool>> fetchSemesterStageStatus() async {
-    DocumentSnapshot<Map<String, dynamic>> snapshot = 
+    DocumentSnapshot<Map<String, dynamic>> snapshot =
         await _studentDashboardService.getUnitRegistrationWindowStatus()!.first;
 
     // Casting data to Map<String, bool>
-    Map<String, bool> semesterStatuses = 
+    Map<String, bool> semesterStatuses =
         Map<String, bool>.from(snapshot.data() ?? {});
-    
+
     return semesterStatuses;
   }
 
   // Method to check if the selected semester stage is open
-  Future<bool> isSelectedSemesterStageOpen({required String selectedSemester}) async {
+  Future<bool> isSelectedSemesterStageOpen(
+      {required String selectedSemester}) async {
     Map<String, bool> semesterStatuses = await fetchSemesterStageStatus();
     return semesterStatuses[selectedSemester] ?? false;
   }
 }
- 
 
 class SelectedUnitsNotifier extends ChangeNotifier {
   SelectedUnitsNotifier();

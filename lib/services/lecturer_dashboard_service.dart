@@ -14,6 +14,7 @@ class LecturerDashboardService {
   List<AddUnitModel> unitCodes = [];
   List<AddUnitModel> unitNames = [];
   String? lecturerName;
+
   //method to fetch units of the lecturer
   Future<List<AddUnitModel>> fetchLecturerUnits() async {
     List<AddUnitModel> units = [];
@@ -39,10 +40,33 @@ class LecturerDashboardService {
     required String unitCode,
   }) async* {
     try {
+   
       yield* firestore
           .collection('student_registered_units')
           .where("unitLecturer", isEqualTo: auth.currentUser!.uid)
           .where("unitCode", isEqualTo: unitCode)
+          .where('appliedSpecialExam', isEqualTo: false)
+          .snapshots()
+          .map((snapshot) => snapshot.docs
+              .map((doc) => StudentsRegisteredUnitsModel.fromMap(doc.data()))
+              .toList());
+    } catch (e) {
+      Fluttertoast.showToast(msg: e.toString());
+      yield [];
+    }
+  }
+  //fetch all students for current lecturer whose marks are to be entered
+   Stream<List<StudentsRegisteredUnitsModel>> getAllMyStudentstoEnterMarks({
+    required String unitCode,
+    String? selectedModule,
+  }) async* {
+    try {
+      print('Selected Module : $selectedModule');
+      yield* firestore
+          .collection('student_registered_units')
+          .where("unitLecturer", isEqualTo: auth.currentUser!.uid)
+          .where("unitCode", isEqualTo: unitCode)
+          .where('$selectedModule', isNull: true)
           .where('appliedSpecialExam', isEqualTo: false)
           .snapshots()
           .map((snapshot) => snapshot.docs
@@ -74,6 +98,26 @@ class LecturerDashboardService {
     }
   }
 
+  //get all students with Special Exams
+  Stream<List<StudentsRegisteredUnitsModel>> getStudentsWithSupps({
+    required String unitCode,
+  }) async* {
+    try {
+      yield* firestore
+          .collection('student_registered_units')
+          .where("unitLecturer", isEqualTo: auth.currentUser!.uid)
+          .where("unitCode", isEqualTo: unitCode)
+          .where("grade", isEqualTo: 'E')
+          .snapshots()
+          .map((snapshot) => snapshot.docs
+              .map((doc) => StudentsRegisteredUnitsModel.fromMap(doc.data()))
+              .toList());
+    } catch (e) {
+      Fluttertoast.showToast(msg: e.toString());
+      yield [];
+    }
+  }
+
   //Fetch all Lecturers students
   Stream<List<StudentsRegisteredUnitsModel>>
       getAllMyStudentsWithBothSpecialExamAndWithout({
@@ -94,14 +138,15 @@ class LecturerDashboardService {
     }
   }
 
-  Stream<List<StudentsRegisteredUnitsModel>> getStudentsBasedOnUnitAndYear({
-    required String unitCode,
-    required String semesterStage,
-  }) async* {
+  Stream<List<StudentsRegisteredUnitsModel>> getStudentsBasedOnUnitAndYear(
+      {required String unitCode,
+      required String semesterStage,
+      required String cohort}) async* {
     try {
       yield* firestore
           .collection('student_registered_units')
           .where("unitCode", isEqualTo: unitCode)
+          .where('cohort', isEqualTo: cohort)
           .where("semesterStage", isEqualTo: semesterStage)
           .snapshots()
           .map((snapshot) => snapshot.docs
@@ -294,5 +339,50 @@ class LecturerDashboardService {
     }
   }
 
-  // fet
+  // get a specific student  by id and unitCode
+  Stream<List<StudentsRegisteredUnitsModel>> getAStudentByIdAndUnitCode({
+    required String unitCode,
+    required String studentId,
+  }) async* {
+    try {
+      yield* firestore
+          .collection('student_registered_units')
+          .where("unitLecturer", isEqualTo: auth.currentUser!.uid)
+          .where("unitCode", isEqualTo: unitCode)
+          .where('appliedSpecialExam', isEqualTo: false)
+          .where('studentUid', isEqualTo: studentId)
+          .snapshots()
+          .map((snapshot) => snapshot.docs
+              .map((doc) => StudentsRegisteredUnitsModel.fromMap(doc.data()))
+              .toList());
+    } catch (e) {
+      Fluttertoast.showToast(msg: e.toString());
+      yield [];
+    }
+  }
+
+  Future deleteStudentFromSpecialAfeterEnteringMArks(
+      {required String studentId, required String unitCode}) async {
+    try {
+      final collection = await firestore
+          .collection('SpecialEXams')
+          .where('studeUid', isEqualTo: studentId)
+          .where('unitLecturer', isEqualTo: auth.currentUser!.uid)
+          .where('unitCode', isEqualTo: unitCode)
+          .get();
+      for (var doc in collection.docs) {
+        await doc.reference.delete();
+      }
+    } catch (e) {
+      Fluttertoast.showToast(msg: e.toString());
+    }
+  }
+
+  //getting lecturer marks editing enable of dissabled
+  Stream<DocumentSnapshot> getLecturerMarksEditingStatus() {
+    return firestore
+        .collection('Marks_Editing_window')
+        .doc(auth.currentUser!.uid)
+        .snapshots();
+  }
 }

@@ -50,6 +50,31 @@ class CodApproveUnitsView extends StackedView<CodApproveUnitsViewModel> {
               }).toList(),
             ),
           ),
+          Padding(
+            padding: const EdgeInsets.only(right: 30),
+            child: DropdownButton<String>(
+              value: viewModel.getSelectedCohort,
+              onChanged: (String? newValue) {
+                if (newValue != null) {
+                  viewModel.setSelectedCohort(newValue);
+                }
+              },
+              style: const TextStyle(color: Colors.white),
+              dropdownColor: primaryColor,
+              icon: Icon(Icons.arrow_drop_down, color: Colors.white),
+              items: viewModel.cohorts
+                  .map<DropdownMenuItem<String>>((String value) {
+                return DropdownMenuItem<String>(
+                  value: value,
+                  child: Text(
+                    value,
+                    style: const TextStyle(
+                        color: Colors.white, fontWeight: FontWeight.bold),
+                  ),
+                );
+              }).toList(),
+            ),
+          ),
         ],
       ),
       body: StreamBuilder<List<StudentsRegisteredUnitsModel>>(
@@ -102,18 +127,26 @@ class CodApproveUnitsView extends StackedView<CodApproveUnitsViewModel> {
                       (studentUnits.any((unit) => unit.isUnitApproved == false))
                           ? ElevatedButton(
                               onPressed: () async {
-                                await viewModel
-                                    .approveUnitsForStudent(studentUid);
+                                final unitCodes = studentUnits
+                                    .map((unit) => unit.unitCode!)
+                                    .toList();
+                                await viewModel.approveUnitsForStudent(
+                                    unitCodes, studentUid);
                               },
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: primaryColor,
                               ),
-                              child: const Text(
-                                'Approve All Units',
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold),
-                              ),
+                              child: viewModel.isBusy
+                                  ? const CircularProgressIndicator(
+                                      valueColor: AlwaysStoppedAnimation<Color>(
+                                          Colors.white),
+                                    )
+                                  : const Text(
+                                      'Approve All Units',
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold),
+                                    ),
                             )
                           : const Center(
                               child: Text(

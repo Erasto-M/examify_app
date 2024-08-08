@@ -33,6 +33,15 @@ class AddUnitSheetModel extends FormViewModel {
   String? selectedLecId;
 
   get getSelectedLecId => selectedLecId;
+  void setSelectedLecName(value) {
+    selectedLecName = value;
+    notifyListeners();
+  }
+
+  void setSelectedLecId(value) {
+    selectedLecId = value;
+    notifyListeners();
+  }
 
   void setSelectedLecturer(value) {
     selectedLecName = value['userName'];

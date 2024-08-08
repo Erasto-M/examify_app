@@ -1,16 +1,15 @@
-import 'dart:math';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:examify/app/app.locator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:stacked/stacked.dart';
 
+import '../../../app/app.locator.dart';
 import '../../../models/student_registered_units.dart';
 import '../../../services/lecturer_dashboard_service.dart';
 
-class StudentsWithSpecialExamsSheetModel extends BaseViewModel {
+class AddSuppExamMarksSheetModel extends BaseViewModel {
   final _lectureDashboardService = locator<LecturerDashboardService>();
 
   Stream<List<StudentsRegisteredUnitsModel>> getAllMyStudents({
@@ -23,9 +22,11 @@ class StudentsWithSpecialExamsSheetModel extends BaseViewModel {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   List<StudentsRegisteredUnitsModel> _students = [];
+
   List<StudentsRegisteredUnitsModel> get studentsList => _students;
 
   Map<String, TextEditingController> _controllers = {};
+
   Map<String, TextEditingController> get controllers => _controllers;
 
 // numeric
@@ -91,12 +92,7 @@ class StudentsWithSpecialExamsSheetModel extends BaseViewModel {
         for (var doc in querySnapshot.docs) {
           await doc.reference.update({
             selectedModule: marks,
-            'appliedSpecialExam': false
-          }).then((value) {
-            _lectureDashboardService
-                .deleteStudentFromSpecialAfeterEnteringMArks(
-                    studentId: studentId, unitCode: unitCode);
-          });
+          }).then((value) {});
         }
       }
       Fluttertoast.showToast(msg: "Marks saved successfully");

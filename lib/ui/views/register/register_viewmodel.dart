@@ -182,6 +182,7 @@ class RegisterViewModel extends FormViewModel {
     required String registrationNumber,
     required String cohort,
     required String pfNumber,
+    required BuildContext context,
   }) async {
     setBusy(true);
     if (passwordValue != confirmPasswordValue) {
@@ -213,18 +214,20 @@ class RegisterViewModel extends FormViewModel {
       setBusy(false);
     } else {
       await _authenticationService.createUser(
-        email: email,
-        userName: userName,
-        role: role,
-        phoneNumber: phoneNumber,
-        gender: gender,
-        password: password,
-        yearOfStudy: yearOfStudy,
-        registrationNumber: registrationNumber,
-        pfNumber: pfNumber,
-        cohort: cohort,
-      );
+          email: email,
+          userName: userName,
+          role: role,
+          phoneNumber: phoneNumber,
+          gender: gender,
+          password: password,
+          yearOfStudy: yearOfStudy,
+          registrationNumber: registrationNumber,
+          pfNumber: pfNumber,
+          cohort: cohort,
+          context: context);
+
       notifyListeners();
+
       setBusy(false);
     }
   }

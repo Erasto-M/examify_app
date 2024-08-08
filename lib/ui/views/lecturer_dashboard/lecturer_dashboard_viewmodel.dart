@@ -81,4 +81,12 @@ class LecturerDashboardViewModel extends BaseViewModel {
         studentId: studentId!, unitCode: unitCode!);
     setBusy(false);
   }
+
+  //get student by id and unitcode in order to check whether his marks for cats and assignment
+  // are entered then if entered approve special exam
+  Stream<List<StudentsRegisteredUnitsModel>> getStudentByIdAndUnitCode(
+      {required String studentId, required String unitCode}) {
+    return _lecturerDashboardService.getAStudentByIdAndUnitCode(
+        studentId: studentId, unitCode: unitCode);
+  }
 }

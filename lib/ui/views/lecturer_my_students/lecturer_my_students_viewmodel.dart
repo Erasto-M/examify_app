@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:examify/app/app.bottomsheets.dart';
 import 'package:examify/app/app.locator.dart';
 import 'package:examify/app/app.router.dart';
@@ -73,7 +74,7 @@ class LecturerMyStudentsViewModel extends BaseViewModel {
   Stream<List<StudentsRegisteredUnitsModel>> getAllMyStudents({
     required String unitCode,
   }) {
-    return _lectureDashboardService.getAllMyStudents(unitCode: unitCode);
+    return _lectureDashboardService. getAllMyStudentstoEnterMarks(unitCode: unitCode, selectedModule: _selectedExamModuleToEnterMarks);
   }
 
   //get all who applied for Special Exams
@@ -82,6 +83,13 @@ class LecturerMyStudentsViewModel extends BaseViewModel {
   }) {
     return _lectureDashboardService.getAllMyStudentsWithSpecials(
         unitCode: unitCode);
+  }
+
+  //get all who has supp
+  Stream<List<StudentsRegisteredUnitsModel>> getLecturerStudentsWithSupp({
+    required String unitCode,
+  }) {
+    return _lectureDashboardService.getStudentsWithSupps(unitCode: unitCode);
   }
 
   //get all with both special exam and without
@@ -113,8 +121,26 @@ class LecturerMyStudentsViewModel extends BaseViewModel {
         },
         title: unitCode);
   }
+
   //open bottom sheet for students with special exams
-   void openBottomSheetForSpecialExams({
+  void openBottomSheetForSpecialExams({
+    required String unitCode,
+    required String unitName,
+    required List<StudentsRegisteredUnitsModel> student,
+  }) {
+    _bottomSheetService.showCustomSheet(
+        variant: BottomSheetType.studentsWithSpecialExams,
+        isScrollControlled: true,
+        description: 'examMarks',
+        data: {
+          'exam': student[0].examMarksOutOff,
+          'student': student,
+        },
+        title: unitCode);
+  }
+
+  //open bottom sheet for students with supps exams
+  void openEditStudentMarksSheetForSupp({
     required String unitCode,
     required String unitName,
     required List<StudentsRegisteredUnitsModel> student,
@@ -298,5 +324,10 @@ class LecturerMyStudentsViewModel extends BaseViewModel {
           'cat2': units.cat2MarksOutOff,
           'exam': units.examMarksOutOff,
         });
+  }
+
+  //Lecturers marks editing status
+  Stream<DocumentSnapshot> getMarksEditingStatus() {
+    return _lectureDashboardService.getLecturerMarksEditingStatus();
   }
 }

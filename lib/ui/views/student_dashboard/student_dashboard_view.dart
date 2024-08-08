@@ -178,19 +178,23 @@ class StudentDashboardView extends StackedView<StudentDashboardViewModel> {
                               child: Text("No Units found"),
                             );
                           } else {
-                            final snapshotData = snapshot.data;
+                            List<StudentsRegisteredUnitsModel> snapshotData =
+                                snapshot.data!;
 
                             double meanScore =
                                 viewModel.calculateMeanScore(snapshot.data!);
                             String meanGrade =
                                 viewModel.calculateMeanGrade(meanScore);
                             String recommendation =
-                                viewModel.getRecommendation(meanGrade);
+                                snapshotData.any((unit) => unit.grade == 'E')
+                                    ? 'Fail'
+                                    : viewModel.getRecommendation(meanGrade);
+
                             return snapshot.data!.isEmpty
                                 ? const Center(
                                     child: Text("No Units found"),
                                   )
-                                : snapshotData!.any(
+                                : snapshotData.any(
                                         (unit) => unit.isUnitApproved == false)
                                     ? const Center(
                                         child: Text(
@@ -268,15 +272,15 @@ class StudentDashboardView extends StackedView<StudentDashboardViewModel> {
                                                           fontSize: 18),
                                                     ),
                                                   ),
-                                                  DataColumn(
-                                                    label: Text(
-                                                      "Exam ",
-                                                      style: TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          fontSize: 18),
-                                                    ),
-                                                  ),
+                                                  // DataColumn(
+                                                  //   label: Text(
+                                                  //     "Exam ",
+                                                  //     style: TextStyle(
+                                                  //         fontWeight:
+                                                  //             FontWeight.bold,
+                                                  //         fontSize: 18),
+                                                  //   ),
+                                                  // ),
                                                   DataColumn(
                                                     label: Text(
                                                       "Total marks",
@@ -307,7 +311,7 @@ class StudentDashboardView extends StackedView<StudentDashboardViewModel> {
                                                       Text(
                                                         units.assignMent1Marks ==
                                                                 null
-                                                            ? 'No marks'
+                                                            ? 'NA'
                                                             : units
                                                                 .assignMent1Marks
                                                                 .toString(),
@@ -316,7 +320,7 @@ class StudentDashboardView extends StackedView<StudentDashboardViewModel> {
                                                     DataCell(
                                                       Text(units.assignMent2Marks ==
                                                               null
-                                                          ? 'No marks'
+                                                          ? 'NA'
                                                           : units
                                                               .assignMent2Marks
                                                               .toString()),
@@ -324,7 +328,7 @@ class StudentDashboardView extends StackedView<StudentDashboardViewModel> {
                                                     DataCell(
                                                       Text(
                                                         units.cat1Marks == null
-                                                            ? 'No marks'
+                                                            ? 'NA'
                                                             : units.cat1Marks
                                                                 .toString(),
                                                       ),
@@ -332,38 +336,38 @@ class StudentDashboardView extends StackedView<StudentDashboardViewModel> {
                                                     DataCell(
                                                       Text(
                                                         units.cat2Marks == null
-                                                            ? 'No marks'
+                                                            ? 'NA'
                                                             : units.cat2Marks
                                                                 .toString(),
                                                       ),
                                                     ),
-                                                    DataCell(
-                                                      Text(
-                                                        units.examMarks == null
-                                                            ? 'No marks'
-                                                            : units.appliedSpecialExam ==
-                                                                    true
-                                                                ? 'special Exam'
-                                                                : units
-                                                                    .examMarks
-                                                                    .toString(),
-                                                      ),
-                                                    ),
+                                                    // DataCell(
+                                                    //   Text(
+                                                    //     units.examMarks == null
+                                                    //         ? 'No marks'
+                                                    //         : units.appliedSpecialExam ==
+                                                    //                 true
+                                                    //             ? 'special Exam'
+                                                    //             : units
+                                                    //                 .examMarks
+                                                    //                 .toString(),
+                                                    //   ),
+                                                    // ),
                                                     DataCell(
                                                       units.totalMarks == null
                                                           ? const Text(
-                                                              'No marks',
-                                                            )
-                                                          :
-                                                      units.appliedSpecialExam ==
-                                                              true
-                                                          ? const Text(
                                                               'NA',
                                                             )
-                                                          : Text(
-                                                              units.totalMarks
-                                                                  .toString(),
-                                                            ),
+                                                          : units.appliedSpecialExam ==
+                                                                  true
+                                                              ? const Text(
+                                                                  'NA',
+                                                                )
+                                                              : Text(
+                                                                  units
+                                                                      .totalMarks
+                                                                      .toString(),
+                                                                ),
                                                     ),
                                                     DataCell(
                                                       units.appliedSpecialExam ==
@@ -420,7 +424,11 @@ class StudentDashboardView extends StackedView<StudentDashboardViewModel> {
                                                               FontWeight.bold,
                                                         ),
                                                       ),
-                                                      Text(recommendation)
+                                                      snapshotData.any((unit) =>
+                                                              unit.grade == 'E')
+                                                          ? const Text('Fail')
+                                                          : Text(
+                                                              recommendation),
                                                     ],
                                                   ),
                                           ],
@@ -443,8 +451,8 @@ class StudentDashboardView extends StackedView<StudentDashboardViewModel> {
                                           verticalSpaceSmall,
                                           InkWell(
                                             onTap: () async {
-                                              var transcript = await viewModel
-                                                  .generateTrancript(
+                                              var transcript =
+                                                  viewModel.generateTranscript(
                                                 students: snapshot.data!,
                                                 semesterStage: viewModel
                                                     .getSelectedSemesterStageForCourses,
