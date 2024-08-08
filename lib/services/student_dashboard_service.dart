@@ -109,17 +109,16 @@ class StudentDashboardService {
   //appply Special Exam
   Future<void> applySpecialExams(
     List<SpecialExamsModel> selectedUnits,
+    
   ) async {
     try {
       final currentUser = auth.currentUser;
       if (currentUser != null) {
         String currentUserId = currentUser.uid;
-
         for (var unit in selectedUnits) {
-          Fluttertoast.showToast(msg: unit.specialExamReason!);
           final specialExamsCollection = db.collection("SpecialEXams");
           final newUnitWithId = unit.copyWith(studeUid: currentUserId);
-          await specialExamsCollection.doc().set(newUnitWithId.toMap());
+          await specialExamsCollection.doc(unit.unitCode).set(newUnitWithId.toMap());
           print("this are my specials: ${newUnitWithId.toMap()}");
         }
         Fluttertoast.showToast(msg: "Special Exams Applied Successfully");

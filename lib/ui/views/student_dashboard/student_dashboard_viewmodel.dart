@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:examify/app/app.bottomsheets.dart';
 import 'package:examify/app/app.locator.dart';
 import 'package:examify/app/app.router.dart';
@@ -378,5 +379,12 @@ class StudentDashboardViewModel extends BaseViewModel {
   // look whether a student has any special exams
   bool hasSpecialExams(List<StudentsRegisteredUnitsModel> units) {
     return units.any((unit) => unit.appliedSpecialExam == true);
+  }
+    Stream<DocumentSnapshot?> getReportsAvailabilityStatus(
+      String selectedSemester) {
+    return FirebaseFirestore.instance
+        .collection('academic_reports_availability')
+        .doc('1YqKYQDE7I7cJGNQEzE8')
+        .snapshots();
   }
 }
