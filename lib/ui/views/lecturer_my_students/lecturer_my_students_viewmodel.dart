@@ -74,7 +74,7 @@ class LecturerMyStudentsViewModel extends BaseViewModel {
   Stream<List<StudentsRegisteredUnitsModel>> getAllMyStudents({
     required String unitCode,
   }) {
-    return _lectureDashboardService.getAllMyStudents(unitCode: unitCode);
+    return _lectureDashboardService. getAllMyStudentstoEnterMarks(unitCode: unitCode, selectedModule: _selectedExamModuleToEnterMarks);
   }
 
   //get all who applied for Special Exams

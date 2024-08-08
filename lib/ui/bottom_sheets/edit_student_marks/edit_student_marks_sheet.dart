@@ -63,7 +63,7 @@ class EditStudentMarksSheet extends StackedView<EditStudentMarksSheetModel>
               if (request.description != null) ...[
                 verticalSpaceTiny,
                 Text(
-                  request.description!,
+                  'If Marks Missing Click the X to remove the student from List',
                   style: const TextStyle(fontSize: 14, color: kcMediumGrey),
                   maxLines: 3,
                   softWrap: true,
@@ -105,14 +105,19 @@ class EditStudentMarksSheet extends StackedView<EditStudentMarksSheetModel>
                               fontSize: 18),
                         ),
                       ),
+                      DataColumn(
+                          label: const Text(
+                        'Remove Student',
+                        style: TextStyle(color: primaryColor),
+                      ))
                     ],
-                    rows: student.map((student) {
+                    rows: student.map((stude) {
                       final controller = viewModel.controllers.putIfAbsent(
-                        student.studentUid!,
+                        stude.studentUid!,
                         () => TextEditingController(),
                       );
                       return DataRow(cells: [
-                        DataCell(Text(student.studentName!)),
+                        DataCell(Text(stude.studentName!)),
                         DataCell(
                           SizedBox(
                             width: 70,
@@ -124,6 +129,16 @@ class EditStudentMarksSheet extends StackedView<EditStudentMarksSheetModel>
                             ),
                           ),
                         ),
+                        DataCell(TextButton(
+                            onPressed: () {
+                              student.removeWhere(
+                                  (s) => s.studentUid == stude.studentUid);
+                              // Remove the associated controller from the map
+                              viewModel.controllers.remove(stude.studentUid);
+                              // Notify listeners to update the UI
+                              viewModel.notifyListeners();
+                            },
+                            child: Text('X')))
                       ]);
                     }).toList(),
                   ),
@@ -142,6 +157,7 @@ class EditStudentMarksSheet extends StackedView<EditStudentMarksSheetModel>
                       cat1Outof: request.data['cat1'],
                       cat2Outof: request.data['cat2'],
                       examOutof: request.data['exam'],
+                      remainingStudents: student,
                       context: context,
                     );
                   },

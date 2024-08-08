@@ -40,10 +40,33 @@ class LecturerDashboardService {
     required String unitCode,
   }) async* {
     try {
+   
       yield* firestore
           .collection('student_registered_units')
           .where("unitLecturer", isEqualTo: auth.currentUser!.uid)
           .where("unitCode", isEqualTo: unitCode)
+          .where('appliedSpecialExam', isEqualTo: false)
+          .snapshots()
+          .map((snapshot) => snapshot.docs
+              .map((doc) => StudentsRegisteredUnitsModel.fromMap(doc.data()))
+              .toList());
+    } catch (e) {
+      Fluttertoast.showToast(msg: e.toString());
+      yield [];
+    }
+  }
+  //fetch all students for current lecturer whose marks are to be entered
+   Stream<List<StudentsRegisteredUnitsModel>> getAllMyStudentstoEnterMarks({
+    required String unitCode,
+    String? selectedModule,
+  }) async* {
+    try {
+      print('Selected Module : $selectedModule');
+      yield* firestore
+          .collection('student_registered_units')
+          .where("unitLecturer", isEqualTo: auth.currentUser!.uid)
+          .where("unitCode", isEqualTo: unitCode)
+          .where('$selectedModule', isNull: true)
           .where('appliedSpecialExam', isEqualTo: false)
           .snapshots()
           .map((snapshot) => snapshot.docs
@@ -357,6 +380,9 @@ class LecturerDashboardService {
 
   //getting lecturer marks editing enable of dissabled
   Stream<DocumentSnapshot> getLecturerMarksEditingStatus() {
-    return firestore.collection('Marks_Editing_window').doc(auth.currentUser!.uid).snapshots();
+    return firestore
+        .collection('Marks_Editing_window')
+        .doc(auth.currentUser!.uid)
+        .snapshots();
   }
 }

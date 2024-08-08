@@ -196,7 +196,7 @@ class LecturerMyStudentsView extends StackedView<LecturerMyStudentsViewModel> {
                                         !snapshot.hasData) {
                                       Fluttertoast.showToast(
                                           msg:
-                                              "No students found for $unitName");
+                                              "Already Added Marks for ${viewModel.selectedExamModuleToEnterMarks}");
                                     }
                                     viewModel.openEditStudentMarksSheet(
                                         unitCode: unitCode,
@@ -390,7 +390,7 @@ class LecturerMyStudentsView extends StackedView<LecturerMyStudentsViewModel> {
                                   columns: [
                                     const DataColumn(
                                       label: Text(
-                                        "Name",
+                                        "RegNo",
                                         style: TextStyle(
                                             color: primaryColor,
                                             fontWeight: FontWeight.w600,
@@ -399,7 +399,7 @@ class LecturerMyStudentsView extends StackedView<LecturerMyStudentsViewModel> {
                                     ),
                                     const DataColumn(
                                       label: Text(
-                                        "RegNo",
+                                        "Name",
                                         style: TextStyle(
                                             color: primaryColor,
                                             fontWeight: FontWeight.w600,
@@ -482,10 +482,10 @@ class LecturerMyStudentsView extends StackedView<LecturerMyStudentsViewModel> {
                                   rows: snapshot.data!.map((student) {
                                     return DataRow(cells: [
                                       DataCell(
-                                        Text(student.studentName!),
+                                        Text(student.studentRegNo!),
                                       ),
                                       DataCell(
-                                        Text(student.studentPhoneNumber!),
+                                        Text(student.studentName!),
                                       ),
                                       DataCell(
                                         Text(
