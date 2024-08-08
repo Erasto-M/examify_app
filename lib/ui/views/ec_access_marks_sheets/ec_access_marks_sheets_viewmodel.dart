@@ -41,12 +41,16 @@ class EcAccessMarksSheetsViewModel extends BaseViewModel {
   List<String> years = [
     'Y1S1',
     'Y1S2',
+    'Y1',
     'Y2S1',
     'Y2S2',
+    'Y2',
     'Y3S1',
     'Y3S2',
+    'Y3',
     'Y4S1',
-    'Y4S2'
+    'Y4S2',
+    'Y4'
   ];
 
   String get selectedSemester => _selectedSemester;

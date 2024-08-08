@@ -272,24 +272,6 @@ class StudentDashboardView extends StackedView<StudentDashboardViewModel> {
                                                           fontSize: 18),
                                                     ),
                                                   ),
-                                                  // DataColumn(
-                                                  //   label: Text(
-                                                  //     "Exam ",
-                                                  //     style: TextStyle(
-                                                  //         fontWeight:
-                                                  //             FontWeight.bold,
-                                                  //         fontSize: 18),
-                                                  //   ),
-                                                  // ),
-                                                  DataColumn(
-                                                    label: Text(
-                                                      "Total marks",
-                                                      style: TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          fontSize: 18),
-                                                    ),
-                                                  ),
                                                   DataColumn(
                                                     label: Text(
                                                       "Grade",
@@ -341,34 +323,6 @@ class StudentDashboardView extends StackedView<StudentDashboardViewModel> {
                                                                 .toString(),
                                                       ),
                                                     ),
-                                                    // DataCell(
-                                                    //   Text(
-                                                    //     units.examMarks == null
-                                                    //         ? 'No marks'
-                                                    //         : units.appliedSpecialExam ==
-                                                    //                 true
-                                                    //             ? 'special Exam'
-                                                    //             : units
-                                                    //                 .examMarks
-                                                    //                 .toString(),
-                                                    //   ),
-                                                    // ),
-                                                    DataCell(
-                                                      units.totalMarks == null
-                                                          ? const Text(
-                                                              'NA',
-                                                            )
-                                                          : units.appliedSpecialExam ==
-                                                                  true
-                                                              ? const Text(
-                                                                  'NA',
-                                                                )
-                                                              : Text(
-                                                                  units
-                                                                      .totalMarks
-                                                                      .toString(),
-                                                                ),
-                                                    ),
                                                     DataCell(
                                                       units.appliedSpecialExam ==
                                                               true
@@ -393,44 +347,67 @@ class StudentDashboardView extends StackedView<StudentDashboardViewModel> {
                                               snapshot.data!)) ...[
                                             meanScore == 0
                                                 ? const SizedBox()
-                                                : Row(
-                                                    children: [
-                                                      Text(
-                                                        'Mean Score: $meanScore ',
-                                                        style: const TextStyle(
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold),
+                                                : snapshotData.any((unit) =>
+                                                        unit.examMarks == null)
+                                                    ? const SizedBox()
+                                                    : Row(
+                                                        children: [
+                                                          Text(
+                                                            'Mean Score: $meanScore ',
+                                                            style: const TextStyle(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold),
+                                                          ),
+                                                          const Spacer(),
+                                                          Text(
+                                                            'MeanGrade: $meanGrade',
+                                                            style:
+                                                                const TextStyle(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                            ),
+                                                          )
+                                                        ],
                                                       ),
-                                                      const Spacer(),
-                                                      Text(
-                                                        'MeanGrade: $meanGrade',
-                                                        style: const TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                        ),
-                                                      )
-                                                    ],
-                                                  ),
                                             verticalSpaceSmall,
                                             meanScore == 0
                                                 ? const SizedBox()
-                                                : Row(
-                                                    children: [
-                                                      const Text(
-                                                        'Reccomendation: ',
-                                                        style: TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                        ),
+                                                : snapshotData.any((unit) =>
+                                                        unit.examMarks == null)
+                                                    ? const SizedBox()
+                                                    : Row(
+                                                        children: [
+                                                          const Text(
+                                                            'Reccomendation: ',
+                                                            style: TextStyle(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                            ),
+                                                          ),
+                                                          snapshotData.any(
+                                                                  (unit) =>
+                                                                      unit.grade ==
+                                                                      'E')
+                                                              ? const Text(
+                                                                  'Fail')
+                                                              : (viewModel.getSelectedSemesterStageForCourses == 'Y1' ||
+                                                                          viewModel.getSelectedSemesterStageForCourses ==
+                                                                              'Y2' ||
+                                                                          viewModel.getSelectedSemesterStageForCourses ==
+                                                                              'Y3' ||
+                                                                          viewModel.getSelectedSemesterStageForCourses ==
+                                                                              'Y4') &&
+                                                                      meanScore >=
+                                                                          40
+                                                                  ? const Text(
+                                                                      "Proceed to the Next year of Study")
+                                                                  : Text(
+                                                                      recommendation),
+                                                        ],
                                                       ),
-                                                      snapshotData.any((unit) =>
-                                                              unit.grade == 'E')
-                                                          ? const Text('Fail')
-                                                          : Text(
-                                                              recommendation),
-                                                    ],
-                                                  ),
                                           ],
                                           verticalSpaceTiny,
                                           verticalSpaceSmall,
@@ -449,49 +426,105 @@ class StudentDashboardView extends StackedView<StudentDashboardViewModel> {
                                             ),
                                           ),
                                           verticalSpaceSmall,
-                                          InkWell(
-                                            onTap: () async {
-                                              var transcript =
-                                                  viewModel.generateTranscript(
-                                                students: snapshot.data!,
-                                                semesterStage: viewModel
-                                                    .getSelectedSemesterStageForCourses,
-                                                meanGrade: meanGrade,
-                                                meanScore: meanScore,
-                                                recommendation: recommendation,
-                                              );
-                                              final output =
-                                                  await getTemporaryDirectory();
-                                              final file = File(
-                                                  '${output.path}/transcript.pdf');
-                                              await file.writeAsBytes(
-                                                  await transcript.save());
-                                              viewModel.setPdfPath(file.path);
-                                              viewModel
-                                                  .navigateToTrancscriptView();
-                                            },
-                                            child: Container(
-                                              height: 50,
-                                              width: MediaQuery.of(context)
-                                                  .size
-                                                  .width,
-                                              decoration: BoxDecoration(
-                                                color: primaryColor,
-                                                borderRadius:
-                                                    BorderRadius.circular(10),
-                                              ),
-                                              child: Center(
-                                                child: Text(
-                                                  'Click here to view ${viewModel.getSelectedSemesterStageForCourses} Transcipt',
-                                                  style: const TextStyle(
-                                                      color: Colors.white,
-                                                      fontSize: 16,
-                                                      fontWeight:
-                                                          FontWeight.bold),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
+                                          StreamBuilder(
+                                              stream: viewModel
+                                                  .getReportsAvailabilityStatus(
+                                                      viewModel
+                                                          .getSelectedSemesterStageForCourses),
+                                              builder: (context,
+                                                  AsyncSnapshot snapshot) {
+                                                if (snapshot.hasData) {
+                                                  bool isAvailable = snapshot
+                                                              .data?[
+                                                          '${viewModel.getSelectedSemesterStageForCourses}_available'] ??
+                                                      false;
+                                                  if (!isAvailable) {
+                                                    return Container(
+                                                      height: 50,
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                              .size
+                                                              .width,
+                                                      decoration: BoxDecoration(
+                                                        color: primaryColor,
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(10),
+                                                      ),
+                                                      child: Center(
+                                                        child: Text(
+                                                          'Transcripts for  ${viewModel.getSelectedSemesterStageForCourses} are  not Available',
+                                                          style: const TextStyle(
+                                                              color:
+                                                                  Colors.white,
+                                                              fontSize: 16,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold),
+                                                        ),
+                                                      ),
+                                                    );
+                                                  } else {
+                                                    return InkWell(
+                                                      onTap: () async {
+                                                        var transcript = viewModel
+                                                            .generateTranscript(
+                                                          students:
+                                                              snapshot.data!,
+                                                          semesterStage: viewModel
+                                                              .getSelectedSemesterStageForCourses,
+                                                          meanGrade: meanGrade,
+                                                          meanScore: meanScore,
+                                                          recommendation:
+                                                              recommendation,
+                                                        );
+                                                        final output =
+                                                            await getTemporaryDirectory();
+                                                        final file = File(
+                                                            '${output.path}/transcript.pdf');
+                                                        await file.writeAsBytes(
+                                                            await transcript
+                                                                .save());
+                                                        viewModel.setPdfPath(
+                                                            file.path);
+                                                        viewModel
+                                                            .navigateToTrancscriptView();
+                                                      },
+                                                      child: Container(
+                                                        height: 50,
+                                                        width: MediaQuery.of(
+                                                                context)
+                                                            .size
+                                                            .width,
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          color: primaryColor,
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(10),
+                                                        ),
+                                                        child: Center(
+                                                          child: Text(
+                                                            'Click here to view ${viewModel.getSelectedSemesterStageForCourses} Transcipt',
+                                                            style: const TextStyle(
+                                                                color: Colors
+                                                                    .white,
+                                                                fontSize: 16,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    );
+                                                  }
+                                                } else {
+                                                  return const Center(
+                                                    child:
+                                                        Text('No Transcripts'),
+                                                  );
+                                                }
+                                              })
                                         ],
                                       );
                           }

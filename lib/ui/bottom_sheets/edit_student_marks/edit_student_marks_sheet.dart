@@ -79,6 +79,14 @@ class EditStudentMarksSheet extends StackedView<EditStudentMarksSheetModel>
                   child: DataTable(
                     columns: [
                       const DataColumn(
+                          label: Text(
+                        'Reg No',
+                        style: TextStyle(
+                            color: primaryColor,
+                            fontWeight: FontWeight.w600,
+                            fontSize: 18),
+                      )),
+                      const DataColumn(
                         label: Text(
                           "Name",
                           style: TextStyle(
@@ -105,7 +113,7 @@ class EditStudentMarksSheet extends StackedView<EditStudentMarksSheetModel>
                               fontSize: 18),
                         ),
                       ),
-                      DataColumn(
+                      const DataColumn(
                           label: const Text(
                         'Remove Student',
                         style: TextStyle(color: primaryColor),
@@ -117,6 +125,7 @@ class EditStudentMarksSheet extends StackedView<EditStudentMarksSheetModel>
                         () => TextEditingController(),
                       );
                       return DataRow(cells: [
+                        DataCell(Text(stude.studentRegNo!)),
                         DataCell(Text(stude.studentName!)),
                         DataCell(
                           SizedBox(

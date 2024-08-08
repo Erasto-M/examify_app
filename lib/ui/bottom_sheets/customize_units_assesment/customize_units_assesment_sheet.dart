@@ -1,5 +1,6 @@
 import 'package:examify/models/student_registered_units.dart';
 import 'package:examify/ui/bottom_sheets/customize_units_assesment/customize_units_assesment_sheet.form.dart';
+import 'package:examify/ui/views/lecturer_dashboard/lecturer_dashboard_view.dart';
 import 'package:examify/ui/views/lecturer_my_students/lecturer_my_students_view.dart';
 import 'package:flutter/material.dart';
 import 'package:examify/ui/common/app_colors.dart';
@@ -235,11 +236,7 @@ class CustomizeUnitsAssesmentSheet
                     cat2OutofController.clear();
                     mainExamOutofController.clear();
                   }).then((value) {
-                    Navigator.of(context).pushReplacement(MaterialPageRoute(
-                        builder: (context) => LecturerMyStudentsView(
-                              unitCode: request.description ?? '',
-                              unitName: request.title ?? '',
-                            )));
+                    
                   });
 
                   completer!(SheetResponse(confirmed: true));
