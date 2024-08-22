@@ -201,7 +201,7 @@ class StudentDashboardViewModel extends BaseViewModel {
             pw.Row(children: [
               pw.Text('Name: ${students[0].studentName!}'),
               pw.Spacer(),
-              pw.Text('RegNo: ${students[0].studentPhoneNumber!}'),
+              pw.Text('RegNo: ${students[0].studentRegNo!}'),
             ]),
             pw.SizedBox(height: 5),
             pw.Text('School: Computer Science and Information Technology'),
@@ -229,12 +229,11 @@ class StudentDashboardViewModel extends BaseViewModel {
         fontWeight: pw.FontWeight.bold,
         color: PdfColors.black,
       ),
-      headers: ['UnitsCode', 'UnitName', 'TotalMarks', 'Grade'],
+      headers: ['UnitsCode', 'UnitName', 'Grade'],
       data: students.map((student) {
         return [
           student.unitCode,
           student.unitName,
-          student.totalMarks.toString(),
           student.grade,
         ];
       }).toList(),

@@ -249,7 +249,7 @@ class LecturerMyStudentsViewModel extends BaseViewModel {
                   ],
                   data: students.map((student) {
                     return [
-                      student.studentPhoneNumber,
+                      student.studentRegNo,
                       student.studentName,
                       student.assignMent1Marks.toString(),
                       student.assignMent2Marks.toString(),

@@ -187,7 +187,15 @@ class StudentDashboardView extends StackedView<StudentDashboardViewModel> {
                                 viewModel.calculateMeanGrade(meanScore);
                             String recommendation =
                                 snapshotData.any((unit) => unit.grade == 'E')
-                                    ? 'Fail'
+                                    ? 'Fail' :(viewModel.getSelectedSemesterStageForCourses == 'Y1' ||
+                                                                          viewModel.getSelectedSemesterStageForCourses ==
+                                                                              'Y2' ||
+                                                                          viewModel.getSelectedSemesterStageForCourses ==
+                                                                              'Y3' ||
+                                                                          viewModel.getSelectedSemesterStageForCourses ==
+                                                                              'Y4') &&
+                                                                      meanScore >=
+                                                                          40 ? 'Proceed to the Next year of Study'
                                     : viewModel.getRecommendation(meanGrade);
 
                             return snapshot.data!.isEmpty
@@ -402,8 +410,10 @@ class StudentDashboardView extends StackedView<StudentDashboardViewModel> {
                                                                               'Y4') &&
                                                                       meanScore >=
                                                                           40
-                                                                  ? const Text(
-                                                                      "Proceed to the Next year of Study")
+                                                                  ? const Flexible(
+                                                                    child: const Text(
+                                                                        "Proceed to the Next year of Study"),
+                                                                  )
                                                                   : Text(
                                                                       recommendation),
                                                         ],
@@ -426,105 +436,52 @@ class StudentDashboardView extends StackedView<StudentDashboardViewModel> {
                                             ),
                                           ),
                                           verticalSpaceSmall,
-                                          StreamBuilder(
-                                              stream: viewModel
-                                                  .getReportsAvailabilityStatus(
-                                                      viewModel
-                                                          .getSelectedSemesterStageForCourses),
-                                              builder: (context,
-                                                  AsyncSnapshot snapshot) {
-                                                if (snapshot.hasData) {
-                                                  bool isAvailable = snapshot
-                                                              .data?[
-                                                          '${viewModel.getSelectedSemesterStageForCourses}_available'] ??
-                                                      false;
-                                                  if (!isAvailable) {
-                                                    return Container(
-                                                      height: 50,
-                                                      width:
-                                                          MediaQuery.of(context)
-                                                              .size
-                                                              .width,
-                                                      decoration: BoxDecoration(
-                                                        color: primaryColor,
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(10),
-                                                      ),
-                                                      child: Center(
-                                                        child: Text(
-                                                          'Transcripts for  ${viewModel.getSelectedSemesterStageForCourses} are  not Available',
-                                                          style: const TextStyle(
-                                                              color:
-                                                                  Colors.white,
-                                                              fontSize: 16,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
-                                                        ),
-                                                      ),
-                                                    );
-                                                  } else {
-                                                    return InkWell(
-                                                      onTap: () async {
-                                                        var transcript = viewModel
-                                                            .generateTranscript(
-                                                          students:
-                                                              snapshot.data!,
-                                                          semesterStage: viewModel
-                                                              .getSelectedSemesterStageForCourses,
-                                                          meanGrade: meanGrade,
-                                                          meanScore: meanScore,
-                                                          recommendation:
-                                                              recommendation,
-                                                        );
-                                                        final output =
-                                                            await getTemporaryDirectory();
-                                                        final file = File(
-                                                            '${output.path}/transcript.pdf');
-                                                        await file.writeAsBytes(
-                                                            await transcript
-                                                                .save());
-                                                        viewModel.setPdfPath(
-                                                            file.path);
-                                                        viewModel
-                                                            .navigateToTrancscriptView();
-                                                      },
-                                                      child: Container(
-                                                        height: 50,
-                                                        width: MediaQuery.of(
-                                                                context)
-                                                            .size
-                                                            .width,
-                                                        decoration:
-                                                            BoxDecoration(
-                                                          color: primaryColor,
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(10),
-                                                        ),
-                                                        child: Center(
-                                                          child: Text(
-                                                            'Click here to view ${viewModel.getSelectedSemesterStageForCourses} Transcipt',
-                                                            style: const TextStyle(
-                                                                color: Colors
-                                                                    .white,
-                                                                fontSize: 16,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    );
-                                                  }
-                                                } else {
-                                                  return const Center(
-                                                    child:
-                                                        Text('No Transcripts'),
-                                                  );
-                                                }
-                                              })
+
+                                
+                                         snapshotData.any((unit)=> unit.examMarks == null) ? const SizedBox() :
+                                          InkWell(
+                                            onTap: () async {
+                                              var transcript =
+                                                  viewModel.generateTranscript(
+                                                students: snapshot.data!,
+                                                semesterStage: viewModel
+                                                    .getSelectedSemesterStageForCourses,
+                                                meanGrade: meanGrade,
+                                                meanScore: meanScore,
+                                                recommendation: recommendation,
+                                              );
+                                              final output =
+                                                  await getTemporaryDirectory();
+                                              final file = File(
+                                                  '${output.path}/transcript.pdf');
+                                              await file.writeAsBytes(
+                                                  await transcript.save());
+                                              viewModel.setPdfPath(file.path);
+                                              viewModel
+                                                  .navigateToTrancscriptView();
+                                            },
+                                            child: Container(
+                                              height: 50,
+                                              width: MediaQuery.of(context)
+                                                  .size
+                                                  .width,
+                                              decoration: BoxDecoration(
+                                                color: primaryColor,
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                              ),
+                                              child: Center(
+                                                child: Text(
+                                                  'Click here to view ${viewModel.getSelectedSemesterStageForCourses} Transcipt',
+                                                  style: const TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 16,
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
                                         ],
                                       );
                           }

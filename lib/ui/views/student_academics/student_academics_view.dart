@@ -166,7 +166,7 @@ class StudentAcademicsView extends StackedView<StudentAcademicsViewModel> {
                                   rows: snapshot.data!.map((student) {
                                     return DataRow(cells: [
                                       DataCell(
-                                        Text(student.studentPhoneNumber!),
+                                        Text(student.studentRegNo!),
                                       ),
                                       DataCell(
                                         Text(student.studentName!),
