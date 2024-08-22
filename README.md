@@ -1,4 +1,4 @@
-# examify
+# examify Mobile App
 
 Examify is a comprehensive Android exam processing mobile application developed using Flutter, Firebase, Stacked Architecture (MVVM), and Provider State Management. It is designed to streamline academic processes within higher education institutions, offering a range of features for different users.
 
