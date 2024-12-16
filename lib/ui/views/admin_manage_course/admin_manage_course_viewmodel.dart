@@ -4,7 +4,6 @@ import 'package:examify/models/addUnit.dart';
 import 'package:examify/services/cod_dashboard_service.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
-
 import '../../../app/app.locator.dart';
 
 class AdminManageCourseViewModel extends BaseViewModel {
@@ -22,7 +21,7 @@ class AdminManageCourseViewModel extends BaseViewModel {
     try {
       _courses = await _adminService.getUnits(year);
     } catch (e) {
-      print('Error fetching courses: $e');
+     
       _courses = [];
     }
     setBusy(false);
@@ -65,7 +64,7 @@ class AdminManageCourseViewModel extends BaseViewModel {
         }
       }
     } catch (e) {
-      print('Error getting registration window status: $e');
+  
     }
     setBusy(false);
     return false;
@@ -87,7 +86,7 @@ class AdminManageCourseViewModel extends BaseViewModel {
         }
       }
     } catch (e) {
-      print('Error getting registration window status: $e');
+     
     }
     setBusy(false);
     return false;

@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:google_generative_ai/google_generative_ai.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
-
 import '../../../app/app.bottomsheets.dart';
 import '../../../app/app.locator.dart';
 import '../../../models/student_registered_units.dart';
@@ -33,21 +32,19 @@ class AdminStudentPerformanceDetailsViewModel extends BaseViewModel {
     _streamSubscription = _studentUnitsStream?.listen((units) {
       generateRecommendations(units);
     }, onError: (error) {
-      print(
-          'Error fetching student units or generating recommendations: $error');
+
     });
 
     try {
       final units = await _studentUnitsStream!.first;
       generateRecommendations(units);
     } catch (e) {
-      print('Error fetching student units or generating recommendations: $e');
+ 
     }
   }
 
   Future<void> generateRecommendations(
       List<StudentsRegisteredUnitsModel> units) async {
-    print("Generating recommendations");
     final totalMarksList = units.map((unit) => unit.totalMarks).toList();
     // Feed the totalMarksList to your recommendation model or service
     final model = GenerativeModel(

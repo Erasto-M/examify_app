@@ -5,14 +5,10 @@ import 'package:examify/ui/views/passlist/passlist_view.dart';
 import 'package:examify/ui/views/special_exams_list/special_exams_list_view.dart';
 import 'package:examify/ui/views/supplist/supplist_view.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:stacked/stacked.dart';
-
 import 'academics_viewmodel.dart';
-
 class AcademicsView extends StackedView<AcademicsViewModel> {
-  const AcademicsView({Key? key}) : super(key: key);
-
+  const AcademicsView({super.key});
   @override
   Widget builder(
     BuildContext context,
@@ -42,7 +38,7 @@ class AcademicsView extends StackedView<AcademicsViewModel> {
                 },
                 style: const TextStyle(color: Colors.white),
                 dropdownColor: primaryColor,
-                icon: Icon(Icons.arrow_drop_down, color: Colors.white),
+                icon: const Icon(Icons.arrow_drop_down, color: Colors.white),
                 items: viewModel.semesters
                     .map<DropdownMenuItem<String>>((String value) {
                   return DropdownMenuItem<String>(

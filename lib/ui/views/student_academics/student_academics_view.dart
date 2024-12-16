@@ -6,14 +6,10 @@ import 'package:stacked/stacked.dart';
 import '../../../models/special_exams_model.dart';
 import '../../../models/student_registered_units.dart';
 import '../../common/app_colors.dart';
-import '../missing_marks/missing_marks_view.dart';
-import '../passlist/passlist_view.dart';
-import '../special_exams_list/special_exams_list_view.dart';
-import '../supplist/supplist_view.dart';
 import 'student_academics_viewmodel.dart';
 
 class StudentAcademicsView extends StackedView<StudentAcademicsViewModel> {
-  const StudentAcademicsView({Key? key}) : super(key: key);
+  const StudentAcademicsView({super.key});
 
   @override
   Widget builder(
@@ -268,7 +264,7 @@ class StudentAcademicsView extends StackedView<StudentAcademicsViewModel> {
                                                   .entries
                                                   .map((unit) => Text(
                                                       '${unit.key + 1}. ${unit.value.unitCode}: ${unit.value.unitName}'))
-                                                  .toList(),
+                                                  ,
                                             ],
                                           ),
                                         ),

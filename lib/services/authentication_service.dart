@@ -10,8 +10,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:stacked_services/stacked_services.dart';
-
-import '../models/student_registered_units.dart';
 import '../ui/views/admin_home/admin_home_view.dart';
 import '../ui/views/exams_coordinator_home/exams_coordinator_home_view.dart';
 
@@ -103,21 +101,21 @@ class AuthenticationService {
               ),
             );
           } else if (value.data()!['role'] == 'COD') {
-            debugPrint("Logging to the admin");
+       
             Navigator.of(context).pushReplacement(
               MaterialPageRoute(
                 builder: (context) => const AdminHomeView(),
               ),
             );
           } else if (value.data()!['role'] == 'IT') {
-            debugPrint("Logging to the IT tean");
+    
             Navigator.of(context).pushReplacement(
               MaterialPageRoute(
                 builder: (context) => const SupportTeamView(),
               ),
             );
           } else if (value.data()!['role'] == 'ExamsCoordinator') {
-            debugPrint("Logging to the ExamsCoordinator");
+          
             Navigator.of(context).pushReplacement(
               MaterialPageRoute(
                 builder: (context) => const ExamsCoordinatorHomeView(),
@@ -206,14 +204,14 @@ class AuthenticationService {
                   ),
                 );
               } else if (value.data()!['role'] == 'IT') {
-                debugPrint("Logging to the IT");
+              
                 Navigator.of(context).pushReplacement(
                   MaterialPageRoute(
                     builder: (context) => const SupportTeamView(),
                   ),
                 );
               } else if (value.data()!['role'] == 'ExamsCoordinator') {
-                debugPrint("Logging to the ExamsCoordinator");
+          
                 Navigator.of(context).pushReplacement(
                   MaterialPageRoute(
                     builder: (context) => const ExamsCoordinatorHomeView(),
@@ -244,7 +242,6 @@ class AuthenticationService {
       if (user != null) {
         DocumentSnapshot documentSnapshot =
             await firestore.collection('users').doc(user.uid).get();
-        print(documentSnapshot.data());
         return documentSnapshot.data() as Map<String, dynamic>;
       }
     } catch (e) {
@@ -289,7 +286,6 @@ class AuthenticationService {
     } catch (e) {
       Fluttertoast.showToast(msg: e.toString());
     }
-    print("Service: $lecturers");
     return lecturers;
   }
 

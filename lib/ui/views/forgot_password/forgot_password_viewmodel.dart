@@ -4,10 +4,8 @@ import 'package:examify/ui/views/forgot_password/forgot_password_view.form.dart'
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:stacked/stacked.dart';
-import 'package:stacked_services/stacked_services.dart';
 
 class ForgotPasswordViewModel extends FormViewModel {
-  final _navigationService = locator<NavigationService>();
   final _authenticationService = locator<AuthenticationService>();
   //method to resend the password reset link
   Future<void> resendPasswordResetLink(

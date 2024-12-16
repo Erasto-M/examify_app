@@ -6,7 +6,6 @@ import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
 import '../../../models/student_registered_units.dart';
-import '../students_with_special_exams/students_with_special_exams_sheet_model.dart';
 import 'add_supp_exam_marks_sheet_model.dart';
 
 class AddSuppExamMarksSheet extends StackedView<AddSuppExamMarksSheetModel> {

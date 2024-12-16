@@ -1,22 +1,18 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:examify/app/app.bottomsheets.dart';
 import 'package:examify/app/app.locator.dart';
 import 'package:examify/models/addUnit.dart';
 import 'package:examify/models/student_registered_units.dart';
 import 'package:examify/services/authentication_service.dart';
 import 'package:examify/services/student_dashboard_service.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:stacked/stacked.dart';
-import 'package:stacked_services/stacked_services.dart';
+
 
 class StudentRegisterUnitSheetModel extends BaseViewModel {
-  final _navigationService = locator<NavigationService>();
-  final _bottomSheetService = locator<BottomSheetService>();
   final _studentDashboardService = locator<StudentDashboardService>();
   final _authenticationService = locator<AuthenticationService>();
   // get available unit

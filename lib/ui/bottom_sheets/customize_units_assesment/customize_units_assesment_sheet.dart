@@ -1,7 +1,5 @@
 import 'package:examify/models/student_registered_units.dart';
 import 'package:examify/ui/bottom_sheets/customize_units_assesment/customize_units_assesment_sheet.form.dart';
-import 'package:examify/ui/views/lecturer_dashboard/lecturer_dashboard_view.dart';
-import 'package:examify/ui/views/lecturer_my_students/lecturer_my_students_view.dart';
 import 'package:flutter/material.dart';
 import 'package:examify/ui/common/app_colors.dart';
 import 'package:examify/ui/common/ui_helpers.dart';
@@ -9,9 +7,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked/stacked_annotations.dart';
 import 'package:stacked_services/stacked_services.dart';
-
 import 'customize_units_assesment_sheet_model.dart';
-
 @FormView(fields: [
   FormTextField(name: 'assignment1Outof'),
   FormTextField(name: 'assignment2Outof'),
@@ -25,10 +21,10 @@ class CustomizeUnitsAssesmentSheet
   final Function(SheetResponse response)? completer;
   final SheetRequest request;
   const CustomizeUnitsAssesmentSheet({
-    Key? key,
+    super.key,
     required this.completer,
     required this.request,
-  }) : super(key: key);
+  });
 
   @override
   Widget builder(
@@ -42,10 +38,6 @@ class CustomizeUnitsAssesmentSheet
         width: MediaQuery.sizeOf(context).width,
         decoration: const BoxDecoration(
           color: Colors.white,
-          // borderRadius: BorderRadius.only(
-          //   topLeft: Radius.circular(10),
-          //   topRight: Radius.circular(10),
-          // ),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -192,7 +184,7 @@ class CustomizeUnitsAssesmentSheet
             Center(
               child: InkWell(
                 onTap: () async {
-                  debugPrint('Save button Clicked');
+                 
                   if (assignment1OutofController.text.isEmpty ||
                       assignment2OutofController.text.isEmpty ||
                       cat1OutofController.text.isEmpty ||

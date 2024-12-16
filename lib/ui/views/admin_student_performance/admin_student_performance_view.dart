@@ -1,21 +1,16 @@
 import 'dart:io';
-
-import 'package:examify/models/addUnit.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:stacked/stacked.dart';
 import '../../../models/student_registered_units.dart';
-import '../../../models/usersModel.dart';
 import '../../common/app_colors.dart';
 import '../../common/ui_helpers.dart';
 import 'admin_student_performance_viewmodel.dart';
 
 class AdminStudentPerformanceView
     extends StackedView<AdminStudentPerformanceViewModel> {
-  const AdminStudentPerformanceView({Key? key, required this.yearName})
-      : super(key: key);
+  const AdminStudentPerformanceView({super.key, required this.yearName});
   final String yearName;
   @override
   Widget builder(
@@ -23,7 +18,6 @@ class AdminStudentPerformanceView
     AdminStudentPerformanceViewModel viewModel,
     Widget? child,
   ) {
-    List<AppUser> users = viewModel.users;
     String currentYearName = yearName.endsWith("one")
         ? "Y1"
         : yearName.endsWith("two")
@@ -194,58 +188,54 @@ class AdminStudentPerformanceView
                 ),
 
                 verticalSpaceSmall,
-                 Container(
-                          margin: const EdgeInsets.only(right: 5),
-                          padding: const EdgeInsets.symmetric(horizontal: 5),
-                          height: 40,
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(3),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.grey.withOpacity(0.5),
-                                spreadRadius: 1,
-                                blurRadius: 5,
-                                offset: const Offset(0, 3),
-                              ),
-                            ],
-                          ),
-                          child: Row(
-                            children: [
-                              Expanded(
-                                child: DropdownButton<String>(
-                                  isExpanded: true,
-                                  value: viewModel
-                                          .selectedUnitCode.isNotEmpty
-                                      ? viewModel.selectedUnitCode
-                                      : null,
-                                  hint: Flexible(
-                                      child: const Text("Please select unit")),
-                                  items: viewModel.unitsPerSelectedSemester
-                                          ?.map((unit) {
-                                        return DropdownMenuItem<String>(
-                                          value: unit.unitCode,
-                                          child: Flexible(
-                                            child: Text(
-                                              unit.unitName,
-                                              overflow: TextOverflow.ellipsis,
-                                            ),
-                                          ),
-                                        );
-                                      }).toList() ??
-                                      [],
-                                  onChanged: (newValue) {
-                                    if (newValue != null) {
-                                      viewModel
-                                          .setSelectedUnitCode(newValue);
-                                    }
-                                  },
+                Container(
+                  margin: const EdgeInsets.only(right: 5),
+                  padding: const EdgeInsets.symmetric(horizontal: 5),
+                  height: 40,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(3),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.5),
+                        spreadRadius: 1,
+                        blurRadius: 5,
+                        offset: const Offset(0, 3),
+                      ),
+                    ],
+                  ),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: DropdownButton<String>(
+                          isExpanded: true,
+                          value: viewModel.selectedUnitCode.isNotEmpty
+                              ? viewModel.selectedUnitCode
+                              : null,
+                          hint:
+                              const Flexible(child: Text("Please select unit")),
+                          items: viewModel.unitsPerSelectedSemester.map((unit) {
+                            return DropdownMenuItem<String>(
+                              value: unit.unitCode,
+                              child: Flexible(
+                                child: Text(
+                                  unit.unitName,
+                                  overflow: TextOverflow.ellipsis,
                                 ),
                               ),
-                            ],
-                          ),
+                            );
+                          }).toList(),
+                          onChanged: (newValue) {
+                            if (newValue != null) {
+                              viewModel.setSelectedUnitCode(newValue);
+                            }
+                          },
                         ),
-                        
+                      ),
+                    ],
+                  ),
+                ),
+
                 verticalSpaceSmall,
                 SizedBox(
                   child: StreamBuilder<List<StudentsRegisteredUnitsModel>>(

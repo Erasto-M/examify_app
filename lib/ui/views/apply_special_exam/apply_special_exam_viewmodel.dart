@@ -1,5 +1,4 @@
 import 'package:examify/app/app.locator.dart';
-import 'package:examify/models/addUnit.dart';
 import 'package:examify/models/special_exams_model.dart';
 import 'package:examify/models/student_registered_units.dart';
 import 'package:examify/services/student_dashboard_service.dart';
@@ -15,22 +14,6 @@ class ApplySpecialExamViewModel extends FormViewModel {
   //navigate back
   void navigateBack() {
     _navigationService.back();
-    notifyListeners();
-  }
-
-  // String? _selectedSemesterStage = 'Y1S1';
-  // String? get selectedSemesterStage => _selectedSemesterStage;
-
-  // void setSelectedSemesterStage(String value) {
-  //   _selectedSemesterStage = value;
-  //   notifyListeners();
-  // }
-
-  bool _isSpecialExamApplied = false;
-  bool? get getIsSpecialExamApplied => _isSpecialExamApplied;
-
-  void SetSpecialExamApplied(bool value) {
-    _isSpecialExamApplied = value;
     notifyListeners();
   }
 

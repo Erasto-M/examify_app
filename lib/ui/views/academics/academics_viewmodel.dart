@@ -1,12 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:examify/app/app.locator.dart';
-import 'package:examify/app/app.router.dart';
-import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
-import 'package:stacked_services/stacked_services.dart';
+
 
 class AcademicsViewModel extends BaseViewModel {
-  final _navigationService = locator<NavigationService>();
   String _selectedSemester = 'Y1S1';
   final List<String> _semesters = [
     'Y1S1',

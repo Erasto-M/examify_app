@@ -1,16 +1,15 @@
 import 'package:examify/ui/common/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
-
 import '../../../models/student_registered_units.dart';
 import 'admin_student_performance_details_viewmodel.dart';
 
 class AdminStudentPerformanceDetailsView extends StatefulWidget {
   const AdminStudentPerformanceDetailsView({
-    Key? key,
+    super.key,
     required this.semesterStage,
     required this.studentUid,
-  }) : super(key: key);
+  });
 
   final String semesterStage;
   final String studentUid;

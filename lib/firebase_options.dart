@@ -17,21 +17,18 @@ import 'package:flutter/foundation.dart'
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
-      return web;
+      throw UnsupportedError(
+        'DefaultFirebaseOptions have not been configured for web - '
+        'you can reconfigure this by running the FlutterFire CLI again.',
+      );
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
         return android;
       case TargetPlatform.iOS:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for ios - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return ios;
       case TargetPlatform.macOS:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for macos - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return macos;
       case TargetPlatform.windows:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for windows - '
@@ -49,21 +46,29 @@ class DefaultFirebaseOptions {
     }
   }
 
-  static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyCQuns2j68WGN9ZCelAq5cIx7VgHOkhh6I',
-    appId: '1:423576344653:web:c41cb9763fa1496a562404',
-    messagingSenderId: '423576344653',
-    projectId: 'examify-2',
-    authDomain: 'examify-2.firebaseapp.com',
-    storageBucket: 'examify-2.appspot.com',
-  );
-
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyDfZsFecrL3S1lufgbH0CNPEU-bNOvLZuw',
     appId: '1:423576344653:android:41ac8b6b7faf3aaf562404',
     messagingSenderId: '423576344653',
     projectId: 'examify-2',
-    storageBucket: 'examify-2.appspot.com',
+    storageBucket: 'examify-2.firebasestorage.app',
   );
 
+  static const FirebaseOptions ios = FirebaseOptions(
+    apiKey: 'AIzaSyB63c60RchbiTBi2xapHABaUKkLP_MV7YU',
+    appId: '1:423576344653:ios:65bfacec160b58bc562404',
+    messagingSenderId: '423576344653',
+    projectId: 'examify-2',
+    storageBucket: 'examify-2.firebasestorage.app',
+    iosBundleId: 'com.example.examify',
+  );
+
+  static const FirebaseOptions macos = FirebaseOptions(
+    apiKey: 'AIzaSyB63c60RchbiTBi2xapHABaUKkLP_MV7YU',
+    appId: '1:423576344653:ios:65bfacec160b58bc562404',
+    messagingSenderId: '423576344653',
+    projectId: 'examify-2',
+    storageBucket: 'examify-2.firebasestorage.app',
+    iosBundleId: 'com.example.examify',
+  );
 }

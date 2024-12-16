@@ -4,13 +4,10 @@ import 'package:examify/models/special_exams_model.dart';
 import 'package:examify/models/student_registered_units.dart';
 import 'package:examify/services/student_dashboard_service.dart';
 import 'package:stacked/stacked.dart';
-import 'package:stacked_services/stacked_services.dart';
 
-import '../../../services/cod_dashboard_service.dart';
 
 class StudentAcademicsViewModel extends BaseViewModel {
-  final _navigationService = locator<NavigationService>();
-  final _StudentDashBoardService = locator<StudentDashboardService>();
+  final _studentDashBoardService = locator<StudentDashboardService>();
   String _selectedSemester = 'Y1S1';
   final List<String> _semesters = [
     'Y1S1',
@@ -59,7 +56,7 @@ class StudentAcademicsViewModel extends BaseViewModel {
   Stream<List<StudentsRegisteredUnitsModel>> getPassLists({
     required String selectedSemesterStage,
   }) {
-    return _StudentDashBoardService.getAllMyDetails(
+    return _studentDashBoardService.getAllMyDetails(
             semesterStage: selectedSemesterStage)
         .map((studentUnits) {
       final passList = <String, StudentsRegisteredUnitsModel>{};
@@ -96,7 +93,7 @@ class StudentAcademicsViewModel extends BaseViewModel {
   Stream<Map<String, List<StudentsRegisteredUnitsModel>>> getSuppList({
     required String semesterStage,
   }) {
-    return _StudentDashBoardService.getAllMyDetails(
+    return _studentDashBoardService.getAllMyDetails(
             semesterStage: semesterStage)
         .map((studentUnits) {
       final suppList = <String, List<StudentsRegisteredUnitsModel>>{};
@@ -134,7 +131,7 @@ class StudentAcademicsViewModel extends BaseViewModel {
   Stream<Map<String, List<SpecialExamsModel>>> getSpecialsExam({
     required String semesterStage,
   }) {
-    return _StudentDashBoardService.getMySpecialExams(
+    return _studentDashBoardService.getMySpecialExams(
             semesterStage: semesterStage)
         .map((studentUnits) {
       final specialList = <String, List<SpecialExamsModel>>{};
@@ -159,7 +156,7 @@ class StudentAcademicsViewModel extends BaseViewModel {
   Stream<Map<String, List<StudentsRegisteredUnitsModel>>> getMissingMarksList({
     required String semesterStage,
   }) {
-    return _StudentDashBoardService.getAllMyDetails(
+    return _studentDashBoardService.getAllMyDetails(
             semesterStage: semesterStage)
         .map((studentUnits) {
       final Map<String, List<StudentsRegisteredUnitsModel>> missingMarksList =

@@ -1,12 +1,10 @@
 import 'package:examify/app/app.router.dart';
 import 'package:examify/models/student_registered_units.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
-
 import '../../../app/app.locator.dart';
 import '../../../services/authentication_service.dart';
 import '../../../services/cod_dashboard_service.dart';
@@ -27,7 +25,7 @@ class AdminPanelViewModel extends BaseViewModel {
 
   String get greeting => _greeting;
 
-  StudentDashboardViewModel() {
+  studentDashboardViewModel() {
     _updateGreeting();
     getCurrentUserDetails();
   }
@@ -35,7 +33,7 @@ class AdminPanelViewModel extends BaseViewModel {
   void _updateGreeting() {
     DateTime now = DateTime.now();
     _greeting = getGreeting(now);
-    notifyListeners(); // Notify the UI that the greeting has changed
+    notifyListeners(); 
   }
 
   String getGreeting(DateTime now) {
@@ -247,14 +245,14 @@ class AdminPanelViewModel extends BaseViewModel {
           excludedStudents.add(unit.studentUid!);
         }
       }
-      print('excludedStudents: $excludedStudents');
+
       // Filter out students who are in the excluded list
       for (var unit in studentUnits) {
         if (!excludedStudents.contains(unit.studentUid)) {
           graduationList.putIfAbsent(unit.studentUid!, () => []).add(unit);
         }
       }
-      print('graduationList: $graduationList');
+     
       final graduationClassifications = <StudentsRegisteredUnitsModel>[];
       //calculate the mean marks , mean grade , and classify  the students
       graduationList.forEach((studentUid, units) {

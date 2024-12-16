@@ -5,13 +5,11 @@ import 'package:examify/ui/common/ui_helpers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:stacked/stacked.dart';
-
-import '../../../models/addUnit.dart';
 import 'ec_access_marks_sheets_viewmodel.dart';
 
 class EcAccessMarksSheetsView
     extends StackedView<EcAccessMarksSheetsViewModel> {
-  const EcAccessMarksSheetsView({Key? key}) : super(key: key);
+  const EcAccessMarksSheetsView({super.key});
 
   @override
   Widget builder(
@@ -135,8 +133,8 @@ class EcAccessMarksSheetsView
                                           .selectedUnitToGetMarks.isNotEmpty
                                       ? viewModel.selectedUnitToGetMarks
                                       : null,
-                                  hint: Flexible(
-                                      child: const Text("Please select unit")),
+                                  hint: const Flexible(
+                                      child: Text("Please select unit")),
                                   items: viewModel.unitsPerSelectedSemester
                                           ?.map((unit) {
                                         return DropdownMenuItem<String>(

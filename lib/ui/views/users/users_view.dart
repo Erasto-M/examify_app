@@ -8,7 +8,7 @@ import 'package:stacked/stacked.dart';
 import 'users_viewmodel.dart';
 
 class UsersView extends StackedView<UsersViewModel> {
-  const UsersView({Key? key, required this.user}) : super(key: key);
+  const UsersView({super.key, required this.user});
 
   final String user;
 
@@ -24,7 +24,7 @@ class UsersView extends StackedView<UsersViewModel> {
       statusBarIconBrightness: Brightness.light,
       statusBarBrightness: Brightness.light,
     ));
-    List<AppUser> users = viewModel.users
+    
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(

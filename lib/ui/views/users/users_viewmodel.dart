@@ -1,10 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:examify/app/app.dart';
 import 'package:examify/app/app.locator.dart';
 import 'package:examify/models/usersModel.dart';
 import 'package:examify/services/authentication_service.dart';
 import 'package:examify/services/cod_dashboard_service.dart';
-import 'package:examify/ui/widgets/common/users/users.dart';
 import 'package:stacked/stacked.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -50,7 +48,7 @@ class UsersViewModel extends BaseViewModel {
       await launchUrl(Uri.parse(emailUri.toString()));
     } else {
       // Handle the error gracefully
-      print('Could not launch $emailUri');
+     
     }
   }
 
@@ -63,7 +61,7 @@ class UsersViewModel extends BaseViewModel {
       await launchUrl(Uri.parse(phoneUri.toString()));
     } else {
       // Handle the error gracefully
-      print('Could not launch $phoneUri');
+      
     }
   }
 
@@ -76,7 +74,7 @@ class UsersViewModel extends BaseViewModel {
 
       notifyListeners();
     } catch (e) {
-      print('Error updating registration window status: $e');
+      
     }
     setBusy(false);
   }
@@ -101,12 +99,12 @@ class UsersViewModel extends BaseViewModel {
           notifyListeners();
         }
       }, onError: (e) {
-        print('Error getting registration window status: $e');
+       
       });
 
       return snapshotStream;
     } catch (e) {
-      print('Error getting registration window status: $e');
+      
       setBusy(false);
       return null;
     }

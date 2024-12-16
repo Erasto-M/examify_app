@@ -1,14 +1,11 @@
 import 'package:examify/ui/common/app_colors.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:stacked/stacked.dart';
-
 import '../../../models/student_registered_units.dart';
 import 'missing_marks_viewmodel.dart';
 
 class MissingMarksView extends StackedView<MissingMarksViewModel> {
-  const MissingMarksView({Key? key, required this.semesterStage})
-      : super(key: key);
+  const MissingMarksView({super.key, required this.semesterStage});
   final String semesterStage;
 
   @override
@@ -46,7 +43,7 @@ class MissingMarksView extends StackedView<MissingMarksViewModel> {
                     height: MediaQuery.of(context).size.height,
                     child: ListView.builder(
                       shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
+                      physics: const NeverScrollableScrollPhysics(),
                       itemCount: studentsMap.length,
                       itemBuilder: (context, index) {
                         final studentUid = studentsMap.keys.elementAt(index);
@@ -101,7 +98,7 @@ class MissingMarksView extends StackedView<MissingMarksViewModel> {
                                             'Missing Exams: ${unit.examMarks == null ? "Exam Marks " : ""}'),
                                     ],
                                   );
-                                }).toList(),
+                                }),
                               ],
                             ),
                           ),

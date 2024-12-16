@@ -9,8 +9,7 @@ import '../../common/app_colors.dart';
 import 'admin_home_viewmodel.dart';
 
 class AdminHomeView extends StackedView<AdminHomeViewModel> {
-  const AdminHomeView({Key? key}) : super(key: key);
-
+  const AdminHomeView({super.key});
   @override
   Widget builder(
     BuildContext context,

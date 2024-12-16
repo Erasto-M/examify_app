@@ -2,11 +2,10 @@ import 'package:examify/ui/common/app_colors.dart';
 import 'package:examify/ui/common/ui_helpers.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
-
 import 'cod_special_exams_viewmodel.dart';
 
 class CodSpecialExamsView extends StackedView<CodSpecialExamsViewModel> {
-  const CodSpecialExamsView({Key? key}) : super(key: key);
+  const CodSpecialExamsView({super.key});
 
   @override
   Widget builder(
@@ -75,7 +74,6 @@ class CodSpecialExamsView extends StackedView<CodSpecialExamsViewModel> {
                         List<String>.from(exam['statuses']);
 
                     final studentUid = exam['studentId'];
-                    final studentName = exam['studentName'];
 
                     // Ensure the lengths match
                     if (unitNames.length != unitCodes.length ||
@@ -85,7 +83,7 @@ class CodSpecialExamsView extends StackedView<CodSpecialExamsViewModel> {
                         child: ListTile(
                           title: Text(
                             'Error: Units and statuses list length mismatch.',
-                            style: const TextStyle(
+                            style: TextStyle(
                               color: Colors.red,
                               fontSize: 15,
                             ),

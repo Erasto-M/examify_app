@@ -1,13 +1,11 @@
 import 'package:examify/models/student_registered_units.dart';
-import 'package:examify/ui/bottom_sheets/student_register_unit/student_register_unit_sheet.dart';
 import 'package:examify/ui/common/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 import 'cod_approve_units_viewmodel.dart';
 
 class CodApproveUnitsView extends StackedView<CodApproveUnitsViewModel> {
-  const CodApproveUnitsView({Key? key}) : super(key: key);
-
+  const CodApproveUnitsView({super.key});
   @override
   Widget builder(
     BuildContext context,
@@ -36,7 +34,7 @@ class CodApproveUnitsView extends StackedView<CodApproveUnitsViewModel> {
               },
               style: const TextStyle(color: Colors.white),
               dropdownColor: primaryColor,
-              icon: Icon(Icons.arrow_drop_down, color: Colors.white),
+              icon: const Icon(Icons.arrow_drop_down, color: Colors.white),
               items: viewModel.semesters
                   .map<DropdownMenuItem<String>>((String value) {
                 return DropdownMenuItem<String>(
@@ -61,7 +59,7 @@ class CodApproveUnitsView extends StackedView<CodApproveUnitsViewModel> {
               },
               style: const TextStyle(color: Colors.white),
               dropdownColor: primaryColor,
-              icon: Icon(Icons.arrow_drop_down, color: Colors.white),
+              icon: const Icon(Icons.arrow_drop_down, color: Colors.white),
               items: viewModel.cohorts
                   .map<DropdownMenuItem<String>>((String value) {
                 return DropdownMenuItem<String>(

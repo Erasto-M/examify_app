@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
-
 import '../../common/app_colors.dart';
 import '../../common/ui_helpers.dart';
-import '../../widgets/common/manage_courses/manage_courses.dart';
 import '../../widgets/common/transcripts/transcripts.dart';
 import '../../widgets/common/users/users.dart';
 import 'exam_coordinator_panel_view_viewmodel.dart';
 
 class ExamCoordinatorPanelViewView
     extends StackedView<ExamCoordinatorPanelViewViewModel> {
-  const ExamCoordinatorPanelViewView({Key? key}) : super(key: key);
+  const ExamCoordinatorPanelViewView({super.key});
 
   @override
   Widget builder(
@@ -20,7 +18,6 @@ class ExamCoordinatorPanelViewView
   ) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Theme.of(context).colorScheme.background,
         body: SingleChildScrollView(
           child: Container(
             padding: const EdgeInsets.only(left: 10.0, right: 10.0, top: 10),

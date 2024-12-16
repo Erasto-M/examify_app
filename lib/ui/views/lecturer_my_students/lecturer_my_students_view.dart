@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:examify/models/student_registered_units.dart';
 import 'package:examify/ui/common/app_colors.dart';
 import 'package:examify/ui/common/ui_helpers.dart';
@@ -8,7 +7,6 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:stacked/stacked.dart';
-
 import 'lecturer_my_students_viewmodel.dart';
 
 class LecturerMyStudentsView extends StackedView<LecturerMyStudentsViewModel> {
@@ -187,8 +185,6 @@ class LecturerMyStudentsView extends StackedView<LecturerMyStudentsViewModel> {
                               viewModel.getAllMyStudents(unitCode: unitCode),
                           builder: (context, snapshot) {
                             if (snapshot.hasData) {
-                              List<StudentsRegisteredUnitsModel> student =
-                                  snapshot.data!;
                               return Center(
                                 child: InkWell(
                                   onTap: () {

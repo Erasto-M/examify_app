@@ -2,13 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:examify/app/app.bottomsheets.dart';
 import 'package:examify/app/app.locator.dart';
 import 'package:examify/app/app.router.dart';
-import 'package:examify/models/addUnit.dart';
 import 'package:examify/models/student_registered_units.dart';
 import 'package:examify/services/authentication_service.dart';
 import 'package:examify/services/student_dashboard_service.dart';
-import 'package:examify/ui/common/app_colors.dart';
-import 'package:examify/ui/common/ui_helpers.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
@@ -194,7 +190,7 @@ class StudentDashboardViewModel extends BaseViewModel {
         border: pw.Border.all(color: PdfColors.black, width: 1),
       ),
       child: pw.Padding(
-        padding: pw.EdgeInsets.all(10),
+        padding: const pw.EdgeInsets.all(10),
         child: pw.Column(
           crossAxisAlignment: pw.CrossAxisAlignment.start,
           children: [
@@ -247,7 +243,7 @@ class StudentDashboardViewModel extends BaseViewModel {
         border: pw.Border.all(color: PdfColors.black, width: 1),
       ),
       child: pw.Padding(
-        padding: pw.EdgeInsets.all(10),
+        padding: const pw.EdgeInsets.all(10),
         child: pw.Column(
           children: [
             pw.Row(
@@ -272,7 +268,7 @@ class StudentDashboardViewModel extends BaseViewModel {
 
   pw.Widget _buildGradingSystemSection() {
     return pw.Container(
-      padding: pw.EdgeInsets.all(10),
+      padding: const pw.EdgeInsets.all(10),
       decoration: pw.BoxDecoration(
         border: pw.Border.all(color: PdfColors.black, width: 1),
       ),

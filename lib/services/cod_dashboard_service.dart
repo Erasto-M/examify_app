@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:examify/models/special_exams_model.dart';
-import 'package:examify/models/user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
@@ -44,7 +43,7 @@ class AdminDashboardService {
         });
       });
     } catch (error) {
-      print(error.toString());
+  
       Fluttertoast.showToast(msg: error.toString());
     }
     return units;
@@ -256,7 +255,7 @@ class AdminDashboardService {
           .doc('1YqKYQDE7I7cJGNQEzE8')
           .get();
     } catch (e) {
-      print(e.toString());
+      
       return null;
     }
   }
@@ -270,9 +269,9 @@ class AdminDashboardService {
       '${selectedYear}_available': value,
     }).then((_) {
       // Successfully updated
-      print('Successfully updated');
+      
     }).catchError((error) {
-      print('Failed to update: $error');
+     
     });
   }
 
@@ -283,7 +282,7 @@ class AdminDashboardService {
           .doc('2sz1qRL20HBQsnkXMfIG')
           .get();
     } catch (e) {
-      print(e.toString());
+      
       return null;
     }
   }
@@ -296,9 +295,9 @@ class AdminDashboardService {
           .update({
         '${year}_opened': value,
       });
-      print('Successfully updated');
+    
     } catch (error) {
-      print('Failed to update: $error');
+    
     }
   }
 
@@ -309,7 +308,7 @@ class AdminDashboardService {
         .doc(lecId)
         .snapshots()
         .handleError((error) {
-      print('Error fetching document: $error');
+      
     });
   }
 
@@ -319,9 +318,9 @@ class AdminDashboardService {
       await db.collection('Marks_Editing_window').doc(lecId).set({
         'isEditingEnabled': value,
       }, SetOptions(merge: true));
-      print('Successfully updated');
+     
     } catch (error) {
-      print('Failed to update: $error');
+     
     }
   }
 
@@ -348,9 +347,7 @@ class AdminDashboardService {
     required List<String> unitCodes,
   }) async {
     try {
-      print("studentId in Service : $studentId");
-      print("semesterStage: $semesterStage");
-      print("unitCodes in service: $unitCodes");
+     
       final specialExamsSnapshot = await FirebaseFirestore.instance
           .collection("SpecialEXams")
           .where('studeUid', isEqualTo: studentId)
@@ -358,8 +355,7 @@ class AdminDashboardService {
           .where('unitCode', whereIn: unitCodes)
           .get();
 
-      print(
-          "specialExamsSnapshot.docs.length: ${specialExamsSnapshot.docs.length}");
+      
 
       if (specialExamsSnapshot.docs.isEmpty) {
         Fluttertoast.showToast(msg: "No special exams found for the student.");
@@ -425,8 +421,7 @@ class AdminDashboardService {
 
     try {
       for (final unitCode in unitCodes) {
-        print(
-            "Fetching documents for unitCode: $unitCode and studentId: $studentId");
+ 
 
         // Query to get the specific unit documents for the student
         final unitQuerySnapshot = await _firestore
@@ -437,11 +432,10 @@ class AdminDashboardService {
             .get();
 
         if (unitQuerySnapshot.docs.isEmpty) {
-          print(
-              "No documents found for unitCode: $unitCode and studentId: $studentId");
+         
         } else {
           for (final doc in unitQuerySnapshot.docs) {
-            print("Updating document with ID: ${doc.id}");
+         
             batch.update(doc.reference, {'isUnitApproved': true});
           }
         }
@@ -449,9 +443,9 @@ class AdminDashboardService {
 
       // Commit the batch
       await batch.commit();
-      print('Successfully approved units for student $studentId');
+
     } catch (e) {
-      print('Failed to approve units for student $studentId: $e');
+      
     }
   }
 

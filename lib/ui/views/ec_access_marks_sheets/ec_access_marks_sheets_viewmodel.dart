@@ -25,17 +25,13 @@ class EcAccessMarksSheetsViewModel extends BaseViewModel {
     _lectureDashboardService
         .fetchUnits(semesterStage: _selectedSemester)
         .listen((units) {
-      if (units.isEmpty) {
-        print('No units found for $_selectedSemester');
-      }
+      if (units.isEmpty) {}
       _unitsPerSelectedSemester = units;
       if (units.isNotEmpty) {
         setSelectedUnitToGetMarks(units[0].unitCode);
       }
       notifyListeners();
-    }).onError((error) {
-      print('Error fetching units: $error');
-    });
+    }).onError((error) {});
   }
 
   List<String> years = [
@@ -108,7 +104,6 @@ class EcAccessMarksSheetsViewModel extends BaseViewModel {
     try {
       return await _adminService.getReportsAvailabilityStatus();
     } catch (e) {
-      print('Error getting report availability status: $e');
       return null;
     }
   }
@@ -118,8 +113,6 @@ class EcAccessMarksSheetsViewModel extends BaseViewModel {
     try {
       await _adminService.updateReportsAvailabilityStatus(value, selectedYear);
       notifyListeners();
-    } catch (e) {
-      print('Error updating report availability status: $e');
-    }
+    } catch (e) {}
   }
 }

@@ -5,7 +5,6 @@ import 'package:examify/ui/common/ui_helpers.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
-
 import 'students_with_special_exams_sheet_model.dart';
 
 class StudentsWithSpecialExamsSheet
@@ -13,11 +12,10 @@ class StudentsWithSpecialExamsSheet
   final Function(SheetResponse response)? completer;
   final SheetRequest request;
   const StudentsWithSpecialExamsSheet({
-    Key? key,
+    super.key,
     required this.completer,
     required this.request,
-  }) : super(key: key);
-
+  });
   @override
   Widget builder(
     BuildContext context,
@@ -44,7 +42,7 @@ class StudentsWithSpecialExamsSheet
             children: [
               const Text(
                 'Enter Student Marks',
-                style: const TextStyle(
+                style: TextStyle(
                     color: primaryColor,
                     fontSize: 25,
                     fontWeight: FontWeight.w900),
@@ -100,8 +98,10 @@ class StudentsWithSpecialExamsSheet
                             child: TextFormField(
                               controller: controller,
                               decoration: InputDecoration(
-                                  border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(5))),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(5),
+                                ),
+                              ),
                             ),
                           ),
                         ),

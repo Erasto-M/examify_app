@@ -3,7 +3,6 @@ import 'package:examify/models/addUnit.dart';
 import 'package:examify/models/usersModel.dart';
 import 'package:examify/services/cod_dashboard_service.dart';
 import 'package:examify/services/lecturer_dashboard_service.dart';
-import 'package:examify/ui/common/app_colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'package:pdf/pdf.dart';
@@ -13,10 +12,8 @@ import 'package:pdf/widgets.dart' as pw;
 
 import '../../../app/app.locator.dart';
 import '../../../models/student_registered_units.dart';
-import '../../../services/authentication_service.dart';
 
 class AdminStudentPerformanceViewModel extends BaseViewModel {
-  final _authService = locator<AuthenticationService>();
   final _navigationService = locator<NavigationService>();
   final _lectureDashboardService = LecturerDashboardService();
   final _adminDashboardService = locator<AdminDashboardService>();
@@ -25,9 +22,6 @@ class AdminStudentPerformanceViewModel extends BaseViewModel {
 
   List<AppUser> usersList = [];
   get users => usersList;
-
-  List<AppUser> _filteredUsers = [];
-  get filteredUsers => _filteredUsers;
 
   String selectedSem = '';
   String get getSelectedSem => selectedSem;
@@ -58,9 +52,6 @@ class AdminStudentPerformanceViewModel extends BaseViewModel {
     notifyListeners();
   }
 
-  String _selectedUnitToViewMarks = '';
-  String get selectedUnitToGetMarks => _selectedUnitToViewMarks;
-
   List<AddUnitModel> _unitsPerSelectedSemester = [];
   List<AddUnitModel> get unitsPerSelectedSemester => _unitsPerSelectedSemester;
 
@@ -69,7 +60,7 @@ class AdminStudentPerformanceViewModel extends BaseViewModel {
         .fetchUnits(semesterStage: selectedSem)
         .listen((units) {
       _unitsPerSelectedSemester = units;
-if (units.isNotEmpty) {
+      if (units.isNotEmpty) {
         setSelectedUnitCode(units[0].unitCode);
       }
       notifyListeners();
@@ -81,11 +72,11 @@ if (units.isNotEmpty) {
     fetchUnits();
     notifyListeners();
   }
+
   void setSelectedUnitCode(unitCode) {
     selectedUnitCode = unitCode;
     notifyListeners();
   }
-
 
   void setInitSemValue(String yearName) {
     String currentSem = yearName.endsWith("one")
@@ -107,17 +98,6 @@ if (units.isNotEmpty) {
       return user.userName.toLowerCase().contains(query) ||
           user.email.toLowerCase().contains(query);
     }).toList();
-    notifyListeners();
-  }
-
-  Future<void> fetchUsers({required String yearName}) async {
-    String currentYearName = yearName.endsWith("one")
-        ? "Y1"
-        : yearName.endsWith("two")
-            ? "Y2"
-            : yearName.endsWith("three")
-                ? "Y3"
-                : "Y4";
     notifyListeners();
   }
 
@@ -150,11 +130,9 @@ if (units.isNotEmpty) {
   void checkPerformanceBasedOnCurrentYear(
       {required String semesterStage, required String? studentUid}) {
     _navigationService.navigateToAdminStudentPerformanceDetailsView(
-        semesterStage: semesterStage, studentUid: studentUid!!);
+        semesterStage: semesterStage, studentUid: studentUid ?? '');
   }
-
   //Generate consolidated markSheets
-
   pw.Document generateConsolidatedNMarkSheet({
     required List<Map<String, dynamic>> students,
     required String semesterStage,
@@ -171,7 +149,6 @@ if (units.isNotEmpty) {
 
     final headers = [
       'Reg No',
-      // 'Name',
       ...unitNames,
       'MeanScore',
       'MeanGrade',

@@ -1,14 +1,9 @@
 import 'dart:io';
-
-import 'package:examify/models/addUnit.dart';
 import 'package:examify/models/student_registered_units.dart';
-import 'package:examify/ui/bottom_sheets/student_register_unit/student_register_unit_sheet.dart';
 import 'package:examify/ui/common/app_colors.dart';
 import 'package:examify/ui/common/ui_helpers.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:stacked/stacked.dart';
@@ -16,7 +11,7 @@ import 'package:stacked/stacked.dart';
 import 'student_dashboard_viewmodel.dart';
 
 class StudentDashboardView extends StackedView<StudentDashboardViewModel> {
-  const StudentDashboardView({Key? key}) : super(key: key);
+  const StudentDashboardView({super.key});
 
   @override
   Widget builder(

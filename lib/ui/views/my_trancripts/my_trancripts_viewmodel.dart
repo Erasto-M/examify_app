@@ -110,18 +110,18 @@ class MyTrancriptsViewModel extends BaseViewModel {
           try {
             await file.copy(path);
             Fluttertoast.showToast(msg: "PDF downloaded successfully to $path");
-            print("PDF downloaded successfully to $path");
+          
           } catch (e) {
-            print("Failed to copy file: $e");
+           
             Fluttertoast.showToast(msg: "Failed to Download PDF");
           }
         } else {
           Fluttertoast.showToast(msg: "Failed to get directory");
-          print("Failed to get directory");
+     
         }
       } else {
         Fluttertoast.showToast(msg: "Permission denied");
-        print("Permission denied");
+      
       }
     }
   }}

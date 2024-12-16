@@ -12,10 +12,10 @@ class EditUnitSheet extends StackedView<EditUnitSheetModel> {
   final SheetRequest request;
 
   const EditUnitSheet({
-    Key? key,
+    super.key,
     required this.completer,
     required this.request,
-  }) : super(key: key);
+  });
 
   @override
   Widget builder(

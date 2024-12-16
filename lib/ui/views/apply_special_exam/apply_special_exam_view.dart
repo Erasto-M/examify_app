@@ -1,11 +1,9 @@
-import 'package:examify/models/addUnit.dart';
+
 import 'package:examify/models/special_exams_model.dart';
 import 'package:examify/ui/common/app_colors.dart';
 import 'package:examify/ui/views/apply_special_exam/apply_special_exam_view.form.dart';
-import 'package:examify/ui/views/student_dashboard/student_dashboard_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked/stacked_annotations.dart';
 
@@ -19,8 +17,7 @@ import 'apply_special_exam_viewmodel.dart';
 )
 class ApplySpecialExamView extends StackedView<ApplySpecialExamViewModel>
     with $ApplySpecialExamView {
-  const ApplySpecialExamView({Key? key, required this.semesterStage})
-      : super(key: key);
+  const ApplySpecialExamView({super.key, required this.semesterStage});
   final String semesterStage;
 
   @override
@@ -29,7 +26,6 @@ class ApplySpecialExamView extends StackedView<ApplySpecialExamViewModel>
     ApplySpecialExamViewModel viewModel,
     Widget? child,
   ) {
-    StudentDashboardViewModel studeViewModel = StudentDashboardViewModel();
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(

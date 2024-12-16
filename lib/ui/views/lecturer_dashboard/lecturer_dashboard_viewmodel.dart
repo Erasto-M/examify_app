@@ -5,7 +5,6 @@ import 'package:examify/models/special_exams_model.dart';
 import 'package:examify/models/student_registered_units.dart';
 import 'package:examify/services/authentication_service.dart';
 import 'package:examify/services/lecturer_dashboard_service.dart';
-import 'package:examify/ui/views/lecturer_my_students/lecturer_my_students_viewmodel.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
@@ -14,8 +13,8 @@ class LecturerDashboardViewModel extends BaseViewModel {
   final _authenticationService = locator<AuthenticationService>();
   final _navigationService = locator<NavigationService>();
 
-  List<AddUnitModel> _units = [];
-  Map<String, bool> _containerVisibility = {};
+  final List<AddUnitModel> _units =  [];
+  final Map<String, bool> _containerVisibility = {};
 
   List<AddUnitModel> get units => _units;
   bool isContainerHidden(String id) => _containerVisibility[id] ?? true;
@@ -33,7 +32,7 @@ class LecturerDashboardViewModel extends BaseViewModel {
 
   String get greeting => _greeting;
 
-  StudentDashboardViewModel() {
+  studentDashboardViewModel() {
     _updateGreeting();
     getCurrentUserDetails();
   }

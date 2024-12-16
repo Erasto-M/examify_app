@@ -1,5 +1,4 @@
 import 'package:examify/app/app.locator.dart';
-import 'package:examify/models/special_exams_model.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
@@ -28,8 +27,8 @@ class CodSpecialExamsViewModel extends BaseViewModel {
     'Y4S1',
     'Y4S2'
   ];
-  Future<void> navigateBack() async {
-    await _naviationService.back();
+  void navigateBack()  {
+     _naviationService.back();
   }
 
   //get special Exams

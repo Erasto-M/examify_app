@@ -8,7 +8,7 @@ import 'package:stacked/stacked.dart';
 import 'my_trancripts_viewmodel.dart';
 
 class MyTrancriptsView extends StackedView<MyTrancriptsViewModel> {
-  MyTrancriptsView(
+  const MyTrancriptsView(
       {Key? key, required this.transcriptPath, required this.nameForAppBar})
       : super(key: key);
   final String? transcriptPath;
@@ -67,10 +67,10 @@ class MyTrancriptsView extends StackedView<MyTrancriptsViewModel> {
                           viewModel.setCurrentPage(page!);
                         },
                         onError: (error) {
-                          print(error.toString());
+                          
                         },
                         onPageError: (page, error) {
-                          print('$page : ${error.toString()}');
+                         
                         },
                       ),
                     )
