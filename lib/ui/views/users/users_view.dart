@@ -2,6 +2,7 @@ import 'package:examify/models/usersModel.dart';
 import 'package:examify/ui/common/app_colors.dart';
 import 'package:examify/ui/common/ui_helpers.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:stacked/stacked.dart';
 
 import 'users_viewmodel.dart';
@@ -17,6 +18,13 @@ class UsersView extends StackedView<UsersViewModel> {
     UsersViewModel viewModel,
     Widget? child,
   ) {
+
+    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+      statusBarColor: primaryColor,
+      statusBarIconBrightness: Brightness.light,
+      statusBarBrightness: Brightness.light,
+    ));
+    List<AppUser> users = viewModel.users
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -29,6 +37,7 @@ class UsersView extends StackedView<UsersViewModel> {
               color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
         ),
         actions: [
+         
 
             Padding(
               padding: const EdgeInsets.only(right: 30),

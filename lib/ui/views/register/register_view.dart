@@ -3,6 +3,7 @@ import 'package:examify/ui/common/ui_helpers.dart';
 import 'package:examify/ui/views/register/register_view.form.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:stacked/stacked.dart';
@@ -33,6 +34,11 @@ class RegisterView extends StackedView<RegisterViewModel> with $RegisterView {
     RegisterViewModel viewModel,
     Widget? child,
   ) {
+    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+      statusBarColor: primaryColor,
+      statusBarIconBrightness: Brightness.light,
+      statusBarBrightness: Brightness.light,
+    ));
     return SafeArea(
       child: Scaffold(
         backgroundColor: primaryColor,
