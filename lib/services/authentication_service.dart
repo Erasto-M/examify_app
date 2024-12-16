@@ -59,7 +59,7 @@ class AuthenticationService {
         firebaseAuth.currentUser!.sendEmailVerification();
         Fluttertoast.showToast(
             msg: 'Account created successfully, verification email sent');
-            Navigator.pop(context);
+        Navigator.pop(context);
       });
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
@@ -293,14 +293,32 @@ class AuthenticationService {
     return lecturers;
   }
 
-  //fetch users based on user type
-  Future<List<AppUser>> fetchUsers(String user) async {
-    String role = (user == 'Lecturers') ? 'Lecturer' : 'Student';
+  //fetch students
+  Stream<List<AppUser>> adminGetStudents(String selectedCohort) {
+    try {
+      return firestore
+          .collection('users')
+          .where('role', isEqualTo: "Student")
+          .where('cohort', isEqualTo: selectedCohort)
+          .snapshots()
+          .map((querySnapshots) {
+        return querySnapshots.docs.map((doc) {
+          return AppUser.fromMap(doc.data() as Map<String, dynamic>);
+        }).toList();
+      });
+    } catch (e) {
+      Fluttertoast.showToast(msg: e.toString());
+    }
+    return Stream.value([]);
+  }
+
+  //fetch lecs
+  Future<List<AppUser>> adminGetLecturers() async {
     List<AppUser> users = [];
     try {
       QuerySnapshot querySnapshot = await firestore
           .collection('users')
-          .where('role', isEqualTo: role)
+          .where('role', isEqualTo: "Lecturer")
           .get();
       querySnapshot.docs.forEach((element) {
         users.add(AppUser.fromMap(element.data() as Map<String, dynamic>));

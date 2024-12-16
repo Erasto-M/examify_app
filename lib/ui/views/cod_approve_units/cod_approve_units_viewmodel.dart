@@ -20,13 +20,36 @@ class CodApproveUnitsViewModel extends BaseViewModel {
   String get getselectedSemester => _selectedSemester;
   List<String> get semesters => _semesters;
 
+  String _selectedCohort = '2024';
+  final List<String> _cohorts = [
+    "2020",
+    "2021",
+    "2022",
+    "2023",
+    "2024",
+    "2025",
+    "2026",
+    "2027",
+    "2028",
+    "2029",
+    "2030"
+  ];
+
+  String get getSelectedCohort => _selectedCohort;
+  List<String> get cohorts => _cohorts;
+
+  void setSelectedCohort(String cohort) {
+    _selectedCohort = cohort;
+    notifyListeners();
+  }
+
   void setSelectedSemester(String semester) {
     _selectedSemester = semester;
     notifyListeners();
   }
 
   Stream<List<StudentsRegisteredUnitsModel>> get unitsStream =>
-      _adminService.getUnitsForApproval(_selectedSemester);
+      _adminService.getUnitsForApproval(_selectedSemester, _selectedCohort);
 
   Future<void> approveUnitsForStudent(
       List<String> unitCodes, String studentId) async {

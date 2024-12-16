@@ -41,18 +41,22 @@ class ApplySpecialExamViewModel extends FormViewModel {
   }
 
   // list of selected units
-  List<StudentsRegisteredUnitsModel> selectedUnits = [];
-  List<StudentsRegisteredUnitsModel> get getSelectedUnits => selectedUnits;
+  List<StudentsRegisteredUnitsModel> _selectedUnits = [];
+  List<StudentsRegisteredUnitsModel> get getSelectedUnits => _selectedUnits;
+  void setSelectedUnits(List<StudentsRegisteredUnitsModel>? units) {
+    _selectedUnits = units!;
+  }
+
   bool isUnitSelected(String unitCode) {
-    return selectedUnits.any((unit) => unit.unitCode == unitCode);
+    return _selectedUnits.any((unit) => unit.unitCode == unitCode);
   }
 
   void updateSelectedUnits(
       bool isUnitSelected, StudentsRegisteredUnitsModel unit) {
     if (isUnitSelected) {
-      selectedUnits.add(unit);
+      _selectedUnits.add(unit);
     } else {
-      selectedUnits.removeWhere(
+      _selectedUnits.removeWhere(
           (selectedUnit) => selectedUnit.unitCode == unit.unitCode);
     }
     notifyListeners();
@@ -63,11 +67,11 @@ class ApplySpecialExamViewModel extends FormViewModel {
     if (reasonValue == "" || reasonValue!.isEmpty) {
       Fluttertoast.showToast(msg: 'please give a reason');
       setBusy(false);
-    } else if (selectedUnits.isEmpty) {
+    } else if (_selectedUnits.isEmpty) {
       Fluttertoast.showToast(msg: 'Please select Units');
       setBusy(false);
     } else {
-      List<SpecialExamsModel> specialExams = selectedUnits.map((unit) {
+      List<SpecialExamsModel> specialExams = _selectedUnits.map((unit) {
         return SpecialExamsModel(
           studentName: unit.studentName,
           studeEmail: unit.studentEmail,

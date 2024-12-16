@@ -187,7 +187,15 @@ class StudentDashboardView extends StackedView<StudentDashboardViewModel> {
                                 viewModel.calculateMeanGrade(meanScore);
                             String recommendation =
                                 snapshotData.any((unit) => unit.grade == 'E')
-                                    ? 'Fail'
+                                    ? 'Fail' :(viewModel.getSelectedSemesterStageForCourses == 'Y1' ||
+                                                                          viewModel.getSelectedSemesterStageForCourses ==
+                                                                              'Y2' ||
+                                                                          viewModel.getSelectedSemesterStageForCourses ==
+                                                                              'Y3' ||
+                                                                          viewModel.getSelectedSemesterStageForCourses ==
+                                                                              'Y4') &&
+                                                                      meanScore >=
+                                                                          40 ? 'Proceed to the Next year of Study'
                                     : viewModel.getRecommendation(meanGrade);
 
                             return snapshot.data!.isEmpty
@@ -272,24 +280,6 @@ class StudentDashboardView extends StackedView<StudentDashboardViewModel> {
                                                           fontSize: 18),
                                                     ),
                                                   ),
-                                                  // DataColumn(
-                                                  //   label: Text(
-                                                  //     "Exam ",
-                                                  //     style: TextStyle(
-                                                  //         fontWeight:
-                                                  //             FontWeight.bold,
-                                                  //         fontSize: 18),
-                                                  //   ),
-                                                  // ),
-                                                  DataColumn(
-                                                    label: Text(
-                                                      "Total marks",
-                                                      style: TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          fontSize: 18),
-                                                    ),
-                                                  ),
                                                   DataColumn(
                                                     label: Text(
                                                       "Grade",
@@ -311,7 +301,7 @@ class StudentDashboardView extends StackedView<StudentDashboardViewModel> {
                                                       Text(
                                                         units.assignMent1Marks ==
                                                                 null
-                                                            ? 'No marks'
+                                                            ? 'NA'
                                                             : units
                                                                 .assignMent1Marks
                                                                 .toString(),
@@ -320,7 +310,7 @@ class StudentDashboardView extends StackedView<StudentDashboardViewModel> {
                                                     DataCell(
                                                       Text(units.assignMent2Marks ==
                                                               null
-                                                          ? 'No marks'
+                                                          ? 'NA'
                                                           : units
                                                               .assignMent2Marks
                                                               .toString()),
@@ -328,7 +318,7 @@ class StudentDashboardView extends StackedView<StudentDashboardViewModel> {
                                                     DataCell(
                                                       Text(
                                                         units.cat1Marks == null
-                                                            ? 'No marks'
+                                                            ? 'NA'
                                                             : units.cat1Marks
                                                                 .toString(),
                                                       ),
@@ -336,38 +326,10 @@ class StudentDashboardView extends StackedView<StudentDashboardViewModel> {
                                                     DataCell(
                                                       Text(
                                                         units.cat2Marks == null
-                                                            ? 'No marks'
+                                                            ? 'NA'
                                                             : units.cat2Marks
                                                                 .toString(),
                                                       ),
-                                                    ),
-                                                    // DataCell(
-                                                    //   Text(
-                                                    //     units.examMarks == null
-                                                    //         ? 'No marks'
-                                                    //         : units.appliedSpecialExam ==
-                                                    //                 true
-                                                    //             ? 'special Exam'
-                                                    //             : units
-                                                    //                 .examMarks
-                                                    //                 .toString(),
-                                                    //   ),
-                                                    // ),
-                                                    DataCell(
-                                                      units.totalMarks == null
-                                                          ? const Text(
-                                                              'No marks',
-                                                            )
-                                                          : units.appliedSpecialExam ==
-                                                                  true
-                                                              ? const Text(
-                                                                  'NA',
-                                                                )
-                                                              : Text(
-                                                                  units
-                                                                      .totalMarks
-                                                                      .toString(),
-                                                                ),
                                                     ),
                                                     DataCell(
                                                       units.appliedSpecialExam ==
@@ -393,44 +355,69 @@ class StudentDashboardView extends StackedView<StudentDashboardViewModel> {
                                               snapshot.data!)) ...[
                                             meanScore == 0
                                                 ? const SizedBox()
-                                                : Row(
-                                                    children: [
-                                                      Text(
-                                                        'Mean Score: $meanScore ',
-                                                        style: const TextStyle(
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold),
+                                                : snapshotData.any((unit) =>
+                                                        unit.examMarks == null)
+                                                    ? const SizedBox()
+                                                    : Row(
+                                                        children: [
+                                                          Text(
+                                                            'Mean Score: $meanScore ',
+                                                            style: const TextStyle(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold),
+                                                          ),
+                                                          const Spacer(),
+                                                          Text(
+                                                            'MeanGrade: $meanGrade',
+                                                            style:
+                                                                const TextStyle(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                            ),
+                                                          )
+                                                        ],
                                                       ),
-                                                      const Spacer(),
-                                                      Text(
-                                                        'MeanGrade: $meanGrade',
-                                                        style: const TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                        ),
-                                                      )
-                                                    ],
-                                                  ),
                                             verticalSpaceSmall,
                                             meanScore == 0
                                                 ? const SizedBox()
-                                                : Row(
-                                                    children: [
-                                                      const Text(
-                                                        'Reccomendation: ',
-                                                        style: TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                        ),
+                                                : snapshotData.any((unit) =>
+                                                        unit.examMarks == null)
+                                                    ? const SizedBox()
+                                                    : Row(
+                                                        children: [
+                                                          const Text(
+                                                            'Reccomendation: ',
+                                                            style: TextStyle(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                            ),
+                                                          ),
+                                                          snapshotData.any(
+                                                                  (unit) =>
+                                                                      unit.grade ==
+                                                                      'E')
+                                                              ? const Text(
+                                                                  'Fail')
+                                                              : (viewModel.getSelectedSemesterStageForCourses == 'Y1' ||
+                                                                          viewModel.getSelectedSemesterStageForCourses ==
+                                                                              'Y2' ||
+                                                                          viewModel.getSelectedSemesterStageForCourses ==
+                                                                              'Y3' ||
+                                                                          viewModel.getSelectedSemesterStageForCourses ==
+                                                                              'Y4') &&
+                                                                      meanScore >=
+                                                                          40
+                                                                  ? const Flexible(
+                                                                    child: const Text(
+                                                                        "Proceed to the Next year of Study"),
+                                                                  )
+                                                                  : Text(
+                                                                      recommendation),
+                                                        ],
                                                       ),
-                                                      snapshotData.any((unit) =>
-                                                              unit.grade == 'E')
-                                                          ? const Text('Fail')
-                                                          : Text(
-                                                              recommendation),
-                                                    ],
-                                                  ),
                                           ],
                                           verticalSpaceTiny,
                                           verticalSpaceSmall,
@@ -449,10 +436,13 @@ class StudentDashboardView extends StackedView<StudentDashboardViewModel> {
                                             ),
                                           ),
                                           verticalSpaceSmall,
+
+                                
+                                         snapshotData.any((unit)=> unit.examMarks == null) ? const SizedBox() :
                                           InkWell(
                                             onTap: () async {
-                                              var transcript =  viewModel
-                                                  .generateTranscript(
+                                              var transcript =
+                                                  viewModel.generateTranscript(
                                                 students: snapshot.data!,
                                                 semesterStage: viewModel
                                                     .getSelectedSemesterStageForCourses,

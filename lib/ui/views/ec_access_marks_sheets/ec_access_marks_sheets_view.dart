@@ -24,7 +24,35 @@ class EcAccessMarksSheetsView
       child: SafeArea(
         child: Scaffold(
           appBar: AppBar(
-            title: const Text('Access Marks Sheets'),
+            title: const Text('Access Marks Sheets',
+                style: TextStyle(fontSize: 14)),
+            actions: [
+              Padding(
+                padding: const EdgeInsets.only(right: 30),
+                child: DropdownButton<String>(
+                  value: viewModel.getSelectedCohort,
+                  onChanged: (String? newValue) {
+                    if (newValue != null) {
+                      viewModel.setSelectedCohort(newValue);
+                    }
+                  },
+                  style: const TextStyle(color: Colors.white),
+                  dropdownColor: Colors.white,
+                  icon: const Icon(Icons.arrow_drop_down, color: primaryColor),
+                  items: viewModel.cohorts
+                      .map<DropdownMenuItem<String>>((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(
+                        value,
+                        style: const TextStyle(
+                            color: primaryColor, fontWeight: FontWeight.bold),
+                      ),
+                    );
+                  }).toList(),
+                ),
+              ),
+            ],
             bottom: TabBar(
               isScrollable: true,
               tabs: viewModel.years.map((year) {
@@ -56,7 +84,7 @@ class EcAccessMarksSheetsView
                       snapshot.data!.data() as Map<String, dynamic>;
                   bool isAvailable =
                       data['${viewModel.selectedSemester}_available'] ?? false;
-            
+
                   return Container(
                     padding:
                         const EdgeInsets.only(left: 10.0, right: 5.0, top: 30),
@@ -82,56 +110,57 @@ class EcAccessMarksSheetsView
                           ],
                         ),
                         verticalSpaceSmall,
-                      
-                            
-                                  Container(
-                                    margin: const EdgeInsets.only(right: 5),
-                                    padding: const EdgeInsets.symmetric(
-                                          horizontal: 5),
-                                    height: 40,
-                                    decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.circular(3),
-                                      
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: Colors.grey.withOpacity(0.5),
-                                          spreadRadius: 1,
-                                          blurRadius: 5,
-                                          offset: const Offset(0, 3),
-                                        ),
-                                      ],
-                                    ),
-                                    child: Row(
-                                      children: [
-                                        Expanded(
-                                          child: DropdownButton<String>(
-                                            isExpanded: true,
-                                            value: viewModel
-                                                    .selectedUnitToGetMarks.isNotEmpty
-                                                ? viewModel.selectedUnitToGetMarks
-                                                : null,
-                                            hint: Flexible(child: const Text("Please select unit")),
-                                            items: viewModel.unitsPerSelectedSemester
-                                                    ?.map((unit) {
-                                                  return DropdownMenuItem<String>(
-                                                    value: unit.unitCode,
-                                                    child: Flexible(child: Text(unit.unitName, overflow: TextOverflow.ellipsis,),),
-                                                  );
-                                                }).toList() ??
-                                                [],
-                                            onChanged: (newValue) {
-                                              if (newValue != null) {
-                                                viewModel.setSelectedUnitToGetMarks(
-                                                    newValue);
-                                              }
-                                            },
+                        Container(
+                          margin: const EdgeInsets.only(right: 5),
+                          padding: const EdgeInsets.symmetric(horizontal: 5),
+                          height: 40,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(3),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.5),
+                                spreadRadius: 1,
+                                blurRadius: 5,
+                                offset: const Offset(0, 3),
+                              ),
+                            ],
+                          ),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: DropdownButton<String>(
+                                  isExpanded: true,
+                                  value: viewModel
+                                          .selectedUnitToGetMarks.isNotEmpty
+                                      ? viewModel.selectedUnitToGetMarks
+                                      : null,
+                                  hint: Flexible(
+                                      child: const Text("Please select unit")),
+                                  items: viewModel.unitsPerSelectedSemester
+                                          ?.map((unit) {
+                                        return DropdownMenuItem<String>(
+                                          value: unit.unitCode,
+                                          child: Flexible(
+                                            child: Text(
+                                              unit.unitName,
+                                              overflow: TextOverflow.ellipsis,
+                                            ),
                                           ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                            
+                                        );
+                                      }).toList() ??
+                                      [],
+                                  onChanged: (newValue) {
+                                    if (newValue != null) {
+                                      viewModel
+                                          .setSelectedUnitToGetMarks(newValue);
+                                    }
+                                  },
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
                         verticalSpaceSmall,
                         const Divider(
                           thickness: 1,
@@ -174,7 +203,8 @@ class EcAccessMarksSheetsView
                                   scrollDirection: Axis.horizontal,
                                   child: ConstrainedBox(
                                     constraints: BoxConstraints(
-                                      minWidth: MediaQuery.of(context).size.width,
+                                      minWidth:
+                                          MediaQuery.of(context).size.width,
                                     ),
                                     child: Column(
                                       crossAxisAlignment:
@@ -269,8 +299,7 @@ class EcAccessMarksSheetsView
                                               DataCell(Text(
                                                   student.studentRegNo ?? '')),
                                               DataCell(Text(
-                                                  student.studentName ??
-                                                      '')),
+                                                  student.studentName ?? '')),
                                               DataCell(Text(student
                                                       .assignMent1Marks
                                                       ?.toString() ??
@@ -279,15 +308,15 @@ class EcAccessMarksSheetsView
                                                       .assignMent2Marks
                                                       ?.toString() ??
                                                   '')),
-                                              DataCell(Text(
-                                                  student.cat1Marks?.toString() ??
-                                                      '')),
-                                              DataCell(Text(
-                                                  student.cat2Marks?.toString() ??
-                                                      '')),
-                                              DataCell(Text(
-                                                  student.examMarks?.toString() ??
-                                                      '')),
+                                              DataCell(Text(student.cat1Marks
+                                                      ?.toString() ??
+                                                  '')),
+                                              DataCell(Text(student.cat2Marks
+                                                      ?.toString() ??
+                                                  '')),
+                                              DataCell(Text(student.examMarks
+                                                      ?.toString() ??
+                                                  '')),
                                               DataCell(Text(student.totalMarks
                                                       ?.toString() ??
                                                   '')),

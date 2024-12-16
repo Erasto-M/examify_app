@@ -214,19 +214,18 @@ class RegisterViewModel extends FormViewModel {
       setBusy(false);
     } else {
       await _authenticationService.createUser(
-        email: email,
-        userName: userName,
-        role: role,
-        phoneNumber: phoneNumber,
-        gender: gender,
-        password: password,
-        yearOfStudy: yearOfStudy,
-        registrationNumber: registrationNumber,
-        pfNumber: pfNumber,
-        cohort: cohort,
-        context: context
-      );
-    
+          email: email,
+          userName: userName,
+          role: role,
+          phoneNumber: phoneNumber,
+          gender: gender,
+          password: password,
+          yearOfStudy: yearOfStudy,
+          registrationNumber: registrationNumber,
+          pfNumber: pfNumber,
+          cohort: cohort,
+          context: context);
+
       notifyListeners();
 
       setBusy(false);

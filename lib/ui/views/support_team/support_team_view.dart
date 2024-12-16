@@ -34,7 +34,7 @@ class SupportTeamView extends StackedView<SupportTeamViewModel> {
           ),
         ],
         foregroundColor: Colors.white,
-        automaticallyImplyLeading: false ,
+        automaticallyImplyLeading: false,
         centerTitle: true,
         backgroundColor: primaryColor,
       ),
@@ -76,12 +76,20 @@ class SupportTeamView extends StackedView<SupportTeamViewModel> {
               ),
             ),
             verticalSpaceTiny,
-            const Users(user: 'Students'),
-            verticalSpaceTiny,
-            const Users(user: 'Lecturers'),
+            GestureDetector(
+                onTap: () {
+                  viewModel.navigateToStudents(user: "Students");
+                }, child: const Users(user: 'Students')),
+            horizontalSpaceTiny,
+            GestureDetector(
+                onTap: () {
+                  viewModel.navigateToLecturers();
+                }, child: const Users(user: 'Lecturers')),
+                
           ],
         ),
       ),
+      
     );
   }
 

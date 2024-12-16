@@ -149,7 +149,8 @@ class AdminStudentPerformanceView
                         final students = snapshot.data!;
                         return InkWell(
                           onTap: () async {
-                            var transcript =  viewModel.generateConsolidatedNMarkSheet(
+                            var transcript =
+                                viewModel.generateConsolidatedNMarkSheet(
                               students: students,
                               semesterStage: viewModel.getSelectedSem,
                             );
@@ -193,67 +194,58 @@ class AdminStudentPerformanceView
                 ),
 
                 verticalSpaceSmall,
-                Container(
-                  width: MediaQuery.sizeOf(context).width,
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(10),
-                    boxShadow: const [
-                      BoxShadow(
-                        color: Colors.grey,
-                        blurRadius: 5,
-                        offset: Offset(0, 3),
-                      )
-                    ],
-                  ),
-                  child: Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                              margin: const EdgeInsets.only(right: 10),
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 15, vertical: 5),
-                              height: 40,
-                              decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(10),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.grey.withOpacity(0.5),
-                                      spreadRadius: 1,
-                                      blurRadius: 5,
-                                      offset: const Offset(0, 3),
-                                    ),
-                                  ]),
-                              child: DropdownButton(
-                                value:
-                                    viewModel.selectedUnitToGetMarks.isNotEmpty
-                                        ? viewModel.selectedUnitToGetMarks
-                                        : null,
-                                hint: const Text("Select Unit"),
-                                items: viewModel.unitsPerSelectedSemester
-                                        .map((AddUnitModel unit) =>
-                                            DropdownMenuItem(
-                                              value: unit.unitCode,
-                                              child: Text(unit.unitName),
-                                            ))
-                                        .toList() ??
-                                    [],
-                                onChanged: (newValue) {
-                                  viewModel
-                                      .setSelectedUnitCode(newValue.toString());
-                                },
-                              ))
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
+                 Container(
+                          margin: const EdgeInsets.only(right: 5),
+                          padding: const EdgeInsets.symmetric(horizontal: 5),
+                          height: 40,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(3),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.5),
+                                spreadRadius: 1,
+                                blurRadius: 5,
+                                offset: const Offset(0, 3),
+                              ),
+                            ],
+                          ),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: DropdownButton<String>(
+                                  isExpanded: true,
+                                  value: viewModel
+                                          .selectedUnitCode.isNotEmpty
+                                      ? viewModel.selectedUnitCode
+                                      : null,
+                                  hint: Flexible(
+                                      child: const Text("Please select unit")),
+                                  items: viewModel.unitsPerSelectedSemester
+                                          ?.map((unit) {
+                                        return DropdownMenuItem<String>(
+                                          value: unit.unitCode,
+                                          child: Flexible(
+                                            child: Text(
+                                              unit.unitName,
+                                              overflow: TextOverflow.ellipsis,
+                                            ),
+                                          ),
+                                        );
+                                      }).toList() ??
+                                      [],
+                                  onChanged: (newValue) {
+                                    if (newValue != null) {
+                                      viewModel
+                                          .setSelectedUnitCode(newValue);
+                                    }
+                                  },
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        
                 verticalSpaceSmall,
                 SizedBox(
                   child: StreamBuilder<List<StudentsRegisteredUnitsModel>>(
@@ -422,6 +414,7 @@ class AdminStudentPerformanceView
   @override
   void onViewModelReady(AdminStudentPerformanceViewModel viewModel) {
     viewModel.setInitSemValue(yearName);
+    viewModel.fetchUnits();
     super.onViewModelReady(viewModel);
   }
 }

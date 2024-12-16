@@ -56,7 +56,6 @@ class MyTrancriptsView extends StackedView<MyTrancriptsViewModel> {
                         enableSwipe: true,
                         swipeHorizontal: true,
                         autoSpacing: false,
-                        
                         pageFling: false,
                         onRender: (pages) {
                           viewModel.setPageCount(pages!);

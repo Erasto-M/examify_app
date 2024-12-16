@@ -92,36 +92,6 @@ class ApplySpecialExamView extends StackedView<ApplySpecialExamViewModel>
               ),
             ),
             const SizedBox(height: 10),
-            // Row(
-            //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            //   children: [
-            //     const Text('Choose semester stage'),
-            //     const SizedBox(width: 30),
-            //     DropdownButton<String>(
-            //       value: viewModel.selectedSemesterStage,
-            //       items: const <String>[
-            //         'Y1S1',
-            //         'Y1S2',
-            //         'Y2S1',
-            //         'Y2S2',
-            //         'Y3S1',
-            //         'Y3S2',
-            //         'Y4S1',
-            //         'Y4S2'
-            //       ].map((String value) {
-            //         return DropdownMenuItem<String>(
-            //           value: value,
-            //           child: Text(value),
-            //         );
-            //       }).toList(),
-            //       onChanged: (newValue) {
-            //         viewModel.setSelectedSemesterStage(newValue!);
-            //       },
-            //     ),
-            //   ],
-            // ),
-            const SizedBox(height: 10),
-
             viewModel.isBusy
                 ? const SpinKitSpinningLines(color: primaryColor)
                 : SizedBox(
@@ -191,6 +161,11 @@ class ApplySpecialExamView extends StackedView<ApplySpecialExamViewModel>
               onTap: () async {
                 await viewModel.applySpecialExam(
                     specialExamReason: reasonController.text);
+                if (!viewModel.isBusy) {
+                  reasonController.clear();
+                  viewModel.setSelectedUnits([]);
+                  viewModel.notifyListeners();
+                }
               },
               child: Container(
                 padding: const EdgeInsets.symmetric(

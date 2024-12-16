@@ -122,8 +122,8 @@ class StudentRegisterUnitSheet
                                       selectedSemester:
                                           '${viewModel.getSelectedSemesterStage}_opened'),
                                   builder: (context, snapshot) {
-                                    if (snapshot.hasData &&
-                                        snapshot.data == true) {
+                                    // if (snapshot.hasData &&
+                                    //     snapshot.data == true) {
                                       return Expanded(
                                           child:
                                               StreamBuilder<List<AddUnitModel>>(
@@ -197,12 +197,12 @@ class StudentRegisterUnitSheet
                                           }
                                         },
                                       ));
-                                    } else {
-                                      return const Center(
-                                        child: Text(
-                                            'Unit registration window is closed'),
-                                      );
-                                    }
+                                    // } else {
+                                    //   return const Center(
+                                    //     child: Text(
+                                    //         'Unit registration window is closed'),
+                                    //   );
+                                    // }
                                   })),
                   verticalSpaceSmall,
                   Center(

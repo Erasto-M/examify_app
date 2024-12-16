@@ -129,7 +129,7 @@ class StudentAcademicsView extends StackedView<StudentAcademicsViewModel> {
                                 ),
                                 Center(
                                   child: Text(
-                                      '😢 We are Sorry you have not Passed',
+                                      '😢 We are sorry! You are not in the passlist for this semester.',
                                       style: TextStyle(
                                           color: Colors.black, fontSize: 16)),
                                 ),
@@ -166,7 +166,7 @@ class StudentAcademicsView extends StackedView<StudentAcademicsViewModel> {
                                   rows: snapshot.data!.map((student) {
                                     return DataRow(cells: [
                                       DataCell(
-                                        Text(student.studentPhoneNumber!),
+                                        Text(student.studentRegNo!),
                                       ),
                                       DataCell(
                                         Text(student.studentName!),

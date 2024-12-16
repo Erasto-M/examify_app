@@ -10,6 +10,7 @@ import '../models/student_registered_units.dart';
 class AdminDashboardService {
   FirebaseFirestore db = FirebaseFirestore.instance;
   FirebaseAuth auth = FirebaseAuth.instance;
+
   Future<AddUnitModel?> addUnit({
     required AddUnitModel addUnitModel,
   }) async {
@@ -58,6 +59,22 @@ class AdminDashboardService {
     } catch (e) {
       // Handle error
     } finally {}
+  }
+
+  //Delete Unit
+  Future<void> deleteUnit({required String unitcode}) async {
+    try {
+      QuerySnapshot querySnapshot = await db
+          .collection('units')
+          .where('unitCode', isEqualTo: unitcode)
+          .get();
+      for (QueryDocumentSnapshot doc in querySnapshot.docs) {
+        return await db.collection('units').doc(doc.id).delete();
+      }
+      Fluttertoast.showToast(msg: 'Units Deleted Successfully');
+    } catch (e) {
+      Fluttertoast.showToast(msg: 'Error while deleting unit');
+    }
   }
 
   Stream<List<StudentsRegisteredUnitsModel>> getStudentUnits(
@@ -285,6 +302,29 @@ class AdminDashboardService {
     }
   }
 
+  //is Editing Enabled or disabled
+  Stream<DocumentSnapshot> getEditingEnabledOrDisabled(String lecId) {
+    return db
+        .collection('Marks_Editing_window')
+        .doc(lecId)
+        .snapshots()
+        .handleError((error) {
+      print('Error fetching document: $error');
+    });
+  }
+
+  //disable or Enable marks Editing
+  Future<void> disableOrEnableEditing(bool value, String lecId) async {
+    try {
+      await db.collection('Marks_Editing_window').doc(lecId).set({
+        'isEditingEnabled': value,
+      }, SetOptions(merge: true));
+      print('Successfully updated');
+    } catch (error) {
+      print('Failed to update: $error');
+    }
+  }
+
   //fetch all Special Exams for a Selected Semester Stage
   Stream<List<SpecialExamsModel>> fetchSpecialExamsBasedOnSemesterStage(
       {required String semesterStage}) async* {
@@ -367,10 +407,11 @@ class AdminDashboardService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   Stream<List<StudentsRegisteredUnitsModel>> getUnitsForApproval(
-      String semester) {
+      String semester, String cohort) {
     return _firestore
         .collection('student_registered_units')
         .where('semesterStage', isEqualTo: semester)
+        .where('cohort', isEqualTo: cohort)
         .where('isUnitApproved', isEqualTo: false)
         .snapshots()
         .map((snapshot) => snapshot.docs

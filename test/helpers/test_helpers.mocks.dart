@@ -763,6 +763,7 @@ class MockAuthenticationService extends _i1.Mock
     required String? registrationNumber,
     required String? pfNumber,
     required String? cohort,
+    required _i6.BuildContext? context,
   }) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -779,6 +780,7 @@ class MockAuthenticationService extends _i1.Mock
             #registrationNumber: registrationNumber,
             #pfNumber: pfNumber,
             #cohort: cohort,
+            #context: context,
           },
         ),
         returnValue: _i7.Future<void>.value(),
@@ -895,16 +897,21 @@ class MockAuthenticationService extends _i1.Mock
       ) as _i7.Future<List<Map<String, dynamic>>>);
 
   @override
-  _i7.Future<List<_i10.AppUser>> fetchUsers(String? user) =>
+  _i7.Stream<List<_i10.AppUser>> fetchUsers(
+    String? user,
+    String? selectedCohort,
+  ) =>
       (super.noSuchMethod(
         Invocation.method(
           #fetchUsers,
-          [user],
+          [
+            user,
+            selectedCohort,
+          ],
         ),
-        returnValue: _i7.Future<List<_i10.AppUser>>.value(<_i10.AppUser>[]),
-        returnValueForMissingStub:
-            _i7.Future<List<_i10.AppUser>>.value(<_i10.AppUser>[]),
-      ) as _i7.Future<List<_i10.AppUser>>);
+        returnValue: _i7.Stream<List<_i10.AppUser>>.empty(),
+        returnValueForMissingStub: _i7.Stream<List<_i10.AppUser>>.empty(),
+      ) as _i7.Stream<List<_i10.AppUser>>);
 
   @override
   _i7.Future<List<_i10.AppUser>> fetchStudentsAccordingToYear(
@@ -1015,6 +1022,18 @@ class MockAdminDashboardService extends _i1.Mock
       ) as _i7.Future<void>);
 
   @override
+  _i7.Future<void> deleteUnit({required String? unitcode}) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #deleteUnit,
+          [],
+          {#unitcode: unitcode},
+        ),
+        returnValue: _i7.Future<void>.value(),
+        returnValueForMissingStub: _i7.Future<void>.value(),
+      ) as _i7.Future<void>);
+
+  @override
   _i7.Stream<List<_i13.StudentsRegisteredUnitsModel>> getStudentUnits(
     String? semesterStage,
     String? studentUid,
@@ -1068,6 +1087,7 @@ class MockAdminDashboardService extends _i1.Mock
     required String? yearName,
     required String? semesterStage,
     required String? unitCode,
+    required String? cohort,
   }) =>
           (super.noSuchMethod(
             Invocation.method(
@@ -1077,6 +1097,7 @@ class MockAdminDashboardService extends _i1.Mock
                 #yearName: yearName,
                 #semesterStage: semesterStage,
                 #unitCode: unitCode,
+                #cohort: cohort,
               },
             ),
             returnValue:
@@ -1159,6 +1180,36 @@ class MockAdminDashboardService extends _i1.Mock
       ) as _i7.Future<void>);
 
   @override
+  _i7.Stream<_i3.DocumentSnapshot<Object?>> getEditingEnabledOrDisabled(
+          String? lecId) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getEditingEnabledOrDisabled,
+          [lecId],
+        ),
+        returnValue: _i7.Stream<_i3.DocumentSnapshot<Object?>>.empty(),
+        returnValueForMissingStub:
+            _i7.Stream<_i3.DocumentSnapshot<Object?>>.empty(),
+      ) as _i7.Stream<_i3.DocumentSnapshot<Object?>>);
+
+  @override
+  _i7.Future<void> disableOrEnableEditing(
+    bool? value,
+    String? lecId,
+  ) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #disableOrEnableEditing,
+          [
+            value,
+            lecId,
+          ],
+        ),
+        returnValue: _i7.Future<void>.value(),
+        returnValueForMissingStub: _i7.Future<void>.value(),
+      ) as _i7.Future<void>);
+
+  @override
   _i7.Stream<List<_i14.SpecialExamsModel>>
       fetchSpecialExamsBasedOnSemesterStage({required String? semesterStage}) =>
           (super.noSuchMethod(
@@ -1194,11 +1245,16 @@ class MockAdminDashboardService extends _i1.Mock
 
   @override
   _i7.Stream<List<_i13.StudentsRegisteredUnitsModel>> getUnitsForApproval(
-          String? semester) =>
+    String? semester,
+    String? cohort,
+  ) =>
       (super.noSuchMethod(
         Invocation.method(
           #getUnitsForApproval,
-          [semester],
+          [
+            semester,
+            cohort,
+          ],
         ),
         returnValue:
             _i7.Stream<List<_i13.StudentsRegisteredUnitsModel>>.empty(),
@@ -1222,6 +1278,35 @@ class MockAdminDashboardService extends _i1.Mock
         returnValue: _i7.Future<void>.value(),
         returnValueForMissingStub: _i7.Future<void>.value(),
       ) as _i7.Future<void>);
+
+  @override
+  _i7.Stream<List<Map<String, dynamic>>> getGraduationList(
+          {required String? cohort}) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getGraduationList,
+          [],
+          {#cohort: cohort},
+        ),
+        returnValue: _i7.Stream<List<Map<String, dynamic>>>.empty(),
+        returnValueForMissingStub:
+            _i7.Stream<List<Map<String, dynamic>>>.empty(),
+      ) as _i7.Stream<List<Map<String, dynamic>>>);
+
+  @override
+  _i7.Stream<List<_i13.StudentsRegisteredUnitsModel>> fetchGraduationList(
+          {required String? cohort}) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #fetchGraduationList,
+          [],
+          {#cohort: cohort},
+        ),
+        returnValue:
+            _i7.Stream<List<_i13.StudentsRegisteredUnitsModel>>.empty(),
+        returnValueForMissingStub:
+            _i7.Stream<List<_i13.StudentsRegisteredUnitsModel>>.empty(),
+      ) as _i7.Stream<List<_i13.StudentsRegisteredUnitsModel>>);
 }
 
 /// A class which mocks [LecturerDashboardService].
@@ -1358,6 +1443,21 @@ class MockLecturerDashboardService extends _i1.Mock
           ) as _i7.Stream<List<_i13.StudentsRegisteredUnitsModel>>);
 
   @override
+  _i7.Stream<List<_i13.StudentsRegisteredUnitsModel>> getStudentsWithSupps(
+          {required String? unitCode}) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getStudentsWithSupps,
+          [],
+          {#unitCode: unitCode},
+        ),
+        returnValue:
+            _i7.Stream<List<_i13.StudentsRegisteredUnitsModel>>.empty(),
+        returnValueForMissingStub:
+            _i7.Stream<List<_i13.StudentsRegisteredUnitsModel>>.empty(),
+      ) as _i7.Stream<List<_i13.StudentsRegisteredUnitsModel>>);
+
+  @override
   _i7.Stream<List<_i13.StudentsRegisteredUnitsModel>>
       getAllMyStudentsWithBothSpecialExamAndWithout(
               {required String? unitCode}) =>
@@ -1378,6 +1478,7 @@ class MockLecturerDashboardService extends _i1.Mock
       getStudentsBasedOnUnitAndYear({
     required String? unitCode,
     required String? semesterStage,
+    required String? cohort,
   }) =>
           (super.noSuchMethod(
             Invocation.method(
@@ -1386,6 +1487,7 @@ class MockLecturerDashboardService extends _i1.Mock
               {
                 #unitCode: unitCode,
                 #semesterStage: semesterStage,
+                #cohort: cohort,
               },
             ),
             returnValue:
@@ -1530,6 +1632,24 @@ class MockLecturerDashboardService extends _i1.Mock
             returnValueForMissingStub:
                 _i7.Stream<List<_i13.StudentsRegisteredUnitsModel>>.empty(),
           ) as _i7.Stream<List<_i13.StudentsRegisteredUnitsModel>>);
+
+  @override
+  _i7.Future<dynamic> deleteStudentFromSpecialAfeterEnteringMArks({
+    required String? studentId,
+    required String? unitCode,
+  }) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #deleteStudentFromSpecialAfeterEnteringMArks,
+          [],
+          {
+            #studentId: studentId,
+            #unitCode: unitCode,
+          },
+        ),
+        returnValue: _i7.Future<dynamic>.value(),
+        returnValueForMissingStub: _i7.Future<dynamic>.value(),
+      ) as _i7.Future<dynamic>);
 }
 
 /// A class which mocks [StudentDashboardService].

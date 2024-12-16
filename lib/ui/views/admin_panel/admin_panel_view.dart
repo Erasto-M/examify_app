@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:examify/models/student_registered_units.dart';
 import 'package:examify/ui/common/app_colors.dart';
 import 'package:examify/ui/common/ui_helpers.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:path_provider/path_provider.dart';
@@ -17,11 +18,9 @@ class AdminPanelView extends StackedView<AdminPanelViewModel> {
   const AdminPanelView({Key? key}) : super(key: key);
 
   @override
-  Widget builder(
-    BuildContext context,
-    AdminPanelViewModel viewModel,
-    Widget? child,
-  ) {
+  Widget builder(BuildContext context,
+      AdminPanelViewModel viewModel,
+      Widget? child,) {
     DateTime now = DateTime.now();
     String greeting = viewModel.getGreeting(now);
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
@@ -76,7 +75,8 @@ class AdminPanelView extends StackedView<AdminPanelViewModel> {
                 child: Row(
                   children: [
                     Text(
-                      "${now.day}-${now.month}-${now.year}  ${now.hour}: ${now.minute} ${now.hour > 12 ? "PM" : "AM"}",
+                      "${now.day}-${now.month}-${now.year}  ${now.hour}: ${now
+                          .minute} ${now.hour > 12 ? "PM" : "AM"}",
                       style: const TextStyle(
                         color: Colors.white,
                         fontSize: 14,
@@ -121,7 +121,10 @@ class AdminPanelView extends StackedView<AdminPanelViewModel> {
                   child: Container(
                     padding: const EdgeInsets.symmetric(
                         horizontal: 30, vertical: 10),
-                    width: MediaQuery.of(context).size.width,
+                    width: MediaQuery
+                        .of(context)
+                        .size
+                        .width,
                     decoration: BoxDecoration(
                       border: Border.all(color: primaryColor, width: 0.1),
                       borderRadius: BorderRadius.circular(5),
@@ -148,7 +151,7 @@ class AdminPanelView extends StackedView<AdminPanelViewModel> {
                   scrollDirection: Axis.horizontal,
                   child: Container(
                     padding:
-                        const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                    const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
@@ -158,11 +161,14 @@ class AdminPanelView extends StackedView<AdminPanelViewModel> {
                           },
                           child: Container(
                               height: 60,
-                              width: MediaQuery.of(context).size.height / 5,
+                              width: MediaQuery
+                                  .of(context)
+                                  .size
+                                  .height / 5,
                               padding: const EdgeInsets.all(5.0),
                               decoration: BoxDecoration(
                                 border:
-                                    Border.all(color: Colors.black12, width: 1),
+                                Border.all(color: Colors.black12, width: 1),
                                 color: primaryColor,
                                 boxShadow: const [
                                   BoxShadow(
@@ -185,9 +191,15 @@ class AdminPanelView extends StackedView<AdminPanelViewModel> {
                               )),
                         ),
                         horizontalSpaceTiny,
-                        const Users(user: 'Students'),
+                        GestureDetector(
+                            onTap: () {
+                              viewModel.navigateToStudents(user: "Students");
+                            }, child: const Users(user: 'Students')),
                         horizontalSpaceTiny,
-                        const Users(user: 'Lecturers'),
+                        GestureDetector(
+                            onTap: () {
+                              viewModel.navigateToLecturers();
+                            }, child: const Users(user: 'Lecturers')),
                       ],
                     ),
                   ),
@@ -211,28 +223,74 @@ class AdminPanelView extends StackedView<AdminPanelViewModel> {
                     verticalSpaceTiny,
                     const Transcripts(yearName: 'Year four'),
                     verticalSpaceTiny,
+                    Row(children: [
+                      const Text(
+                        "Select Cohort: ",
+                        style: TextStyle(
+                          color: primaryColor,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
+                        ),
+                      ),
+                      Spacer(),
+                      Container(
+                          margin: const EdgeInsets.only(right: 10),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 15, vertical: 5),
+                          height: 40,
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(10),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey.withOpacity(0.5),
+                                  spreadRadius: 1,
+                                  blurRadius: 5,
+                                  offset: const Offset(0, 3),
+                                ),
+                              ]),
+                          child: DropdownButton(
+                            value: viewModel.selectedCohort,
+                            items: viewModel.cohortList
+                                .map((String semester) =>
+                                DropdownMenuItem(
+                                  value: semester,
+                                  child: Text(semester),
+                                ))
+                                .toList(),
+                            onChanged: (newValue) {
+                              viewModel.setSelectedCohort(newValue.toString());
+                            },
+                          ))
+                    ]),
+                    verticalSpaceSmall,
                     StreamBuilder(
-                        stream: viewModel.getGraduationList(cohort: '2024'),
+                        stream: viewModel.getGraduationList(
+                            cohort: viewModel.selectedCohort!),
                         builder: (context, snapShot) {
                           if (snapShot.hasData) {
-                            final  students =
-                                snapShot.data!;
+                            final students = snapShot.data!;
                             return GestureDetector(
                               onTap: () async {
                                 var transcript =
-                                    await viewModel.generateGraduationList(
-                                        students: students, cohort: '2024');
+                                await viewModel.generateGraduationList(
+                                    students: students,
+                                    cohort: viewModel.selectedCohort!);
                                 final output = await getTemporaryDirectory();
                                 final file =
-                                    File('${output.path}/transcript.pdf');
+                                File('${output.path}/transcript.pdf');
                                 await file
                                     .writeAsBytes(await transcript.save());
                                 viewModel.setPdfPath(file.path);
-                                viewModel.navigateToGraduationListView();
+                                viewModel.navigateToGraduationListView(
+                                    cohort: viewModel.selectedCohort!);
                               },
                               child: Container(
                                 height: 60,
-                                width: MediaQuery.of(context).size.height,
+                                width: MediaQuery
+                                    .of(context)
+                                    .size
+                                    .height,
                                 padding: const EdgeInsets.all(10.0),
                                 decoration: BoxDecoration(
                                     color: Colors.white,
@@ -249,16 +307,19 @@ class AdminPanelView extends StackedView<AdminPanelViewModel> {
                                     borderRadius: BorderRadius.circular(5)),
                                 child: const Center(
                                     child: Text(
-                                  'View Graduation List',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 20,
-                                  ),
-                                )),
+                                      'View Graduation List',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 20,
+                                      ),
+                                    )),
                               ),
                             );
+                          } else if (!snapShot.hasData ||
+                              snapShot.data!.isEmpty) {
+                            return const Text("No Students For this Cohort");
                           } else {
-                            return const SizedBox();
+                            return SizedBox();
                           }
                         })
                   ],
@@ -277,7 +338,10 @@ class AdminPanelView extends StackedView<AdminPanelViewModel> {
                   child: Container(
                     padding: const EdgeInsets.symmetric(
                         horizontal: 30, vertical: 10),
-                    width: MediaQuery.of(context).size.width,
+                    width: MediaQuery
+                        .of(context)
+                        .size
+                        .width,
                     decoration: BoxDecoration(
                       color: primaryColor,
                       borderRadius: BorderRadius.circular(5),
@@ -301,8 +365,6 @@ class AdminPanelView extends StackedView<AdminPanelViewModel> {
   }
 
   @override
-  AdminPanelViewModel viewModelBuilder(
-    BuildContext context,
-  ) =>
+  AdminPanelViewModel viewModelBuilder(BuildContext context,) =>
       AdminPanelViewModel();
 }

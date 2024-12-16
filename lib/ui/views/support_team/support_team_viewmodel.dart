@@ -12,6 +12,14 @@ class SupportTeamViewModel extends BaseViewModel {
     _navigationService.navigateToRegisterView();
   }
 
+  void navigateToStudents({required String user}) {
+    _navigationService.navigateToUsersView(user: user);
+  }
+
+  void navigateToLecturers() {
+    _navigationService.navigateToUsersLecturersView();
+  }
+
   Future<void> logout(BuildContext context) async {
     await _dialogService.showCustomDialog(
       variant: DialogType.confirmLogout,

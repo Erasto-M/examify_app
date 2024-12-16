@@ -108,4 +108,9 @@ class AdminManageCourseViewModel extends BaseViewModel {
     }
     setBusy(false);
   }
+
+  // delete units
+  void deleteUnits({required String unitCode}) {
+    _adminService.deleteUnit(unitcode: unitCode);
+  }
 }

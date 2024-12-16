@@ -196,7 +196,7 @@ class LecturerMyStudentsView extends StackedView<LecturerMyStudentsViewModel> {
                                         !snapshot.hasData) {
                                       Fluttertoast.showToast(
                                           msg:
-                                              "No students found for $unitName");
+                                              "Already Added Marks for ${viewModel.selectedExamModuleToEnterMarks}");
                                     }
                                     viewModel.openEditStudentMarksSheet(
                                         unitCode: unitCode,
@@ -271,7 +271,7 @@ class LecturerMyStudentsView extends StackedView<LecturerMyStudentsViewModel> {
                           }),
                       verticalSpaceSmall,
                       StreamBuilder(
-                          stream: viewModel.getAllMyStudentsWithSpeialExams(
+                          stream: viewModel.getLecturerStudentsWithSupp(
                               unitCode: unitCode),
                           builder: (context, snapshot) {
                             if (snapshot.hasData) {
@@ -280,7 +280,7 @@ class LecturerMyStudentsView extends StackedView<LecturerMyStudentsViewModel> {
                               return Center(
                                 child: InkWell(
                                   onTap: () {
-                                    viewModel.openEditStudentMarksSheet(
+                                    viewModel.openEditStudentMarksSheetForSupp(
                                         unitCode: unitCode,
                                         unitName: unitName,
                                         student: snapshot.data!);
@@ -304,8 +304,9 @@ class LecturerMyStudentsView extends StackedView<LecturerMyStudentsViewModel> {
                                   ),
                                 ),
                               );
+                            } else {
+                              return const Text("No supp list");
                             }
-                            return const SizedBox();
                           })
                     ],
                   ),
@@ -371,7 +372,12 @@ class LecturerMyStudentsView extends StackedView<LecturerMyStudentsViewModel> {
                         });
                         List<StudentsRegisteredUnitsModel> studentInfo =
                             snapshot.data!;
-                        return SingleChildScrollView(
+                        return StreamBuilder(
+                            stream: viewModel.getMarksEditingStatus(),
+                            builder: (context, status) {
+                              final editingStatus = status.data;
+                              if(status.hasData){
+                                return SingleChildScrollView(
                           scrollDirection: Axis.horizontal,
                           child: ConstrainedBox(
                             constraints: BoxConstraints(
@@ -384,7 +390,7 @@ class LecturerMyStudentsView extends StackedView<LecturerMyStudentsViewModel> {
                                   columns: [
                                     const DataColumn(
                                       label: Text(
-                                        "Name",
+                                        "RegNo",
                                         style: TextStyle(
                                             color: primaryColor,
                                             fontWeight: FontWeight.w600,
@@ -393,7 +399,7 @@ class LecturerMyStudentsView extends StackedView<LecturerMyStudentsViewModel> {
                                     ),
                                     const DataColumn(
                                       label: Text(
-                                        "RegNo",
+                                        "Name",
                                         style: TextStyle(
                                             color: primaryColor,
                                             fontWeight: FontWeight.w600,
@@ -476,10 +482,10 @@ class LecturerMyStudentsView extends StackedView<LecturerMyStudentsViewModel> {
                                   rows: snapshot.data!.map((student) {
                                     return DataRow(cells: [
                                       DataCell(
-                                        Text(student.studentName!),
+                                        Text(student.studentRegNo!),
                                       ),
                                       DataCell(
-                                        Text(student.studentPhoneNumber!),
+                                        Text(student.studentName!),
                                       ),
                                       DataCell(
                                         Text(
@@ -538,7 +544,7 @@ class LecturerMyStudentsView extends StackedView<LecturerMyStudentsViewModel> {
                                         ),
                                       ),
                                       DataCell(
-                                        MouseRegion(
+                                        editingStatus!.get('isEditingEnabled') == true ? const SizedBox():   MouseRegion(
                                           cursor: SystemMouseCursors.click,
                                           child: Tooltip(
                                             message:
@@ -578,6 +584,7 @@ class LecturerMyStudentsView extends StackedView<LecturerMyStudentsViewModel> {
                                             ),
                                           ),
                                         ),
+                                      
                                       ),
                                     ]);
                                   }).toList(),
@@ -633,6 +640,11 @@ class LecturerMyStudentsView extends StackedView<LecturerMyStudentsViewModel> {
                           ),
                         );
                         //
+                      
+                              } else{
+                                return SizedBox();
+                              }
+                            });
                       }
                     },
                   ),
