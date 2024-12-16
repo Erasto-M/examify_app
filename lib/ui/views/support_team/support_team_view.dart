@@ -79,9 +79,11 @@ class SupportTeamView extends StackedView<SupportTeamViewModel> {
                 onTap: () {
                   viewModel.navigateToLecturers();
                 }, child: const Users(user: 'Lecturers')),
+                
           ],
         ),
       ),
+      
     );
   }
 
