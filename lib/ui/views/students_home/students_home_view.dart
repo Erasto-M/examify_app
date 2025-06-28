@@ -1,6 +1,4 @@
 import 'package:examify/ui/common/app_colors.dart';
-import 'package:examify/ui/common/ui_helpers.dart';
-import 'package:examify/ui/views/academics/academics_view.dart';
 import 'package:examify/ui/views/profile/profile_view.dart';
 import 'package:examify/ui/views/student_academics/student_academics_view.dart';
 import 'package:examify/ui/views/student_dashboard/student_dashboard_view.dart';

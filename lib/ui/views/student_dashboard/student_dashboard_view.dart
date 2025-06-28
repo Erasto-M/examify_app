@@ -495,8 +495,12 @@ class StudentDashboardView extends StackedView<StudentDashboardViewModel> {
                 children: [
                   FloatingActionButton.extended(
                       heroTag: 'register_unit',
-                      backgroundColor: Colors.white,
+                      backgroundColor: Colors.grey[100],
                       foregroundColor: primaryColor,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10)
+                      ),
+                      elevation: 0,
                       onPressed: () {
                         viewModel.showRegisterUnitBottomSheet();
                       },
@@ -507,8 +511,12 @@ class StudentDashboardView extends StackedView<StudentDashboardViewModel> {
                   horizontalSpaceMedium,
                   FloatingActionButton.extended(
                       heroTag: 'apply_special_exam',
-                      backgroundColor: Colors.white,
+                      backgroundColor: Colors.grey[100],
                       foregroundColor: primaryColor,
+                       shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10)
+                      ),
+                      elevation: 0,
                       onPressed: () {
                         viewModel.navigateToApplySpecialExam(
                             semesterStage:

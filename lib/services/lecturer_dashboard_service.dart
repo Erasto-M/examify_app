@@ -27,10 +27,9 @@ class LecturerDashboardService {
         value.docs.forEach((element) {
           units.add(AddUnitModel.fromMap(element.data()));
         });
-        print(units);
       });
     } catch (e) {
-      print(e);
+      throw Exception(e.toString());
     }
     return units;
   }
@@ -61,7 +60,7 @@ class LecturerDashboardService {
     String? selectedModule,
   }) async* {
     try {
-      print('Selected Module : $selectedModule');
+    
       yield* firestore
           .collection('student_registered_units')
           .where("unitLecturer", isEqualTo: auth.currentUser!.uid)
@@ -195,16 +194,6 @@ class LecturerDashboardService {
     required StudentsRegisteredUnitsModel student,
   }) async {
     try {
-      print('studentId FROM VIEWMODEL: $studentId');
-      print('unitCode: $unitCode');
-      print("student Marks: ${student.assignMent1Marks}");
-      print("student Marks: ${student.assignMent2Marks}");
-      print("student Marks: ${student.cat1Marks}");
-      print("student Marks: ${student.cat2Marks}");
-      print("student Marks: ${student.examMarks}");
-      print("student Marks: ${student.totalMarks}");
-      print("student Marks: ${student.grade}");
-
       final collection = await firestore
           .collection('student_registered_units')
           .where("studentUid", isEqualTo: studentId)
@@ -229,20 +218,20 @@ class LecturerDashboardService {
 
   Stream<List<AddUnitModel>> fetchUnits({required String semesterStage}) {
     try {
-      print("Fetching units as stream");
+     
       return firestore
           .collection("units")
           .where("semesterStage", isEqualTo: semesterStage)
           .snapshots()
           .map((querySnapshot) {
-        print("Number of units fetched: ${querySnapshot.docs.length}");
+       
         return querySnapshot.docs.map((doc) {
           return AddUnitModel.fromMap(doc.data() as Map<String, dynamic>);
         }).toList();
       });
     } catch (e) {
       Fluttertoast.showToast(msg: e.toString());
-      print(e.toString());
+    
       return Stream.value([]); // Return an empty stream in case of error
     }
   }

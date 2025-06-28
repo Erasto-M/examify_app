@@ -244,12 +244,12 @@ class AuthenticationService {
       if (user != null) {
         DocumentSnapshot documentSnapshot =
             await firestore.collection('users').doc(user.uid).get();
-        print(documentSnapshot.data());
+        
         return documentSnapshot.data() as Map<String, dynamic>;
       }
     } catch (e) {
       Fluttertoast.showToast(msg: e.toString());
-    } catch (e) {}
+    }
     return {};
   }
 
@@ -289,7 +289,7 @@ class AuthenticationService {
     } catch (e) {
       Fluttertoast.showToast(msg: e.toString());
     }
-    print("Service: $lecturers");
+   
     return lecturers;
   }
 

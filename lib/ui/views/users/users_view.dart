@@ -24,7 +24,7 @@ class UsersView extends StackedView<UsersViewModel> {
       statusBarIconBrightness: Brightness.light,
       statusBarBrightness: Brightness.light,
     ));
-    List<AppUser> users = viewModel.users
+    List<AppUser> users = viewModel.users;
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(

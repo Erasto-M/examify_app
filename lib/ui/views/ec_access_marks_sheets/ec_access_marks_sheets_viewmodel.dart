@@ -26,7 +26,7 @@ class EcAccessMarksSheetsViewModel extends BaseViewModel {
         .fetchUnits(semesterStage: _selectedSemester)
         .listen((units) {
       if (units.isEmpty) {
-        print('No units found for $_selectedSemester');
+        
       }
       _unitsPerSelectedSemester = units;
       if (units.isNotEmpty) {
@@ -34,7 +34,7 @@ class EcAccessMarksSheetsViewModel extends BaseViewModel {
       }
       notifyListeners();
     }).onError((error) {
-      print('Error fetching units: $error');
+      throw Exception(error.toString());
     });
   }
 
@@ -108,8 +108,8 @@ class EcAccessMarksSheetsViewModel extends BaseViewModel {
     try {
       return await _adminService.getReportsAvailabilityStatus();
     } catch (e) {
-      print('Error getting report availability status: $e');
-      return null;
+      
+      throw Exception(e.toString());
     }
   }
 
@@ -119,7 +119,7 @@ class EcAccessMarksSheetsViewModel extends BaseViewModel {
       await _adminService.updateReportsAvailabilityStatus(value, selectedYear);
       notifyListeners();
     } catch (e) {
-      print('Error updating report availability status: $e');
+      throw Exception(e.toString());
     }
   }
 }

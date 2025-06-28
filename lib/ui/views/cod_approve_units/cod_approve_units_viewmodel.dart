@@ -53,7 +53,7 @@ class CodApproveUnitsViewModel extends BaseViewModel {
 
   Future<void> approveUnitsForStudent(
       List<String> unitCodes, String studentId) async {
-    print("unitcodes ${unitCodes}");
+    
     setBusy(true);
     await _adminService.approveUnitsForStudent(unitCodes, studentId);
     setBusy(false);

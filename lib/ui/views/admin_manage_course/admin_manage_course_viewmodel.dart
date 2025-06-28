@@ -22,7 +22,7 @@ class AdminManageCourseViewModel extends BaseViewModel {
     try {
       _courses = await _adminService.getUnits(year);
     } catch (e) {
-      print('Error fetching courses: $e');
+      
       _courses = [];
     }
     setBusy(false);
@@ -65,7 +65,7 @@ class AdminManageCourseViewModel extends BaseViewModel {
         }
       }
     } catch (e) {
-      print('Error getting registration window status: $e');
+      throw Exception(e.toString());
     }
     setBusy(false);
     return false;
@@ -87,7 +87,7 @@ class AdminManageCourseViewModel extends BaseViewModel {
         }
       }
     } catch (e) {
-      print('Error getting registration window status: $e');
+      throw Exception(e.toString());
     }
     setBusy(false);
     return false;
@@ -104,7 +104,7 @@ class AdminManageCourseViewModel extends BaseViewModel {
       }
       notifyListeners();
     } catch (e) {
-      print('Error updating registration window status: $e');
+      throw Exception(e.toString());
     }
     setBusy(false);
   }

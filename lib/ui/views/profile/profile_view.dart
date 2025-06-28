@@ -24,7 +24,7 @@ class ProfileView extends StackedView<ProfileViewModel> {
       statusBarBrightness: Brightness.light,
     ));
     Map<String, dynamic> userDetails = viewModel.userDetails;
-    print("userdetails: $userDetails ");
+    
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.grey[200],

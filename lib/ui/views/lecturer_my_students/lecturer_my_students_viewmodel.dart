@@ -63,8 +63,8 @@ class LecturerMyStudentsViewModel extends BaseViewModel {
     if (_lecturerUnits != null && _lecturerUnits!.isNotEmpty) {
       unitCodes = _lecturerUnits!.map((unit) => unit.unitCode).toList();
       unitNames = _lecturerUnits!.map((unit) => unit.unitName).toList();
-      print("unitcodes: ${unitCodes}");
-      print("unitnames: ${unitNames}");
+      
+      
     }
   }
 

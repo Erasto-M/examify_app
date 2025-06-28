@@ -15,13 +15,13 @@ class StudentDashboardService {
   //method to fetch units from firebase
   Stream<List<AddUnitModel>> fetchUnits({required String semesterStage}) {
     try {
-      print("Fetching units as stream");
+      
       return db
           .collection("units")
           .where("semesterStage", isEqualTo: semesterStage)
           .snapshots()
           .map((querySnapshot) {
-        print("Number of units fetched: ${querySnapshot.docs.length}");
+       
         return querySnapshot.docs.map((doc) {
           return AddUnitModel.fromMap(doc.data() as Map<String, dynamic>);
         }).toList();
@@ -44,7 +44,7 @@ class StudentDashboardService {
           final unitsCollection =
               db.collection('student_registered_units').doc();
           final newUnitWithId = unit.copyWith(studentUid: studentUid);
-          print(newUnitWithId.toMap());
+         
           await unitsCollection.set(newUnitWithId.toMap());
         }
 
@@ -59,14 +59,12 @@ class StudentDashboardService {
   Stream<List<StudentsRegisteredUnitsModel>> fetchAllMyUnits(
       {required String semesterStage}) {
     try {
-      print("Fetching All My Units");
       return db
           .collection("student_registered_units")
           .where("studentUid", isEqualTo: auth.currentUser!.uid)
           .where("semesterStage", isEqualTo: semesterStage)
           .snapshots()
           .map((querySnapshot) {
-        print("Number of units fetched: ${querySnapshot.docs.length}");
         return querySnapshot.docs.map((doc) {
           return StudentsRegisteredUnitsModel.fromMap(
               doc.data() as Map<String, dynamic>);
@@ -81,7 +79,7 @@ class StudentDashboardService {
   Stream<List<StudentsRegisteredUnitsModel>> fetchAllMyUnits2(
       {required String semesterStage}) {
     try {
-      print("Fetching All My Units");
+     
       String baseYear = semesterStage.substring(0, 2);
       List<String> stagesToInclude = [
         "${baseYear}S1",
@@ -94,7 +92,6 @@ class StudentDashboardService {
           .where("semesterStage", whereIn: stagesToInclude)
           .snapshots()
           .map((querySnapshot) {
-        print("Number of units fetched: ${querySnapshot.docs.length}");
         return querySnapshot.docs.map((doc) {
           return StudentsRegisteredUnitsModel.fromMap(
               doc.data() as Map<String, dynamic>);
@@ -119,7 +116,6 @@ class StudentDashboardService {
           final specialExamsCollection = db.collection("SpecialEXams");
           final newUnitWithId = unit.copyWith(studeUid: currentUserId);
           await specialExamsCollection.doc(unit.unitCode).set(newUnitWithId.toMap());
-          print("this are my specials: ${newUnitWithId.toMap()}");
         }
         Fluttertoast.showToast(msg: "Special Exams Applied Successfully");
       }

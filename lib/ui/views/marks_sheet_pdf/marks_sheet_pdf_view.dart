@@ -66,10 +66,10 @@ class MarksSheetPdfView extends StackedView<MarksSheetPdfViewModel> {
                           viewModel.setCurrentPage(page!);
                         },
                         onError: (error) {
-                          print(error.toString());
+                          throw Exception(error.toString());
                         },
                         onPageError: (page, error) {
-                          print('$page : ${error.toString()}');
+                          throw Exception(error.toString());
                         },
                       ),
                     )

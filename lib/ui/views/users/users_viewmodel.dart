@@ -50,7 +50,7 @@ class UsersViewModel extends BaseViewModel {
       await launchUrl(Uri.parse(emailUri.toString()));
     } else {
       // Handle the error gracefully
-      print('Could not launch $emailUri');
+      
     }
   }
 
@@ -63,7 +63,7 @@ class UsersViewModel extends BaseViewModel {
       await launchUrl(Uri.parse(phoneUri.toString()));
     } else {
       // Handle the error gracefully
-      print('Could not launch $phoneUri');
+      
     }
   }
 
@@ -76,7 +76,7 @@ class UsersViewModel extends BaseViewModel {
 
       notifyListeners();
     } catch (e) {
-      print('Error updating registration window status: $e');
+      throw Exception(e.toString());
     }
     setBusy(false);
   }
@@ -101,12 +101,12 @@ class UsersViewModel extends BaseViewModel {
           notifyListeners();
         }
       }, onError: (e) {
-        print('Error getting registration window status: $e');
+        
       });
 
       return snapshotStream;
     } catch (e) {
-      print('Error getting registration window status: $e');
+      
       setBusy(false);
       return null;
     }

@@ -247,14 +247,14 @@ class AdminPanelViewModel extends BaseViewModel {
           excludedStudents.add(unit.studentUid!);
         }
       }
-      print('excludedStudents: $excludedStudents');
+      
       // Filter out students who are in the excluded list
       for (var unit in studentUnits) {
         if (!excludedStudents.contains(unit.studentUid)) {
           graduationList.putIfAbsent(unit.studentUid!, () => []).add(unit);
         }
       }
-      print('graduationList: $graduationList');
+      
       final graduationClassifications = <StudentsRegisteredUnitsModel>[];
       //calculate the mean marks , mean grade , and classify  the students
       graduationList.forEach((studentUid, units) {

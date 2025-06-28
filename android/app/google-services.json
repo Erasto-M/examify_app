@@ -2,7 +2,7 @@
   "project_info": {
     "project_number": "423576344653",
     "project_id": "examify-2",
-    "storage_bucket": "examify-2.appspot.com"
+    "storage_bucket": "examify-2.firebasestorage.app"
   },
   "client": [
     {

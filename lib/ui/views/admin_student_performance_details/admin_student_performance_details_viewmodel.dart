@@ -33,21 +33,20 @@ class AdminStudentPerformanceDetailsViewModel extends BaseViewModel {
     _streamSubscription = _studentUnitsStream?.listen((units) {
       generateRecommendations(units);
     }, onError: (error) {
-      print(
-          'Error fetching student units or generating recommendations: $error');
+      throw Exception(error.toString());
     });
 
     try {
       final units = await _studentUnitsStream!.first;
       generateRecommendations(units);
     } catch (e) {
-      print('Error fetching student units or generating recommendations: $e');
+      throw Exception(e.toString());
     }
   }
 
   Future<void> generateRecommendations(
       List<StudentsRegisteredUnitsModel> units) async {
-    print("Generating recommendations");
+    
     final totalMarksList = units.map((unit) => unit.totalMarks).toList();
     // Feed the totalMarksList to your recommendation model or service
     final model = GenerativeModel(

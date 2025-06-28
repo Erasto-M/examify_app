@@ -42,56 +42,7 @@ class MarksSheetPdfViewModel extends BaseViewModel {
     await _navigationService.back();
   }
 
-  //make permissions
-  // Future<void> makePermissions() async {
-  //   var status = Permission.storage.status;
-  //   if (status.isGranted == false) {
-  //     await Permission.storage.request();
-  //   }
-  // }
-
-  // //download pdf
-  // Future<void> downloadPdf({String? pdfPath, String? unitName}) async {
-  //   setBusy(true);
-  //   if (pdfPath != null) {
-  //     final status = await Permission.storage.request();
-  //     if (status.isGranted) {
-  //       final directory = Platform.isAndroid
-  //           ? await getExternalStorageDirectory()
-  //           : await getApplicationDocumentsDirectory();
-  //       if (directory != null) {
-  //         final timestamp = DateTime.now().millisecondsSinceEpoch;
-  //         final downloadDirectory = Directory('/storage/emulated/0/Download');
-  //         if (!downloadDirectory.existsSync()) {
-  //           downloadDirectory.createSync(recursive: true);
-  //         }
-  //         final path = '${downloadDirectory.path}/$unitName$timestamp.pdf';
-  //         final file = File(pdfPath);
-
-  //         try {
-  //           await file.copy(path);
-  //           await file.writeAsBytes(await file.readAsBytes());
-
-  //           setPdfPath(path);
-  //           print('unitName: $unitName');
-  //           Fluttertoast.showToast(msg: "PDF downloaded successfully to $path");
-  //           print("PDF downloaded successfully to $path");
-  //         } catch (e) {
-  //           print("Failed to copy file: $e");
-
-  //           Fluttertoast.showToast(msg: "Failed to Download PDF");
-  //         }
-  //       } else {
-  //         Fluttertoast.showToast(msg: "Failed to get directory");
-  //         print("Failed to get directory");
-  //       }
-  //       setBusy(false);
-  //     } else {
-  //       Fluttertoast.showToast(msg: "Permission denied");
-  //       print("Permission denied");
-  //     }
-  //   }
-  // }
+  
 
   Future<int> getAndroidSdkVersion() async {
     if (Platform.isAndroid) {
@@ -162,18 +113,18 @@ class MarksSheetPdfViewModel extends BaseViewModel {
           try {
             await file.copy(path);
             Fluttertoast.showToast(msg: "PDF downloaded successfully to $path");
-            print("PDF downloaded successfully to $path");
+            
           } catch (e) {
-            print("Failed to copy file: $e");
+            
             Fluttertoast.showToast(msg: "Failed to Download PDF");
           }
         } else {
           Fluttertoast.showToast(msg: "Failed to get directory");
-          print("Failed to get directory");
+          
         }
       } else {
         Fluttertoast.showToast(msg: "Permission denied");
-        print("Permission denied");
+        
       }
     }
   }}
